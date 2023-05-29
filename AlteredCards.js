@@ -1,4 +1,4 @@
-//<script>
+
   var bxmlParsed = false;
   var xmlDoc, Mostra, bSpeech;
   var msgSpeech;
@@ -1062,37 +1062,8 @@
    else
    {
      document.getElementById('myChkSpeakUp').checked = false;
-   }
-
-   /* Prova a rendere auto l'altezza del contenitore della tabella listview *
-   var header = document.getElementById("myHeader");
-   var domRectHeader = header.getBoundingClientRect(); 
-   var footer = document.getElementById("myFooter");
-   var domRectFooter = footer.getBoundingClientRect();
-   var area = document.getElementById("myContent");
-   //area.offsetTop = domRectHeader.bottom + 10;
-   //area.height = footer.top - header.bottom -10;
-   //area.bottom = footer.top - 10
-   area.offsetHeight = domRectFooter.top - domRectHeader.bottom - 10;
-   */
-   
- }
-
- /*
- function mySetContent(){
-   var header = document.getElementById("myHeader");
-   var domRectHeader = header.getBoundingClientRect(); 
-   var footer = document.getElementById("myFooter");
-   var domRectFooter = footer.getBoundingClientRect();
-   var area = document.getElementById("myContent");
-   //area.offsetTop = domRectHeader.bottom + 10;
-   //area.height = footer.top - header.bottom -10;
-   //area.bottom = footer.top - 10
-   area.offsetHeight = domRectFooter.top - domRectHeader.bottom - 10;
- }
- */
- 
- 
+   }   
+ } 
 
  function mySearch(){
   var input, filter, bIsCardID;
@@ -1186,31 +1157,20 @@
   window.scrollTo(0, 0);
  }
 
- function addToCell(x, className) {
-  //console.log("xml index: " + pos);
-  //alert("Cardname: " + x.parentNode.rowIndex + " " + x.innerText);
-  //var xmlindex = document.getElementById('myTable').rows[x.parentNode.rowIndex].cells[3].innerText;
-  
+ function addToCell(x, className) {  
   var cell = x.parentNode.cells[3];
-  //alert("1): " + xmlindex + " Xml Idx: " + cell.innerHTML);
+
   var catalog = xmlDoc.getElementsByTagName('Cards')[0];
   var book = catalog.childNodes[cell.innerHTML];
   var CardID = book.attributes[0].nodeValue;
   var CardNAME = book.attributes[1].nodeValue;
   var CardURL = book.attributes[2].nodeValue;
-  //alert(CardID + " " + CardNAME + "\n" + CardURL);
+  
   var tableimg = document.getElementById('myTableImg');
-  /*
-  tableimg.addEventListener('scroll', function() {
-    var header = document.getElementById('myHeader');
-    tableimg.scrollTop = header.offsetTop;
-  });
-  */
   
   tableimg.innerHTML = "";
   row = tableimg.insertRow(-1);
   cell = row.insertCell(-1);
-  //cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:96px;height:133px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\"></a>"
   cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:96px;height:133px;border-radius:6px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
   
   var RelatedCards = book.attributes[3].nodeValue;
@@ -1233,49 +1193,31 @@
 let prevIx=null;
 let prevTr=null;
 function selectRow(tr, className){
-  let ix = tr.rowIndex; // non usare tr.parent.rowIndex
-  if (ix === prevIx) { // row already selected, so unselect
-    //tr.className = tr.className.replace(className,"")
-    //prevIx = null;
-    //prevTr = null;
-    
-    //if (prevTr) {
-      // unselect previously selected row
-    //  prevTr.className = prevTr.className.replace(className,"");
-    //}
-
-    // select current row
+  let ix = tr.rowIndex;
+  if (ix === prevIx) {
     tr.className += className;
     prevIx = ix;
     prevTr = tr;
   }
-  else { // no selected rows
+  else {
 
     if (prevTr) {
-      // unselect previously selected row
       prevTr.className = prevTr.className.replace(className,"");
     }
 
-    // select current row
     tr.className += className;
     prevIx = ix;
     prevTr = tr;
   }
-  // background come la carta corrente
+
   var imgurl = tr.querySelector('img').getAttribute('src');
   var obj = document.getElementById('center-header');
-  //document.body.style.backgroundImage = "url('"+ imgurl+"')";
-  //obj.style.backgroundClip = "border-box";
   obj.style.backgroundPosition = "center";    // netti al centro
   obj.style.backgroundImage = "url('"+ imgurl+"')"; // questa immagine
   obj.style.backgroundRepeat = "repeat-y"; // non ripetere come tiles
-  //obj.style.borderRadius = "50%"; // lo fa solo su prima ed ultima immagine... 
-  //obj.style.backgroundSize = "contain"; //"60px 120px"; //"contain"; //"cover"; effetto blur
   
-  // text to speech available?
   if( bSpeech == true)
   {
-    // user request is on?
     var bSpeakUp = document.getElementById('myChkSpeakUp').checked;
     if(bSpeakUp == true){
      msgSpeech.text = tr.cells[2].innerText;
@@ -1295,12 +1237,10 @@ function showRelated(index) {
   var CardID = book.attributes[0].nodeValue;
   var CardNAME = book.attributes[1].nodeValue;
   var CardURL = book.attributes[2].nodeValue;
-  //alert(CardID + " " + CardNAME + "\n" + CardURL);
   var tableimg = document.getElementById('myTableImg');
   tableimg.innerHTML = "";
   var row = tableimg.insertRow(-1);
   cell = row.insertCell(-1);
-  //cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:96px;height:133px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\"></a>"
   cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:96px;height:133px;border-radius:6px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
   
   var RelatedCards = book.attributes[3].nodeValue;
@@ -1313,14 +1253,12 @@ function showRelated(index) {
    var RelatedCnt = 1;
    for(var iRel=0; iRel < RelatedCount; iRel++){
     if (RelatedList[iRel] != ""){
-     //row = tableimg.insertRow(-1);
      mySearchRelatedID(RelatedList[iRel], row);
     }
    }
   }
 }
  
- // New per tabella di destra delle immagini
  function mySearchRelatedID(Look4CardID, lastRow){
   var catalog = xmlDoc.getElementsByTagName('Cards')[0];
   for (var i = 0; i < catalog.childElementCount; i++){
@@ -1332,7 +1270,6 @@ function showRelated(index) {
     // Card Thumbnail
     cell = lastRow.insertCell(-1);
     // 192x266
-    //cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:96px;height:133px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\"></a>"
     cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:96px;height:133px;border-radius:6px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";    
     break;
    }
@@ -1407,9 +1344,6 @@ function showRelated(index) {
   }
   else{
    totRows = table.rows.length;
-   //for (var i=0; i<totRows; i++){
-	 //  totaleCards += table.rows[i].cells.length;
-   //}
    CardCnt = table.rows[totRows-1].cells.length;
   }
   document.getElementById('totalCards').innerHTML = "<font size='1'>Found " + (totRows+1) + " of " + totXmlCards + " cards in AlterSleeves";
@@ -1445,95 +1379,19 @@ function showRelated(index) {
   });
   
   cell = row.insertCell(-1);
-  //cell.innerText = i;
   
   cell.innerHTML = "<font size='1' style='visibility:hidden;'>" + rndCard + "</font>";
   cell.innerText = rndCard;
   cell.nodeValue = rndCard;
-  cell.hidden = true;
-  // seleziona la riga corrente (sarà fatto nella showRelated!!!)
-  //selectRow(row,'selected');
-    
-  
+  cell.hidden = true;    
   
   if( bAppendResult == false)
    showRelated(0);
   else{
    totRows = table.rows.length;
    showRelated(totRows-1);
-  /* 
-  //var myTop = ((52+2) * totRows);
-  var myTop = ((52+2) * totRows) + table.scrollTop;
   
-  window.scrollTo({
-	  top: myTop,
-	  left: 0,
-	  behavior: "smooth",
-	 });
-	 */
-	}
+  }
   row.scrollIntoView({behavior: "smooth"});                         
  }
- //</script>
-//<script>
 
-/*
-window.onscroll = function() {myFunction()};
-var header = document.getElementById('myHeader');
-var sticky = header.offsetTop;
-
-var tableimg = document.getElementById('myTableImg');
-//var xxx = document.getElementById('center-header'); 
-function myFunction() {
-  if (window.pageYOffset > sticky) {
-    header.classList.add('sticky');
-    tableimg.Top = "102px";    
-  } else {
-    header.classList.remove('sticky');
-  }
-  //xxx.scrollTop = tableimg.offsetTop;
-  
-}
-*/
-
-
-//</script>
-
-/*
-function myTest(){
- 
- var Msg = "outerHeight: " + window.outerHeight + " outerWidth: " + window.outerWidth + "\n";
- Msg += "innerHeight: " + window.innerHeight + " innerWidth: " + window.innerWidth + "\n";
- Msg += "screenLeft: " + window.screenLeft + " screenTop: " + window.screenTop + "\n";
- Msg += "language: " + navigator.language + " appCodeName: " + navigator.appCodeName + "\n";
- Msg += "appName: " + navigator.appName + " appVersion: " + navigator.appVersion + "\n";
- Msg += "userAgent: " + navigator.userAgent + " onLine: " + navigator.onLine + "\n";
- //Msg += "javaEnabled?: " + (javaEnabled()?"true":"false") + "\n"; 
- alert(Msg);
- 
- var header = document.getElementById("myHeader");
- Msg = "Header left: " + header.left + " top: " + header.top + "\n";
- Msg += "H width: " + header.offsetWidth + " H height: " + header.offsetHeight + "\n";
- var domRect = header.getBoundingClientRect();
- console.log("--- HEADER ---");
- console.log(domRect);
- 
- var footer = document.getElementById("myFooter");
- Msg += "F width: " + footer.offsetWidth + " F height: " + footer.offsetHeight + "\n";
- domRect = footer.getBoundingClientRect();
- console.log("--- FOOTER ---");
- console.log(domRect);
- //let box = document.querySelector('.header');
- //       let width = box.offsetWidth;
- //       let height = box.offsetHeight;
-
- var area = document.getElementById("myArea");
- Msg += "A width: " + area.offsetWidth + " A height: " + area.offsetHeight + "\n";
- domRect = area.getBoundingClientRect();
- console.log("--- CONTENT ---");
- console.log(domRect);
-  
- alert(Msg);
-
-}
-*/
