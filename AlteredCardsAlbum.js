@@ -1,4 +1,4 @@
-//<script>
+
   var bxmlParsed = false;
   var xmlDoc, Mostra;
   var xmlCards = "<Cards>" +
@@ -1186,20 +1186,11 @@
 
   cell = row.insertCell(-1);
   cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:192px;height:266px;border-radius:10px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
-  /*
-  totRows = table.rows.length;
-  var myTop = (266+28) * totRows;
-  window.scrollTo({
-	  top: myTop,
-	  left: 0,
-	  behavior: "smooth",
-	 });
-	*/
+  
   if( bAppendResult == true)
    row.scrollIntoView({behavior: "smooth"});
  }
- //</script>
-//<script>
+
 window.onscroll = function() {myFunction()};
 var header = document.getElementById('myHeader');
 var sticky = header.offsetTop;
@@ -1210,4 +1201,4 @@ function myFunction() {
     header.classList.remove('sticky');
   }
 }
-//</script>
+
