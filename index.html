@@ -46,14 +46,6 @@
     margin-bottom: 200px;
     margin-top: 220px;
 }
-/*
-@media (max-width: 600px) {
-  table-container{
-    width: 100%;
-    height: auto;
-  }
-}
-*/
 a:link {
   color: DarkKhaki;
   background-color: transparent;
@@ -138,30 +130,14 @@ document.body.appendChild(scriptElement);
          <label for="myChkSpeech">Speak up</label>
          </i></small>
      </td>
-     
-     <!--td>&nbsp;&nbsp;</td>
-     <td><button id='myBtnRnd' onclick='myRndSearch()'><img src="random-icon.png" width='16' height='16'>Random</button></td>
-     <td>
-     <font size='2' color='DarkKhaki'><i><small>&nbsp;Append random result</i></small>
-     </td>
-     <td>
-     <input type='checkbox' id='myChkAppend'>
-     </td-->
-     
-     <!--td>
-       <button id='myBtnRnd' onclick='myRndSearch()'>Random</button>
-       <font size='2' color='DarkKhaki'><i><small>Append random results</i></small>
-       <input type='checkbox' id='myChkAppend'>
-     </td -->
     </tr>
     <tr>
      <td id='totalCards'></td>
-     <!-- td><button id='myBtnTest' onclick='myTest()'>Test</button></td -->
     </tr>
    </table>
   </div>
 
-</div> <!-- fine myHeader -->
+</div>
 <script>
  var input = document.getElementById('myInput');
  input.addEventListener('keyup', function(event) {
@@ -171,24 +147,18 @@ document.body.appendChild(scriptElement);
 });
 </script>
 
-<!--div class="container" id="myArea"-->
-<!--div class="table-container" id="myContent" style="top:0;height:490px;"-->
  <div class="table-container" id="myContent" style="top:0">
- <!--div class="table-container" id="myContent"-->
   <div class='left' id='center-header'>
    <table id='myTable' border="1" style="background-color: #000000;">
    </table>
   </div>
  </div>
-<!--/div-->
 
 <div class="footer-container" id="myFooter">
- <!-- div class="footer"-->
   <div class='bottom-img' id='img-header'>
    <table id='myTableImg' border="1">
    </table>
   </div>
- <!--/div-->
 </div>
 
 </body></html>
