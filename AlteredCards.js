@@ -1315,7 +1315,7 @@ function showRelated(index) {
  function myHelp(){
   document.getElementById('myBtnHelp').style.color='#000000';
   document.getElementById('myBtnHelp').style.background='#ffffff';
-  alert("Search by Card-Name or card-ID.\nCard-ID is a numeric value shown in the tooltip.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nClick on Card-id/Card-Name columns in cards list to get the image of that card and its related cards in the bottom panel.");
+  alert("Search by Card-Name or Card-ID that is a numeric value).\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nClick on Card-id/Card-Name columns in cards list to get the image of that card and its related cards in the bottom panel (horizontally scrollable).");
  }
 
  function getRndInt(max){
