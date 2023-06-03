@@ -1189,9 +1189,7 @@ let prevTr=null;
 function selectRow(tr, className){
   let ix = tr.rowIndex;
   if (ix === prevIx) {
-    tr.className += className;
-    prevIx = ix;
-    prevTr = tr;
+   ;
   }
   else {
 
@@ -1351,7 +1349,7 @@ function showRelated(index) {
   });
 
   cell = row.insertCell(-1);
-  cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:40px;height:52px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\">"
+  cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:40px;height:52px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\"></a>"
 
   cell = row.insertCell(-1);
   cell.innerHTML = "<font size='1' style='padding: 4px'>" + CardID + "</font>";
