@@ -37,8 +37,14 @@
   overflow-x:scroll;
   background: #555;
   color: #f1f1f1;
+  scrollbar-color: DarkKhaki #555;
 }
-
+.footer-container::-webkit-scrollbar {
+  background: #555;
+}
+.footer-container::-webkit-scrollbar-thumb {
+  background: DarkKhaki;
+}
 .table-container {
     position: flex;
     //display: auto;
@@ -121,14 +127,12 @@ document.body.appendChild(scriptElement);
          <button id='myBtnHelp' onclick='myHelp()'>?</button>
          &nbsp;
          <button id='myBtnRnd' onclick='myRndSearch()'><img src="random-icon.png" width='12' height='12'>Random</button>
-         
          <font size='2' color='DarkKhaki'><i><small>
          <input type='checkbox' id='myChkAppend'>
-         <!--font size='2' color='DarkKhaki'><i><small>Append random result</i></small-->
          <label for="myChkAppend">Append random result</label>
          <input type='checkbox' id='myChkSpeakUp'>
          <label for="myChkSpeech">Speak up</label>
-         </i></small>
+         </small></i>
      </td>
     </tr>
     <tr>
