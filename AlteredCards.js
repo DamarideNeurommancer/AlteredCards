@@ -1201,6 +1201,8 @@ function selectRow(tr, className){
     prevIx = ix;
     prevTr = tr;
   }
+  var footer_img = document.getElementById('myFooter');
+  footer_img.scrollTo(0, 0);
 
   var imgurl = tr.querySelector('img').getAttribute('src');
   var obj = document.getElementById('center-header');
