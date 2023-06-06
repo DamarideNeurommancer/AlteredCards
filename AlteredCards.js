@@ -1375,6 +1375,8 @@ function showRelated(index) {
   if( bAppendResult == false)
   {
    table.innerHTML = "";
+   prevIx = null;
+   prevTr = null;
   }
   else{
    totRows = table.rows.length;
