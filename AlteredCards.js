@@ -1085,7 +1085,8 @@ const URLRoot = "https://www.altersleeves.com/product/";
   }
   var table = document.getElementById('myTable');
   table.innerHTML = "";
-   
+  prevIx=null;
+  prevTr=null; 
   var CardCnt = 0;
   var catalog = xmlDoc.getElementsByTagName('Cards')[0];
   var totXmlCards = catalog.childElementCount;
