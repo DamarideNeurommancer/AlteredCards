@@ -1,4 +1,25 @@
-<!DOCTYPE html><html lang='en-US'><head><title>DamarideNeurommancer | AlterSleeves Cards</title><link rel="icon" type="image/x-icon" href="favicon.ico"><meta name='subtitle' content='DamarideNeurommancer AlterSleeves Cards'><meta name='viewport' content='width=device-width, initial-scale=1.0'><meta http-equiv='content-type' content='text/html; charset=Unicode'><meta charset='UTF-16'><meta property='og:title' content='DamarideNeurommancer Archives - Alter Sleeves' /><meta name='description' content='DamarideNeurommancer AlterSleeves Cards'><meta name='robots' content='index,follow'><meta name='subject' content='DamarideNeurommancer AlterSleeves Cards'><meta name='language' content='US'><meta name='Classification' content='MTG Cards'><meta http-equiv='X-UA-Compatible' content='IE=edge'><meta property='og:locale' content='en_US'><meta property='og:type' content='website'><meta property='og:description' content='Molecular Biotechnologist in the streets, Alterist in the sheets. Requests/suggestions are always welcome! For commissions, send me a PM on Instagram (@DamarideNeurommancer), Twitter (@DamNeurommancer), or ask for my email!' /><meta property='og:url' content='https://www.altersleeves.com/seller/damarideneurommancer/' /><meta property='og:site_name' content='Alter Sleeves' /></head><body style='background-color:#000000' onload="mySearch(6)">
+<!DOCTYPE html><html lang='en-US'>
+<head>
+<title>DamarideNeurommancer | AlterSleeves Cards</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta name='subtitle' content='DamarideNeurommancer AlterSleeves Cards'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta http-equiv='content-type' content='text/html; charset=Unicode'>
+<meta charset='UTF-16'>
+<meta property='og:title' content='DamarideNeurommancer Archives - Alter Sleeves' />
+<meta name='description' content='DamarideNeurommancer AlterSleeves Cards'>
+<meta name='robots' content='index,follow'>
+<meta name='subject' content='DamarideNeurommancer AlterSleeves Cards'>
+<meta name='language' content='US'>
+<meta name='Classification' content='MTG Cards'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'><meta property='og:locale' content='en_US'>
+<meta property='og:type' content='website'>
+<meta property='og:description' content='Molecular Biotechnologist in the streets, Alterist in the sheets. Requests/suggestions are always welcome! For commissions, send me a PM on Instagram (@DamarideNeurommancer), Twitter (@DamNeurommancer), or ask for my email!' />
+<meta property='og:url' content='https://www.altersleeves.com/seller/damarideneurommancer/' />
+<meta property='og:site_name' content='Alter Sleeves' />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+<body style='background-color:#000000' onload="mySearch(6)">
 <style>
 .header {
   padding: 2px 4px;
@@ -50,6 +71,12 @@ a:active {
 img:hover{
   transform:scale(1.2);
 }
+.swal2-popup {
+  font-size: 0.6rem;
+  text-align: left;
+  background: DarkKhaki;
+  border-radius: 80px; 
+}
 </style>
 <script>
 let scriptElement = document.createElement("script");
@@ -58,7 +85,7 @@ scriptElement.src = "AlteredCardsAlbum.js";
 document.body.appendChild(scriptElement);
 </script>
 <div class="header" id="myHeader">
-<p class='text-center'><font color='DarkKhaki'>&#10024; DamarideNeurommancer</p>
+<p class='text-center'><font color='DarkKhaki'>&#10024; DamarideNeurommancer</p></font>
 <table>
  <tr>
    <td>
@@ -81,7 +108,7 @@ document.body.appendChild(scriptElement);
 <table>
 <tr>
   <td>
-     <input type='text' id='myInput' size='30' placeholder='Search by card-name or card-id...' title='Search by card-name or card-id...'>
+     <input type='search' id='myInput' size='30' placeholder='Search by card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
      <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'>Search</button>
      <button id='myBtnHelp' onclick='myHelp()'>?</button>
      <font size='2' color='DarkKhaki'><i><small>Columns per row</i></small>
