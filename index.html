@@ -17,6 +17,7 @@
 <meta property='og:description' content='Molecular Biotechnologist in the streets, Alterist in the sheets. Requests/suggestions are always welcome! For commissions, send me a PM on Instagram (@DamarideNeurommancer), Twitter (@DamNeurommancer), or ask for my email!' />
 <meta property='og:url' content='https://www.altersleeves.com/seller/damarideneurommancer/' />
 <meta property='og:site_name' content='Alter Sleeves' />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 <body style='background-color:#000000' onload="mySearch()">
 <style>
@@ -90,7 +91,12 @@ table .selected {
   background-color: DarkKhaki;
   color: black;
 }
-
+.swal2-popup {
+  font-size: 0.6rem;
+  text-align: left;
+  background: DarkKhaki;
+  border-radius: 80px; 
+}
 </style>
 <script>
 let scriptElement = document.createElement("script");
@@ -101,7 +107,7 @@ document.body.appendChild(scriptElement);
 
 <div class="header" id="myHeader">
   <font color='DarkKhaki'> 
-  <p class='text-center'><font color='DarkKhaki'>&#10024; DamarideNeurommancer</p>
+  <p class='text-center'><font color='DarkKhaki'>&#10024; DamarideNeurommancer</p></font>
   <table>
   <tr>
   <td>
@@ -122,7 +128,7 @@ document.body.appendChild(scriptElement);
   <div id='search-header'>
    <table>
     <tr>
-     <td><input type='text' id='myInput' size='30' placeholder='Search by card-name or card-id...' title='Search by card-name or card-id...'>
+     <td><input type='search' id='myInput' size='30' placeholder='Search by card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
          <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'>Search</button>
          <button id='myBtnHelp' onclick='myHelp()'>?</button>
          &nbsp;
