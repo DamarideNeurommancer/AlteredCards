@@ -1,7 +1,6 @@
-
-  var bxmlParsed = false;
-  var xmlDoc, Mostra;
-  var xmlCards = "<Cards>"+
+var bxmlParsed = false;
+var xmlDoc, Mostra;
+var xmlCards = "<Cards>"+
 `<C I="366980" N="Scion of the Ur-Dragon" U="c5fuqawihylr8kr/?printing_id=67694" R=""/>`+
 `<C I="364457" N="Xyris, the Writhing Storm" U="u0ded9br8jcxoen/?printing_id=351978" R="364448;364450;"/>`+
 `<C I="364450" N="Xyris, the Writhing Storm" U="8gu38wpsur61ut0/?printing_id=351978" R="364448;364457;"/>`+
@@ -1044,6 +1043,14 @@
 `<C I="150573" N="Sword of Body and Mind" U="g4rurafw01bxlnm?printing_id=61853" R="182621;182627;150570;"/>`+
 `<C I="171967" N="Teferi, Master of Time" U="hckybeiwtggxrgt?printing_id=162502" R="171965;"/>`+
 `<C I="182623" N="Sword of Light and Shadow" U="kgct5aopucly366?printing_id=164757" R="150571;150576;182633;"/>`+
+`<C I="1" N="The lighthouse at the end of Reality" U="https://www.inkedgaming.com/products/the-lighthouse-at-the-end-of-reality-playmat?variant=40719087894728" R=""/>`+
+`<C I="2" N="Observer" U="https://www.inkedgaming.com/products/observer-playmat?variant=40719080063176" R="185880;185874;185875;185877;185879;185881;"/>`+
+`<C I="3" N="Kosmos" U="https://www.inkedgaming.com/products/damaride-neurommancer-playmat?variant=41206404120776" R="206897;206898;206899;206901;206902;206903;206905;206906;206907;206909;206910;206911;"/>`+
+`<C I="4" N="Medusa" U="https://www.inkedgaming.com/products/medusa-trophy-playmat?variant=40719071936712" R="181653;181657;"/>`+
+`<C I="5" N="Him that slept beneath" U="https://www.inkedgaming.com/products/him-that-slept-beneath-playmat?variant=41293708263624" R="207627;207629;"/>`+
+`<C I="6" N="Foreteller's Delight" U="https://www.inkedgaming.com/products/foreteller-s-delight-playmat?variant=41206217474248" R=""/>`+
+`<C I="7" N="Multiplicatio" U="https://www.inkedgaming.com/products/multipactio-playmat?variant=41494771073224" R=""/>`+
+`<C I="8" N="GraveyardGang" U="https://www.mythicgaming.com/product/playmat-graveyardgang" R="182394;182396;"/>`+
 "</Cards>";
 const URLRoot = "https://www.altersleeves.com/product/";
 
@@ -1080,8 +1087,8 @@ const URLRoot = "https://www.altersleeves.com/product/";
    var book = catalog.childNodes[i];
    var CardID = book.attributes[0].nodeValue;
    var CardNAME = book.attributes[1].nodeValue;
-   var CardURL = URLRoot+book.attributes[2].nodeValue;
    if (CardNAME.toUpperCase().indexOf(filter) > -1 || CardID == filter){
+    var CardURL = (CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
     CardCnt++;
     if ((CardCnt % nCols == 1) || nCols == 1)
      row = table.insertRow(-1);
@@ -1089,7 +1096,7 @@ const URLRoot = "https://www.altersleeves.com/product/";
      row = table.rows[table.rows.length-1];
 
     cell = row.insertCell(-1);
-    cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:192px;height:266px;border-radius:10px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
+    cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +(CardID>100?".jpg":".webp")+"' alt='" +CardID + "' style='width:192px;height:266px;border-radius:10px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";	   
     if( bIsCardID == true){
      var RelatedCards = book.attributes[3].nodeValue;
      if( RelatedCards != ""){
@@ -1137,7 +1144,18 @@ const URLRoot = "https://www.altersleeves.com/product/";
  function myHelp(){
   document.getElementById('myBtnHelp').style.color='#000000';
   document.getElementById('myBtnHelp').style.background='#ffffff';
-  alert("Search by Card-Name or card-ID.\nCard-ID is a numeric value shown in the tooltip.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nDefault and max value for 'columns per row' is 6, changing that value relaunches the search.");
+  var sHelp = "Search by Card-Name or Card-ID.\nCard-ID is a numeric value shown in the tooltip.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nDefault and max value for 'columns per row' is 6, changing that value relaunches the search.";
+  try{
+   Swal.fire({
+    title: "<span style='color:Black'>" +"DamarideNeurommancer",
+    html: "<span style='color:Black'><b>" + sHelp.replaceAll('\n','<br>')+ "</b>",
+    confirmButtonColor: "Black",
+    padding: 1,
+   })
+  }
+  catch{
+   alert(sHelp);
+  }
  }
 
  function columnsValueChange(){
@@ -1177,7 +1195,7 @@ const URLRoot = "https://www.altersleeves.com/product/";
   var book = catalog.childNodes[rndCard];
   var CardID = book.attributes[0].nodeValue;
   var CardNAME = book.attributes[1].nodeValue;
-  var CardURL = URLRoot+book.attributes[2].nodeValue;
+  var CardURL = (CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
   var row,cell;
   CardCnt++;
   if ((CardCnt % nCols == 1) || nCols == 1)
@@ -1186,8 +1204,7 @@ const URLRoot = "https://www.altersleeves.com/product/";
    row = table.rows[totRows-1];
 
   cell = row.insertCell(-1);
-  cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:192px;height:266px;border-radius:10px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
-  
+  cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +(CardID>100?".jpg":".webp")+"' alt='" +CardID + "' style='width:192px;height:266px;border-radius:10px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
   if( bAppendResult == true)
    row.scrollIntoView({behavior: "smooth"});
  }
