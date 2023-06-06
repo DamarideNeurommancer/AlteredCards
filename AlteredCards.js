@@ -1045,6 +1045,14 @@
 `<C I="150573" N="Sword of Body and Mind" U="g4rurafw01bxlnm?printing_id=61853" R="182621;182627;150570;"/>`+
 `<C I="171967" N="Teferi, Master of Time" U="hckybeiwtggxrgt?printing_id=162502" R="171965;"/>`+
 `<C I="182623" N="Sword of Light and Shadow" U="kgct5aopucly366?printing_id=164757" R="150571;150576;182633;"/>`+
+`<C I="1" N="The lighthouse at the end of Reality" U="https://www.inkedgaming.com/products/the-lighthouse-at-the-end-of-reality-playmat?variant=40719087894728" R=""/>`+
+`<C I="2" N="Observer" U="https://www.inkedgaming.com/products/observer-playmat?variant=40719080063176" R="185880;185874;185875;185877;185879;185881;"/>`+
+`<C I="3" N="Kosmos" U="https://www.inkedgaming.com/products/damaride-neurommancer-playmat?variant=41206404120776" R="206897;206898;206899;206901;206902;206903;206905;206906;206907;206909;206910;206911;"/>`+
+`<C I="4" N="Medusa" U="https://www.inkedgaming.com/products/medusa-trophy-playmat?variant=40719071936712" R="181653;181657;"/>`+
+`<C I="5" N="Him that slept beneath" U="https://www.inkedgaming.com/products/him-that-slept-beneath-playmat?variant=41293708263624" R="207627;207629;"/>`+
+`<C I="6" N="Foreteller's Delight" U="https://www.inkedgaming.com/products/foreteller-s-delight-playmat?variant=41206217474248" R=""/>`+
+`<C I="7" N="Multiplicatio" U="https://www.inkedgaming.com/products/multipactio-playmat?variant=41494771073224" R=""/>`+
+`<C I="8" N="GraveyardGang" U="https://www.mythicgaming.com/product/playmat-graveyardgang" R="182394;182396;"/>`+
 "</Cards>";
 const URLRoot = "https://www.altersleeves.com/product/";
 
@@ -1088,8 +1096,12 @@ const URLRoot = "https://www.altersleeves.com/product/";
    var book = catalog.childNodes[i];
    var CardID = book.attributes[0].nodeValue;
    var CardNAME = book.attributes[1].nodeValue;
-   var CardURL = URLRoot+book.attributes[2].nodeValue;
    if (CardNAME.toUpperCase().indexOf(filter) > -1 || CardID == filter){
+    var bIsCard = true;
+    if( book.attributes[2].nodeValue.startsWith("https"))
+     bIsCard = false;
+    var CardURL = (bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
+     
     CardCnt++;
     row = table.insertRow(-1);
     row.addEventListener('click', function() {
@@ -1097,7 +1109,7 @@ const URLRoot = "https://www.altersleeves.com/product/";
     });
 
     cell = row.insertCell(-1);
-    cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:40px;height:52px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\"></a>"
+    cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID + (bIsCard?".jpg":".webp")+ "' alt='" +CardID + "' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\"></a>"
 
     cell = row.insertCell(-1);
     cell.innerHTML = "<font size='1' style='padding: 4px'>" + CardID + "</font>";
@@ -1159,14 +1171,17 @@ const URLRoot = "https://www.altersleeves.com/product/";
   var book = catalog.childNodes[cell.innerHTML];
   var CardID = book.attributes[0].nodeValue;
   var CardNAME = book.attributes[1].nodeValue;
-  var CardURL = URLRoot+book.attributes[2].nodeValue;
+  var bIsCard = true;
+  if( book.attributes[2].nodeValue.startsWith("https"))
+     bIsCard = false;
+  var CardURL = (bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
   
   var tableimg = document.getElementById('myTableImg');
   
   tableimg.innerHTML = "";
   row = tableimg.insertRow(-1);
   cell = row.insertCell(-1);
-  cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:96px;height:133px;border-radius:6px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
+  cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +(bIsCard?".jpg":".webp")+"' alt='" +CardID + "' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
   
   var RelatedCards = book.attributes[3].nodeValue;
   if( RelatedCards != ""){
@@ -1230,12 +1245,16 @@ function showRelated(index) {
   var book = catalog.childNodes[xmlindex];
   var CardID = book.attributes[0].nodeValue;
   var CardNAME = book.attributes[1].nodeValue;
-  var CardURL = URLRoot+book.attributes[2].nodeValue;
+  var bIsCard = true;
+  if( book.attributes[2].nodeValue.startsWith("https"))
+     bIsCard = false;
+  var CardURL = (bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
   var tableimg = document.getElementById('myTableImg');
+  
   tableimg.innerHTML = "";
   var row = tableimg.insertRow(-1);
   cell = row.insertCell(-1);
-  cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:96px;height:133px;border-radius:6px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
+  cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +(bIsCard?".jpg":".webp")+"' alt='" +CardID + "' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
   
   var RelatedCards = book.attributes[3].nodeValue;
   if( RelatedCards != ""){
@@ -1251,6 +1270,8 @@ function showRelated(index) {
     }
    }
   }
+  rowMaster.scrollIntoView({behavior: "auto"});
+  row.scrollTo(0, 0);
 }
  
  function mySearchRelatedID(Look4CardID, lastRow){
@@ -1260,10 +1281,13 @@ function showRelated(index) {
    var CardID = book.attributes[0].nodeValue;
    if (CardID === Look4CardID){
     var CardNAME = book.attributes[1].nodeValue;
-    var CardURL = URLRoot+book.attributes[2].nodeValue;
+    var bIsCard = true;
+    if( book.attributes[2].nodeValue.startsWith("https"))
+     bIsCard = false;
+    var CardURL = (bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
     
     cell = lastRow.insertCell(-1);
-    cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:96px;height:133px;border-radius:6px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";    
+    cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +(bIsCard?".jpg":".webp")+"' alt='" +CardID + "' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
     break;
    }
   }
@@ -1276,10 +1300,13 @@ function showRelated(index) {
    var CardID = book.attributes[0].nodeValue;
    if (CardID === Look4CardID){
     var CardNAME = book.attributes[1].nodeValue;
-    var CardURL = URLRoot+book.attributes[2].nodeValue;
+    var bIsCard = true;
+    if( book.attributes[2].nodeValue.startsWith("https"))
+     bIsCard = false;
+    var CardURL = (bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
 
     cell = lastRow.insertCell(-1);
-    cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:40px;height:52px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\"></a>"
+    cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +(bIsCard?".jpg":".webp")+"' alt='" +CardID + "' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\"></a>"
 
     cell = lastRow.insertCell(-1);
     cell.innerHTML = "<font size='1' style='padding: 4px'>" + CardID + "</font>";
@@ -1307,7 +1334,23 @@ function showRelated(index) {
  function myHelp(){
   document.getElementById('myBtnHelp').style.color='#000000';
   document.getElementById('myBtnHelp').style.background='#ffffff';
-  alert("Search by Card-Name or Card-ID that is a numeric value.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nClick on Card-id/Card-Name columns in cards list to get the image of that card and its related cards in the bottom panel (horizontally scrollable).");
+  var sHelp ="Search by Card-Name or Card-ID that is a numeric value.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nClick on Card-Id/Card-Name columns in cards list to get the image of that card and its related cards in the bottom panel (horizontally scrollable).";
+  try{
+   var imgurl = prevTr.querySelector('img').getAttribute('src');
+   var imgtitle = prevTr.querySelector('img').getAttribute('title');  
+   Swal.fire({
+    title: "<span style='color:Black'>" +imgtitle,
+    html: "<span style='color:Black'><b>" + sHelp.replaceAll('\n','<br>') + "</b>",
+    imageUrl: imgurl,
+    imageWidth: 80,
+    imageHeight: 104,
+    confirmButtonColor: "Black",
+    padding: 1,
+   })
+  }
+  catch{
+   alert(sHelp);
+  }
  }
 
  function getRndInt(max){
@@ -1341,7 +1384,10 @@ function showRelated(index) {
   var book = catalog.childNodes[rndCard];
   var CardID = book.attributes[0].nodeValue;
   var CardNAME = book.attributes[1].nodeValue;
-  var CardURL = URLRoot+book.attributes[2].nodeValue;
+  var bIsCard = true;
+  if( book.attributes[2].nodeValue.startsWith("https"))
+   bIsCard = false;
+  var CardURL = (bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
   var row,cell;
   CardCnt++;
   
@@ -1351,7 +1397,7 @@ function showRelated(index) {
   });
 
   cell = row.insertCell(-1);
-  cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".jpg' alt='" +CardID + "' style='width:40px;height:52px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\"></a>"
+  cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +(bIsCard?".jpg":".webp")+"' alt='" +CardID + "' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;' title=\"" +CardID + " " + CardNAME + "\"></a>"
 
   cell = row.insertCell(-1);
   cell.innerHTML = "<font size='1' style='padding: 4px'>" + CardID + "</font>";
