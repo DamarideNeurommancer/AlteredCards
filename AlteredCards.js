@@ -1222,9 +1222,7 @@ function selectRow(tr, className){
 
   var imgurl = tr.querySelector('img').getAttribute('src');
   var obj = document.getElementById('center-header');
-  obj.style.backgroundPosition = "center";
   obj.style.backgroundImage = "url('"+ imgurl+"')";
-  obj.style.backgroundRepeat = "repeat-y";
   
   if( bSpeech == true)
   {
