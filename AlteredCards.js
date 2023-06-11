@@ -1,8 +1,7 @@
-
-  var bxmlParsed = false;
-  var xmlDoc, Mostra, bSpeech;
-  var msgSpeech;
-  var xmlCards = "<Cards>"+
+var bxmlParsed = false;
+var xmlDoc, Mostra, bSpeech;
+var msgSpeech;
+var xmlCards = "<Cards>"+
 `<C I="366980" N="Scion of the Ur-Dragon" U="c5fuqawihylr8kr/?printing_id=67694" R=""/>`+
 `<C I="364457" N="Xyris, the Writhing Storm" U="u0ded9br8jcxoen/?printing_id=351978" R="364448;364450;"/>`+
 `<C I="364450" N="Xyris, the Writhing Storm" U="8gu38wpsur61ut0/?printing_id=351978" R="364448;364457;"/>`+
@@ -1208,11 +1207,9 @@ function selectRow(tr, className){
    ;
   }
   else {
-
     if (prevTr) {
       prevTr.className = prevTr.className.replace(className,"");
     }
-
     tr.className += className;
     prevIx = ix;
     prevTr = tr;
@@ -1239,7 +1236,7 @@ function showRelated(index) {
   var rowMaster = table.rows[index];
   var xmlindex = rowMaster.cells[3].innerText;
   selectRow(rowMaster, 'selected');
-     
+  rowMaster.scrollIntoView({behavior: "auto"});
   var catalog = xmlDoc.getElementsByTagName('Cards')[0];
   var book = catalog.childNodes[xmlindex];
   var CardID = book.attributes[0].nodeValue;
@@ -1336,9 +1333,10 @@ function showRelated(index) {
   var sHelp ="Search by Card-Name or Card-ID that is a numeric value.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nClick on Card-Id/Card-Name columns in cards list to get the image of that card and its related cards in the bottom panel (horizontally scrollable).";
   try{
    var imgurl = prevTr.querySelector('img').getAttribute('src');
+   var url = prevTr.querySelector('a').getAttribute('href');
    var imgtitle = prevTr.querySelector('img').getAttribute('title');  
    Swal.fire({
-    title: "<span style='color:Black'>" +imgtitle,
+    title: "<span><a style='color:Blue' href='" + url + "'>" +imgtitle +"</a></span>",
     html: "<span style='color:Black'><b>" + sHelp.replaceAll('\n','<br>') + "</b>",
     imageUrl: imgurl,
     imageWidth: 80,
@@ -1413,7 +1411,6 @@ function showRelated(index) {
   });
   
   cell = row.insertCell(-1);
-  
   cell.innerHTML = "<font size='1' style='visibility:hidden;'>" + rndCard + "</font>";
   cell.innerText = rndCard;
   cell.nodeValue = rndCard;
@@ -1424,7 +1421,70 @@ function showRelated(index) {
   else{
    totRows = table.rows.length;
    showRelated(totRows-1);
-  
   }
   row.scrollIntoView({behavior: "smooth"});                         
  }
+
+document.onkeydown = function (e){
+ var currRow = prevIx;
+ var table = document.getElementById('myTable');
+ var totRows = table.rows.length;
+ var rowMaster = null;
+ var offset = -200;
+ if( totRows > 0){
+  switch (e.key){
+   case 'ArrowUp':
+    if( currRow > 0){
+     showRelated(currRow-1);
+     rowMaster = table.rows[currRow];
+     rowMaster.scrollIntoView(true, {behavior: "smooth"});
+     if( currRow >= totRows-5)
+      offset = -20;
+      window.scrollBy(0, offset);
+    }
+    break;
+   case 'ArrowDown':
+    if( currRow < totRows){
+     showRelated(currRow+1);   
+     rowMaster = table.rows[currRow]; 
+     rowMaster.scrollIntoView(true, {behavior: "smooth"});
+     if( currRow >= totRows-5)
+      offset = -20;
+      window.scrollBy(0, offset);
+    }              
+    break;
+   case 'Home':
+    showRelated(0);
+    rowMaster = table.rows[0];
+    rowMaster.scrollIntoView(true, {behavior: "smooth"});
+    window.scrollBy(0, -200);             
+    break;
+   case 'End':
+    showRelated(totRows-1);
+    rowMaster = table.rows[totRows-1];
+    rowMaster.scrollIntoView(true, {behavior: "smooth"});
+    window.scrollBy(0, -200);            
+    break;
+  }
+ }
+};
+
+function myPopup(){
+ if( prevTr === null)
+  return;
+ var modal = document.getElementById('myModal');
+ var img = prevTr.querySelector('img').getAttribute('src');
+ var imgtitle = prevTr.querySelector('img').getAttribute('title'); 
+ var url = prevTr.querySelector('a').getAttribute('href');
+ var modalImg = document.getElementById("img01");
+ var captionText = document.getElementById("caption");
+ modal.style.display = "block";
+ modalImg.src = img;       //L'immagine nel popup
+ modalImg.alt = imgtitle; //Il titolo nel popup
+ captionText.innerHTML = "<a href='" + url + "'>" +modalImg.alt + "</a>";
+}
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function() {
+    var modal = document.getElementById('myModal'); 
+    modal.style.display = "none";
+}
