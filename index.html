@@ -5,7 +5,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <meta http-equiv='content-type' content='text/html; charset=Unicode'>
 <meta charset='UTF-16'>
-<meta property='og:title' content='DamarideNeurommancer Archives - Alter Sleeves' />
+<meta property='og:title' content='DamarideNeurommancer Archives - Alter Sleeves'>
 <meta name='description' content='DamarideNeurommancer AlterSleeves Cards'>
 <meta name='robots' content='index,follow'>
 <meta name='subject' content='DamarideNeurommancer AlterSleeves Cards'>
@@ -14,88 +14,148 @@
 <meta http-equiv='X-UA-Compatible' content='IE=edge'>
 <meta property='og:locale' content='en_US'>
 <meta property='og:type' content='website'>
-<meta property='og:description' content='Molecular Biotechnologist in the streets, Alterist in the sheets. Requests/suggestions are always welcome! For commissions, send me a PM on Instagram (@DamarideNeurommancer), Twitter (@DamNeurommancer), or ask for my email!' />
-<meta property='og:url' content='https://www.altersleeves.com/seller/damarideneurommancer/' />
-<meta property='og:site_name' content='Alter Sleeves' />
+<meta property='og:description' content='Molecular Biotechnologist in the streets, Alterist in the sheets. Requests/suggestions are always welcome! For commissions, send me a PM on Instagram (@DamarideNeurommancer), Twitter (@DamNeurommancer), or ask for my email!'>
+<meta property='og:url' content='https://www.altersleeves.com/seller/damarideneurommancer/'>
+<meta property='og:site_name' content='Alter Sleeves'>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 </head>
 <body style='background-color:#000000' onload="mySearch()">
 <style>
 .header{
-  position: fixed; 
-  width: 100%;
-  top: 0;  
-  padding: 2px 4px;
-  background: #555;
-  color: #f1f1f1;
+ position: sticky;
+ position: -webkit-sticky;
+ width: 100%;
+ top: 0;  
+ padding: 2px 4px;
+ background: #555;
+ color: #f1f1f1;
+}
+.table-container{
+ position: flex;
+ overflow-y:auto;
+ margin-bottom: 2px;
+ margin-top: 2px;
 }
 .footer-container{
-  position: fixed;
-  width: 100%;
-  bottom: 0;
-  padding: 2px 4px;
-  overflow-y:hidden;
-  overflow-x:scroll;
-  background: #555;
-  color: #f1f1f1;
-  scrollbar-color: DarkKhaki #555;
+ position: sticky;
+ position: -webkit-sticky;
+ width: 100%;
+ bottom: 0;
+ padding: 2px 4px;
+ overflow-y:hidden;
+ overflow-x:scroll;
+ background: #555;
+ color: #f1f1f1;
+ scrollbar-color: DarkKhaki #555;
 }
-.footer-container::-webkit-scrollbar {
-  background: #555;
+.footer-container::-webkit-scrollbar{
+ background: #555;
 }
-.footer-container::-webkit-scrollbar-thumb {
-  background: DarkKhaki;
+.footer-container::-webkit-scrollbar-thumb{
+ background: DarkKhaki;
 }
-.table-container {
-    position: flex;
-    //display: auto;
-    overflow-y:auto;
-    margin-bottom: 200px;
-    margin-top: 220px;
+a:link{
+ color: DarkKhaki;
+ background-color: transparent;
+ text-decoration: none;
 }
-a:link {
-  color: DarkKhaki;
-  background-color: transparent;
-  text-decoration: none;
+a:visited{
+ color: pink;
+ background-color: transparent;
+ text-decoration: none;
 }
-a:visited {
-  color: pink;
-  background-color: transparent;
-  text-decoration: none;
+a:hover{
+ color: red;
+ background-color: transparent;
+ text-decoration: underline;
 }
-a:hover {
-  color: red;
-  background-color: transparent;
-  text-decoration: underline;
+a:active{
+ color: yellow;
+ background-color: transparent;
+ text-decoration: underline;
 }
-a:active {
-  color: yellow;
-  background-color: transparent;
-  text-decoration: underline;
+.fa{
+ padding: 3px;
+ font-size: 10px;
+ width: 16px;
+ text-align: center;
+ text-decoration: none;
+ margin: 5px 2px;
 }
-.fa {
-  padding: 3px;
-  font-size: 10px;
-  width: 16px;
-  text-align: center;
-  text-decoration: none;
-  margin: 5px 2px;
-}
-.fa:hover {
-  opacity: 0.7;
+.fa:hover{
+ opacity: 0.7;
 }
 img:hover{
-  transform:scale(1.2);
+ transform:scale(1.2);
 }
-table .selected {
-  background-color: DarkKhaki;
-  color: black;
+table .selected{
+ background-color: DarkKhaki;
+ color: black;
 }
-.swal2-popup {
-  font-size: 0.6rem;
-  text-align: left;
-  background: DarkKhaki;
-  border-radius: 80px; 
+.swal2-popup{
+ font-size: 0.6rem;
+ text-align: left;
+ background: DarkKhaki;
+ border-radius: 80px; 
+}
+.modal{
+ display: none;
+ position: fixed;
+ z-index: 1;
+ padding-top: 100px;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ overflow: auto;
+ background-color: rgb(0,0,0);
+ background-color: rgba(0,0,0,0.9);
+}
+.modal-content{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ border-radius: 20px;
+}
+#caption{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ text-align: center;
+ color: DarkKhaki;
+ padding: 10px 0;
+ height: 150px;
+}
+.modal-content, #caption{    
+ -webkit-animation-name: zoom;
+ -webkit-animation-duration: 0.6s;
+ animation-name: zoom;
+ animation-duration: 0.6s;
+}
+@-webkit-keyframes zoom{
+ from {-webkit-transform:scale(0)} 
+ to {-webkit-transform:scale(1)}
+}
+@keyframes zoom{
+ from {transform:scale(0)} 
+ to {transform:scale(1)}
+}
+.close{
+ position: absolute;
+ top: 15px;
+ right: 35px;
+ color: #f1f1f1;
+ font-size: 40px;
+ font-weight: bold;
+ transition: 0.3s;
+}
+.close:hover,
+.close:focus{
+ color: #bbb;
+ text-decoration: none;
+ cursor: pointer;
 }
 </style>
 <script>
@@ -104,71 +164,74 @@ scriptElement.type = "text/javascript";
 scriptElement.src = "AlteredCards.js";
 document.body.appendChild(scriptElement);
 </script>
-
 <div class="header" id="myHeader">
-  <font color='DarkKhaki'> 
-  <p class='text-center'><font color='DarkKhaki'>&#10024; DamarideNeurommancer</p></font>
+ <font color='DarkKhaki'> 
+ <p class='text-center'><font color='DarkKhaki'>&#10024; DamarideNeurommancer</p></font>
+ <table>
+ <tr>
+ <td>
+  <a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='DamarideNeurommancer.jpg' alt='' width='62' height='62' title='Alters by DamarideNeurommancer'></a>
+ </td>
+ <td>
+  <font color='DarkKhaki' size='2'>Creating MTG alters,<br>digital and handpainted.<br><font size='1'>
+  <a href="https://www.instagram.com/damarideneurommancer/?hl=en" class="fa fa-loghi"><img src="instagram-icon.png" width='16' height='16'></a>
+  <a href="https://twitter.com/DamNeurommancer" class="fa fa-loghi"><img src="twitter-icon.png" width='16' height='16'></a>
+  <a href="https://linktr.ee/damarideneurommancer" class="fa fa-loghi"><img src="evil-icon.png" width='16' height='16'></a>
+  <a href="https://www.altersleeves.com/alterist/damarideneurommancer/" class="fa fa-loghi"><img src="altersleeves-icon.png" width='16' height='16'></a>
+  <a href="https://www.inkedgaming.com/collections/artists-damaride-neurommancer" class="fa fa-loghi"><img src="shopify-icon.webp" width='16' height='16'></a>
+  <a href="https://www.makeplayingcards.com/sell/damarideneurommancer" class="fa fa-loghi"><img src="playing-card-spade-icon.png" width='16' height='16'></a>
+  <a href="index_AlteredAlbum.html" class="fa fa-loghi"><img src="forward-arrow-icon.png" width='16' height='16' title='Cards Album'></a>
+ </td>
+ </tr>
+ </table>
+ <div id='search-header'>
   <table>
-  <tr>
-  <td>
-    <a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='DamarideNeurommancer.jpg' alt='' width='62' height='62' title='Alters by DamarideNeurommancer'></a>
-  </td>
-  <td>
-    <font color='DarkKhaki' size='2'>Creating MTG alters,<br>digital and handpainted.<br><font size='1'>
-    <a href="https://www.instagram.com/damarideneurommancer/?hl=en" class="fa fa-loghi"><img src="instagram-icon.png" width='16' height='16'></a>
-    <a href="https://twitter.com/DamNeurommancer" class="fa fa-loghi"><img src="twitter-icon.png" width='16' height='16'></a>
-    <a href="https://linktr.ee/damarideneurommancer" class="fa fa-loghi"><img src="evil-icon.png" width='16' height='16'></a>
-    <a href="https://www.altersleeves.com/alterist/damarideneurommancer/" class="fa fa-loghi"><img src="altersleeves-icon.png" width='16' height='16'></a>
-    <a href="https://www.inkedgaming.com/collections/artists-damaride-neurommancer" class="fa fa-loghi"><img src="shopify-icon.webp" width='16' height='16'></a>
-    <a href="https://www.makeplayingcards.com/sell/damarideneurommancer" class="fa fa-loghi"><img src="playing-card-spade-icon.png" width='16' height='16'></a>
-    <a href="index_AlteredAlbum.html" class="fa fa-loghi"><img src="forward-arrow-icon.png" width='16' height='16' title='Cards Album'></a>
-   </td>
-  </tr>
+   <tr>
+    <td><input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
+     <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'>Search</button>
+     <button id='myBtnHelp' onclick='myHelp()' title='Help'>?</button>
+     <button id='myBtnPopup' onclick='myPopup()' title='Zoom card image'><img src="zoom-icon.png" width='12' height='12'></button>
+     &nbsp;
+     <button id='myBtnRnd' onclick='myRndSearch()'><img src="random-icon.png" width='12' height='12'>Random</button>
+     <font size='2' color='DarkKhaki'><i><small>
+     <input type='checkbox' id='myChkAppend'>
+     <label for="myChkAppend">Append random result</label>
+     <input type='checkbox' id='myChkSpeakUp'>
+     <label for="myChkSpeech">Speak up</label>
+     </small></i>
+    </td>
+   </tr>
+   <tr>
+    <td id='totalCards'></td>
+   </tr>
   </table>
-  <div id='search-header'>
-   <table>
-    <tr>
-     <td><input type='search' id='myInput' size='30' placeholder='Search by card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
-         <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'>Search</button>
-         <button id='myBtnHelp' onclick='myHelp()'>?</button>
-         &nbsp;
-         <button id='myBtnRnd' onclick='myRndSearch()'><img src="random-icon.png" width='12' height='12'>Random</button>
-         <font size='2' color='DarkKhaki'><i><small>
-         <input type='checkbox' id='myChkAppend'>
-         <label for="myChkAppend">Append random result</label>
-         <input type='checkbox' id='myChkSpeakUp'>
-         <label for="myChkSpeech">Speak up</label>
-         </small></i>
-     </td>
-    </tr>
-    <tr>
-     <td id='totalCards'></td>
-    </tr>
-   </table>
-  </div>
-
+ </div>
 </div>
 <script>
  var input = document.getElementById('myInput');
- input.addEventListener('keyup', function(event) {
- if (event.keyCode == 13) {
+ input.addEventListener('keyup', function(event){
+ if(event.keyCode == 13){
   document.getElementById('myBtn').click();
  }
 });
 </script>
-
- <div class="table-container" id="myContent" style="top:0">
-  <div class='left' id='center-header' style='background-attachment:fixed;background-repeat:repeat-y;background-position:center;'>
-   <table id='myTable' border="1" style="background-color: #000000;">
-   </table>
-  </div>
+<div class="table-container" id="myContent">
+ <div class='left' id='center-header' style='background-attachment:fixed;background-repeat:repeat-y;background-position:center;'>
+  <table id='myTable' border="1" style="background-color: #000000;">
+  </table>
  </div>
-
+</div>
 <div class="footer-container" id="myFooter">
-  <div class='bottom-img' id='img-header'>
-   <table id='myTableImg' border="1">
-   </table>
+ <div class='bottom-img' id='img-header'>
+  <table id='myTableImg' border="1">
+  </table>
+ </div>
+</div>
+<div id="myModal" class="modal">
+ <span class="close">&times;</span>
+ <img class="modal-content" id="img01">
+  <div>
+  <p id="caption">
   </div>
 </div>
-
 </body></html>
