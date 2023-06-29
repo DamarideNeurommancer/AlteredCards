@@ -8,6 +8,10 @@ const captionText=document.getElementById("caption");
 const totCards=document.getElementById('totalCards');
 const footer_img=document.getElementById('myFooter');
 
+const modal=document.getElementById('myModal');
+const modalImg=document.getElementById("img01");
+const caption_md=document.getElementById("caption_md");
+
 function myParseCards(){
  var parser = new DOMParser();
  xmlDoc = parser.parseFromString(xmlCards,"text/xml");
@@ -266,4 +270,21 @@ document.dispatchEvent(new KeyboardEvent('keydown', {
  ctrlKey: false,
  metaKey: false
 }));
+}
+
+function myPopup(){
+ if( prevTd === null)
+  return;
+ var img = prevTd.querySelector('img').getAttribute('src');
+ var imgtitle = prevTd.querySelector('img').getAttribute('title'); 
+ var url = prevTd.querySelector('a').getAttribute('href'); 
+ modal.style.display = "block";
+ modalImg.src = img;
+ modalImg.alt = imgtitle;
+ caption_md.innerHTML = "<a href='" + url + "' style='font-size: 16px;'>" +modalImg.alt + "</a>";
+}
+
+var span = document.getElementsByClassName("close")[0];
+span.onclick = function(){ 
+ modal.style.display = "none";
 }
