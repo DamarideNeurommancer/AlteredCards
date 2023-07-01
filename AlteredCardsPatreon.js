@@ -1,7 +1,7 @@
 var bxmlParsed = false;
 var xmlDoc;
-var xmlCards=`<Cards><C I="367358" N="Elesh Norn, Mother of Machines" U="https://www.patreon.com/DamarideNeurommancer" R=""/><C I="369414" N="Elesh Norn, Mother of Machines" U="https://www.patreon.com/DamarideNeurommancer" R=""/><C I="369412" N="Elesh Norn, Mother of Machines" U="https://www.patreon.com/DamarideNeurommancer" R=""/></Cards>`;
-
+const xmlCards=`<Cards><C I="367358" N="Elesh Norn, Mother of Machines"/><C I="369414" N="Elesh Norn, Mother of Machines"/><C I="369412" N="Elesh Norn, Mother of Machines"/></Cards>`;
+const URLRoot="https://www.patreon.com/DamarideNeurommancer"
 function myParseCards(){
  var parser = new DOMParser();
  xmlDoc = parser.parseFromString(xmlCards,"text/xml");
@@ -25,7 +25,7 @@ function mySearch(){
   var CardID = book.attributes[0].nodeValue;
   var CardNAME = book.attributes[1].nodeValue;
   if (CardNAME.toUpperCase().indexOf(filter) > -1 || CardID == filter){
-   var CardURL = book.attributes[2].nodeValue;
+   var CardURL = URLRoot;
    CardCnt++;
    if ((CardCnt % nCols == 1) || nCols == 1)
     row = table.insertRow(-1);
