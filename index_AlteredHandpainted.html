@@ -17,7 +17,7 @@
 <meta property='og:description' content='Molecular Biotechnologist in the streets, Alterist in the sheets. Requests/suggestions are always welcome! For commissions, send me a PM on Instagram (@DamarideNeurommancer), Twitter (@DamNeurommancer), or ask for my email!'>
 <meta property='og:url' content='https://www.altersleeves.com/seller/damarideneurommancer/'>
 <meta property='og:site_name' content='Alter Sleeves'>
-<script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
@@ -82,6 +82,72 @@ img:hover{
  transform:scale(1.2);
  border: 2px solid white;
 }
+.swal2-popup{
+ font-size: 0.6rem;
+ text-align: left;
+ background: White;
+ border-radius: 80px; 
+}
+.modal{
+ display: none;
+ position: fixed;
+ z-index: 1;
+ padding-top: 100px;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ overflow: auto;
+ background-color: rgb(0,0,0);
+ background-color: rgba(0,0,0,0.9);
+}
+.modal-content{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ border-radius: 20px;
+}
+#caption_md{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ text-align: center;
+ //color: #ccc;
+ color: White;
+ padding: 10px 0;
+ height: 150px;
+}
+.modal-content, #caption{    
+ -webkit-animation-name: zoom;
+ -webkit-animation-duration: 0.6s;
+ animation-name: zoom;
+ animation-duration: 0.6s;
+}
+@-webkit-keyframes zoom{
+ from {-webkit-transform:scale(0)} 
+ to {-webkit-transform:scale(1)}
+}
+@keyframes zoom{
+ from {transform:scale(0)} 
+ to {transform:scale(1)}
+}
+.close{
+ position: absolute;
+ top: 15px;
+ right: 35px;
+ color: #f1f1f1;
+ font-size: 40px;
+ font-weight: bold;
+ transition: 0.3s;
+}
+.close:hover,
+.close:focus{
+ color: #bbb;
+ text-decoration: none;
+ cursor: pointer;
+}
 </style>
 <script>
 let scriptElement = document.createElement("script");
@@ -113,8 +179,32 @@ document.body.appendChild(scriptElement);
 </table>
 <div id='search-header'>
 <table>
+<tr>
+  <td>
+   <input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
+   <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'>Search</button>
+   <button id='myBtnHelp' onclick='myHelp()'>?</button>
+  </td>
+ </tr>
 <tr><td id='totalCards'></td></tr>
 </table></div>
 </div>
+<script>
+var input = document.getElementById('myInput');
+input.addEventListener('keyup', function(event){
+if(event.keyCode == 13){
+ document.getElementById('myBtn').click();
+}
+});
+</script>
 <div id='center-header'><table id="myTable">
-</div></body></html>
+</div>
+
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div>
+  <p id="caption_md">
+  </div>
+</div>
+</body></html>
