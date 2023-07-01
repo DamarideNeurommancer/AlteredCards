@@ -40,15 +40,13 @@ function mySearch(){
     row = table.rows[table.rows.length-1];
 
    cell = row.insertCell(-1);
-   //cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".webp' alt='" +CardID + "' style='width:192px;height:266px;border-radius:10px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
    cell.innerHTML = "<img src='"+ CardID +".webp' alt='" +CardID + "' style='width:192px;height:266px;border-radius:10px;cursor:zoom-in;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br><a href='" + CardURL + "'>" + CardNAME + "</font></a>";
-   //cell.innerHTML = "<img src='"+ CardID +".webp' alt='" +CardID + "' style='width:273px;height:399px;border-radius:10px;cursor:zoom-in;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br><a href='" + CardURL + "'>" + CardNAME + "</font></a>";
    cell.addEventListener('click', function() {
    myPopup(this);
    });
   }
  }
- totalCards.innerHTML = "<font size='1'>Found " + CardCnt + (CardCnt!=totXmlCards?  " of " + totXmlCards: "") + " Handprinted Cards";
+ totalCards.innerHTML = "<font size='1'>Found " + CardCnt + (CardCnt!=totXmlCards?  " of " + totXmlCards: "") + " Handpainted Cards";
  window.scrollTo(0, 0);
 }
 
