@@ -245,18 +245,20 @@ document.onkeydown = function (e){
     currTd.scrollIntoView(true, {behavior: "smooth"});            
     break;
    case 'PageDown':
-    if( currCell+7 < totCells){
+    if( currCell+7 < totCells)
      currTd = tableimg.rows[0].cells[currCell+7];
-     selectCell(currTd, 'selected')
-     currTd.scrollIntoView(true, {behavior: "smooth"});
-    }                   
+    else
+     currTd = tableimg.rows[0].cells[totCells-1];
+    selectCell(currTd, 'selected')
+    currTd.scrollIntoView(true, {behavior: "smooth"});                   
     break;
    case 'PageUp':
-    if( currCell-7 > 0){
+    if( currCell-7 > 0)
      currTd = tableimg.rows[0].cells[currCell-7];
-     selectCell(currTd, 'selected')
-     currTd.scrollIntoView(true, {behavior: "smooth"});
-    }                   
+    else
+     currTd = tableimg.rows[0].cells[0]; 
+    selectCell(currTd, 'selected')
+    currTd.scrollIntoView(true, {behavior: "smooth"});                   
     break; 
   }
  }
