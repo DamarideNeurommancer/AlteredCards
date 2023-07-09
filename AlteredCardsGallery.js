@@ -130,13 +130,12 @@ function selectCell(td, className){
     
  var imgurl = td.querySelector('img').getAttribute('src');
  var imgtitle = td.querySelector('img').getAttribute('title');
- obj.src= imgurl; 
+ obj.src=imgurl; 
  obj.style.width="286px";
  obj.style.height="auto";
- 
- obj.style.borderRadius = "20px";
- obj.title = imgtitle;
-  
+ obj.style.borderRadius="20px";
+ obj.title=imgtitle;
+ obj.style.cursor="zoom-in"; 
  var url = td.querySelector('a').getAttribute('href');
  captionText.innerHTML = "<a href='"+url+"'>"+ imgtitle + "</a>";  
 }  
