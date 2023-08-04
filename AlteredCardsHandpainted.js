@@ -7,6 +7,8 @@ const totalCards=document.getElementById('totalCards');
 const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
 const caption_md=document.getElementById("caption_md");
+const main=document.getElementById('main');
+const sideBar=document.getElementById("mySidebar");
 
 function myParseCards(){
  var parser = new DOMParser();
@@ -40,7 +42,9 @@ function mySearch(){
     row = table.rows[table.rows.length-1];
 
    cell = row.insertCell(-1);
+   //cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +".webp' alt='" +CardID + "' style='width:192px;height:266px;border-radius:10px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
    cell.innerHTML = "<img src='"+ CardID +".webp' alt='" +CardID + "' style='width:192px;height:266px;border-radius:10px;cursor:zoom-in;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br><a href='" + CardURL + "'>" + CardNAME + "</font></a>";
+   //cell.innerHTML = "<img src='"+ CardID +".webp' alt='" +CardID + "' style='width:273px;height:399px;border-radius:10px;cursor:zoom-in;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br><a href='" + CardURL + "'>" + CardNAME + "</font></a>";
    cell.addEventListener('click', function() {
    myPopup(this);
    });
@@ -90,3 +94,19 @@ var span = document.getElementsByClassName("close")[0];
 span.onclick = function(){ 
  modal.style.display = "none";
 }
+
+function openNav(){
+ sideBar.style.width = "180px";
+ main.style.marginLeft = "180px";
+}
+
+function closeNav(){
+ sideBar.style.width = "0";
+ main.style.marginLeft = "0";
+}
+
+document.addEventListener('click', function handleClickOutside(event){
+ if(!main.contains(event.target)){
+  closeNav();
+ }
+});

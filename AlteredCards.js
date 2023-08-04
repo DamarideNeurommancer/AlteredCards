@@ -431,3 +431,19 @@ var span = document.getElementsByClassName("close")[0];
 span.onclick = function(){ 
  modal.style.display = "none";
 }
+
+function openNav(){
+ sideBar.style.width = "180px";
+ main.style.marginLeft = "180px";
+}
+
+function closeNav(){
+ sideBar.style.width = "0";
+ main.style.marginLeft = "0";
+}
+
+document.addEventListener('click', function handleClickOutside(event){
+ if(!main.contains(event.target)){
+  closeNav();
+ }
+});

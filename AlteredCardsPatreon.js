@@ -1,7 +1,9 @@
 var bxmlParsed = false;
 var xmlDoc;
 const xmlCards=`<Cards><C I="367358" N="Elesh Norn, Mother of Machines"/><C I="369414" N="Elesh Norn, Mother of Machines"/><C I="369412" N="Elesh Norn, Mother of Machines"/></Cards>`;
-const URLRoot="https://www.patreon.com/DamarideNeurommancer"
+const URLRoot="https://www.patreon.com/DamarideNeurommancer";
+const main=document.getElementById('main');
+const sideBar=document.getElementById("mySidebar");
 function myParseCards(){
  var parser = new DOMParser();
  xmlDoc = parser.parseFromString(xmlCards,"text/xml");
@@ -50,3 +52,19 @@ function myFunction(){
    header.classList.remove('sticky');
  }
 }
+
+function openNav(){
+ sideBar.style.width = "180px";
+ main.style.marginLeft = "180px";
+}
+
+function closeNav(){
+ sideBar.style.width = "0";
+ main.style.marginLeft = "0";
+}
+
+document.addEventListener('click', function handleClickOutside(event){
+ if(!main.contains(event.target)){
+  closeNav();
+ }
+});

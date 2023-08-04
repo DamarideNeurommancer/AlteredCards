@@ -97,6 +97,7 @@ function mySearchCardID(Look4CardID, lastRow){
 
 function myHelp(){
  var sHelp = "Search by Card-Name or Card-ID.\nCard-ID is a numeric value shown in the tooltip.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nDefault and max value for 'columns per row' is 6, changing that value relaunches the search.";
+ sHelp += "\nCards: " + xmlDoc.getElementsByTagName('Cards')[0].childElementCount;
  try{
   Swal.fire({
    title: "<span style='color:Black'>" +"DamarideNeurommancer",

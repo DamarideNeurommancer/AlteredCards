@@ -1,7 +1,9 @@
 var bxmlParsed=false;
 var xmlDoc;
 const xmlCards=`<Cards><C I="501" N="Angel/Spirit Gold"/><C I="502" N="Clue/Treasure"/><C I="503" N="Eldrazi Scion/Eldrazi Spawn"/><C I="504" N="Demon/Zombie"/><C I="505" N="Angel/Spirit Silver"/><C I="506" N="Angel/Spirit"/><C I="507" N="Eldrazi Scion/Eldrazi Spawn"/><C I="508" N="Angel/Spirit"/><C I="509" N="The Clue/The Treasure"/><C I="510" N="Demon/Zombie"/><C I="511" N="Mix"/><C I="512" N="Mix"/><C I="515" N="Mix"/><C I="516" N="Angel/Spirit Gold"/><C I="517" N="Demon/Zombie"/><C I="518" N="The Clue/The Treasure"/><C I="519" N="Angel/Spirit Silver"/><C I="520" N="Eldrazi Scion/Eldrazi Spawn"/></Cards>`;
-const URLRoot="https://www.neurommancer.com/browse/cat7861235_959952.aspx"
+const URLRoot="https://www.neurommancer.com/browse/cat7861235_959952.aspx";
+const main=document.getElementById('main');
+const sideBar=document.getElementById("mySidebar");
 function myParseCards(){
  var parser = new DOMParser();
  xmlDoc = parser.parseFromString(xmlCards,"text/xml");
@@ -50,3 +52,19 @@ function myFunction(){
    header.classList.remove('sticky');
  }
 }
+
+function openNav(){
+ sideBar.style.width = "180px";
+ main.style.marginLeft = "180px";
+}
+
+function closeNav(){
+ sideBar.style.width = "0";
+ main.style.marginLeft = "0";
+}
+
+document.addEventListener('click', function handleClickOutside(event){
+ if(!main.contains(event.target)){
+  closeNav();
+ }
+});
