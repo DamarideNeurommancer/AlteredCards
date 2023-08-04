@@ -12,6 +12,12 @@ const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
 const caption_md=document.getElementById("caption_md");
 
+const main=document.getElementById('main');
+const sideBar=document.getElementById("mySidebar");
+const container=document.getElementById("myContainer");
+const prev=document.getElementById("myPrev");
+const next=document.getElementById("myNext");
+
 function myParseCards(){
  var parser = new DOMParser();
  xmlDoc = parser.parseFromString(xmlCards,"text/xml");
@@ -130,16 +136,20 @@ function selectCell(td, className){
     
  var imgurl = td.querySelector('img').getAttribute('src');
  var imgtitle = td.querySelector('img').getAttribute('title');
- obj.src=imgurl; 
+ 
+ obj.src=imgurl;
  obj.style.width="286px";
  obj.style.height="auto";
  obj.style.borderRadius="20px";
  obj.title=imgtitle;
- obj.style.cursor="zoom-in"; 
+ obj.style.cursor="zoom-in";
+ //obj.style.transition= "transform 2s";
+ //obj.style.transition_timiming= "ease-in-out";
+ //obj.style.transform= "rotate(720deg)";
  var url = td.querySelector('a').getAttribute('href');
- captionText.innerHTML = "<a href='"+url+"'>"+ imgtitle + "</a>";  
+ captionText.innerHTML = "<a href='"+url+"'>"+ imgtitle + "</a>"; 
 }  
-  
+ 
 function myHelp(){
  var sHelp = "Search by Card-Name or Card-ID.\nCard-ID is a numeric value shown in the tooltip.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.";
  try{
@@ -289,3 +299,27 @@ var span = document.getElementsByClassName("close")[0];
 span.onclick = function(){ 
  modal.style.display = "none";
 }
+
+function openNav(){
+ prev.style.marginLeft="180px";
+ next.style.marginLeft="180px";
+ container.style.marginLeft="181px";
+ 
+ sideBar.style.width = "180px";
+ main.style.marginLeft = "180px";
+}
+
+function closeNav(){
+ sideBar.style.width = "0";
+ main.style.marginLeft = "0";
+ 
+ prev.style.marginLeft="0";
+ next.style.marginLeft="2px";
+ container.style.marginLeft="0";
+}
+
+document.addEventListener('click', function handleClickOutside(event){
+ if(!main.contains(event.target)){
+  closeNav();
+ }
+});
