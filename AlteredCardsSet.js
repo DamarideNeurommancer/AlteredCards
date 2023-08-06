@@ -57,7 +57,7 @@ function mySearch(MaxColumns){
 }
 
 function myHelp(){
- var sHelp = "Select a set.\nDefault and max value for 'columns per row' is 6, changing that value redisplays the set.\nTry with 5 as 'colums per row' to see that different cards create panoramic views (e.g. the last 5 cards).";
+ var sHelp = "Select a set.\nDefault and max value for 'columns per row' is 6, changing that value redisplays the set.\nFor set 'Lands' try with 5 as 'colums per row' to see that different cards create panoramic views (e.g. the last 5 cards).";
  try{
   Swal.fire({
    title: "<span style='color:Black'>" +"DamarideNeurommancer",
