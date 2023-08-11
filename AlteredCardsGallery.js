@@ -229,19 +229,21 @@ document.onkeydown = function (e){
   switch (e.key) {
    case 'ArrowUp':
    case 'ArrowLeft':
-    if( currCell > 0){
+    if( currCell > 0)
      currTd = tableimg.rows[0].cells[currCell-1];
-     selectCell(currTd, 'selected')
-     currTd.scrollIntoView(true, {behavior: "smooth"});
-    }
+    else
+     currTd = tableimg.rows[0].cells[totCells-1];
+    selectCell(currTd, 'selected')
+    currTd.scrollIntoView(true, {behavior: "smooth"});
     break;
    case 'ArrowDown':
    case 'ArrowRight':
-    if( currCell < totCells){
+    if( currCell < totCells-1)
      currTd = tableimg.rows[0].cells[currCell+1];
-     selectCell(currTd, 'selected')
-     currTd.scrollIntoView(true, {behavior: "smooth"});
-    }            
+    else
+     currTd = tableimg.rows[0].cells[0];
+    selectCell(currTd, 'selected')
+    currTd.scrollIntoView(true, {behavior: "smooth"});            
     break;
    case 'Home':
     currTd = tableimg.rows[0].cells[0];
