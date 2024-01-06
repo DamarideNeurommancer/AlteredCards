@@ -14,6 +14,7 @@ const appendResult=document.getElementById('myChkAppend');
 const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
 const captionText=document.getElementById("caption");
+const scryfall=document.getElementById("scryfall");
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
 
@@ -424,6 +425,9 @@ function myPopup(){
  modalImg.src = img;
  modalImg.alt = imgtitle;
  captionText.innerHTML = "<a href='" + url + "' style='font-size: 16px;'>" +modalImg.alt + "</a>";
+ var result = imgtitle.indexOf(" ");
+ var scryCard = imgtitle.substring(result+1);
+ scryfall.innerHTML = "<a href='https://scryfall.com/search?q=!\"" + scryCard + "\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
 }
 
 var span = document.getElementsByClassName("close")[0];
