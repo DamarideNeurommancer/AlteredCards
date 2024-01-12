@@ -16,6 +16,10 @@ const sideBar=document.getElementById("mySidebar");
 const container=document.getElementById("myContainer");
 const prev=document.getElementById("myPrev");
 const next=document.getElementById("myNext");
+const btShow=document.getElementById("myShowCheck");
+
+var bShow=false;
+var timerID;
 
 function myParseCards(){
  var parser = new DOMParser();
@@ -34,6 +38,7 @@ function mySearch(){
  if( bxmlParsed == false){
   myParseCards();
  }
+ myStopShow();
  tableimg.innerHTML = "";
  prevIx=null;
  prevTd=null;
@@ -147,7 +152,7 @@ function selectCell(td, className){
 }  
  
 function myHelp(){
- var sHelp = "Search by Card-Name or Card-ID.\nCard-ID is a numeric value shown in the tooltip.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.";
+ var sHelp = "Search by Card-Name or Card-ID.\nCard-ID is a numeric value shown in the tooltip.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nHit 'Show' to start an automatic and random Gallery Show and press it again when you want to stop the flow.";
  try{
   var imgurl = prevTd.querySelector('img').getAttribute('src');
   var url = prevTd.querySelector('a').getAttribute('href');
@@ -214,6 +219,32 @@ function myRndSearch(){
   cell.scrollIntoView({behavior: "smooth"});
   
  selectCell(cell, 'selected');
+}
+
+function myShow(){
+ if( bShow==false)
+ {
+  btShow.style.backgroundColor = "DarkOrchid";
+  btShow.title="Stop Gallery Show";
+  btShow.innerHTML="Show&#9726;";
+  btShow.style.cursor="wait";
+  bShow=true;
+  timerID=setInterval(function () {myRndSearch();}, 3000);
+ }
+ else
+ {
+  myStopShow();
+ }
+}
+
+function myStopShow()
+{
+ btShow.style.backgroundColor = "White";
+ btShow.title="Start Gallery Show";
+ btShow.innerHTML="Show&#9658;";
+ btShow.style.cursor="default";
+ bShow=false;
+ clearInterval(timerID);
 }
 
 document.onkeydown = function (e){
