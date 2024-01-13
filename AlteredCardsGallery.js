@@ -322,7 +322,7 @@ function myPopup(){
  modalImg.src = img;
  modalImg.alt = imgtitle;
  caption_md.innerHTML = "<a href='" + url + "' style='font-size: 16px;'>" +modalImg.alt + "</a>";
- scryfall.innerHTML = "<a href='https://scryfall.com/search?q=!\"" + prevTd.textContent.replaceAll("'","%27") + "\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
+ scryfall.innerHTML = "<a href='https://scryfall.com/search?q=!\"" + prevTd.textContent.replaceAll("'","%27").replaceAll("&","%26") + "\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
 }
 
 var span = document.getElementsByClassName("close")[0];
