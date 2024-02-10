@@ -468,7 +468,7 @@ function SearchByImage(thisHashCode){
     rowCreated=true;
    }
    cell = row.insertCell(-1);
-   cell.innerHTML = "<a href='"+CardURL+"'><font size='1'>"+CardID+"<br><img src='"+imageFilename+"' alt='"+CardID+"' style='width:192px;height:266px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\n"+percent+"%\"><br>"+CardNAME+"</font></a>";
+   cell.innerHTML = "<a href='"+CardURL+"'><font size='1'>"+CardID+"</font><span style='font-size:8px;'>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;("+percent+"%)</span><br><img src='"+imageFilename+"' alt='"+CardID+"' style='width:192px;height:266px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\n"+percent+"%\"><br>"+CardNAME+"</font></a>";
    CardCnt++;
   }
  }
@@ -552,19 +552,18 @@ Provide the input sample image by using:
 3) Paste from clipboard with Ctrl+V keys,
 4) Input image link\n
 Select the desired similarity threshold percentage value, default value is 72.00%
-In Chrome when changing the threshold value you have to provide the sample comparison image again.
 As a result you get an array of cards 'similar' to the image sample.
 Each card in the list has a tooltip with Card-ID, Card Name and a similarity percentage value.
 Decrease the threshold value to allow a wider range of results.
 Increase the threshold value to get a narrow range of resulting images.\n
 <b>Note:</b> Every browser has a different image rendering that could lead to a different result.\n
+<b>Note:</b> In Chrome when following a card link for AS and get back you need to reload the sample image.\n
 <b>Note:</b> The algorithm of comparison here used is a perceptual hashing method
 that computes an hash value for the input sample image.
 This hash is compared with all the other hashes of each altered card 
 and if the percentage of similarity is equal or greater than the given threshold value
 then the card is added to the resulting set of images.  
-`;
- 
+`; 
  try{
   var imgurl=sourceImg.src;
   var imgtitle=sourceImg.title;  
