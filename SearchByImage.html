@@ -238,7 +238,7 @@ document.body.appendChild(scriptElement);
   <button id='myBtnURL' title='Load image from URL'>&#9668;URL</button><br>
   <label class="button" for="fileElem"><i>Select image file</i><br></label>
   <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" title="Select image from Filesystem">
-  <input type='number' id='myThreshold' value='72.00' min='0' max='100.00' title="Similarity Threshold Percentage">
+  <input type='number' id='myThreshold' oninput='thresholdValueChange()' value='72.00' min='0' max='100.00' title="Similarity Threshold Percentage">
   <img id="sourceImg" width="60" height="84"/>
   </font>
  </div>  

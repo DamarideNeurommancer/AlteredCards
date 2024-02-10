@@ -432,18 +432,6 @@ function fileToDataUri(field){
  });
 }
 
-function calcHash3(thisImage){
- var hashcode=cropImage2(thisImage);
- if(checkHash(hashcode)){
-  var hashLS64=convert_to_LS64(hashcode);
-  return hashLS64;
- }
- else
- {
-  alert("No Image available yet!");
- } 
-}
-
 function SearchByImage(thisHashCode){
  if(bxmlParsed==false){
    myParseCards();
@@ -579,10 +567,7 @@ then the card is added to the resulting set of images.
  
  try{
   var imgurl=sourceImg.src;
-  var url="";
-  var imgtitle=sourceImg.title;
-  var title="<a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='neurommancer_logo.png' alt='' width='62' height='62' title='Alters by DamarideNeurommancer' style='border-radius:50%'></a>";
- //title+="<span><a style='color:Blue' href='"+url+"'>"+imgtitle+"</a></span>";  
+  var imgtitle=sourceImg.title;  
   Swal.fire({
    title: "<span><a style='color:Blue' href='#'>"+imgtitle+"</a></span>",
    html: "<span style='color:Black'><b>"+sHelp.replaceAll('\n','<br>')+"</b></span>",
@@ -596,4 +581,15 @@ then the card is added to the resulting set of images.
  catch{
   alert(sHelp);
  }
+}
+
+async function thresholdValueChange(){
+ let img=document.createElement('img')
+ img.src=sourceImg.src;
+ if(img.width!=canvasWidth && img.height!=canvasHeight){
+  img.src=await resizeImage(img); 
+ }
+ img.addEventListener("load", function(){
+  var hashcode=calcHash331(img);
+ });
 }
