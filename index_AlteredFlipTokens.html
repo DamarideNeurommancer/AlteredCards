@@ -30,113 +30,113 @@ body{
  font-size: 8px;
 }
 .header{
- width: 100%;
- padding: 2px 4px;
- background: #555;
- color: #f1f1f1;
+ width:100%;
+ padding:2px 4px;
+ background:#555;
+ color:#f1f1f1;
 }
 .content{
- padding: 16px;
+ padding:16px;
 }
 .sticky{
- position: fixed;
- top: 0;
- width: 100%;
+ position:fixed;
+ top:0;
+ width:100%;
 }
 .sticky + .content{
- padding-top: 102px;
+ padding-top:102px;
 }
 a:link{ 
- color: White;
- background-color: transparent;
- text-decoration: none;
+ color:White;
+ background-color:transparent;
+ text-decoration:none;
 }
 a:visited{
- color: pink;
- background-color: transparent;
- text-decoration: none;
+ color:pink;
+ background-color:transparent;
+ text-decoration:none;
 }
 a:hover{
- color: red;
- background-color: transparent;
- text-decoration: underline;
+ color:red;
+ background-color:transparent;
+ text-decoration:underline;
 }
 a:active{
- color: yellow;
- background-color: transparent;
- text-decoration: underline;
+ color:yellow;
+ background-color:transparent;
+ text-decoration:underline;
 }
 .fa{
- padding: 3px;
- font-size: 10px;
- width: 16px;
- text-align: center;
- text-decoration: none;
- margin: 5px 2px;
+ padding:3px;
+ font-size:10px;
+ width:16px;
+ text-align:center;
+ text-decoration:none;
+ margin:5px 2px;
 }
 .fa img:hover{
- opacity: 0.7;
- border: 0px;
+ opacity:0.7;
+ border:0px;
 }
 img:hover{
  transform:scale(1.2);
- border: 2px solid white;
+ border:2px solid white;
 }
 .sidebar{
- height: 100%;
- width: 0;
- position: fixed;
- z-index: 1;
- top: 0;
- left: 0;
- background-color: #111;
- overflow-x: hidden;
- padding-top: 40px;
- transition: 0.5s;
+ height:100%;
+ width:0;
+ position:fixed;
+ z-index:1;
+ top:0;
+ left:0;
+ background-color:#111;
+ overflow-x:hidden;
+ padding-top:40px;
+ transition:0.5s;
 }
 .sidebar a{
- padding: 8px 8px 1px 32px;
- text-decoration: none;
- font-size: 20px;
- color: White;
- display: block;
- transition: 0.3s;
+ padding:8px 8px 1px 32px;
+ text-decoration:none;
+ font-size:20px;
+ color:White;
+ display:block;
+ transition:0.3s;
 }
 .sidebar a:hover{
- color: #f1f1f1;
+ color:#f1f1f1;
 }
 .sidebar .closebtn{
- position: absolute;
- top: 0;
- right: 25px;
- font-size: 36px;
- margin-left: 50px;
+ position:absolute;
+ top:0;
+ right:25px;
+ font-size:36px;
+ margin-left:50px;
 }
 .openbtn{
- font-size: 16px;
- cursor: pointer;
- background-color: #555;
- color: White;
- padding: 1px 1px;
- border: none;
+ font-size:16px;
+ cursor:pointer;
+ background-color:#555;
+ color:White;
+ padding:1px 1px;
+ border:none;
 }
 .openbtn:hover{
- background-color: White;
- color: black;
+ background-color:White;
+ color:black;
 }
 #main{
- transition: margin-left .5s;
- padding: 20px;
+ transition:margin-left .5s;
+ padding:20px;
 }
 @media screen and (max-height: 450px){
- .sidebar {padding-top: 15px;}
- .sidebar a {font-size: 18px;}
+ .sidebar {padding-top:15px;}
+ .sidebar a {font-size:18px;}
 }
 </style>
 <script>
-let scriptElement = document.createElement("script");
-scriptElement.type = "text/javascript";
-scriptElement.src = "AlteredCardsFlipTokens.js"; 
+let scriptElement=document.createElement("script");
+scriptElement.type="text/javascript";
+scriptElement.src="AlteredCardsFlipTokens.js"; 
 document.body.appendChild(scriptElement);
 </script>
 <div class="header" id="myHeader">
