@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 </script>
 </head>
-<body style='background-color:#000000'">
+<body style='background-color:#000000' onload="myInit()">
 <style>
 body{
  font-family: 'Roboto Condensed', sans-serif;
@@ -84,12 +84,12 @@ a:active{
  -ms-transform:scale(1.2);
  -webkit-transform:scale(1.2);
 }
-.swal2-popup{
+.swal2-popup .swal2-content{
  width: auto;
  font-size: 0.6rem;
- text-align: left;
  background: White;
- border-radius: 80px; 
+ border-radius: 80px;
+ text-align: left; 
 }
 .sidebar{
  height: 100%;
@@ -291,8 +291,8 @@ document.body.appendChild(scriptElement);
   <button id='myBtnPaste' onclick='myPaste()' title='Paste image from clipboard'><img src="paste-icon.webp" width='12' height='12'></button>
   </td>
   <td>
-  <label class="button" for="myInputURL"><i>Image link</i><br></label>
-  <input type="text" id="myInputURL" title="Input an image URL" data-clear-btn='true'>
+  <label class="button" id="myInputURLLabel" for="myInputURL"><i>Image link</i><br></label>
+  <input type="search" id="myInputURL" title="Input an image URL" data-clear-btn='true' required>
   <button id='myBtnURL' title='Load image from URL'>&#9668;URL</button><br>
   <label class="button" for="fileElem"><i>Select image file</i><br></label>
   <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" title="Select image from Filesystem">
@@ -301,8 +301,7 @@ document.body.appendChild(scriptElement);
   <input type='number' id='myThreshold' oninput='thresholdValueChange()' value='72.00' min='0' max='100.00' title="Similarity Threshold Percentage">
   </td>
   </tr>
-  
- <tr><td></td><td id='totalCards'></td></tr>
+  <tr><td></td><td id='totalCards'></td></tr>
  </table></div>
  </div>
  <div class="result-container" id="myResult">
