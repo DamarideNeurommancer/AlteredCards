@@ -28,6 +28,8 @@
 body{
  font-family: 'Roboto Condensed', sans-serif;
  font-size: 8px;
+ overflow-y: hidden;
+ overflow-x: hidden;
 }
 .header{
  width: 100%;
@@ -164,7 +166,6 @@ a:active{
 .result-container::-webkit-scrollbar-thumb{
  background: White;
 }
-/**/
 .modal{
  display: none;
  position: fixed;
@@ -213,7 +214,6 @@ a:active{
  position: absolute;
  top: 15px;
  left: 35px;
- //right: 35px;
  color: #f1f1f1;
  font-size: 40px;
  font-weight: bold;
@@ -299,6 +299,8 @@ document.body.appendChild(scriptElement);
   <br>
   <label class="button" for="myThreshold"><i>Similarity Threshold Percentage</i><br></label>
   <input type='number' id='myThreshold' oninput='thresholdValueChange()' value='72.00' min='0' max='100.00' title="Similarity Threshold Percentage">
+  <button id='myBtnReset' onclick='myReset()' title='Set default threshold value'><img src="reset-default-icon.webp" width='12' height='12'></button>
+  <button id='myBtnSort' onclick='mySort()' title='Sort images by percentage' style='visibility:hidden'><img src="sortdescending-icon.png" width='12' height='12'></button>
   </td>
   </tr>
   <tr><td></td><td id='totalCards'></td></tr>
