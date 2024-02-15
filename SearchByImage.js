@@ -704,6 +704,7 @@ function myInit(){
 function myReset()
 {
  myThreshold.value="72.00";
+ thresholdValueChange();
 }
 
 function showSort(cnt)
