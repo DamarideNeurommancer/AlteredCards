@@ -173,8 +173,6 @@ function myPaste(){
    timerID=setInterval(function (){
    if(imageToResize.complete)
     calcHash();
-    imageToResize.width=0;
-    imageToResize.height=0;
    },1000);
    return;
   }
@@ -530,7 +528,7 @@ Provide the input sample image by using:
 Select the desired similarity threshold percentage value as a number (with 2 decimal digits if needed) between 1 and 100, default value is 72.00%
 As a result you get an array of cards 'similar' to the image sample.
 Each card in the list has a tooltip with Card-ID, Card Name and a similarity percentage value.
-When the set of found similar cards has less then 16 items a sort button <img src='sortdescending-icon.png' width='16' height='16'> is shown.   
+When the set of found similar cards has less then 16 items a sort <img src='sortdescending-icon.png' width='16' height='16'> button is shown.   
 Decrease the threshold value to allow a wider range of results.
 Increase the threshold value to get a narrow range of resulting images.
 Reset threshold to default value with <img src='reset-default-icon.webp' width='16' height='16'> button.  
@@ -725,14 +723,14 @@ function mySort(){
  while(switching){
   switching=false;  
   for(i=0;i<maxCols;i++){
-   shouldSwitch = false;
+   shouldSwitch=false;
    x=columns[i].textContent;
-   let xp1 = x.indexOf("(");
-   let xp2 = x.indexOf(")");
+   let xp1=x.indexOf("(");
+   let xp2=x.indexOf(")");
    let xperc=parseFloat(x.substring(xp1+1,xp2-1));
    y=columns[i+1].textContent;
-   let yp1 = y.indexOf("(");
-   let yp2 = y.indexOf(")");
+   let yp1=y.indexOf("(");
+   let yp2=y.indexOf(")");
    let yperc=parseFloat(y.substring(yp1+1,yp2-1));
    if(yperc>xperc) {
     shouldSwitch=true;
