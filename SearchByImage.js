@@ -170,7 +170,7 @@ function myPaste(){
    sourceImg.title="";
    lastFile="";
    
-   timerID=setInterval(function (){
+   timerID=setInterval(function(){
    if(imageToResize.complete)
     calcHash();
    },1000);
@@ -413,11 +413,11 @@ function SearchByImage(thisHashCode){
  var rowCreated=false;
  table.innerHTML="";
  var CardCnt=0;
- for (var i=0;i<totXmlCards;i++){
+ for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardHash=book.attributes[browserType].nodeValue;
   var LongHashCode=convert_from_LS64(CardHash);
-  let hashvalues= CompareHashes(LongHashCode,thisHashCode);
+  let hashvalues=CompareHashes(LongHashCode,thisHashCode);
   const diffscore=hashvalues[0],
   percent=parseFloat(hashvalues[1]);   
   if( CardHash!="" && LongHashCode!="" && percent>=threshold){
@@ -644,19 +644,19 @@ var ClipboardUtils=new function(){
     var promise=getItem(items);
     if(promise){
      promise
-      .then(function(result) {
+      .then(function(result){
        loadFile(result,callback);
       })
-      .catch(function(error) {
+      .catch(function(error){
        callback(null,'Reading clipboard error.');
       });
      }else{
       callback(null,null);
      }
     })
-    .catch(function(error) {
+    .catch(function(error){
      callback(null,'Reading clipboard error.');
-     alert("In this browser use Ctrl+V to paste image from clipboard.")
+     alert("In this browser use Ctrl+V to paste image from clipboard.") 
     });
    }
    catch(err){
@@ -677,9 +677,16 @@ function mySave(data,filename){
 }
 
 function myInit(){
+ if(bxmlParsed==false){myParseCards();}
+ let params=new URL(document.location).searchParams;
+ let cardID=params.get("id");
+ if(cardID!=""&&cardID!=null){
+  if(showCardByID(cardID))
+   return;
+ }
  var imageDataBase64=localStorage.getItem("SampleData");
  var imageFileName=localStorage.getItem("SampleName");
- if(bxmlParsed==false){myParseCards();}
+ //if(bxmlParsed==false){myParseCards();}
  if(browserType!=5){
   fileURLLabel.disabled=true;
   fileURL.disabled=true;
@@ -695,7 +702,11 @@ function myInit(){
    if(imageToResize.complete)
     calcHash();
    },1000);
-  }catch(err){console.log("Init error: ",err)}
+  }
+  catch(err){
+   console.log("Init error: ",err);
+   clearInterval(timerID);
+  }
  }
 }
 
@@ -742,4 +753,36 @@ function mySort(){
    switching=true;
   }
  }
+}
+
+function showCardByID(thisID)
+{
+ var catalog=xmlDoc.getElementsByTagName('Cards')[0];
+ var totXmlCards=catalog.childElementCount;
+ for(var i=0;i<totXmlCards;i++){
+  var book=catalog.childNodes[i];
+  var CardID=book.attributes[0].nodeValue;   
+  if( CardID==thisID){
+   var bIsCard=true;
+   if( book.attributes[2].nodeValue.startsWith("https"))
+    bIsCard=false;
+   var imageFileName=CardID+(bIsCard?".jpg":".webp");
+   try{ 
+    sourceImg.src=imageFileName;
+    sourceImg.title=imageFileName;
+    resizedImage.src=sourceImg.src;
+    lastFile=imageFileName;
+    var CardHash=book.attributes[browserType].nodeValue;
+    var LongHashCode=convert_from_LS64(CardHash);
+    SearchByImage(LongHashCode);    
+    //mySave(sourceImg,lastFile);
+    return(true);
+   }
+   catch(err){
+    console.log("showCardByID error: ",err); 
+    return false;
+   }
+  }
+ }
+ return(false);
 }

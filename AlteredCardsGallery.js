@@ -374,3 +374,12 @@ async function myShare()
   await navigator.share(shareData);
  }
 }
+function mySimilar()
+{
+ if(prevTd===null)
+  return;
+ var imgtitle=prevTd.querySelector('img').getAttribute('title');
+ var result=imgtitle.indexOf(" ");
+ var cardID=imgtitle.substr(0,result);
+ window.open("SearchByImage.html?id="+cardID, "_blank");
+}

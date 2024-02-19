@@ -469,3 +469,12 @@ async function myShare()
   await navigator.share(shareData);
  }
 }
+function mySimilar()
+{
+ if(prevTr===null)
+  return;
+ var imgtitle=prevTr.querySelector('img').getAttribute('title');
+ var result=imgtitle.indexOf(" ");
+ var cardID=imgtitle.substr(0,result);
+ window.open("SearchByImage.html?id="+cardID, "_blank");
+}
