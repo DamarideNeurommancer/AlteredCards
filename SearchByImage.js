@@ -687,7 +687,6 @@ function myInit(){
  }
  var imageDataBase64=localStorage.getItem("SampleData");
  var imageFileName=localStorage.getItem("SampleName");
- //if(bxmlParsed==false){myParseCards();}
  if(browserType!=5){
   fileURLLabel.disabled=true;
   fileURL.disabled=true;
@@ -772,19 +771,7 @@ function showCardByID(thisID)
     sourceImg.src=imageFileName;
     sourceImg.title=imageFileName;
     resizedImage.src=sourceImg.src;
-    lastFile=imageFileName;
-    
-    let img=document.createElement('img')
-    img.src=imageFileName;
-    if( img.Complete){
-     sourceImg.src=img.src;
-     sourceImg.refresh();
-     sourceImg.src = imageFileName+"?t="+Math.random();
-     sourceImg.title=imageFileName;
-     resizedImage.src=sourceImg.src;
-     lastFile=imageFileName;
-    }
-        
+    lastFile=imageFileName;        
     var CardHash=book.attributes[browserType].nodeValue;
     var LongHashCode=convert_from_LS64(CardHash);
     
