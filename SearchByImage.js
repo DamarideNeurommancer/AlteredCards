@@ -16,7 +16,6 @@ const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
 const caption_md=document.getElementById("caption_md");
 const btnSort=document.getElementById("myBtnSort");
-const fakelk=document.getElementById("fl");
 const canvasWidth=350;
 const canvasHeight=488;
 const maxSort=15;
@@ -683,7 +682,6 @@ function myInit(){
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
   if(showCardByID(cardID)){
-   fakelk.click();
    return;
   }
    
