@@ -683,8 +683,7 @@ function myInit(){
  if(cardID!=""&&cardID!=null){
   if(showCardByID(cardID)){
    return;
-  }
-   
+  }   
  }
  var imageDataBase64=localStorage.getItem("SampleData");
  var imageFileName=localStorage.getItem("SampleName");
@@ -779,6 +778,8 @@ function showCardByID(thisID)
     img.src=imageFileName;
     if( img.Complete){
      sourceImg.src=img.src;
+     sourceImg.refresh();
+     sourceImg.src = imageFileName+"?t="+Math.random();
      sourceImg.title=imageFileName;
      resizedImage.src=sourceImg.src;
      lastFile=imageFileName;
