@@ -476,5 +476,5 @@ function mySimilar()
  var imgtitle=prevTr.querySelector('img').getAttribute('title');
  var result=imgtitle.indexOf(" ");
  var cardID=imgtitle.substr(0,result);
- window.open("SearchByImage.html?id="+cardID, "_self");
+ location.href = "SearchByImage.html?id="+cardID;
 }
