@@ -776,8 +776,19 @@ function showCardByID(thisID)
     sourceImg.title=imageFileName;
     resizedImage.src=sourceImg.src;
     lastFile=imageFileName;
+    
+    let img=document.createElement('img')
+    img.src=imageFileName;
+    if( img.Complete){
+     sourceImg.src=img.src;
+     sourceImg.title=imageFileName;
+     resizedImage.src=sourceImg.src;
+     lastFile=imageFileName;
+    }
+        
     var CardHash=book.attributes[browserType].nodeValue;
     var LongHashCode=convert_from_LS64(CardHash);
+    
     SearchByImage(LongHashCode);    
     //mySave(sourceImg,lastFile);
     return(true);
