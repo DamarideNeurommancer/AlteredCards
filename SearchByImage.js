@@ -767,11 +767,25 @@ async function showCardByID(thisID)
    if( book.attributes[2].nodeValue.startsWith("https"))
     bIsCard=false;
    var imageFileName=CardID+(bIsCard?".jpg":".webp");
-   try{  
-    resizedImage.src=await imageFileName;
-    
+   try{
+    var CardHash=book.attributes[browserType].nodeValue;
+    var LongHashCode=convert_from_LS64(CardHash);
+      
+    let img=document.createElement('img')
+    img.addEventListener("load",function(){
+     sourceImg.src=img.src;
+     sourceImg.title=imageFileName;
+     resizedImage.src=sourceImg.src;
+     lastFile=imageFileName;
+     SearchByImage(LongHashCode);
+    });
+    img.src=imageFileName;
+  
+ 
+    /*
     sourceImg.src=await imageFileName;
     sourceImg.title=imageFileName;
+    
     resizedImage.src=sourceImg.src;
     lastFile=imageFileName;        
     var CardHash=book.attributes[browserType].nodeValue;
@@ -779,6 +793,7 @@ async function showCardByID(thisID)
     
     SearchByImage(LongHashCode);    
     //mySave(sourceImg,lastFile);
+    */
     return(true);
    }
    catch(err){
