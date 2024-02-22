@@ -776,6 +776,7 @@ async function showCardByID(thisID)
      /*sourceImg.src=img.src;
      sourceImg.title=imageFileName;
      resizedImage.src=sourceImg.src;*/
+     img.innerHTML="<img src='"+imageFileName+"' alt='"+imageFileName+"' style='border-radius:10px;' title=\""+imageFileName+"\>"
      lastFile=imageFileName;
      SearchByImage(LongHashCode);
      sourceImg.src=img.src;
