@@ -681,14 +681,7 @@ function myInit(){
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
- 
-  
   if(showCardByID(cardID)){
-   if(sourceImg.src==null){
-    if(showCardByID(cardID)){
-     return;
-    }
-   }
    return;
   }   
  }
@@ -775,7 +768,7 @@ async function showCardByID(thisID)
     bIsCard=false;
    var imageFileName=CardID+(bIsCard?".jpg":".webp");
    try{  
-    sourceImg.src=imageFileName;
+    sourceImg.src=await imageFileName;
     sourceImg.title=imageFileName;
     resizedImage.src=sourceImg.src;
     lastFile=imageFileName;        
