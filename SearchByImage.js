@@ -681,7 +681,14 @@ function myInit(){
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
+ 
+  
   if(showCardByID(cardID)){
+   if(sourceImg.src==null){
+    if(showCardByID(cardID)){
+     return;
+    }
+   }
    return;
   }   
  }
@@ -755,7 +762,7 @@ function mySort(){
  }
 }
 
-function showCardByID(thisID)
+async function showCardByID(thisID)
 {
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var totXmlCards=catalog.childElementCount;
@@ -767,7 +774,7 @@ function showCardByID(thisID)
    if( book.attributes[2].nodeValue.startsWith("https"))
     bIsCard=false;
    var imageFileName=CardID+(bIsCard?".jpg":".webp");
-   try{ 
+   try{  
     sourceImg.src=imageFileName;
     sourceImg.title=imageFileName;
     resizedImage.src=sourceImg.src;
