@@ -678,6 +678,7 @@ function mySave(data,filename){
 
 function myInit(){
  if(bxmlParsed==false){myParseCards();}
+ sourceImg.setAttribute("contenteditable","true");
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
@@ -768,6 +769,8 @@ async function showCardByID(thisID)
     bIsCard=false;
    var imageFileName=CardID+(bIsCard?".jpg":".webp");
    try{  
+    resizedImage.src=await imageFileName;
+    
     sourceImg.src=await imageFileName;
     sourceImg.title=imageFileName;
     resizedImage.src=sourceImg.src;
