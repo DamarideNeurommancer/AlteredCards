@@ -30,7 +30,7 @@ var browserType="5";
 var lastFile="";
 var lastThreshold="72";
 var lastHash="";
-sourceImg.style.cursor="zoom-in";
+//sourceImg.style.cursor="zoom-in";
 function resizeImage(imgToResize){
  const canvas=document.createElement("canvas");
  const context=canvas.getContext("2d",{willReadFrequently:true});
@@ -685,6 +685,7 @@ function myInit(){
    return;
   }   
  }
+ sourceImg.style.cursor="zoom-in";
  var imageDataBase64=localStorage.getItem("SampleData");
  var imageFileName=localStorage.getItem("SampleName");
  if(browserType!=5){
@@ -770,6 +771,8 @@ async function showCardByID(thisID)
    try{
     var CardHash=book.attributes[browserType].nodeValue;
     var LongHashCode=convert_from_LS64(CardHash);
+    lastFile=imageFileName;
+    SearchByImage(LongHashCode);
       
     let img=document.createElement('img')
     img.addEventListener("load",function(){
@@ -777,8 +780,9 @@ async function showCardByID(thisID)
      sourceImg.title=imageFileName;
      resizedImage.src=sourceImg.src;*/
      img.innerHTML="<img src='"+imageFileName+"' alt='"+imageFileName+"' style='border-radius:10px;' title=\""+imageFileName+"\>"
+     //source.innerHTML="<img src='"+imageFileName+"' alt='"+imageFileName+"' style='border-radius:10px;' title=\""+imageFileName+"\>"
      lastFile=imageFileName;
-     SearchByImage(LongHashCode);
+     //SearchByImage(LongHashCode);
      sourceImg.src=img.src;
      sourceImg.title=imageFileName;
      resizedImage.src=sourceImg.src;
@@ -787,7 +791,7 @@ async function showCardByID(thisID)
   
  
     /*
-    sourceImg.src=await imageFileName;
+    sourceImg.src=imageFileName;
     sourceImg.title=imageFileName;
     
     resizedImage.src=sourceImg.src;
