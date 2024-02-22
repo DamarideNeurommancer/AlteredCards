@@ -773,11 +773,14 @@ async function showCardByID(thisID)
       
     let img=document.createElement('img')
     img.addEventListener("load",function(){
+     /*sourceImg.src=img.src;
+     sourceImg.title=imageFileName;
+     resizedImage.src=sourceImg.src;*/
+     lastFile=imageFileName;
+     SearchByImage(LongHashCode);
      sourceImg.src=img.src;
      sourceImg.title=imageFileName;
      resizedImage.src=sourceImg.src;
-     lastFile=imageFileName;
-     SearchByImage(LongHashCode);
     });
     img.src=imageFileName;
   
