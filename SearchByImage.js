@@ -30,7 +30,6 @@ var browserType="5";
 var lastFile="";
 var lastThreshold="72";
 var lastHash="";
-//sourceImg.style.cursor="zoom-in";
 function resizeImage(imgToResize){
  const canvas=document.createElement("canvas");
  const context=canvas.getContext("2d",{willReadFrequently:true});
@@ -467,6 +466,7 @@ async function downloadImage(imageLink){
  const blobImage=await response.blob();
  var URLObj=window.URL || window.webkitURL; 
  imageToResize.src=await URLObj.createObjectURL(blobImage);
+ /* OK OLD VERSION
  sourceImg.src=imageToResize.src;
  sourceImg.title=imageLink;
  lastFile=imageLink;
@@ -474,7 +474,26 @@ async function downloadImage(imageLink){
   if(imageToResize.complete){
    calcHash();
   }    
- },1000);      
+ },1000);
+ */
+ 
+ let img=document.createElement('img')
+ img.addEventListener("load",function(){
+  if(img.width!=canvasWidth && img.height!=canvasHeight){
+  resizedImage.src=resizeImage(img);
+ }
+ else
+  resizedImage.src=img.src;
+  sourceImg.src=imageToResize.src;
+  sourceImg.title=imageLink;
+  lastFile=imageLink;
+  timerID=setInterval(function (){
+   if(imageToResize.complete){
+    calcHash();
+   }    
+  },1000);
+ });
+ img.src=await URLObj.createObjectURL(blobImage);       
 }
 
 const btn=document.getElementById('myBtnURL');
@@ -688,11 +707,11 @@ function myInit(){
  sourceImg.style.cursor="zoom-in";
  var imageDataBase64=localStorage.getItem("SampleData");
  var imageFileName=localStorage.getItem("SampleName");
- if(browserType!=5){
+ /*if(browserType!=5){
   fileURLLabel.disabled=true;
   fileURL.disabled=true;
   btn.disabled=true; 
- }
+ }*/
  if(imageDataBase64!=""&&imageDataBase64!=null&&imageDataBase64!="undefined"){
   try{
   imageToResize.src=imageDataBase64; 
