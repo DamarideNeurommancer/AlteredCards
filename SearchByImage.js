@@ -465,18 +465,7 @@ async function downloadImage(imageLink){
  const response=await fetch(imageLink);
  const blobImage=await response.blob();
  var URLObj=window.URL || window.webkitURL; 
- imageToResize.src=await URLObj.createObjectURL(blobImage);
- /* OK OLD VERSION
- sourceImg.src=imageToResize.src;
- sourceImg.title=imageLink;
- lastFile=imageLink;
- timerID=setInterval(function (){
-  if(imageToResize.complete){
-   calcHash();
-  }    
- },1000);
- */
- 
+ imageToResize.src=await URLObj.createObjectURL(blobImage); 
  let img=document.createElement('img')
  img.addEventListener("load",function(){
   if(img.width!=canvasWidth && img.height!=canvasHeight){
@@ -543,7 +532,7 @@ Provide the input sample image by using:
 1) Drag & drop from filesystem,
 2) Select image from filesystem,
 3) Paste from clipboard with Ctrl+V keys (or even with the paste button <img src='paste-icon.webp' width='16' height='16'> which works in Chrome and alike),
-4) Input image link (Chrome only)\n
+4) Input image link.\n
 Select the desired similarity threshold percentage value as a number (with 2 decimal digits if needed) between 1 and 100, default value is 72.00%
 As a result you get an array of cards 'similar' to the image sample.
 Each card in the list has a tooltip with Card-ID, Card Name and a similarity percentage value.
@@ -707,11 +696,6 @@ function myInit(){
  sourceImg.style.cursor="zoom-in";
  var imageDataBase64=localStorage.getItem("SampleData");
  var imageFileName=localStorage.getItem("SampleName");
- /*if(browserType!=5){
-  fileURLLabel.disabled=true;
-  fileURL.disabled=true;
-  btn.disabled=true; 
- }*/
  if(imageDataBase64!=""&&imageDataBase64!=null&&imageDataBase64!="undefined"){
   try{
   imageToResize.src=imageDataBase64; 
