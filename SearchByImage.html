@@ -224,7 +224,41 @@ a:active{
  color: #bbb;
  text-decoration: none;
  cursor: pointer;
-} 
+}
+/**/
+#imageUpload {
+   border:4px dotted black;
+   margin: 50px auto;
+   width:68px; //50vw;
+   max-width:68px;
+   height:96px; //25vh;
+   //position:relative;
+   text-align:center;
+   line-height:5vh;
+   outline:0 none;
+   overflow:hidden;
+   display:flex;
+   justify-content:center;
+   align-items:center;
+}   
+   &:empty::before {
+      content:'Click this ContentEditable div to give it focus, then paste (Ctrl+V/?+V).';
+      font-size:3vh;
+      position:absolute;
+      width:90%;
+      display:inline-block;
+      color:#ccc;
+      top:50%;
+      transform:translatey(-50%);
+      left:5%;
+      z-index:-1;
+      
+   }
+   
+   /* Hide the default text onFocus */
+   &:focus::before{
+      color:transparent;
+   } 
 </style>
 <script>
 let scriptElement=document.createElement("script");
@@ -301,6 +335,10 @@ document.body.appendChild(scriptElement);
   <input type='number' id='myThreshold' oninput='thresholdValueChange()' value='72.00' min='0' max='100.00' title="Similarity Threshold Percentage">
   <button id='myBtnReset' onclick='myReset()' title='Set default threshold value'><img src="reset-default-icon.webp" width='12' height='12'></button>
   <button id='myBtnSort' onclick='mySort()' title='Sort images by percentage' style='visibility:hidden'><img src="sortdescending-icon.png" width='12' height='12'></button>
+  </td>
+   
+  <td>
+  <div id="imageUpload" contenteditable="true" oncut="return false" onkeydown="return false" onselect="return false" style='visibility:hidden'>Paste image here</div>
   </td>
   </tr>
   <tr><td></td><td id='totalCards'></td></tr>
