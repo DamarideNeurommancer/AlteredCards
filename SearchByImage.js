@@ -16,7 +16,6 @@ const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
 const caption_md=document.getElementById("caption_md");
 const btnSort=document.getElementById("myBtnSort");
-const contentTarget = document.getElementById("imageUpload");
 const canvasWidth=350;
 const canvasHeight=488;
 const maxSort=15;
@@ -665,19 +664,11 @@ var ClipboardUtils=new function(){
     })
     .catch(function(error){
      callback(null,'Reading clipboard error.');
-     if(isMobile()){
-      alert("Paste image with long-press on the dotted area.")
-     }
-     else
-      alert("In this browser use Ctrl+V to paste image from clipboard.") 
+     alert("In this browser use Ctrl+V to paste image from clipboard.") 
     });
    }
    catch(err){
-    if(isMobile()){
-      alert("Paste image with long-press on the dotted area.")
-    }
-    else
-     alert("In this browser use Ctrl+V to paste image from clipboard.")
+    alert("In this browser use Ctrl+V to paste image from clipboard.")
    }
   }else{
    callback(null,'Clipboard is not supported.');
@@ -699,11 +690,6 @@ function isMobile()
 }
 function myInit(){
  if(bxmlParsed==false){myParseCards();}
- if(getBrowserTypeEx!=5){
-  if(isMobile()){
-   contentTarget.style.visibility='visible';
-  } 
- }
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
@@ -823,39 +809,4 @@ async function showCardByID(thisID)
   }
  }
  return(false);
-}
-
-//let contentTarget = document.getElementById("imageUpload");
-contentTarget.onpaste = (e) => {
- let cbPayload = [...(e.clipboardData || e.originalEvent.clipboardData).items];
- cbPayload = cbPayload.filter(i => /image/.test(i.type));
- if(!cbPayload.length || cbPayload.length === 0) return false;  
- let reader = new FileReader();
- reader.onload = (e) => contentTarget.innerHTML = `<img src="${e.target.result}" style='top=0;width:68px;height:96px;border-radius:10px;'>`;
- reader.readAsDataURL(cbPayload[0].getAsFile());
-};
-
-function getBrowserTypeEx(){
- const test = regexp => {
-  return regexp.test(navigator.userAgent);
- };
- if (test(/opr\//i) || !!window.opr){
-  return '7'; //'Opera'
- }else if(test(/edg/i)){
-  return '8'; //'Microsoft Edge'
- }else if(test(/chrome|chromium|crios/i)){
-  return '5'; //'Google Chrome'
- }else if(test(/firefox|fxios/i)){
-  return '4'; //'Mozilla Firefox'
- }else if(test(/safari/i)){
-  return '6'; //'Apple Safari'
- }else if(test(/trident/i)){
-  return '10'; //IE'; //'Microsoft Internet Explorer'
- }else if(test(/ucbrowser/i)){
-  return '11'; //'UC Browser'
- }else if(test(/samsungbrowser/i)){
-  return '9'; //'Samsung Browser'
- }else{
-  return '5'; //Other
- }
 }
