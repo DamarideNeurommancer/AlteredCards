@@ -167,6 +167,7 @@ function myPaste(){
    imageToResize.src=data;
    sourceImg.src=imageToResize.src;
    sourceImg.title="";
+   sourceImg.alt="";
    lastFile="";
    
    timerID=setInterval(function(){
@@ -220,6 +221,7 @@ function retrieveImageFromClipboardAsBase64(pasteEvent,callback,imageFormat){
    imageToResize.src=img.src;
    sourceImg.src=imageToResize.src;
    sourceImg.title="";
+   sourceImg.alt="";
    timerID=setInterval(function (){
    if(imageToResize.complete)
     calcHash();
@@ -285,7 +287,7 @@ async function previewFile(file){
  }  
  sourceImg.src=img.src;
  sourceImg.title=file.name;
-  
+ sourceImg.alt="";  
  if(img.width!=canvasWidth && img.height!=canvasHeight){
   img.src=await resizeImage(img); 
  }
@@ -475,6 +477,7 @@ async function downloadImage(imageLink){
    resizedImage.src=img.src;
   sourceImg.src=imageToResize.src;
   sourceImg.title=imageLink;
+  sourceImg.alt="";
   lastFile=imageLink;
   timerID=setInterval(function (){
    if(imageToResize.complete){
@@ -550,9 +553,12 @@ then the card is added to the resulting set of images.
 `; 
  try{
   var imgurl=sourceImg.src;
-  var imgtitle=sourceImg.title;  
+  var imgtitle=sourceImg.title;
+  var url=sourceImg.alt;
+  if(url=="")
+   url='#';  
   Swal.fire({
-   title: "<span><a style='color:Blue;font-size:0.6rem;' href='#'>"+imgtitle+"</a></span>",
+   title: "<span><a style='color:Blue;font-size:0.6rem;' href='"+url+"'>"+imgtitle+"</a></span>",
    html: "<span style='color:Black'><b>"+sHelp.replaceAll('\n','<br>')+"</b></span>",
    imageUrl: imgurl,
    imageWidth: 80,
@@ -586,11 +592,14 @@ function myPopup(){
  if(sourceImg.src==="")
   return;
  var img=sourceImg.src;
- var imgtitle=sourceImg.title;  
+ var imgtitle=sourceImg.title;
+ var url=sourceImg.alt;
+ if( url=="")
+  url='#';  
  modal.style.display="block";
  modalImg.src=img;
  modalImg.alt=imgtitle;
- caption_md.innerHTML="<a href='#' style='font-size:16px;'>"+modalImg.alt+"</a>";
+ caption_md.innerHTML="<a href='"+url+"' style='font-size:16px;'>"+modalImg.alt+"</a>";
 }
 
 var span=document.getElementsByClassName("close")[0];
@@ -704,6 +713,7 @@ function myInit(){
   imageToResize.src=imageDataBase64; 
   sourceImg.src=imageToResize.src;
   sourceImg.title=imageFileName;
+  sourceImg.alt="";
   lastFile=imageFileName;
   timerID=setInterval(function(){
    if(imageToResize.complete)
@@ -779,13 +789,16 @@ async function showCardByID(thisID)
     var LongHashCode=convert_from_LS64(CardHash);
     lastFile=imageFileName;
     SearchByImage(LongHashCode);
-      
+ 
+    var CardNAME=book.attributes[1].nodeValue;
+    var CardURL=book.attributes[2].nodeValue;     
     let img=document.createElement('img')
     img.addEventListener("load",function(){
      img.innerHTML="<img src='"+imageFileName+"' alt='"+imageFileName+"' style='border-radius:10px;' title=\""+imageFileName+"\>";
      lastFile=imageFileName;
      sourceImg.src=img.src;
-     sourceImg.title=imageFileName;
+     sourceImg.title=CardID+" "+CardNAME;
+     sourceImg.alt=URLRoot+CardURL;
      resizedImage.src=sourceImg.src;
     });
     img.src=imageFileName;
