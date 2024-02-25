@@ -534,7 +534,7 @@ function myHelp(){
 Provide the input sample image by using:
 1) Drag & drop from filesystem,
 2) Select image from filesystem,
-3) Paste from clipboard with Ctrl+V keys (or even with the paste button <img src='paste-icon.webp' width='16' height='16'> which works in Chrome and alike),
+3) Paste from clipboard with Ctrl+V keys (or even with the paste button <img src='paste-icon.webp' width='16' height='16'> which works in Chrome only),
 4) Input image link.\n
 Select the desired similarity threshold percentage value as a number (with 2 decimal digits if needed) between 1 and 100, default value is 72.00%
 As a result you get an array of cards 'similar' to the image sample.
@@ -788,17 +788,16 @@ async function showCardByID(thisID)
     var CardHash=book.attributes[browserType].nodeValue;
     var LongHashCode=convert_from_LS64(CardHash);
     lastFile=imageFileName;
-    SearchByImage(LongHashCode);
- 
+    SearchByImage(LongHashCode); 
     var CardNAME=book.attributes[1].nodeValue;
-    var CardURL=book.attributes[2].nodeValue;     
+    var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;     
     let img=document.createElement('img')
     img.addEventListener("load",function(){
      img.innerHTML="<img src='"+imageFileName+"' alt='"+imageFileName+"' style='border-radius:10px;' title=\""+imageFileName+"\>";
      lastFile=imageFileName;
      sourceImg.src=img.src;
      sourceImg.title=CardID+" "+CardNAME;
-     sourceImg.alt=URLRoot+CardURL;
+     sourceImg.alt=CardURL;
      resizedImage.src=sourceImg.src;
     });
     img.src=imageFileName;
