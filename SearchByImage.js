@@ -143,7 +143,7 @@ function checkHash(hash_code)
 }
 
 async function calcHash(){
- if(imageToResize.width!=canvasWidth && imageToResize.height!=canvasHeight){
+ if(imageToResize.width!=canvasWidth&&imageToResize.height!=canvasHeight){
   resizedImage.src=resizeImage(imageToResize);
  }
  else
@@ -257,12 +257,29 @@ function unhighlight(e){
  dropArea.style.borderColor ="white";
 }
 
-function handleDrop(e){
+function handleDrop(e){   
  var dt=e.dataTransfer;
  var files=dt.files;
- handleFiles(files);
+ if(files.length){
+  handleFiles(files);
+ }
+ else{
+  var html=dt.getData('text/html'),
+      match=html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
+      url=match&&match[1];
+  if(url){
+   downloadImage(url)
+   .then(() => {
+     //console.log('The image has been downloaded');
+   })
+   .catch(err => {
+    clearInterval(timerID);
+    alert('Error downloading image: '+err.message);
+   });
+  }
+ }
 }
-
+        
 function handleFiles(files){
  files=[...files];
  files.forEach(previewFile);
@@ -288,7 +305,7 @@ async function previewFile(file){
  sourceImg.src=img.src;
  sourceImg.title=file.name;
  sourceImg.alt="";  
- if(img.width!=canvasWidth && img.height!=canvasHeight){
+ if(img.width!=canvasWidth&&img.height!=canvasHeight){
   img.src=await resizeImage(img); 
  }
  img.addEventListener("load",function(){
@@ -421,7 +438,7 @@ function SearchByImage(thisHashCode){
   let hashvalues=CompareHashes(LongHashCode,thisHashCode);
   const diffscore=hashvalues[0],
   percent=parseFloat(hashvalues[1]);   
-  if( CardHash!="" && LongHashCode!="" && percent>=threshold){
+  if( CardHash!=""&&LongHashCode!=""&&percent>=threshold){
    var CardID=book.attributes[0].nodeValue;
    var CardNAME=book.attributes[1].nodeValue;
    var CardURL=book.attributes[2].nodeValue;
@@ -470,7 +487,7 @@ async function downloadImage(imageLink){
  imageToResize.src=await URLObj.createObjectURL(blobImage); 
  let img=document.createElement('img')
  img.addEventListener("load",function(){
-  if(img.width!=canvasWidth && img.height!=canvasHeight){
+  if(img.width!=canvasWidth&&img.height!=canvasHeight){
    resizedImage.src=resizeImage(img);
   }
   else
@@ -494,7 +511,7 @@ btn.addEventListener('click', () => {
   if(bxmlParsed==false){myParseCards();}
   downloadImage(fileURL.value)
     .then(() => {
-      console.log('The image has been downloaded');
+      //console.log('The image has been downloaded');
     })
     .catch(err => {
       clearInterval(timerID);
@@ -580,7 +597,7 @@ async function thresholdValueChange(){
   myThreshold.value="0";
  let img=document.createElement('img')
  img.src=sourceImg.src;
- if(img.width!=canvasWidth && img.height!=canvasHeight){
+ if(img.width!=canvasWidth&&img.height!=canvasHeight){
   img.src=await resizeImage(img); 
  }
  img.addEventListener("load",function(){
