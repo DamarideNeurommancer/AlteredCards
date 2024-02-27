@@ -61,8 +61,8 @@ function displayCards(CardsList){
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var CardSTYLE=dsCardStyle;
  if(isMobile()){
-  game.style.gridTemplateColumns="86px 86px 86px 86px";
-  game.style.gridTemplateRows="86px 86px 86px 86px";
+  game.style.gridTemplateColumns="90px 90px 90px 90px";
+  game.style.gridTemplateRows="90px 90px 90px 90px";
   CardSTYLE=mbCardStyle; 
  }
  for(let i=0;i<CardsList.length;i++){
@@ -166,10 +166,12 @@ function displayCardsLink(CardsList){
  var CardsHTML="";
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var CardSTYLE=dsCardStyle;
+ var CardFONT="font-size:10px;align:center;";
  if(isMobile()){
-  game.style.gridTemplateColumns="86px 86px 86px 86px";
-  game.style.gridTemplateRows="100px 100px 100px 100px";
-  CardSTYLE=mbCardStyle; 
+  game.style.gridTemplateColumns="90px 90px 90px 90px";
+  game.style.gridTemplateRows="110px 110px 100px 110px";
+  CardSTYLE=mbCardStyle;
+  CardFONT="font-size:6px;align:center;"; 
  }
  for(let i=0;i<CardsList.length;i++){
   var book=catalog.childNodes[CardsList[i]];
@@ -179,8 +181,7 @@ function displayCardsLink(CardsList){
   var CardNAME=book.attributes[1].nodeValue;
   var CardURL=(Number(CardID)>100?URLRoot:"")+book.attributes[2].nodeValue;
   CardsHTML+=`<div class="cardlink"><div class="frontlink"><a href="${CardURL}">
-  <!--img src="${CardFile}" alt="${CardNAME}" style="width:120px;height:140px;border-radius:6px;align:center;" title="${CardID} ${CardNAME}"><font style="font-size:10px;align:center;"><br>${CardNAME}</font></a-->
-  <img src="${CardFile}" alt="${CardNAME}" style="${CardSTYLE}" title="${CardID} ${CardNAME}"><font style="font-size:10px;align:center;"><br>${CardNAME}</font></a>
+  <img src="${CardFile}" alt="${CardNAME}" style="${CardSTYLE}" title="${CardID} ${CardNAME}"><font style="${CardFONT}"><br>${CardNAME}</font></a>
   </div></div>`;
   game.innerHTML=CardsHTML; 
  }
