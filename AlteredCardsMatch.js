@@ -143,7 +143,7 @@ document.addEventListener('click',function handleClickOutside(event){
 });
 
 function myResult(){
- var sHelp="End of Match Game<br>Now you can follow each card's link to AlterSleeves."; 
+ var sHelp="End of Match Game<br>Now you can follow the links to AlterSleeves."; 
  try{ 
   Swal.fire({
    title: "<span><a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>",
@@ -163,6 +163,8 @@ function myResult(){
 resetGame();
 
 function displayCardsLink(CardsList){
+ if(CardsList==null||CardsList==="undefined")
+  CardsList=loadedCards;
  var CardsHTML="";
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var CardSTYLE=dsCardStyle;

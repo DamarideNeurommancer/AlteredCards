@@ -148,12 +148,12 @@ a:active{
 }
 #game{
  display: grid;
- grid-template-columns: repeat(4, 170px);
- grid-template-rows: repeat(4, 170px);
+ grid-template-columns: repeat(4,170px);
+ grid-template-rows: repeat(4,170px);
  grid-gap: 2px;
 }
 .card{
- box-shadow: 0 3px 10px rgba(200,200,200, 0.9);
+ box-shadow: 0 3px 10px rgba(200,200,200,0.9);
  border-radius: 10px;
  position: relative;
  transform-style: preserve-3d;
@@ -250,6 +250,12 @@ document.body.appendChild(scriptElement);
  <tr>
   <td>   
    <button onclick="resetGame()" title='New Match Game'>&#9658;New</button>
+  </td>
+  <td>   
+   <button onclick="displayCardsLink()" title='Resolve the Game'>&#9658;Resolve</button>
+  </td>
+  <td>   
+   <p>Once completed please follow the links to AlterSleeves.</p>
   </td>
  </tr>
  </table></div>
