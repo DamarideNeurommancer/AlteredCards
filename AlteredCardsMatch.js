@@ -61,8 +61,9 @@ function displayCards(CardsList){
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var CardSTYLE=dsCardStyle;
  if(isMobile()){
-  game.style.gridTemplateColumns="repeat(4,86px);";
-  game.style.gridTemplateRows="repeat(4,86px);";
+  //let gameX=document.getElementById('game');
+  game.style.gridTemplateColumns="86px 86px 86px 86px";
+  game.style.gridTemplateRows="86px 86px 86px 86px";
   CardSTYLE=mbCardStyle; 
  }
  for(let i=0;i<CardsList.length;i++){
@@ -167,6 +168,8 @@ function displayCardsLink(CardsList){
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var CardSTYLE=dsCardStyle;
  if(isMobile()){
+  game.style.gridTemplateColumns="86px 86px 86px 86px";
+  game.style.gridTemplateRows="86px 86px 86px 86px";
   CardSTYLE=mbCardStyle; 
  }
  for(let i=0;i<CardsList.length;i++){
