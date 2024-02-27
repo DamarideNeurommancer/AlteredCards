@@ -143,7 +143,7 @@ document.addEventListener('click',function handleClickOutside(event){
 });
 
 function myResult(){
- var sHelp="End of Match Game<br>Now you can follow the links to AlterSleeves."; 
+ var sHelp="End of Match Game.<br>Now you can follow the links to AlterSleeves.<br>Click on the Logo and see all Alters by DamarideNeurommancer on AlterSleeves."; 
  try{ 
   Swal.fire({
    title: "<span><a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>",
@@ -167,12 +167,12 @@ function displayCardsLink(CardsList){
   CardsList=loadedCards;
  var CardsHTML="";
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- var CardSTYLE=dsCardStyle;
+ var CardSTYLE=dsCardLinkStyle;//dsCardStyle;
  var CardFONT="font-size:10px;align:center;";
  if(isMobile()){
   game.style.gridTemplateColumns="90px 90px 90px 90px";
   game.style.gridTemplateRows="110px 110px 100px 110px";
-  CardSTYLE=mbCardStyle;
+  CardSTYLE=mbCardStyle;//mbCardLinkStyle;
   CardFONT="font-size:6px;align:center;"; 
  }
  for(let i=0;i<CardsList.length;i++){
@@ -183,7 +183,7 @@ function displayCardsLink(CardsList){
   var CardNAME=book.attributes[1].nodeValue;
   var CardURL=(Number(CardID)>100?URLRoot:"")+book.attributes[2].nodeValue;
   CardsHTML+=`<div class="cardlink"><div class="frontlink"><a href="${CardURL}">
-  <img src="${CardFile}" alt="${CardNAME}" style="${CardSTYLE}" title="${CardID} ${CardNAME}"><font style="${CardFONT}"><br>${CardNAME}</font></a>
+  <img src="${CardFile}" alt="${CardNAME}" style="${CardSTYLE}" title="${CardID} ${CardNAME}"><font style="${CardFONT}"><br>&nbsp;${CardNAME}</font></a>
   </div></div>`;
   game.innerHTML=CardsHTML; 
  }
