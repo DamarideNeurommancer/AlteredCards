@@ -168,7 +168,7 @@ function displayCardsLink(CardsList){
  var CardSTYLE=dsCardStyle;
  if(isMobile()){
   game.style.gridTemplateColumns="86px 86px 86px 86px";
-  game.style.gridTemplateRows="86px 86px 86px 86px";
+  game.style.gridTemplateRows="100px 100px 100px 100px";
   CardSTYLE=mbCardStyle; 
  }
  for(let i=0;i<CardsList.length;i++){
