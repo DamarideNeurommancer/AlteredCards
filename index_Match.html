@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 </script>
 </head>
-<body style='background-color:#000000' onload="mySearch(6)">
+<body style='background-color:#000000' onload="resetGame()">
 <style>
 body{
  font-family: 'Roboto Condensed', sans-serif;
@@ -78,18 +78,12 @@ a:active{
  opacity: 0.7;
  border: 0px;
 }
-img:hover{
- transform:scale(1.2);
- border: 2px solid white;
- -ms-transform:scale(1.2);
- -webkit-transform:scale(1.2);
-}
-/*.swal2-popup{
+.swal2-popup{
  font-size: 0.6rem;
  text-align: left;
  background: White;
  border-radius: 80px; 
-}*/
+}
 .sidebar{
  height: 100%;
  width: 0;
@@ -139,12 +133,68 @@ img:hover{
 @media screen and (max-height: 450px){
  .sidebar {padding-top: 15px;}
  .sidebar a {font-size: 18px;}
+}
+.container{
+  background: linear-gradient(135deg, rgba(207, 197, 229, 1) 0%, rgba(163, 154, 204, 1) 36%, rgba(79, 71, 169, 1) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  font-family: pokemon;
+  letter-spacing: 5px;
+  gap: 10px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+#game{
+ display: grid;
+ grid-template-columns: repeat(4, 170px);
+ grid-template-rows: repeat(4, 170px);
+ grid-gap: 2px;
+}
+.card{
+ box-shadow: 0 3px 10px rgba(200,200,200, 0.9);
+ border-radius: 10px;
+ position: relative;
+ transform-style: preserve-3d;
+ overflow: hidden;
+}
+.card > .front, .card > .back{
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ position: absolute;
+ height: 100%;
+ width: 100%;
+ backface-visibility: hidden;
+ transition: transform 0.5s;
+}
+.rotated{
+ transform: rotateY(180deg);
+}
+.front{
+ background-image: url("neurommancer_logo.png");
+ background-position: center;
+ background-repeat: no-repeat;
+ background-color: black;
+ background-size: 50%;
+}
+.cardlink{
+ border-radius: 6px;
+ transform-style: preserve-3d;
+ background-color: black;
+}
+.frontlink{
+ background-color: black;
+ background-size: 100%;
+ border-radius:6px;
 } 
 </style>
 <script>
-let scriptElement=document.createElement("script");
-scriptElement.type="text/javascript";
-scriptElement.src="AlteredCardsAlbum.js"; 
+let scriptElement = document.createElement("script");
+scriptElement.type = "text/javascript";
+scriptElement.src = "AlteredCardsMatch.js"; 
 document.body.appendChild(scriptElement);
 </script>
 <div class="header" id="myHeader">
@@ -157,6 +207,7 @@ document.body.appendChild(scriptElement);
  <a href="https://www.altersleeves.com/alterist/damarideneurommancer/"><img src="altersleeves-icon.png" width='12' height='12'> AS Overview</a>
  <a href="https://www.inkedgaming.com/collections/artists-damaride-neurommancer"><img src="shopify-icon.webp" width='12' height='12'> Playmats</a>
  <a href="https://www.makeplayingcards.com/sell/damarideneurommancer"><img src="playing-card-spade-icon.png" width='12' height='12' style='background-color:yellow'> Tarots</a>
+ <a href="index.html"><img src="home-icon.png" width='12' height='12'> Home</a>
  <a href="index_AlteredList.html"><img src="list-icon.png" width='12' height='12' style='background-color:white'> List</a>
  <a href="SlideShowGallery.html"><img src="album-icon.png" width='12' height='12'> Gallery</a>
  <a href="index_AlteredSets.html"><img src="set-icon.png" width='12' height='12' style='background-color:white'> Sets</a>
@@ -164,7 +215,6 @@ document.body.appendChild(scriptElement);
  <a href="index_AlteredHandpainted.html"><img src="handpainted-icon.png" width='12' height='12' style='background-color:darkkhaki'> Handpainted</a>
  <a href="index_AlteredFlipTokens.html"><img src="handpainted-icon.png" width='12' height='12' style='background-color:darkkhaki'> Flip Tokens</a>
  <a href="SearchByImage.html"><img src="searchbyimage.png" width='12' height='12'> Similarity</a>
- <a href="index_Match.html"><img src="match-icon.webp" width='12' height='12'> Match Game</a>
  <h2><center>&copy<i> DamarideNeurommancer</i></center></h2>
  </div>
  <div id="main">
@@ -186,6 +236,7 @@ document.body.appendChild(scriptElement);
    <a href="https://www.altersleeves.com/alterist/damarideneurommancer/" class="fa"><img src="altersleeves-icon.png" width='16' height='16' title='AS Cards'></a>
    <a href="https://www.inkedgaming.com/collections/artists-damaride-neurommancer" class="fa"><img src="shopify-icon.webp" width='16' height='16' title='Playmats'></a>
    <a href="https://www.makeplayingcards.com/sell/damarideneurommancer" class="fa"><img src="playing-card-spade-icon.png" width='16' height='16' style='background-color:yellow' title='Tarots'></a>
+   <a href="index.html" class="fa"><img src="home-icon.png" width='16' height='16' title='Home'></a>
    <a href="index_AlteredList.html" class="fa"><img src="list-icon.png" width='16' height='16' title='Cards List' style='background-color:white'></a>
    <a href="SlideShowGallery.html" class="fa"><img src="album-icon.png" width='16' height='16' title='Cards Gallery'></a>
    <a href="index_AlteredSets.html" class="fa"><img src="set-icon.png" width='16' height='16' title='Sets'></a>
@@ -195,33 +246,17 @@ document.body.appendChild(scriptElement);
    <a href="SearchByImage.html" class="fa"><img src="searchbyimage.png" width='16' height='16' title='Search Cards by Image Similarity'></a>
   </td>
  </tr>
- </table>
- <div id='search-header'>
- <table>
+
  <tr>
-  <td>
-   <input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
-   <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'>Search</button>
-   <button id='myBtnHelp' onclick='myHelp()'>?</button>
-   <font size='2' color='White'><i><small>Columns per row</i></small>
-   <input type='number' id='myColumns' oninput='columnsValueChange()' size='1' maxlength='1' value='6' min='1' max='6'>
-   &nbsp;
-   <button id='myBtnRnd' onclick='myRndSearch()'><img src="random-icon.png" width='12' height='12'>Random</button>
-   <font size='2' color='White'><i><small>Append random result</i></small>
-   <input type='checkbox' id='myChkAppend'>
+  <td>   
+   <button onclick="resetGame()" title='New Match Game'>&#9658;New</button>
   </td>
  </tr>
-
- <tr><td id='totalCards'></td></tr>
  </table></div>
 </div>
-<script>
-var input = document.getElementById('myInput');
-input.addEventListener('keyup', function(event){
-if(event.keyCode == 13){
-document.getElementById('myBtn').click();
-}
-});
-</script>
-<div id='center-header'><table id="myTable">
-</div></body></html>
+
+ <div class="container">
+  <div id="game">    
+  </div>
+ </div>
+</body></html>
