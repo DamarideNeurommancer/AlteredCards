@@ -5,6 +5,10 @@ const URLRoot="https://www.altersleeves.com/product/";
 const game=document.getElementById('game');
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
+const dsCardStyle="width:120px;height:156px;border-radius:2px;align:center;";
+const dsCardLinkStyle="width:120px;height:140px;border-radius:6px;align:center;";
+const mbCardStyle="width:60px;height:80px;border-radius:2px;align:center;";
+const mbCardLinkStyle="width:60px;height:70px;border-radius:6px;align:center;";
 var loadedCards;
 let firstPick;
 let isPaused=true;
@@ -33,14 +37,7 @@ function myRndCard(){
 function createArray(N){
  let newArr=[];
  for(let i=1;i<=N/2;i++){
-  let rndNum=myRndCard();
-   /*
-   for(let k=0;k<newArr.length;k++){
-     if(newArr[k]===rndNum){
-      rndNum = myRndCard();
-      break;
-    }
-   }*/   
+  let rndNum=myRndCard();  
   newArr.push(rndNum);
  }
  for(let i=0;i<N/2;i++){
@@ -53,18 +50,19 @@ const resetGame = async() => {
  isPaused=true;
  firstPick=null;
  matches=0;
- //const loadedCards=createArray(16);
  loadedCards=createArray(16);
  loadedCards.sort(_ => Math.random() - 0.5);
  displayCards(loadedCards);
- //displayCardsLink(loadedCards);
  isPaused=false;
 }
 
 function displayCards(CardsList){
  var CardsHTML="";
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- 
+ var CardSTYLE=dsCardStyle;
+ if(isMobile()){
+  CardSTYLE=mbCardStyle; 
+ }
  for(let i=0;i<CardsList.length;i++){
   var book=catalog.childNodes[CardsList[i]];
   var CardID=book.attributes[0].nodeValue;
@@ -74,9 +72,9 @@ function displayCards(CardsList){
   CardsHTML+=`<div class="card" onclick="clickCard(event)" data-cardname="${CardNAME}" style="background-color:${color};">
    <div class="front"></div>
    <div class="back rotated" style="background-color:${color};">
-   <img src="${CardID}" alt="${CardNAME}" style="width:120px;height:156px;border-radius:2px;align:center;" />
-   </div>
-  </div>`;
+   <!--img src="${CardID}" alt="${CardNAME}" style="width:120px;height:156px;border-radius:2px;align:center;"/-->
+   <img src="${CardID}" alt="${CardNAME}" style="${CardSTYLE}"/>
+   </div></div>`;
   game.innerHTML=CardsHTML; 
  }
 }
@@ -165,25 +163,25 @@ resetGame();
 function displayCardsLink(CardsList){
  var CardsHTML="";
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- 
+ var CardSTYLE=dsCardStyle;
+ if(isMobile()){
+  CardSTYLE=mbCardStyle; 
+ }
  for(let i=0;i<CardsList.length;i++){
   var book=catalog.childNodes[CardsList[i]];
   var CardID=book.attributes[0].nodeValue;
   var CardFile=CardID;
-  if(Number(CardID)>100){
-   CardFile +=".jpg";
-  }
-  else{//Playmats
-   CardFile +=".webp";
-  }
+  if(Number(CardID)>100){CardFile +=".jpg";}else{CardFile +=".webp";}
   var CardNAME=book.attributes[1].nodeValue;
   var CardURL=(Number(CardID)>100?URLRoot:"")+book.attributes[2].nodeValue;
-  CardsHTML+=`<div class="cardlink">
-  <div class="frontlink">
-     <a href="${CardURL}">
-     <img src="${CardFile}" alt="${CardNAME}" style="width:120px;height:140px;border-radius:6px;align:center;" title="${CardID} ${CardNAME}"><font style="font-size:10px;align:center;"><br>${CardNAME}</font></a>
-   </div>
-   </div>`;
+  CardsHTML+=`<div class="cardlink"><div class="frontlink"><a href="${CardURL}">
+  <!--img src="${CardFile}" alt="${CardNAME}" style="width:120px;height:140px;border-radius:6px;align:center;" title="${CardID} ${CardNAME}"><font style="font-size:10px;align:center;"><br>${CardNAME}</font></a-->
+  <img src="${CardFile}" alt="${CardNAME}" style="${CardSTYLE}" title="${CardID} ${CardNAME}"><font style="font-size:10px;align:center;"><br>${CardNAME}</font></a>
+  </div></div>`;
   game.innerHTML=CardsHTML; 
  }
+}
+function isMobile()
+{
+ return(window.orientation!=null&&window.orientation!="undefined");
 }
