@@ -255,19 +255,16 @@ async function previewFile(file){
  let img=document.createElement('img')
  const ID=file.name.split('.')[0];
  img.id=ID;
- while(1){
-  img.src=await fileToDataUri(file);
-  if(img.complete){break;}
- }  
- sourceImg.src=img.src;
- sourceImg.title=file.name;
- sourceImg.alt="";  
- if(img.width!=canvasWidth&&img.height!=canvasHeight){
-  img.src=await resizeImage(img); 
- }
- img.addEventListener("load",function(){
+ img.addEventListener("load",async function(){
+  sourceImg.src=img.src;
+  sourceImg.title=file.name;
+  sourceImg.alt="";  
+  if(img.width!=canvasWidth&&img.height!=canvasHeight){
+   img.src=await resizeImage(img); 
+  }
   var hashcode=calcHash331(img);
  });
+ img.src=await fileToDataUri(file);
 }
 
 function calcHash331(thisImage){
@@ -762,7 +759,7 @@ async function showCardByID(thisID)
     var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;     
     let img=document.createElement('img')
     img.addEventListener("load",function(){
-     img.innerHTML="<img src='"+imageFileName+"' alt='"+imageFileName+"' style='border-radius:10px;' title=\""+imageFileName+"\>";
+     //img.innerHTML="<img src='"+imageFileName+"' alt='"+imageFileName+"' style='border-radius:10px;' title=\""+imageFileName+"\>";
      lastFile=imageFileName;
      sourceImg.src=img.src;
      sourceImg.title=CardID+" "+CardNAME;
