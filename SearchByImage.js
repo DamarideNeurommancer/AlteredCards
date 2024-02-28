@@ -40,49 +40,6 @@ function resizeImage(imgToResize){
  return canvas.toDataURL();
 }
 
-function cropImage(imgToCrop)
-{
- const canvas=document.createElement("canvas");
- const context=canvas.getContext("2d",{willReadFrequently:true});
- const croppedWidth=301;
- const croppedHeight=220;
- canvas.width=croppedWidth;
- canvas.height=croppedHeight;
- const sx=25;
- const sy=53; 
- context.drawImage(imgToCrop,sx,sy,croppedWidth,croppedHeight,0,0,croppedWidth,croppedHeight);
- var imagedata=context.getImageData(0,0,canvas.width,canvas.height).data; 
- let imgData=context.getImageData(0,0,canvas.width,canvas.height);
- let pixels=imgData.data;
- for (var i=0;i<pixels.length;i+=4){
-  const red=pixels[i];
-  const green=pixels[i+1];
-  const blue=pixels[i+2];
-  const grayscale=RGBToGrayScale(red,green,blue)
-  pixels[i]=grayscale;
-  pixels[i+1]=grayscale;
-  pixels[i+2]=grayscale;
- }
- context.putImageData(imgData,0,0);
- context.clearRect(0,0,canvas.width,canvas.height); 
- context.drawImage(imgToCrop,sx,sy,croppedWidth,croppedHeight,0,0,10,10);
- imgData=context.getImageData(0,0,10,10);
- pixels=imgData.data;
- for (var i=0;i<pixels.length;i+=4){
-  const red=pixels[i];
-  const green=pixels[i+1];
-  const blue=pixels[i+2];
-  const grayscale=RGBToGrayScale(red,green,blue)
-  pixels[i]=grayscale;
-  pixels[i+1]=grayscale;
-  pixels[i+2]=grayscale;
- }
- context.putImageData(imgData,0,0);
- var imagedata=context.getImageData(0,0,10,10).data;
- var hash_code=GetHashCode(imagedata,9,9);
- return canvas.toDataURL();
-}
-
 function RGBToGrayScale(red,green,blue){
  return parseInt(0.2126*red+0.7152*green+0.0722*blue);
 }
@@ -376,7 +333,6 @@ function cropImage2(imgToCrop)
  const sx=25;
  const sy=53; 
  context.drawImage(imgToCrop,sx,sy,croppedWidth,croppedHeight,0,0,croppedWidth,croppedHeight);
- var imagedata=context.getImageData(0,0,canvas.width,canvas.height).data;
  let imgData=context.getImageData(0,0,canvas.width,canvas.height);
  let pixels=imgData.data;
  for (var i=0;i<pixels.length;i+= 4){
@@ -710,10 +666,6 @@ function mySave(data,filename){
  catch(err){console.log(err);} 
 }
 
-function isMobile()
-{
- return(window.orientation!=null&&window.orientation!="undefined");
-}
 function myInit(){
  if(bxmlParsed==false){myParseCards();}
  let params=new URL(document.location).searchParams;
