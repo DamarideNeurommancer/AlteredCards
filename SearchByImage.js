@@ -412,8 +412,8 @@ function SearchByImage(thisHashCode){
   }
  }
  totCards.innerHTML="<font size='1'>Found "+CardCnt+" similar card(s)";
+ showSort(CardCnt);
  if(CardCnt>1){
-  showSort(CardCnt);
   table.scrollTo(0,0);
  }
 }
