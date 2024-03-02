@@ -375,6 +375,7 @@ function fileToDataUri(field){
 }
 
 function SearchByImage(thisHashCode){
+alert("*SearchByImage: "+thisHashCode);
  if(bxmlParsed==false){myParseCards();}
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var totXmlCards=catalog.childElementCount;
@@ -670,7 +671,7 @@ function myInit(){
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
-  alert("Looking for similar cards to card-id: "+cardID);
+  alert("*Looking for similar cards to card-id: "+cardID);
   if(showCardByID(cardID)){
    return;
   }   
@@ -743,6 +744,7 @@ function mySort(){
 
 async function showCardByID(thisID)
 {
+ alert("*Card-id: "+thisID);
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var totXmlCards=catalog.childElementCount;
  for(var i=0;i<totXmlCards;i++){
