@@ -315,13 +315,11 @@ function convert_from_LS64(ls64hash)
 }
 
 function myParseCards(){
-alert("*ParseCards*");
  var parser=new DOMParser();
  browserType=getBrowserType();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
  catalog=xmlDoc.getElementsByTagName('Cards')[0];
- totXmlCards=catalog.childElementCount;
- alert("*ParseCards: Total="+totXmlCards); 
+ totXmlCards=catalog.childElementCount; 
  bxmlParsed=true;
 }
 
@@ -381,20 +379,21 @@ function fileToDataUri(field){
 }
 
 function SearchByImage(thisHashCode){
-alert("*SearchByImage: "+thisHashCode);
 try{
- if(bxmlParsed==false){alert("*Parsing Cards");myParseCards();}
+ if(bxmlParsed==false){myParseCards();}
  //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  //var totXmlCards=catalog.childElementCount;
  
+ alert('*Before Threshold test');
  var threshold=parseFloat("72.00");
  try{
   threshold=parseFloat(myThreshold.value);
-  alert('*Threshold: '+threshold);
  }
  catch(err){alert('*Error: '+err.message + " Threshold: "+myThreshold.value);}
+ alert("*After threshold test: "+threshold);
  var row,cell;
- var rowCreated=false;
+ var rowCreated=false
+ alert("*rowCreated: "+rowCreated);;
  table.innerHTML="";
  var CardCnt=0;
  alert("*Entering 'for' totCards: "+totXmlCards);
@@ -688,7 +687,6 @@ function myInit(){
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
-  alert("*Looking for similar cards to card-id: "+cardID);
   if(showCardByID(cardID)){
    return;
   }   
@@ -761,7 +759,6 @@ function mySort(){
 
 async function showCardByID(thisID)
 {
- alert("*Card-id: "+thisID);
  //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  //var totXmlCards=catalog.childElementCount;
  for(var i=0;i<totXmlCards;i++){
