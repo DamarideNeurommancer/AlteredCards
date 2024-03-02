@@ -390,7 +390,7 @@ try{
   threshold=parseFloat(myThreshold.value);
   alert('*Threshold: '+threshold);
  }
- catch(err){alert('*Error: '+err.message +, " Threshold: "+myThreshold.value);}
+ catch(err){alert('*Error: '+err.message + " Threshold: "+myThreshold.value);}
  var row,cell;
  var rowCreated=false;
  table.innerHTML="";
