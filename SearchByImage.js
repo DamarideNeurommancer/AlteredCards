@@ -389,6 +389,7 @@ alert("*SearchByImage: "+thisHashCode);
  var rowCreated=false;
  table.innerHTML="";
  var CardCnt=0;
+ alert("*Entering 'for' totCards: "+totXmlCards);
  for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardHash=book.attributes[browserType].nodeValue;
