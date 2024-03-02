@@ -10,7 +10,7 @@ var myThreshold=document.querySelector("#myThreshold");
 const sourceImg=document.querySelector("#sourceImg");
 const sideBar=document.getElementById("mySidebar");
 const header=document.getElementById('myHeader');
-const totCards=document.getElementById('totalCards');
+var totCards=document.getElementById('totalCards');
 var table=document.getElementById('myTableImg');
 const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
@@ -381,13 +381,7 @@ function fileToDataUri(field){
 function SearchByImage(thisHashCode){
 try{
  if(bxmlParsed==false){myParseCards();}
- 
- //var threshold=72.00;
- //if(document.getElementById('myThreshold')!=null){
- // threshold=parseFloat(document.getElementById("myThreshold").value);
- //} 
- var threshold=parseFloat(myThreshold.value);
- 
+ var threshold=parseFloat(myThreshold.value); 
  var row,cell;
  var rowCreated=false
  table.innerHTML="";
@@ -678,7 +672,8 @@ function mySave(data,filename){
 function myInit(){
  if(bxmlParsed==false){myParseCards();}
  table=document.getElementById('myTableImg');
- myThreshold=document.querySelector("#myThreshold"); 
+ myThreshold=document.querySelector("#myThreshold");
+ totCards=document.getElementById('totalCards'); 
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
@@ -754,8 +749,6 @@ function mySort(){
 
 async function showCardByID(thisID)
 {
- //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- //var totXmlCards=catalog.childElementCount;
  for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;   
