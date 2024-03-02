@@ -380,6 +380,7 @@ function fileToDataUri(field){
 
 function SearchByImage(thisHashCode){
 alert("*SearchByImage: "+thisHashCode);
+try{
  if(bxmlParsed==false){myParseCards();}
  //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  //var totXmlCards=catalog.childElementCount;
@@ -423,6 +424,9 @@ alert("*Simil Card-id: "+CardID + " '"+CardNAME +"'");
  if(CardCnt>1){
   table.scrollTo(0,0);
  }
+} // end try
+catch(err){alert('*Error: '+err.message);}
+ 
 }
 
 function getBrowserType(){
