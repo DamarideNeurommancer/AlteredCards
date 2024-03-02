@@ -315,11 +315,13 @@ function convert_from_LS64(ls64hash)
 }
 
 function myParseCards(){
+alert("*ParseCards*");
  var parser=new DOMParser();
  browserType=getBrowserType();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
  catalog=xmlDoc.getElementsByTagName('Cards')[0];
- totXmlCards=catalog.childElementCount; 
+ totXmlCards=catalog.childElementCount;
+ alert("*ParseCards: Total="+totXmlCards); 
  bxmlParsed=true;
 }
 
@@ -385,7 +387,7 @@ try{
  //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  //var totXmlCards=catalog.childElementCount;
  
- var threshold=lastThreshold;
+ var threshold=parseFloat("72.00");
  try{
   threshold=parseFloat(myThreshold.value);
   alert('*Threshold: '+threshold);
