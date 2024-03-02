@@ -2,12 +2,11 @@ const imagesDiv=document.querySelector("#images");
 const fileInput=document.querySelector("#upload");
 const fileURL=document.querySelector("#myInputURL");
 const fileURLLabel=document.querySelector("#myInputURLLabel");
-const imageToResize=document.querySelector("#imgToResize");
+var imageToResize=document.querySelector("#imgToResize");
 const resizedImage=document.querySelector("#resizedImage");
 const croppedImage=document.querySelector("#croppedImage");
-const myShowXML=document.querySelector("#myShowXML");
 var myThreshold=document.querySelector("#myThreshold");
-const sourceImg=document.querySelector("#sourceImg");
+var sourceImg=document.querySelector("#sourceImg");
 const sideBar=document.getElementById("mySidebar");
 const header=document.getElementById('myHeader');
 var totCards=document.getElementById('totalCards');
@@ -674,7 +673,9 @@ function myInit(){
  table=document.getElementById('myTableImg');
  myThreshold=document.querySelector("#myThreshold");
  totCards=document.getElementById('totalCards');
- btnSort=document.getElementById("myBtnSort"); 
+ btnSort=document.getElementById("myBtnSort");
+ imageToResize=document.querySelector("#imgToResize");
+ sourceImg=document.querySelector("#sourceImg"); 
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
