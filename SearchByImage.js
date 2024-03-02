@@ -381,13 +381,14 @@ function fileToDataUri(field){
 function SearchByImage(thisHashCode){
 alert("*SearchByImage: "+thisHashCode);
 try{
- if(bxmlParsed==false){myParseCards();}
+ if(bxmlParsed==false){alert("*Parsing Cards");myParseCards();}
  //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  //var totXmlCards=catalog.childElementCount;
  
  var threshold=lastThreshold;
  try{
   threshold=parseFloat(myThreshold.value);
+  alert('*Threshold: '+threshold);
  }
  catch(err){alert('*Error: '+err.message +, " Threshold: "+myThreshold.value);}
  var row,cell;
