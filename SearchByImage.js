@@ -15,7 +15,7 @@ var table=document.getElementById('myTableImg');
 const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
 const caption_md=document.getElementById("caption_md");
-const btnSort=document.getElementById("myBtnSort");
+var btnSort=document.getElementById("myBtnSort");
 const canvasWidth=350;
 const canvasHeight=488;
 const maxSort=15;
@@ -673,7 +673,8 @@ function myInit(){
  if(bxmlParsed==false){myParseCards();}
  table=document.getElementById('myTableImg');
  myThreshold=document.querySelector("#myThreshold");
- totCards=document.getElementById('totalCards'); 
+ totCards=document.getElementById('totalCards');
+ btnSort=document.getElementById("myBtnSort"); 
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
