@@ -416,9 +416,8 @@ try{
  if(CardCnt>1){
   table.scrollTo(0,0);
  }
-} // end try
-catch(err){alert('*Error: '+err.message);}
- 
+}
+catch(err){alert('*Error: '+err.message);} 
 }
 
 function getBrowserType(){
