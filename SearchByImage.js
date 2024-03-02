@@ -385,7 +385,11 @@ try{
  //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  //var totXmlCards=catalog.childElementCount;
  
- const threshold=parseFloat(myThreshold.value);
+ var threshold=lastThreshold;
+ try{
+  threshold=parseFloat(myThreshold.value);
+ }
+ catch(err){alert('*Error: '+err.message +, " Threshold: "+myThreshold.value);}
  var row,cell;
  var rowCreated=false;
  table.innerHTML="";
