@@ -380,16 +380,19 @@ function fileToDataUri(field){
 
 function SearchByImage(thisHashCode){
 try{
+ alert('*SearchByImage');
  if(bxmlParsed==false){myParseCards();}
  //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  //var totXmlCards=catalog.childElementCount;
  
  alert('*Before Threshold test');
- var threshold=parseFloat("72.00");
+ var threshold=parseFloat("72");
+ alert("*Before threshold test: "+threshold);
  try{
   threshold=parseFloat(myThreshold.value);
  }
  catch(err){alert('*Error: '+err.message + " Threshold: "+myThreshold.value);}
+ 
  alert("*After threshold test: "+threshold);
  var row,cell;
  var rowCreated=false
