@@ -6,12 +6,12 @@ const imageToResize=document.querySelector("#imgToResize");
 const resizedImage=document.querySelector("#resizedImage");
 const croppedImage=document.querySelector("#croppedImage");
 const myShowXML=document.querySelector("#myShowXML");
-const myThreshold=document.querySelector("#myThreshold");
+var myThreshold=document.querySelector("#myThreshold");
 const sourceImg=document.querySelector("#sourceImg");
 const sideBar=document.getElementById("mySidebar");
 const header=document.getElementById('myHeader');
 const totCards=document.getElementById('totalCards');
-const table=document.getElementById('myTableImg');
+var table=document.getElementById('myTableImg');
 const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
 const caption_md=document.getElementById("caption_md");
@@ -382,11 +382,11 @@ function SearchByImage(thisHashCode){
 try{
  if(bxmlParsed==false){myParseCards();}
  
- var threshold=72.00;
- if(document.getElementById('myThreshold')!=null){
-  threshold=parseFloat(document.getElementById("myThreshold").value);
- } 
- //threshold=parseFloat(myThreshold.value);
+ //var threshold=72.00;
+ //if(document.getElementById('myThreshold')!=null){
+ // threshold=parseFloat(document.getElementById("myThreshold").value);
+ //} 
+ var threshold=parseFloat(myThreshold.value);
  
  var row,cell;
  var rowCreated=false
@@ -677,6 +677,8 @@ function mySave(data,filename){
 
 function myInit(){
  if(bxmlParsed==false){myParseCards();}
+ table=document.getElementById('myTableImg');
+ myThreshold=document.querySelector("#myThreshold"); 
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
