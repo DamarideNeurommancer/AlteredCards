@@ -380,26 +380,18 @@ function fileToDataUri(field){
 
 function SearchByImage(thisHashCode){
 try{
- alert('*SearchByImage');
  if(bxmlParsed==false){myParseCards();}
- //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- //var totXmlCards=catalog.childElementCount;
  
- alert('*Before Threshold test');
- var threshold=parseFloat("72");
- alert("*Before threshold test: "+threshold + " myThreshold.value="+myThreshold.value);
- try{
-  threshold=parseFloat(myThreshold.value);
- }
- catch(err){alert('*Error: '+err.message + " Threshold: "+myThreshold.value);}
+ var threshold=72.00;
+ if(document.getElementById('myThreshold')!=null){
+  threshold=parseFloat(document.getElementById("myThreshold").value);
+ } 
+ //threshold=parseFloat(myThreshold.value);
  
- alert("*After threshold test: "+threshold);
  var row,cell;
  var rowCreated=false
- alert("*rowCreated: "+rowCreated);;
  table.innerHTML="";
  var CardCnt=0;
- alert("*Entering 'for' totCards: "+totXmlCards);
  for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardHash=book.attributes[browserType].nodeValue;
@@ -410,8 +402,7 @@ try{
   if( CardHash!=""&&LongHashCode!=""&&percent>=threshold){
    var CardID=book.attributes[0].nodeValue;
    var CardNAME=book.attributes[1].nodeValue;
-   var CardURL=book.attributes[2].nodeValue;
-alert("*Simil Card-id: "+CardID + " '"+CardNAME +"'");  
+   var CardURL=book.attributes[2].nodeValue;  
    var bIsCard=true;
    if( book.attributes[2].nodeValue.startsWith("https"))
     bIsCard=false;
@@ -427,7 +418,6 @@ alert("*Simil Card-id: "+CardID + " '"+CardNAME +"'");
    CardCnt++;
   }
  }
- alert("*Simil Tot Cards: "+CardCnt);
  totCards.innerHTML="<font size='1'>Found "+CardCnt+" similar card(s)";
  showSort(CardCnt);
  if(CardCnt>1){
