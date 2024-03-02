@@ -387,7 +387,7 @@ try{
  
  alert('*Before Threshold test');
  var threshold=parseFloat("72");
- alert("*Before threshold test: "+threshold);
+ alert("*Before threshold test: "+threshold + " myThreshold.value="+myThreshold.value);
  try{
   threshold=parseFloat(myThreshold.value);
  }
