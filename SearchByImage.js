@@ -30,6 +30,8 @@ var browserType="5";
 var lastFile="";
 var lastThreshold="72";
 var lastHash="";
+var catalog;
+var totXmlCards;
 function resizeImage(imgToResize){
  const canvas=document.createElement("canvas");
  const context=canvas.getContext("2d",{willReadFrequently:true});
@@ -316,6 +318,8 @@ function myParseCards(){
  var parser=new DOMParser();
  browserType=getBrowserType();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
+ catalog=xmlDoc.getElementsByTagName('Cards')[0];
+ totXmlCards=catalog.childElementCount; 
  bxmlParsed=true;
 }
 
@@ -377,8 +381,8 @@ function fileToDataUri(field){
 function SearchByImage(thisHashCode){
 alert("*SearchByImage: "+thisHashCode);
  if(bxmlParsed==false){myParseCards();}
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- var totXmlCards=catalog.childElementCount;
+ //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
+ //var totXmlCards=catalog.childElementCount;
  
  const threshold=parseFloat(myThreshold.value);
  var row,cell;
@@ -396,7 +400,7 @@ alert("*SearchByImage: "+thisHashCode);
    var CardID=book.attributes[0].nodeValue;
    var CardNAME=book.attributes[1].nodeValue;
    var CardURL=book.attributes[2].nodeValue;
-  
+alert("*Simil Card-id: "+CardID + " '"+CardNAME +"'");  
    var bIsCard=true;
    if( book.attributes[2].nodeValue.startsWith("https"))
     bIsCard=false;
@@ -412,6 +416,7 @@ alert("*SearchByImage: "+thisHashCode);
    CardCnt++;
   }
  }
+ alert("*Simil Tot Cards: "+CardCnt);
  totCards.innerHTML="<font size='1'>Found "+CardCnt+" similar card(s)";
  showSort(CardCnt);
  if(CardCnt>1){
@@ -745,8 +750,8 @@ function mySort(){
 async function showCardByID(thisID)
 {
  alert("*Card-id: "+thisID);
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- var totXmlCards=catalog.childElementCount;
+ //var catalog=xmlDoc.getElementsByTagName('Cards')[0];
+ //var totXmlCards=catalog.childElementCount;
  for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;   
