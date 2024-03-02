@@ -434,6 +434,8 @@ function getBrowserType(){
 }
 
 async function downloadImage(imageLink){
+ //if(imageLink.startsWith("https://www.altersleeves.com"))
+  //imageLink="https://corsproxy.io/?"+imageLink;
  const response=await fetch(imageLink);
  const blobImage=await response.blob();
  var URLObj=window.URL || window.webkitURL; 
@@ -446,7 +448,7 @@ async function downloadImage(imageLink){
   else
    resizedImage.src=img.src;
   sourceImg.src=imageToResize.src;
-  sourceImg.title=imageLink;
+  sourceImg.title=imageLink; //imageLink.substring(22);
   sourceImg.alt="";
   lastFile=imageLink;
   timerID=setInterval(function (){
@@ -668,6 +670,7 @@ function myInit(){
  let params=new URL(document.location).searchParams;
  let cardID=params.get("id");
  if(cardID!=""&&cardID!=null){
+  alert("Looking for similar cards to card-id: "+cardID);
   if(showCardByID(cardID)){
    return;
   }   
