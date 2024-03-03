@@ -17,6 +17,7 @@ const captionText=document.getElementById("caption");
 const scryfall=document.getElementById("scryfall");
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
+const myContent=document.getElementById('myContent');
 
 function myParseCards(){
  var parser=new DOMParser();
@@ -434,13 +435,17 @@ span.onclick=function(){
 }
 
 function openNav(){
+ myContent.style.marginLeft="181px";
+ footer_img.style.marginLeft="181px";
  sideBar.style.width="180px";
- main.style.marginLeft="180px";
+ main.style.marginLeft="180px"; 
 }
 
 function closeNav(){
  sideBar.style.width="0";
  main.style.marginLeft="0";
+ myContent.style.marginLeft="0px";
+ footer_img.style.marginLeft="0";
 }
 
 document.addEventListener('click',function handleClickOutside(event){
