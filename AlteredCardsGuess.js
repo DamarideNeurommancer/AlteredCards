@@ -98,7 +98,7 @@ function getRndInt(max){
  return (Math.floor(Math.random()*max)+1);
 }
 
-window.onscroll = function() {myFunction()};
+//window.onscroll=function(){myFunction()};
 var sticky=header.offsetTop;
 function myFunction(){
  if (window.pageYOffset>sticky){
