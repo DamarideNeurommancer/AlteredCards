@@ -58,7 +58,7 @@ originalImage.addEventListener('load',function(){
   const context1=canvas1.getContext("2d",{willReadFrequently:true});
   canvas1.width=croppedWidth;
   canvas1.height=croppedHeight;
-  context1.drawImage(originalImage,0,0,canvas1.width,canvas1.height);
+  context1.drawImage(originalImage,sx,sy,croppedWidth,croppedHeight,0,0,croppedWidth,croppedHeight);
   var data=context1.getImageData(0,0,canvas1.width,canvas1.height);
   
   if(level==1){
@@ -66,10 +66,10 @@ originalImage.addEventListener('load',function(){
    // Medium
   }else if(level==2){
    // Hard
-    context.putImageData(noise(data),0,0);
+    context.putImageData(solarize(data),0,0);
   }else{
    // VeryHard
-   context.putImageData(solarize(noise(data)),0,0);
+   context.putImageData(noise(data),0,0);
   }
  }
 });
