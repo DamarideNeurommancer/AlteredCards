@@ -140,7 +140,44 @@ a:active{
  .sidebar {padding-top: 15px;}
  .sidebar a {font-size: 18px;}
 }
-/*.modal-content, #caption{    
+.modal{
+ display: none;
+ position: fixed;
+ z-index: 1;
+ padding-top: 100px;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ overflow: auto;
+ background-color: rgb(0,0,0);
+ background-color: rgba(0,0,0,0.9);
+}
+.modal-content{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ border-radius: 20px;
+}
+#caption-modal{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ text-align: center;
+ color: White;
+ padding: 10px 0;
+ height: 20px;
+}
+#scryfall{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ text-align: center;
+}
+.modal-content, #caption, #scryfall{    
  -webkit-animation-name: zoom;
  -webkit-animation-duration: 0.6s;
  animation-name: zoom;
@@ -153,7 +190,22 @@ a:active{
 @keyframes zoom{
  from {transform:scale(0)} 
  to {transform:scale(1)}
-}*/ 
+}
+.close{
+ position: absolute;
+ top: 15px;
+ right: 35px;
+ color: #f1f1f1;
+ font-size: 40px;
+ font-weight: bold;
+ transition: 0.3s;
+}
+.close:hover,
+.close:focus{
+ color: #bbb;
+ text-decoration: none;
+ cursor: pointer;
+} 
 </style>
 <script>
 let scriptElement = document.createElement("script");
@@ -178,6 +230,8 @@ document.body.appendChild(scriptElement);
  <a href="index_AlteredPatreon.html"><img src="patreon-icon.png" width='12' height='12'> Patreon</a>
  <a href="index_AlteredHandpainted.html"><img src="handpainted-icon.png" width='12' height='12' style='background-color:darkkhaki'> Handpainted</a>
  <a href="index_AlteredFlipTokens.html"><img src="handpainted-icon.png" width='12' height='12' style='background-color:darkkhaki'> Flip Tokens</a>
+ <a href="SearchByImage.html"><img src="searchbyimage.png" width='12' height='12'> Similarity</a>
+ <a href="index_Match.html"><img src="match-icon.webp" width='12' height='12'> Match Game</a>
  <h2><center>&copy<i> DamarideNeurommancer</i></center></h2>
  </div>
  <div id="main">
@@ -206,6 +260,7 @@ document.body.appendChild(scriptElement);
    <a href="index_AlteredPatreon.html" class="fa"><img src="patreon-icon.png" width='16' height='16' title='Patreon'></a>
    <a href="index_AlteredHandpainted.html" class="fa"><img src="handpainted-icon.png" width='16' height='16' title='Handpainted Cards' style='background-color:darkkhaki'></a>
    <a href="index_AlteredFlipTokens.html" class="fa"><img src="handpainted-icon.png" width='16' height='16' title='Flip Tokens'></a>
+   <a href="SearchByImage.html" class="fa"><img src="searchbyimage.png" width='16' height='16' title='Search Cards by Image Similarity'></a>
   </td>
  </tr>
  </table>
@@ -221,22 +276,35 @@ document.body.appendChild(scriptElement);
    <input type='search' id='myInput' size='20' placeholder='Guess the Card Name' title='Guess the Card Name' data-clear-btn='true'>
    <button id='myBtn' onclick='myCheck()' title='Check your Guess'>&#9668;Check</button>
    <button id='myBtnNext' onclick='mySearch()' title='New Card'>New&#9658;</button>
+   <button id='myBtnPopup' onclick='myPopup()' title='Zoom card image'><img src="zoom-icon.png" width='12' height='12'></button>
+   <button id='myBtnHelp' onclick='myHelp()' title='Help'>?</button>
   </td>
  </tr>
  </table></div>
 </div>
 <script>
 var input = document.getElementById('myInput');
-input.addEventListener('keyup', function(event){
-if(event.keyCode == 13){
+input.addEventListener('keyup',function(event){
+if(event.keyCode==13){
  document.getElementById('myBtn').click();
 }
 });
 </script>
+<div>
 <canvas id="mycanvas" width="301px" height="220px" title='Click image to get a new one'></canvas>
 <p id="result"/>
 <div>
-<img class="modal-content" id="img01" style='width:210px;height:292px;border-radius:14px'>
+<img id="img01" style='width:210px;height:292px;border-radius:14px;cursor:zoom-in' onclick='myPopup()'>
 <p id="caption"/>
+</div>
+</div>
+
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img02" onclick='modal.style.display="none"'>
+  <div>
+  <p id="caption-modal">
+  <p id="scryfall" title="Search on Scryfall">
+  </div>
 </div>
 </body></html>
