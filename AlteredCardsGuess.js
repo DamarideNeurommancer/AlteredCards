@@ -63,16 +63,16 @@ originalImage.addEventListener('load',function(){
   
   if(level==1){
     //var data = context.getImageData(0,0,canvas.width,canvas.height);
-    canvas.putImageData(vintage(data),0,0);
+    canvas1.putImageData(vintage(data),0,0);
    // Medium
   }else if(level==2){
    // Hard
     //var data=context.getImageData(0,0,canvas.width,canvas.height);
-    canvas.putImageData(noise(data),0,0);
+    canvas1.putImageData(noise(data),0,0);
   }else{
    // VeryHard
    //var data=context.getImageData(0,0,canvas.width,canvas.height);
-   canvas.putImageData(solarize(noise(data)),0,0);
+   canvas1.putImageData(solarize(noise(data)),0,0);
   }
  }
 });
