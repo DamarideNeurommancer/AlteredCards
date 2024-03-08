@@ -50,6 +50,31 @@ originalImage.addEventListener('load',function(){
  canvas.width=croppedWidth;
  canvas.height=croppedHeight;
  context.drawImage(originalImage,sx,sy,croppedWidth,croppedHeight,0,0,croppedWidth,croppedHeight);
+ var level=getRadioValue();
+ 
+ if( level>0){
+  originalImage.crossOrigin = "anonymous";
+  const canvas1=document.createElement("canvas");
+  const context1=canvas1.getContext("2d",{willReadFrequently:true});
+  canvas1.width=croppedWidth;
+  canvas1.height=croppedHeight;
+  context1.drawImage(originalImage,0,0,canvas1.width,canvas1.height);
+  var data=context1.getImageData(0,0,canvas1.width,canvas1.height);
+  
+  if(level==1){
+    //var data = context.getImageData(0,0,canvas.width,canvas.height);
+    canvas.putImageData(vintage(data),0,0);
+   // Medium
+  }else if(level==2){
+   // Hard
+    //var data=context.getImageData(0,0,canvas.width,canvas.height);
+    canvas.putImageData(noise(data),0,0);
+  }else{
+   // VeryHard
+   //var data=context.getImageData(0,0,canvas.width,canvas.height);
+   canvas.putImageData(solarize(noise(data)),0,0);
+  }
+ }
 });
 
 c.addEventListener('click',function(){
@@ -99,7 +124,7 @@ function myResult(msg,imgurl,imgtitle,url){
 }
 
 function myHelp(){
- var sHelp ="Click 'New' button to get a new card or simply pat the image.\nEnter your guessed card's name and hit return.\nClick 'Check' button to unveil the whole card.\nStart/Stop/pause/Mute the music with the related buttons.\nIn the 'Zoom In' popup you have links to Alter Sleeves and to Scryfall.";
+ var sHelp ="Click 'New' button to get a new card or simply pat the image.\nEnter your guessed card's name and hit return.\nClick 'Check' button to unveil the whole card.\nStart/Stop/Pause/Mute the music with the related buttons.\nIn the 'Zoom In' popup you have links to Alter Sleeves and to Scryfall.";
  var title="";
  var imageUrl="";
  if(modalImg.style.visibility=="hidden")
@@ -160,4 +185,60 @@ document.addEventListener('click',function handleClickOutside(event){
 var span=document.getElementsByClassName("close")[0];
 span.onclick=function(){ 
  modal.style.display="none";
+}
+
+function getRadioValue(){
+ var lev=document.getElementsByName('level');
+ var val=0;
+ for(i=0;i<lev.length;i++) {
+  if (lev[i].checked){
+   val=lev[i].value;
+   break;
+  }
+ }
+ return(val);
+}
+
+function random(min,max){
+ return(Math.floor(Math.random()*(max-min+1))+min);
+}
+
+function noise(imgData){
+ var tempData=imgData;
+ for(var i=0;i<tempData.data.length;i+=4){
+  var r=tempData.data[i];
+  var g=tempData.data[i+1];
+  var b=tempData.data[i+2];
+  tempData.data[i]  =(r+random(0,255))/2;
+  tempData.data[i+1]=(g+random(0,255))/2;
+  tempData.data[i+2]=(b+random(0,255))/2;
+ }    
+ return tempData;
+}
+
+function solarize(imgData){
+ var tempData=imgData;
+ for(var i=0;i<tempData.data.length;i+=4){
+  var r=tempData.data[i];
+  var g=tempData.data[i+1];
+  var b=tempData.data[i+2];
+  tempData.data[i]  =r>127?255-r:r;
+  tempData.data[i+1]=g>127?255-g:g;
+  tempData.data[i+2]=b>127?255-b:b;
+ }    
+ return tempData;
+}
+
+function vintage(imgData){
+ var tempData=imgData;
+ for(var i=0;i<tempData.data.length;i+=4){
+  var r=tempData.data[i];
+  var g=tempData.data[i+1];
+  var b=tempData.data[i+2];
+  tempData.data[i]  =g;
+  tempData.data[i+1]=r;
+  tempData.data[i+2]=150;
+ }
+ //tempData=contrast(tempData,50);    
+ return tempData;
 }

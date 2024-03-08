@@ -78,12 +78,6 @@ a:active{
  opacity: 0.7;
  border: 0px;
 }
-/*img:hover{
- transform:scale(1.2);
- border: 2px solid white;
- -ms-transform:scale(1.2);
- -webkit-transform:scale(1.2);
-}*/
 .swal2-popup{
  font-size: 0.6rem;
  text-align: left;
@@ -278,6 +272,13 @@ document.body.appendChild(scriptElement);
    <button id='myBtnNext' onclick='mySearch()' title='New Card'>New&#9658;</button>
    <button id='myBtnPopup' onclick='myPopup()' title='Zoom card image'><img src="zoom-icon.png" width='12' height='12'></button>
    <button id='myBtnHelp' onclick='myHelp()' title='Help'>?</button>
+   <!--p id="levelPanel"-->
+   <p>
+    <input type="radio" name="level" id="easy" checked="checked" value="0" /> <label for="easy">Easy</label>
+    <input type="radio" name="level" id="medium" value="1" /> <label for="medium">Medium</label>
+    <input type="radio" name="level" id="hard" value="2" /> <label for="hard">Hard</label>
+    <input type="radio" name="level" id="veryhard" value="3" /> <label for="veryhard">Very Hard</label>
+  </p>
   </td>
  </tr>
  </table></div>
