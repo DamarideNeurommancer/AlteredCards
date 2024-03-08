@@ -62,17 +62,14 @@ originalImage.addEventListener('load',function(){
   var data=context1.getImageData(0,0,canvas1.width,canvas1.height);
   
   if(level==1){
-    //var data = context.getImageData(0,0,canvas.width,canvas.height);
-    canvas1.putImageData(vintage(data),0,0);
+    context1.putImageData(vintage(data),0,0);
    // Medium
   }else if(level==2){
    // Hard
-    //var data=context.getImageData(0,0,canvas.width,canvas.height);
-    canvas1.putImageData(noise(data),0,0);
+    context1.putImageData(noise(data),0,0);
   }else{
    // VeryHard
-   //var data=context.getImageData(0,0,canvas.width,canvas.height);
-   canvas1.putImageData(solarize(noise(data)),0,0);
+   context1.putImageData(solarize(noise(data)),0,0);
   }
  }
 });
