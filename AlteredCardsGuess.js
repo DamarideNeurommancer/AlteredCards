@@ -12,7 +12,13 @@ const modalImg=document.getElementById("img01");
 const captionText=document.getElementById("caption");
 const resultText=document.getElementById("result");
 const c=document.getElementById("mycanvas");
+const modal=document.getElementById('myModal');
+const captionModal=document.getElementById('caption-modal');
+const modalPopupImg=document.getElementById("img02");
+const scryfall=document.getElementById("scryfall");
 const originalImage=new Image();
+
+var CardURL="";
 function myParseCards(){
  var parser=new DOMParser();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
@@ -24,8 +30,6 @@ function mySearch(){
    myParseCards();
  } 
  modalImg.style.visibility="hidden";
- //modalImg.src = "";
- //modalImg.alt = "";
  captionText.innerHTML="";
  resultText.innerHTML="";
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
@@ -63,8 +67,8 @@ function myCheck()
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- var CardURL=URLRoot+book.attributes[2].nodeValue;
- var msg="Wrong Guess!"
+ CardURL=URLRoot+book.attributes[2].nodeValue;
+ var msg=""; //Wrong Guess!"
  if(CardNAME.toUpperCase()==filter){
   msg="Right Guess, congrats you win!"
  } 
@@ -94,18 +98,47 @@ function myResult(msg,imgurl,imgtitle,url){
  }
 }
 
-function getRndInt(max){
- return (Math.floor(Math.random()*max)+1);
+function myHelp(){
+ var sHelp ="Click 'New' button to get a new card or simply pat the image.\nEnter your guessed card's name and hit return.\nClick 'Check' button to unveil the whole card.\nStart/Stop/pause/Mute the music with the related buttons.\nIn the 'Zoom In' popup you have links to Alter Sleeves and to Scryfall.";
+ var title="";
+ var imageUrl="";
+ if(modalImg.style.visibility=="hidden")
+  title="<span><a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>"; 
+ else{
+  imageUrl=modalImg.src;
+  title="<span><a style='color:Blue' href='"+CardURL+"'>"+modalImg.title+"</a></span>";
+ }  
+ try{
+  Swal.fire({    
+   title: title,
+   html: "<span style='color:Black'><b>"+sHelp.replaceAll('\n','<br>')+"</b></span>",
+   imageUrl: imageUrl,
+   imageWidth: 80,
+   imageHeight: 104,
+   confirmButtonColor: "Black",
+   padding: 1,
+  })
+ }
+ catch{alert(sHelp);}
 }
 
-//window.onscroll=function(){myFunction()};
-var sticky=header.offsetTop;
-function myFunction(){
- if (window.pageYOffset>sticky){
-  header.classList.add('sticky');
- } else {
-   header.classList.remove('sticky');
- }
+function myPopup(){
+ if(modalImg.style.visibility=="hidden")
+  return;
+ var img=modalImg.src;
+ var imgtitle=modalImg.title; 
+ var url=CardURL; 
+ modal.style.display="block";
+ modalPopupImg.src=img;
+ modalPopupImg.alt=imgtitle;
+ captionModal.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+modalImg.alt+"</a>";
+ var result=imgtitle.indexOf(" ");
+ var scryCard=imgtitle.substring(result+1);
+ scryfall.innerHTML="<a href='https://scryfall.com/search?q=!\""+scryCard.replaceAll("'","%27").replaceAll("&","%26") + "\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
+}
+
+function getRndInt(max){
+ return (Math.floor(Math.random()*max)+1);
 }
 
 function openNav(){
@@ -123,3 +156,8 @@ document.addEventListener('click',function handleClickOutside(event){
   closeNav();
  }
 });
+
+var span=document.getElementsByClassName("close")[0];
+span.onclick=function(){ 
+ modal.style.display="none";
+}
