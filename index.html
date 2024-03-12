@@ -84,12 +84,6 @@ img:hover{
  -ms-transform:scale(1.2);
  -webkit-transform:scale(1.2);
 }
-/*.swal2-popup{
- font-size: 0.6rem;
- text-align: left;
- background: White;
- border-radius: 80px; 
-}*/
 .sidebar{
  height: 100%;
  width: 0;
@@ -141,12 +135,6 @@ img:hover{
  .sidebar a {font-size: 18px;}
 } 
 </style>
-<script>
-let scriptElement=document.createElement("script");
-scriptElement.type="text/javascript";
-scriptElement.src="AlteredCardsAlbum.js"; 
-document.body.appendChild(scriptElement);
-</script>
 <div class="header" id="myHeader">
 <div id="mySidebar" class="sidebar">
  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -165,6 +153,7 @@ document.body.appendChild(scriptElement);
  <a href="index_AlteredFlipTokens.html"><img src="handpainted-icon.png" width='12' height='12' style='background-color:darkkhaki'> Flip Tokens</a>
  <a href="SearchByImage.html"><img src="searchbyimage.png" width='12' height='12'> Similarity</a>
  <a href="index_Match.html"><img src="match-icon.webp" width='12' height='12'> Match Game</a>
+ <a href="index_Guess.html"><img src="guess-icon.webp" width='12' height='12' style='background-color:red'> Guess Game</a>
  <h2><center>&copy<i> DamarideNeurommancer</i></center></h2>
  </div>
  <div id="main">
@@ -218,10 +207,13 @@ document.body.appendChild(scriptElement);
 <script>
 var input = document.getElementById('myInput');
 input.addEventListener('keyup', function(event){
-if(event.keyCode == 13){
+if(event.keyCode==13){
 document.getElementById('myBtn').click();
 }
 });
 </script>
 <div id='center-header'><table id="myTable">
-</div></body></html>
+</div>
+<script src="AlteredCardsXml.js" type="text/javascript"></script>
+<script src="AlteredCardsAlbum.js" type="text/javascript"></script>
+</body></html>
