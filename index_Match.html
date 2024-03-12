@@ -181,6 +181,7 @@ a:active{
  background-size: 50%;
 }
 .cardlink{
+
  border-radius: 6px;
  transform-style: preserve-3d;
  background-color: black;
@@ -191,12 +192,6 @@ a:active{
  border-radius:6px;
 } 
 </style>
-<script>
-let scriptElement = document.createElement("script");
-scriptElement.type = "text/javascript";
-scriptElement.src = "AlteredCardsMatch.js"; 
-document.body.appendChild(scriptElement);
-</script>
 <div class="header" id="myHeader">
 <div id="mySidebar" class="sidebar">
  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -215,6 +210,7 @@ document.body.appendChild(scriptElement);
  <a href="index_AlteredHandpainted.html"><img src="handpainted-icon.png" width='12' height='12' style='background-color:darkkhaki'> Handpainted</a>
  <a href="index_AlteredFlipTokens.html"><img src="handpainted-icon.png" width='12' height='12' style='background-color:darkkhaki'> Flip Tokens</a>
  <a href="SearchByImage.html"><img src="searchbyimage.png" width='12' height='12'> Similarity</a>
+ <a href="index_Guess.html"><img src="guess-icon.webp" width='12' height='12' style='background-color:red'> Guess Game</a>
  <h2><center>&copy<i> DamarideNeurommancer</i></center></h2>
  </div>
  <div id="main">
@@ -265,4 +261,6 @@ document.body.appendChild(scriptElement);
   <div id="game">    
   </div>
  </div>
+<script src="AlteredCardsXml.js" type="text/javascript"></script>
+<script src="AlteredCardsMatch.js" type="text/javascript"></script>
 </body></html>
