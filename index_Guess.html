@@ -201,12 +201,6 @@ a:active{
  cursor: pointer;
 } 
 </style>
-<script>
-let scriptElement = document.createElement("script");
-scriptElement.type = "text/javascript";
-scriptElement.src = "AlteredCardsGuess.js"; 
-document.body.appendChild(scriptElement);
-</script>
 <div class="header" id="myHeader">
 <div id="mySidebar" class="sidebar">
  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -232,7 +226,6 @@ document.body.appendChild(scriptElement);
  <button class="openbtn" onclick="openNav()">&#9776;</button>
  <font color='White' style='font-size: 20px;'>&#10024; DamarideNeurommancer</font>
  </div>
-  
  <font color='White'>
  <table>
  <tr>
@@ -262,17 +255,11 @@ document.body.appendChild(scriptElement);
  <table>
  <tr>
   <td>
-   <audio id="myAudio" loop autoplay controls>
-    <source src="warriors.ogg" type="audio/ogg">
-    <source src="warriors.mp3" type="audio/mpeg">
-    Your browser does not support the audio element
-   </audio><br>
    <input type='search' id='myInput' size='20' placeholder='Guess the Card Name' title='Guess the Card Name' data-clear-btn='true'>
    <button id='myBtn' onclick='myCheck()' title='Check your Guess'>&#9668;Check</button>
    <button id='myBtnNext' onclick='mySearch()' title='New Card'>New&#9658;</button>
    <button id='myBtnPopup' onclick='myPopup()' title='Zoom card image'><img src="zoom-icon.png" width='12' height='12'></button>
    <button id='myBtnHelp' onclick='myHelp()' title='Help'>?</button>
-   <!--p id="levelPanel"-->
    <p>
     <input type="radio" name="level" id="easy" checked="checked" value="0" /> <label for="easy">Easy</label>
     <input type="radio" name="level" id="medium" value="1" /> <label for="medium">Medium</label>
@@ -308,4 +295,6 @@ if(event.keyCode==13){
   <p id="scryfall" title="Search on Scryfall">
   </div>
 </div>
+<script src="AlteredCardsXml.js" type="text/javascript"></script>
+<script src="AlteredCardsGuess.js" type="text/javascript"></script>
 </body></html>
