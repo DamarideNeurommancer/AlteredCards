@@ -704,6 +704,11 @@ function myInit(){
    clearInterval(timerID);
   }
  }
+ else{
+  sourceImg.src="dada_logo.jpg";
+  sourceImg.alt="https://www.altersleeves.com/browse/?browse_type=by&artist_id=16";
+  sourceImg.title="DamarideNeurommancer";
+ }
 }
 
 function myReset()
@@ -775,6 +780,7 @@ async function showCardByID(thisID)
      sourceImg.title=CardID+" "+CardNAME;
      sourceImg.alt=CardURL;
      resizedImage.src=sourceImg.src;
+     mySave(resizedImage, lastFile);
     });
     img.src=imageFileName;
     return(true);
