@@ -113,7 +113,7 @@ function myResult(msg,imgurl,imgtitle,url){
 }
 
 function myHelp(){
- var sHelp ="Click 'New' button to get a new card or simply pat the image.\nEnter your guessed card's name and hit return.\nClick 'Check' button to unveil the whole card.\nStart/Stop/Pause/Mute the music with the related buttons.\nIn the 'Zoom In' popup you have links to Alter Sleeves and to Scryfall.";
+ var sHelp ="Click 'New' button to get a new card or simply pat the image.\nEnter your guessed card's name and hit return.\nClick 'Check' button to unveil the whole card.\nClick the shown card or press the 'Zoom In' button and in the popup you have links to Alter Sleeves and to Scryfall.";
  var title="";
  var imageUrl="";
  if(modalImg.style.visibility=="hidden")
