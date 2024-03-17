@@ -148,7 +148,7 @@ function drawTaroc(idx,elem,note,rev=0){
  //Upright_Keywords
  var uk=book.attributes[3].nodeValue; //UK Upright_Keywords
  var url= URLRoot+book.attributes[8].nodeValue; //U url in AlterSleeves
- var tFilename="file:///D:\\LEST\\JS\\SITO WEB GITHUB\\"+CardID+".jpg";
+ var tFilename=CardID+".jpg";
  if(rev==1){
   try{
    const originalImage=new Image();
