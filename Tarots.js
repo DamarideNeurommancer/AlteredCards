@@ -95,23 +95,20 @@ function BirthDateTarots(){
  const t1idx=tarots[0],t2idx=tarots[1],t3idx=tarots[2];
  var x=window.matchMedia("(max-width:380px)")
 
+ clearPanel();
  if(!isMobile()&&!x.matches){
   //t2idx=t1idx;
-  if(t2idx!=-1){
+  /*if(t2idx!=-1){
    myPanel.style.gridTemplateColumns="200px 200px 200px";
    //myPanel.style.gridTemplateRows="300px 300px 300px";
-   //drawTaroc(t1idx,t1Title,"Left Card");
-   //drawTaroc(t2idx,t2Title, "Middle Card");
-   //drawTaroc(t3idx,t3Title,"Right Card");
   }
   else{
    //myPanel.style.gridTemplateColumns="200px 200px";
    myPanel.style.gridTemplateRows="300px 300px";
-   //drawTaroc(t1idx,t1Title,"Left Card");
-   //drawTaroc(t3idx,t2Title,"Right Card");
-  }
-  drawTaroc(t1idx,t1Title,"Left Card",1);
-  //drawTaroc(t3idx,t3Title,"Right Card");
+  }*/
+  //myPanel.style.gridTemplateColumns="180px 180px 180px";
+  //myPanel.style.gridTemplateRows="360px 360px 360px";
+  drawTaroc(t1idx,t1Title,"Left Card");
   if(t2idx!=-1){
    drawTaroc(t2idx,t2Title, "Middle Card");
    drawTaroc(t3idx,t3Title,"Right Card");
@@ -121,16 +118,15 @@ function BirthDateTarots(){
   }
  }
  else{
-   if(t2idx!=-1){
+   /*if(t2idx!=-1){
    myPanel.style.gridTemplateColumns="200px";
    myPanel.style.gridTemplateRows="300px 300px 300px";
   }
   else{
    myPanel.style.gridTemplateColumns="200px";
    myPanel.style.gridTemplateRows="300px 300px";
-  }
+  }*/
   drawTaroc(t1idx,t1Title,"Left Card");
-  //drawTaroc(t3idx,t7Title,"Right Card");
   if(t2idx!=-1){
    drawTaroc(t2idx,t4Title,"Middle Card");
    drawTaroc(t3idx,t7Title,"Right Card");
@@ -138,7 +134,10 @@ function BirthDateTarots(){
   else{
    drawTaroc(t3idx,t4Title,"Right Card");
   }
- }  
+ }
+ //Details del primo tarocco
+ drawDetails(t1idx);
+ panel.scrollTo(0,0);  
 }
 
 function drawTaroc(idx,elem,note,rev=0){
@@ -150,23 +149,13 @@ function drawTaroc(idx,elem,note,rev=0){
  var url= URLRoot+book.attributes[8].nodeValue; //U url in AlterSleeves
  var tFilename=CardID+".jpg";
  if(rev==1){
-  try{
-   const originalImage=new Image();
-   originalImage.crossOrigin = "anonymous";
-   originalImage.addEventListener('load',async function(){
-    //drawXXX(originalImage);
-    //ReverseTaroc(originalImage);
-    originalImage.src=await ReverseTaroc(originalImage);
-   });
-   originalImage.src=tFilename;
-  }
-  catch(err){;}
+  tFilename=CardID+"_R.jpg";
  }
 
  //background-color:gold;
  var CardsHTML=`<div class="box" style="color:DarkGoldenRod;font-weight:bolder" onclick='drawDetails("${idx}")'>${title}<div>
    <a href="${url}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}"></a>
-   <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}")'>${note}<br>${uk}</p>
+   <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}")'>${note} <button id="${idx}" onclick='drawDetails("${idx}")' title='Details' style="background-color:gold;font-size:4px;">&#9658;</button><br>${uk}</p>
   </div>
  </div>`;
  // click sul <div> e sul <p> per avere i dettagli
@@ -174,6 +163,17 @@ function drawTaroc(idx,elem,note,rev=0){
  drawDetails(idx);
 }
 
+function clearPanel(){
+ t1Title.innerHTML="";
+ t2Title.innerHTML="";
+ t3Title.innerHTML="";
+ t4Title.innerHTML="";
+ t5Title.innerHTML="";
+ t6Title.innerHTML="";
+ t7Title.innerHTML="";
+ t8Title.innerHTML="";
+ t9Title.innerHTML="";
+}
 function drawDetails(idx,rev=0){
  book=catalog.childNodes[idx];
  var title = book.attributes[0].nodeValue + " - " + book.attributes[2].nodeValue; // I + N
@@ -214,8 +214,7 @@ function drawDetails(idx,rev=0){
   epzcas+=" Zodiac: "+z;
  else
   epzcas+=" Planet: "+p; 
- epzcas+=" Suit: "+s;
- epzcas+=" Planet: "+p;  
+ epzcas+=" Suit: "+s;  
  epzcas+=" Color: "+c;
  epzcas+=" Animal: "+a;
  
@@ -256,7 +255,6 @@ function getBDTarots(sum){
  var l=0;
  var r=0;
  var m=0;
-
  switch(sum){
   case 1:
    l=10;
@@ -654,33 +652,3 @@ function WitchesPentagram(){
     DisplayTarocInfo(taroc5, bReversed);
 }
 */
-/*
-function drawXXX(img){
- var originalCanvas = document.getElementById('original').getContext('2d');
-  originalCanvas.canvas.width = img.width;
-  originalCanvas.canvas.height = img.height;
-  originalCanvas.drawImage(img, 0, 0);
-}
-*/
-
-/*async function ReverseTaroc(img){
-  var canvas = document.getElementById('original');
-  var context = canvas.getContext('2d');
-  canvas.width = img.width;
-  canvas.height = img.height;
-  
-  context.translate(0,canvas.height);
-  context.scale(1,-1);
-  context.drawImage(img,0,0);
-}*/
-
-async function ReverseTaroc(img){
-  const canvas=document.createElement("canvas");
-  const context=canvas.getContext("2d",{willReadFrequently:true});
-  canvas.width=img.width;
-  canvas.height=img.height;
-  context.translate(0,canvas.height);
-  context.scale(1,-1);
-  context.drawImage(img,0,0);
-  return canvas.toDataURL();
-}
