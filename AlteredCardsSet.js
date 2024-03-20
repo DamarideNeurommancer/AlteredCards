@@ -8,60 +8,72 @@ const table=document.getElementById('myTable');
 const totCards=document.getElementById('totalCards');
 const myCols=document.getElementById('myColumns');
 const header=document.getElementById('myHeader');
+var bRequest=false;
 function myParseCards(){
- var parser = new DOMParser();
- xmlDoc = parser.parseFromString(xmlCards,"text/xml");
- bxmlParsed = true;
+ var parser=new DOMParser();
+ xmlDoc=parser.parseFromString(xmlCards,"text/xml");
+ bxmlParsed=true;
 }
 
 function mySearch(MaxColumns){
  var setNo="1";
- if( MaxColumns != "undefined"){
+ if(MaxColumns!="undefined"){
   var myList=document.getElementById("mySets");
-  setNo = (myList.selectedIndex+1).toString();  
+  setNo=(myList.selectedIndex+1).toString();  
  }
- 
- if( bxmlParsed == false){
-   myParseCards();
- }
- table.innerHTML = "";
- var CardCnt = 0;
- var catalog = xmlDoc.getElementsByTagName('Cards')[0];
- var totXmlCards = catalog.childElementCount;
- var nCols = 6;
- if( MaxColumns > 0)
-  nCols = MaxColumns;
- else
-  nCols = myCols.value;
-
- var row, cell;
- for (var i = 0; i < totXmlCards; i++){
-  var book = catalog.childNodes[i];
-  var CardID = book.attributes[0].nodeValue;
-  var CardNAME = book.attributes[1].nodeValue;
-  var CardSet = book.attributes[3].nodeValue;
-  if (CardSet === setNo){
-   var CardURL = (CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
-   CardCnt++;
-   if ((CardCnt % nCols == 1) || nCols == 1)
-    row = table.insertRow(-1);
-   else
-    row = table.rows[table.rows.length-1];
-
-   cell = row.insertCell(-1);
-   cell.innerHTML = "<a href='" + CardURL + "'><img src='"+ CardID +(CardID>100?".jpg":".webp")+"' alt='" +CardID + "' style='width:192px;height:266px;border-radius:10px;' title=\"" +CardID + " " + CardNAME + "\"><font size='1'><br>" + CardNAME + "</font></a>";
+ if(bRequest==false){
+  var params=new URL(document.location).searchParams;
+  var setID=params.get("set");
+  if(setID!=""&&setID!=null){
+   setID=Number(setID);
+   if(setID>=1&&setID<=9){
+    setNo=setID;
+    myList.value=setNo;
+    bRequest=true;
+   }
   }
  }
- totCards.innerHTML = "<font size='1'>Found " + CardCnt + " cards in this Set";
- window.scrollTo(0, 0);
+ if(bxmlParsed==false){
+   myParseCards();
+ }
+ table.innerHTML="";
+ var CardCnt=0;
+ var catalog=xmlDoc.getElementsByTagName('Cards')[0];
+ var totXmlCards=catalog.childElementCount;
+ var nCols=6;
+ if(MaxColumns>0)
+  nCols=MaxColumns;
+ else
+  nCols=myCols.value;
+
+ var row,cell;
+ for(var i=0;i<totXmlCards;i++){
+  var book=catalog.childNodes[i];
+  var CardID=book.attributes[0].nodeValue;
+  var CardNAME=book.attributes[1].nodeValue;
+  var CardSet=book.attributes[3].nodeValue;
+  if(CardSet===setNo){
+   var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
+   CardCnt++;
+   if((CardCnt % nCols==1) || nCols==1)
+    row=table.insertRow(-1);
+   else
+    row=table.rows[table.rows.length-1];
+
+   cell=row.insertCell(-1);
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:192px;height:266px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+  }
+ }
+ totCards.innerHTML="<font size='1'>Found "+CardCnt+" cards in this Set";
+ window.scrollTo(0,0);
 }
 
 function myHelp(){
- var sHelp = "Select a set.\nDefault and max value for 'columns per row' is 6, changing that value redisplays the set.\nFor set 'Lands' try with 5 as 'colums per row' to see that different cards create panoramic views (e.g. the last 5 cards).";
+ var sHelp="Select a set.\nDefault and max value for 'columns per row' is 6, changing that value redisplays the set.\nFor set 'Lands' try with 5 as 'colums per row' to see that different cards create panoramic views (e.g. the last 5 cards).";
  try{
   Swal.fire({
-   title: "<span style='color:Black'>" +"DamarideNeurommancer",
-   html: "<span style='color:Black'><b>" + sHelp.replaceAll('\n','<br>')+ "</b>",
+   title: "<span style='color:Black'>"+"DamarideNeurommancer",
+   html: "<span style='color:Black'><b>"+sHelp.replaceAll('\n','<br>')+"</b>",
    confirmButtonColor: "Black",
    padding: 1,
   })
@@ -75,27 +87,27 @@ function columnsValueChange(){
  mySearch(myCols.value);
 }
 
-window.onscroll = function() {myFunction()};
-var sticky = header.offsetTop;
+window.onscroll=function(){myFunction()};
+var sticky=header.offsetTop;
 function myFunction(){
- if (window.pageYOffset > sticky){
+ if(window.pageYOffset>sticky){
   header.classList.add('sticky');
- } else {
+ }else{
    header.classList.remove('sticky');
  }
 }
 
 function openNav(){
- sideBar.style.width = "180px";
- main.style.marginLeft = "180px";
+ sideBar.style.width="180px";
+ main.style.marginLeft="180px";
 }
 
 function closeNav(){
- sideBar.style.width = "0";
- main.style.marginLeft = "0";
+ sideBar.style.width="0";
+ main.style.marginLeft="0";
 }
 
-document.addEventListener('click', function handleClickOutside(event){
+document.addEventListener('click',function handleClickOutside(event){
  if(!main.contains(event.target)){
   closeNav();
  }
