@@ -1,34 +1,25 @@
+// TODO
+// Credits per i contenuti
+// Help specifico per il tipo di spread
+// Fonts??
 var bxmlParsed=false;
 var xmlDoc;
 var catalog,book;
 var totXmlTarots;
 const mySpreads=document.getElementById("mySpreads");
 const myDate=document.getElementById("myDate");
-const t1Title=document.getElementById("t1");
-const t2Title=document.getElementById("t2");
-const t3Title=document.getElementById("t3");
-const t4Title=document.getElementById("t4");
-const t5Title=document.getElementById("t5");
-const t6Title=document.getElementById("t6");
-const t7Title=document.getElementById("t7");
-const t8Title=document.getElementById("t8");
-const t9Title=document.getElementById("t9");
 const myDetails=document.getElementById('myDetails');
 const myDivDate=document.getElementById('divDate');
 const myPanel=document.getElementById('panel');
-
-var rndCard=-1;
+const modalPopupImg=document.getElementById("img02");
 
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
 const header=document.getElementById('myHeader');
-const modalImg=document.getElementById("img01");
+//const modalImg=document.getElementById("img01");
 const captionText=document.getElementById("caption");
-const resultText=document.getElementById("result");
 const modal=document.getElementById('myModal');
 const captionModal=document.getElementById('caption-modal');
-const modalPopupImg=document.getElementById("img02");
-const scryfall=document.getElementById("scryfall");
 //const originalImage=new Image();
 var CardURL="";
 
@@ -51,6 +42,7 @@ function mySpreadChange(){
   myDivDate.style.visibility="hidden";
  else
   myDivDate.style.visibility="visible";
+  myRead();
 }
 
 function myRead(){
@@ -59,10 +51,30 @@ function myRead(){
  }
  switch(spreadNo){
   case 1:
-   BirthDateTarots();
+   BirthDateTarots(); // 2 o 3 Tarots
    break;
+  case 2: 
+   FourWinds();
+   break;
+  case 4: // 5 Tarots. 4 Random + 1 Quintessenza Calcolato
+   WitchesPentagram();
+   break;
+  case 5: // 4 Tarots Random
+   TarocDemarseilleCross();
+   break;
+  case 6: // Tarot De Marseille Open Reading: 3 Tarots Random (No Reverse) 
+   TarocDeMarseilleNoReverse();
+   break;
+  case 7: // Tarot Pairs: 6 Tarocs Random
+   TarocPairs();
+   break;
+  case 8: // Sacred Circle: 5 Tarots. 4 Random + 1 Center of Circle Calcolato
+   SacredCircle();
+   break;
+  case 9: // Mandala: 9 Tarots
+   MandalaTarots();
   default:
-   console.log("Che leggo!?");
+   console.log("?!?");
  }
 }
 
@@ -92,56 +104,67 @@ function BirthDateTarots(){
  }
 
  let tarots=getBDTarots(sum);
- const t1idx=tarots[0],t2idx=tarots[1],t3idx=tarots[2];
- var x=window.matchMedia("(max-width:380px)")
+ var t1idx=tarots[0],t2idx=tarots[1],t3idx=tarots[2];
+ var x=window.matchMedia("(max-width:400px)");
+ 
+ //alert("max-width:400px? "+x.matches + " w=" + window.innerWidth + " h=" + window.innerHeight);
+ //alert("screen.w=" + window.screen.width + " screen.hh=" + window.screen.height);
+ const width  = window.innerWidth || document.documentElement.clientWidth || 
+ document.body.clientWidth;
+ const height = window.innerHeight|| document.documentElement.clientHeight|| 
+ document.body.clientHeight;
 
+//alert("w="+width+" h="+height);
  clearPanel();
  if(!isMobile()&&!x.matches){
-  //t2idx=t1idx;
-  /*if(t2idx!=-1){
-   myPanel.style.gridTemplateColumns="200px 200px 200px";
-   //myPanel.style.gridTemplateRows="300px 300px 300px";
+  if(t2idx!=0){
+   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+   myPanel.style.gridTemplateRows=gridString(1,330); //"330px";
   }
   else{
-   //myPanel.style.gridTemplateColumns="200px 200px";
-   myPanel.style.gridTemplateRows="300px 300px";
-  }*/
-  //myPanel.style.gridTemplateColumns="180px 180px 180px";
-  //myPanel.style.gridTemplateRows="360px 360px 360px";
-  drawTaroc(t1idx,t1Title,"Left Card");
-  if(t2idx!=-1){
-   drawTaroc(t2idx,t2Title, "Middle Card");
-   drawTaroc(t3idx,t3Title,"Right Card");
+   myPanel.style.gridTemplateColumns=gridString(2,200); //"200px 200px";
+   myPanel.style.gridTemplateRows=gridString(1,330); //"330px";
+  }
+  drawTaroc(t1idx,1,"Left Card");
+  if(t2idx!=0){
+   drawTaroc(t2idx,2,"Middle Card");
+   drawTaroc(t3idx,3,"Right Card");
   }
   else{
-   drawTaroc(t3idx,t2Title,"Right Card");
+   drawTaroc(t3idx,2,"Right Card");
   }
  }
  else{
-   /*if(t2idx!=-1){
-   myPanel.style.gridTemplateColumns="200px";
-   myPanel.style.gridTemplateRows="300px 300px 300px";
+  //t2idx=t1idx;
+  if(t2idx!=0){
+   myPanel.style.gridTemplateColumns=gridString(1,200); //"200px";
+   myPanel.style.gridTemplateRows=gridString(3,330); //"330px 330px 330px";
   }
   else{
-   myPanel.style.gridTemplateColumns="200px";
-   myPanel.style.gridTemplateRows="300px 300px";
-  }*/
-  drawTaroc(t1idx,t1Title,"Left Card");
-  if(t2idx!=-1){
-   drawTaroc(t2idx,t4Title,"Middle Card");
-   drawTaroc(t3idx,t7Title,"Right Card");
+   myPanel.style.gridTemplateColumns=gridString(1,200); //"200px";
+   myPanel.style.gridTemplateRows=gridString(2,330); //"330px 330px";
+  }
+  drawTaroc(t1idx,1,"Left Card");
+  if(t2idx!=0){
+   drawTaroc(t2idx,4,"Middle Card");
+   drawTaroc(t3idx,7,"Right Card");
   }
   else{
-   drawTaroc(t3idx,t4Title,"Right Card");
+   drawTaroc(t3idx,4,"Right Card");
   }
  }
  //Details del primo tarocco
- drawDetails(t1idx);
+ drawDetails(t1idx,0);
  panel.scrollTo(0,0);  
 }
 
-function drawTaroc(idx,elem,note,rev=0){
+//function drawTaroc(idx,elem,note,rev=0){
+function drawTaroc(idx,idgrid,note,rev=0){
  book=catalog.childNodes[idx];
+ if(book==null||book=="undefined")
+ {
+  console.log("book undefined: idx="+idx);
+ }
  var CardID=book.attributes[1].nodeValue; //C
  var title = book.attributes[0].nodeValue + " - " + book.attributes[2].nodeValue; // I + N
  //Upright_Keywords
@@ -152,30 +175,42 @@ function drawTaroc(idx,elem,note,rev=0){
   tFilename=CardID+"_R.jpg";
  }
 
+ /*
  //background-color:gold;
- var CardsHTML=`<div class="box" style="color:DarkGoldenRod;font-weight:bolder" onclick='drawDetails("${idx}")'>${title}<div>
+ var CardsHTML=`<div id="${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}")'>${title}<div>
    <a href="${url}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}"></a>
-   <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}")'>${note} <button id="${idx}" onclick='drawDetails("${idx}")' title='Details' style="background-color:gold;font-size:4px;">&#9658;</button><br>${uk}</p>
+   <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${note} <button id="${idx}" onclick='drawDetails("${idx}","${rev}")' title='Details' style="background-color:gold;font-size:4px;">&#9658;</button><br>${uk}</p>
+  </div>
+ </div>`;
+ */
+ var CardsHTML=`<div id="${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}")'>${title}
+ <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${uk}</p>
+ <div>
+   <a href="${url}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}"></a>
+   <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${note} <button id="${idx}" onclick='drawDetails("${idx}","${rev}")' title='Details' style="background-color:gold;font-size:4px;">&#9658;</button></p>
   </div>
  </div>`;
  // click sul <div> e sul <p> per avere i dettagli
- elem.innerHTML=CardsHTML;
- drawDetails(idx);
+ //elem.innerHTML=CardsHTML;
+ myPanel.innerHTML+=CardsHTML;
+ drawDetails(idx,rev);
+}
+
+function drawTarocFake(idgrid){
+ //var CardsHTML=`<div id="${idgrid}" class="box"><div>`;
+ var CardsHTML=`<div id="${idgrid}"><div>`;
+ myPanel.innerHTML+=CardsHTML;
 }
 
 function clearPanel(){
- t1Title.innerHTML="";
- t2Title.innerHTML="";
- t3Title.innerHTML="";
- t4Title.innerHTML="";
- t5Title.innerHTML="";
- t6Title.innerHTML="";
- t7Title.innerHTML="";
- t8Title.innerHTML="";
- t9Title.innerHTML="";
+ myPanel.innerHTML="";
 }
 function drawDetails(idx,rev=0){
  book=catalog.childNodes[idx];
+ if(book==null||book=="undefined")
+ {
+  console.log("drawDetails: book undefined: idx="+idx);
+ }
  var title = book.attributes[0].nodeValue + " - " + book.attributes[2].nodeValue; // I + N
  //Upright_Keywords
  var uk=book.attributes[3].nodeValue; //UK Upright_Keywords
@@ -184,6 +219,7 @@ function drawDetails(idx,rev=0){
  
  // ID - Name (VIII - Strength)
  row=myDetails.insertRow(-1);
+ 
  cell=row.insertCell(-1);
  cell.style.textAlign="center";
  cell.style.fontSize="16px";
@@ -234,11 +270,17 @@ function drawDetails(idx,rev=0){
  cell.style.backgroundColor="DarkGoldenRod";
  cell.style.fontWeight="bolder";
  cell.style.color="black";
- cell.innerHTML=_Description;
+ var CardID=book.attributes[1].nodeValue; //C
+ var tFilename=CardID+".jpg";
+ if(rev==1){
+  tFilename=CardID+"_R.jpg";
+ }
+ //cell.innerHTML=_Description;
+ cell.innerHTML=`<img src="${tFilename}" alt="${title}" title="${title}" width="15px" height="24px" onclick='myPopup("${tFilename}","${title}","${uk}")' style='cursor:zoom-in'> ${_Description}`;
  
  row=myDetails.insertRow(-1);
  var _Upright=book.attributes[6].nodeValue;
- if(rev){
+ if(rev==1){
   // Reversed
   _Upright=book.attributes[7].nodeValue;
  }
@@ -248,7 +290,7 @@ function drawDetails(idx,rev=0){
  cell.style.backgroundColor="Black";
  cell.style.fontWeight="bolder";
  cell.style.color="gold";
- cell.innerHTML=_Upright.replaceAll("\r\n","<br>");
+ cell.innerHTML=_Upright.replaceAll("\r\n","<br>")+"<br><br>";
 }
 
 function getBDTarots(sum){
@@ -328,7 +370,7 @@ function getBDTarots(sum){
    l=18;
    r=9;
    break;
-  case 19:
+  case 19: //exception: Sun/Wheel/Magician
    l=19;
    r=1;
    m=10;
@@ -342,11 +384,11 @@ function getBDTarots(sum){
    r=3;
    break;
   case 22: //??
-   l=22;
-   r=22;
+   l=0; //22;
+   r=0; //22;
    break;
  }
- return [l-1,m-1,r-1];
+ return [l,m,r];
 }
 
 function resetDate(){
@@ -395,38 +437,6 @@ originalImage.addEventListener('load',function(){
 myDate.addEventListener('change',function(){
  myRead();
 });
-/*
-c.addEventListener('click',function(){
- mySearch();
-});
-*/
-
-/**
-function myCheck()
-{
- if(rndCard==-1)
-  return;
- var input,filter;
- input=document.getElementById("myInput");
- filter=input.value.replaceAll("*"," ").replaceAll("%"," ").trim().toUpperCase(); 
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- var book=catalog.childNodes[rndCard];
- var CardID=book.attributes[0].nodeValue;
- var CardNAME=book.attributes[1].nodeValue;
- CardURL=URLRoot+book.attributes[2].nodeValue;
- var msg="";
- if(CardNAME.toUpperCase()==filter){
-  msg="Right Guess, congrats you win!"
- } 
- resultText.innerHTML=msg;
- modalImg.src=CardID+".jpg";
- modalImg.alt=CardID+" "+CardNAME;
- modalImg.title=CardID+" "+CardNAME;
- modalImg.style.visibility="visible";
- captionText.innerHTML="<a href='"+CardURL+"' style='font-size: 16px;'>"+modalImg.alt+"</a>";
- myResult(msg,modalImg.src,modalImg.title,CardURL)
-}
-***/
 
 function myResult(msg,imgurl,imgtitle,url){ 
  try{ 
@@ -446,7 +456,8 @@ function myResult(msg,imgurl,imgtitle,url){
 }
 
 function myHelp(){
- var sHelp ="Click 'New' button to get a new card or simply pat the image.\nEnter your guessed card's name and hit return.\nClick 'Check' button to unveil the whole card.\nClick the shown card or press the 'Zoom In' button and in the popup you have links to Alter Sleeves and to Scryfall.\nOnce unveiled, on mobile, you can share the card's AlterSleeves Link.";
+ spreadNo
+ var sHelp="Select a spread to get a tarots reading.\nPress 'Read' anytime you want to read again.\nClick on thumbnail image in the description area to zoom-in.";
  var title="";
  var imageUrl="";
  //if(modalImg.style.visibility=="hidden")
@@ -468,28 +479,6 @@ function myHelp(){
  }
  catch{alert(sHelp);}
 }
-
-/*
-function myPopup(){
- if(modalImg.style.visibility=="hidden")
-  return;
- var img=modalImg.src;
- var imgtitle=modalImg.title; 
- var url=CardURL; 
- modal.style.display="block";
- modalPopupImg.src=img;
- modalPopupImg.alt=imgtitle;
- captionModal.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+modalImg.alt+"</a>";
- var result=imgtitle.indexOf(" ");
- var scryCard=imgtitle.substring(result+1);
- scryfall.innerHTML="<a href='https://scryfall.com/search?q=!\""+scryCard.replaceAll("'","%27").replaceAll("&","%26") + "\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
-}
-
-
-function getRndInt(max){
- return (Math.floor(Math.random()*max)+1);
-}
-*/
 
 function openNav(){
  sideBar.style.width="180px";
@@ -541,114 +530,337 @@ function isMobile()
  return(window.orientation!=null&&window.orientation!="undefined");
 }
 
-/****
-function getRandomTaroc(max){
- return(Math.floor(Math.random()*max)+1);
+function getRandomTaroc(){
+ return Math.floor(Math.random()*totXmlTarots); //+1;
 }
 function getTarocUprightOrReversed(){
- var x=Math.floor(Math.random()*2)+1;
- return (x==0?false:true);
+ return Math.floor(Math.random()*2); //+1;
 }
-****/
 
-/*
 function WitchesPentagram(){
-    // Genera i 4 tarocchi random evitando ripetizioni, il 5 lo calcola come quintessenza
-    var bReversed=false;
-    var taroc1 = getRandomTaroc(totXmlTarots);
-    bReversed = getTarocUprightOrReversed();
-    TarocListIndex1.Text = taroc1.ToString();
-    TarocUR1.Text = (bReversed ? "R" : "U");
-    if (bReversed)
-        TarocPic1.Image = ReverseTaroc(ListTarocs[taroc1].TarocBitmapImage);
-    else
-        TarocPic1.Image = ListTarocs[taroc1].TarocBitmapImage;
-    TarocName1.Text = ListTarocs[taroc1].TarocID + " - " + ListTarocs[taroc1].TarocName;
-    TarocSummary1.Text = (bReversed ? ListTarocs[taroc1].Reversed_Keywords : ListTarocs[taroc1].Upright_Keywords);
-    TarocNote1.Text = "Top: Spirit - What is your goal?";
-    TarocPanel1.Left = 490;
-    TarocPanel1.Top = 62;
-    TarocPanel1.Visible = true;
-
-    int taroc2 = getRandomTaroc();
-    while (taroc2 == taroc1)
-        taroc2 = getRandomTaroc();
-    bReversed = getTarocUprightOrReversed();
-    TarocListIndex2.Text = taroc2.ToString();
-    TarocUR2.Text = (bReversed ? "R" : "U");
-    if (bReversed)
-        TarocPic2.Image = ReverseTaroc(ListTarocs[taroc2].TarocBitmapImage);
-    else
-        TarocPic2.Image = ListTarocs[taroc2].TarocBitmapImage;
-    TarocName2.Text = ListTarocs[taroc2].TarocID + " - " + ListTarocs[taroc2].TarocName;
-    TarocSummary2.Text = (bReversed ? ListTarocs[taroc2].Reversed_Keywords : ListTarocs[taroc2].Upright_Keywords);
-    TarocNote2.Text = "Left: What do you think about the situation?";
-    TarocPanel2.Left = 300;
-    TarocPanel2.Top = 110;
-    TarocPanel2.Visible = true;
-
-
-    int taroc3 = getRandomTaroc();
-    while (taroc3 == taroc2 || taroc3 == taroc1)
-        taroc3 = getRandomTaroc();
-    bReversed = getTarocUprightOrReversed();
-    TarocListIndex3.Text = taroc3.ToString();
-    TarocUR3.Text = (bReversed ? "R" : "U");
-    //TarocPic3.Image = ListTarocs[taroc3].TarocBitmapImage;
-    if (bReversed)
-        TarocPic3.Image = ReverseTaroc(ListTarocs[taroc3].TarocBitmapImage);
-    else
-        TarocPic3.Image = ListTarocs[taroc3].TarocBitmapImage;
-
-    TarocName3.Text = ListTarocs[taroc3].TarocID + " - " + ListTarocs[taroc3].TarocName;
-    TarocSummary3.Text = (bReversed ? ListTarocs[taroc3].Reversed_Keywords : ListTarocs[taroc3].Upright_Keywords);
-    TarocNote3.Text = "Bottom Left: What practical steps do you need to take?";
-    TarocPanel3.Left = 394;
-    TarocPanel3.Top = 446;
-    TarocPanel3.Visible = true;
-
-    int taroc4 = getRandomTaroc();
-    while (taroc4 == taroc3 || taroc4 == taroc2 || taroc4 == taroc1)
-        taroc4 = getRandomTaroc();
-    bReversed = getTarocUprightOrReversed();
-    TarocListIndex4.Text = taroc4.ToString();
-    TarocUR4.Text = (bReversed ? "R" : "U");
-    TarocPic4.Image = ListTarocs[taroc4].TarocBitmapImage;
-    if (bReversed)
-        TarocPic4.Image = ReverseTaroc(ListTarocs[taroc4].TarocBitmapImage);
-    else
-        TarocPic4.Image = ListTarocs[taroc4].TarocBitmapImage;
-
-    TarocName4.Text = ListTarocs[taroc4].TarocID + " - " + ListTarocs[taroc4].TarocName;
-    TarocSummary4.Text = (bReversed ? ListTarocs[taroc4].Reversed_Keywords : ListTarocs[taroc4].Upright_Keywords);
-    TarocNote4.Text = "Bottom Right: Where do you need to focus your energy?";
-    TarocPanel4.Left = 586;
-    TarocPanel4.Top = 446;
-    TarocPanel4.Visible = true;
-
-    int quintessence = (taroc1 == 0 ? 22 : taroc1) + (taroc2 == 0 ? 22 : taroc2) + (taroc3 == 0 ? 22 : taroc3) + (taroc4 == 0 ? 22 : taroc4); // + 4;
-    if (quintessence > 22)
-    {
-        int decina = quintessence / 10;
-        int unita = quintessence % 10;
-        quintessence = decina + unita;
-    }
-    int taroc5 = quintessence; // + 1;
-    bReversed = getTarocUprightOrReversed();
-    TarocListIndex5.Text = taroc5.ToString();
-    TarocUR5.Text = (bReversed ? "R" : "U");
-    //TarocPic5.Image = ListTarocs[taroc5].TarocBitmapImage;
-    if (bReversed)
-        TarocPic5.Image = ReverseTaroc(ListTarocs[taroc5].TarocBitmapImage);
-    else
-        TarocPic5.Image = ListTarocs[taroc5].TarocBitmapImage;
-
-    TarocName5.Text = ListTarocs[taroc5].TarocID + " - " + ListTarocs[taroc5].TarocName;
-    TarocSummary5.Text = (bReversed ? ListTarocs[taroc5].Reversed_Keywords : ListTarocs[taroc5].Upright_Keywords);
-    TarocNote5.Text = "Quintessence: How do you feel about the situation?";
-    TarocPanel5.Left = 680;
-    TarocPanel5.Top = 110;
-    TarocPanel5.Visible = true;
-    DisplayTarocInfo(taroc5, bReversed);
+ exDrawTarots(0);
 }
-*/
+function FourWinds(){
+ exDrawTarots(1);
+}
+function SacredCircle(){
+ exDrawTarots(2);
+}
+function TarocDemarseilleCross(){
+ exDrawTarots(3);
+}
+function TarocDeMarseilleNoReverse(){
+ exDrawTarots(4);
+}
+function TarocPairs(){
+ exDrawTarots(5);
+}
+function MandalaTarots(){
+ exDrawTarots(6);
+}
+// Spread: 0=WitchesPentagram 1=4Winds 2=SacredCircle 
+// 3=TarocDemarseilleCross 4=TarocDeMarseilleNoReverse 5=TarocPairs 6=Mandala
+function exDrawTarots(spread){
+ // Witches Pentagram
+ const P1="Top: Spirit - What is your goal?";
+ const P2="Left: What do you think about the situation?";
+ const P3="Bottom Left: What practical steps do you need to take?";
+ const P4="Bottom Right: Where do you need to focus your energy?";
+ const P5="Quintessence: How do you feel about the situation?";
+
+ // 4 Winds
+ const W1="North: What are your thoughts and ideas on this issue?";
+ const W2="West: What practical steps do you need to think about/do regarding the issue?";
+ const W3="East: What inspires you or drives you regarding this issue?";
+ const W4="South: What are your feelings on the issue?";
+ const W5="Quintessence: The overall message of the reading";
+ 
+ // Sacred Circle
+ const S1="North: Mental Body";
+ const S2="West: Emotional Body";
+ const S3="East: Spiritual Body";
+ const S4="South: Physical Body";
+ const S5="Center of Circle: Wisdom & Inner Guidance.Integrates all your bodies.";
+ 
+ // Taroc de Marseille Cross
+ const M1="1. Left: What is in your favor?";
+ const M2="2. Right: What is in your favor/what opposes you?";
+ const M3="3. Top: Overall synthesis/analysis of the situation described in tarots 1 & 2";
+ const M4="4. Bottom: Outcome/Advice (choose 'advise' if you want to think about practical steps to take)";
+ 
+ // Taroc de Marseille Open Reading
+ const O1="Passive Thought";
+ const O2="Situation";
+ const O3="Action";
+ 
+ // Tarots Pairs
+ const X1="Pair 1";
+ const X2="Pair 2";
+ const X3="Pair 3";
+ const X4="Pair 1";
+ const X5="Pair 2";
+ const X6="Pair 3";
+ 
+ // Mandala
+ const L1="9. Desires and higher purpose?";
+ const L2="8. Self-awareness and self-image";
+ const L3="2. Ambitions, desires and primal urges";
+ const L4="7. Faults and weaknesses";
+ const L5="1. Self";
+ const L6="3. Ideals, goals and path to spiritual contentment";
+ const L7="6. Strength and positive personality traits";
+ const L8="4. Real accomplishments and life path";
+ const L9="5. Dependancies, addictions and erraneous values";
+ 
+ clearPanel();
+
+ const t1=getRandomTaroc();
+ const rv1=getTarocUprightOrReversed();
+ 
+ var t2=getRandomTaroc();
+ if(spread==4||spread==5){
+  while(t2==t1)
+   t2=getRandomTaroc();
+ }
+ const rv2=getTarocUprightOrReversed();
+ 
+ var t3=getRandomTaroc();
+ if(spread==4||spread==5){
+  while(t3==t2||t3==t1)
+   t3=getRandomTaroc();
+ }
+ const rv3=getTarocUprightOrReversed();
+ 
+ const t4=getRandomTaroc();
+ if(spread==5){
+  while(t4==t3||t4==t2||t4==t1)
+   t4=getRandomTaroc();
+ }
+ const rv4=getTarocUprightOrReversed();
+ 
+ var quintessence,t5,rv5;
+ var t6,rv6;
+ 
+ // WitchesPentagram, 4Winds, SacredCircle 
+ if(spread<3){
+  //var quintessence=t1+t2+t3+t4; // + 4;
+  quintessence=t1+t2+t3+t4; // + 4;
+  if (quintessence>22){
+   var decina=Math.floor(quintessence/10); //quintessence/10;
+   var unita=quintessence%10;
+   quintessence=decina+unita;
+  }
+  //var t5=quintessence>22?0:quintessence; // + 1;
+  t5=quintessence>22?0:quintessence; // + 1;
+  rv5=getTarocUprightOrReversed();
+ }
+ 
+ // Tarot Pairs
+ if(spread==5||spread==6){
+  t5=getRandomTaroc();
+  while(t5==t4||t5==t3||t5==t2||t5==t1)
+   t5=getRandomTaroc();
+  rv5=getTarocUprightOrReversed();
+  
+  t6=getRandomTaroc();
+  while(t6==t5||t6==t4||t6==t3||t6==t2||t6==t1)
+   t6=getRandomTaroc();
+  rv6=getTarocUprightOrReversed();
+ }
+ 
+ // Mandala
+ var t7,t8,t9,rv7,rv8,rv9
+ if(spread==6){
+  t7=getRandomTaroc();
+  while(t7==t6||t7==t5||t7==t4||t7==t3||t7==t2||t7==t1)
+   t7=getRandomTaroc();
+  rv7=getTarocUprightOrReversed();
+  
+  t8=getRandomTaroc();
+  while(t8==t7||t8==t6||t8==t5||t8==t4||t8==t3||t8==t2||t8==t1)
+   t8=getRandomTaroc();
+  rv8=getTarocUprightOrReversed();
+  
+  t9=getRandomTaroc();
+  while(t9==t8||t9==t7||t9==t6||t9==t5||t9==t4||t9==t3||t9==t2||t9==t1)
+   t9=getRandomTaroc();
+  rv9=getTarocUprightOrReversed();
+ }
+     
+ var x=window.matchMedia("(max-width:400px)");
+     
+ if(!isMobile()&&!x.matches){
+  switch(spread){
+   case 0: // WitchesPentagram
+    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+    myPanel.style.gridTemplateRows=gridString(2,330); //"330px 330px";
+    break;
+   case 1: // 4Winds
+    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+    myPanel.style.gridTemplateRows=gridString(2,340); //"340px 340px";
+    break;
+   case 2: // SacredCircle
+    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+    myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
+    break;
+   case 3: // Tarots de Marseille Cross
+    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+    myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
+    break; 
+   case 4: // Tarots de Marseille Open Reading
+    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+    myPanel.style.gridTemplateRows=gridString(1,330); //"300px";
+    break;
+   case 5: // Tarots Pairs
+    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+    myPanel.style.gridTemplateRows=gridString(2,350); //"350px";
+    break; 
+   case 6: // Mandala
+    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+    myPanel.style.gridTemplateRows=gridString(5,350); //"350px 350px 350px 350px 350px";
+    break;
+   default:
+    break;
+  }  
+ }
+ else{
+   switch(spread){
+   case 0: // WitchesPentagram
+    myPanel.style.gridTemplateColumns=gridString(2,200); //"200px 200px";
+    myPanel.style.gridTemplateRows=gridString(3,330); //"330px 330px 330px";
+    break;
+   case 1: // 4Winds
+    myPanel.style.gridTemplateColumns=gridString(2,200); //"200px 200px";
+    myPanel.style.gridTemplateRows=gridString(3,340); //"340px 340px 340px";
+    break;
+   case 2: // SacredCircle
+    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+    myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
+    break;
+   case 3: // Tarots de Marseille Cross
+    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+    myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
+    break; 
+   case 4: // Tarots de Marseille Open Reading
+    myPanel.style.gridTemplateColumns=gridString(1,200); //"200px";
+    myPanel.style.gridTemplateRows=gridString(3,330); //"300px 300px 300px";
+    break;
+   case 5: // Tarots Pairs
+    myPanel.style.gridTemplateColumns=gridString(2,200); //"200px 200px";
+    myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
+    break;
+   case 6: // Mandala
+    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+    myPanel.style.gridTemplateRows=gridString(5,350); //"350px 350px 350px 350px 350px";
+    break;
+   default:
+    break;
+  }
+ } 
+ switch(spread){
+   case 0: // WitchesPentagram
+    drawTaroc(t1,1,P1,rv1);
+    drawTaroc(t2,2,P2,rv2);
+    drawTaroc(t3,3,P3,rv3);
+    drawTaroc(t4,4,P4,rv4);
+    drawTaroc(t5,5,P5,rv5);
+    //Details del tarocco iniziale
+    drawDetails(t5,rv5);
+    break;
+   case 1: // 4Winds
+    drawTaroc(t1,1,W1,rv1);
+    drawTaroc(t2,2,W2,rv2);
+    drawTaroc(t3,3,W3,rv3);
+    drawTaroc(t4,4,W4,rv4);
+    drawTaroc(t5,5,W5,rv5);
+    //Details del tarocco iniziale
+    drawDetails(t5,rv5);
+    break;
+   case 2: // SacredCircle
+    drawTarocFake(1);
+    drawTaroc(t1,2,S1,rv1);
+    drawTarocFake(3);
+    drawTaroc(t2,4,S2,rv2);
+    drawTaroc(t5,5,S5,rv5);
+    drawTaroc(t3,6,S3,rv3);
+    drawTarocFake(7);
+    drawTaroc(t4,8,S4,rv4);
+    drawTarocFake(9);
+    //Details del tarocco iniziale
+    drawDetails(t5,rv5);
+    break;
+   case 3: // Tarots de Marseille Cross
+    drawTarocFake(1);
+    drawTaroc(t3,2,M3,rv3);
+    drawTarocFake(3);
+    drawTaroc(t1,4,M1,rv1);
+    drawTarocFake(5);
+    drawTaroc(t2,6,M2,rv2);
+    drawTarocFake(7);
+    drawTaroc(t4,8,M4,rv4);
+    drawTarocFake(9);
+    //Details del tarocco iniziale
+    drawDetails(t4,rv4);
+    break; 
+   case 4: // Tarots de Marseille Open Reading (No Reverse)
+    drawTaroc(t1,1,O1,0);
+    drawTaroc(t2,2,O2,0);
+    drawTaroc(t3,3,O3,0);
+    break;
+   case 5: // Tarots Pairs
+    drawTaroc(t1,1,X1,rv1);
+    drawTaroc(t2,2,X2,rv2);
+    drawTaroc(t3,3,X3,rv3);
+    drawTaroc(t4,4,X4,rv4);
+    drawTaroc(t5,5,X5,rv5);
+    drawTaroc(t6,6,X6,rv6);
+    //Details del tarocco iniziale
+    drawDetails(t1,rv1);
+    break;
+   case 6:
+    drawTarocFake(1);
+    drawTaroc(t1,2,L1,rv1);
+    drawTarocFake(3);
+    
+    drawTaroc(t2,4,L2,rv2);
+    drawTarocFake(5);
+    drawTaroc(t3,6,L3,rv3);
+    
+    drawTaroc(t4,7,L4,rv4);
+    drawTaroc(t5,8,L5,rv5);
+    drawTaroc(t6,9,L6,rv6);
+    
+    drawTaroc(t7,10,L7,rv7);
+    drawTarocFake(11);
+    drawTaroc(t8,12,L8,rv8);
+    
+    drawTarocFake(13);
+    drawTaroc(t9,14,L9,rv9);
+    drawTarocFake(15);
+    
+    //Details del tarocco iniziale
+    drawDetails(t1,rv1);
+   break;
+   default:
+    break;
+ }
+ //Details del primo tarocco
+ //drawDetails(t5,rv5);
+ panel.scrollTo(0,0);    
+}
+
+function gridString(n,s){
+ var gs="";
+ for(var i=0;i<n;i++)
+  gs +=s+"px"+(i==n-1?"":" ");
+ return gs;
+}
+
+function myPopup(file,imgtitle,note){
+ var url="#"; // TODO 
+ modal.style.display="block";
+ modalPopupImg.src=file;
+ modalPopupImg.alt=imgtitle;
+ modalPopupImg.title=imgtitle+"\r\n"+note;
+ captionModal.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+modalPopupImg.alt+"<br>"+note+"</a>";
+}
