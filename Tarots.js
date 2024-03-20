@@ -135,7 +135,6 @@ function BirthDateTarots(){
   }
  }
  else{
-  //t2idx=t1idx;
   if(t2idx!=0){
    myPanel.style.gridTemplateColumns=gridString(1,200); //"200px";
    myPanel.style.gridTemplateRows=gridString(3,330); //"330px 330px 330px";
@@ -158,7 +157,6 @@ function BirthDateTarots(){
  panel.scrollTo(0,0);  
 }
 
-//function drawTaroc(idx,elem,note,rev=0){
 function drawTaroc(idx,idgrid,note,rev=0){
  book=catalog.childNodes[idx];
  if(book==null||book=="undefined")
@@ -172,17 +170,10 @@ function drawTaroc(idx,idgrid,note,rev=0){
  var url= URLRoot+book.attributes[8].nodeValue; //U url in AlterSleeves
  var tFilename=CardID+".jpg";
  if(rev==1){
-  tFilename=CardID+"_R.jpg";
+  //tFilename=CardID+"_R.jpg"; //TODO
  }
-
- /*
+ 
  //background-color:gold;
- var CardsHTML=`<div id="${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}")'>${title}<div>
-   <a href="${url}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}"></a>
-   <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${note} <button id="${idx}" onclick='drawDetails("${idx}","${rev}")' title='Details' style="background-color:gold;font-size:4px;">&#9658;</button><br>${uk}</p>
-  </div>
- </div>`;
- */
  var CardsHTML=`<div id="${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}")'>${title}
  <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${uk}</p>
  <div>
@@ -191,7 +182,6 @@ function drawTaroc(idx,idgrid,note,rev=0){
   </div>
  </div>`;
  // click sul <div> e sul <p> per avere i dettagli
- //elem.innerHTML=CardsHTML;
  myPanel.innerHTML+=CardsHTML;
  drawDetails(idx,rev);
 }
@@ -399,8 +389,6 @@ function resetDate(){
 function setDate(days){ 
  var oldDate=new Date(myDate.value);
  var newDate=new Date(oldDate.getFullYear(),oldDate.getMonth(),oldDate.getDate()+days);
- //myDate.defaultValue=newDate.getFullYear()+"-"+(newDate.getMonth()+1).toString().padStart(2,'0')+"-"+newDate.getDate().toString().padStart(2,'0');
- //myDate.value=myDate.defaultValue;
  myDate.value=newDate.getFullYear()+"-"+(newDate.getMonth()+1).toString().padStart(2,'0')+"-"+newDate.getDate().toString().padStart(2,'0');
  BirthDateTarots();
 }
@@ -758,94 +746,83 @@ function exDrawTarots(spread){
   }
  } 
  switch(spread){
-   case 0: // WitchesPentagram
-    drawTaroc(t1,1,P1,rv1);
-    drawTaroc(t2,2,P2,rv2);
-    drawTaroc(t3,3,P3,rv3);
-    drawTaroc(t4,4,P4,rv4);
-    drawTaroc(t5,5,P5,rv5);
-    //Details del tarocco iniziale
-    drawDetails(t5,rv5);
-    break;
-   case 1: // 4Winds
-    drawTaroc(t1,1,W1,rv1);
-    drawTaroc(t2,2,W2,rv2);
-    drawTaroc(t3,3,W3,rv3);
-    drawTaroc(t4,4,W4,rv4);
-    drawTaroc(t5,5,W5,rv5);
-    //Details del tarocco iniziale
-    drawDetails(t5,rv5);
-    break;
-   case 2: // SacredCircle
-    drawTarocFake(1);
-    drawTaroc(t1,2,S1,rv1);
-    drawTarocFake(3);
-    drawTaroc(t2,4,S2,rv2);
-    drawTaroc(t5,5,S5,rv5);
-    drawTaroc(t3,6,S3,rv3);
-    drawTarocFake(7);
-    drawTaroc(t4,8,S4,rv4);
-    drawTarocFake(9);
-    //Details del tarocco iniziale
-    drawDetails(t5,rv5);
-    break;
-   case 3: // Tarots de Marseille Cross
-    drawTarocFake(1);
-    drawTaroc(t3,2,M3,rv3);
-    drawTarocFake(3);
-    drawTaroc(t1,4,M1,rv1);
-    drawTarocFake(5);
-    drawTaroc(t2,6,M2,rv2);
-    drawTarocFake(7);
-    drawTaroc(t4,8,M4,rv4);
-    drawTarocFake(9);
-    //Details del tarocco iniziale
-    drawDetails(t4,rv4);
-    break; 
-   case 4: // Tarots de Marseille Open Reading (No Reverse)
-    drawTaroc(t1,1,O1,0);
-    drawTaroc(t2,2,O2,0);
-    drawTaroc(t3,3,O3,0);
-    break;
-   case 5: // Tarots Pairs
-    drawTaroc(t1,1,X1,rv1);
-    drawTaroc(t2,2,X2,rv2);
-    drawTaroc(t3,3,X3,rv3);
-    drawTaroc(t4,4,X4,rv4);
-    drawTaroc(t5,5,X5,rv5);
-    drawTaroc(t6,6,X6,rv6);
-    //Details del tarocco iniziale
-    drawDetails(t1,rv1);
-    break;
-   case 6:
-    drawTarocFake(1);
-    drawTaroc(t1,2,L1,rv1);
-    drawTarocFake(3);
-    
-    drawTaroc(t2,4,L2,rv2);
-    drawTarocFake(5);
-    drawTaroc(t3,6,L3,rv3);
-    
-    drawTaroc(t4,7,L4,rv4);
-    drawTaroc(t5,8,L5,rv5);
-    drawTaroc(t6,9,L6,rv6);
-    
-    drawTaroc(t7,10,L7,rv7);
-    drawTarocFake(11);
-    drawTaroc(t8,12,L8,rv8);
-    
-    drawTarocFake(13);
-    drawTaroc(t9,14,L9,rv9);
-    drawTarocFake(15);
-    
-    //Details del tarocco iniziale
-    drawDetails(t1,rv1);
+  case 0: // WitchesPentagram
+   drawTaroc(t1,1,P1,rv1);
+   drawTaroc(t2,2,P2,rv2);
+   drawTaroc(t3,3,P3,rv3);
+   drawTaroc(t4,4,P4,rv4);
+   drawTaroc(t5,5,P5,rv5);
+   //Details del tarocco iniziale
+   drawDetails(t5,rv5);
    break;
-   default:
+  case 1: // 4Winds
+   drawTaroc(t1,1,W1,rv1);
+   drawTaroc(t2,2,W2,rv2);
+   drawTaroc(t3,3,W3,rv3);
+   drawTaroc(t4,4,W4,rv4);
+   drawTaroc(t5,5,W5,rv5);
+   drawDetails(t5,rv5);
+   break;
+  case 2: // SacredCircle
+   drawTarocFake(1);
+   drawTaroc(t1,2,S1,rv1);
+   drawTarocFake(3);
+   drawTaroc(t2,4,S2,rv2);
+   drawTaroc(t5,5,S5,rv5);
+   drawTaroc(t3,6,S3,rv3);
+   drawTarocFake(7);
+   drawTaroc(t4,8,S4,rv4);
+   drawTarocFake(9);
+   drawDetails(t5,rv5);
+   break;
+  case 3: // Tarots de Marseille Cross
+   drawTarocFake(1);
+   drawTaroc(t3,2,M3,rv3);
+   drawTarocFake(3);
+   drawTaroc(t1,4,M1,rv1);
+   drawTarocFake(5);
+   drawTaroc(t2,6,M2,rv2);
+   drawTarocFake(7);
+   drawTaroc(t4,8,M4,rv4);
+   drawTarocFake(9);
+   drawDetails(t4,rv4);
+   break; 
+  case 4: // Tarots de Marseille Open Reading (No Reverse)
+   drawTaroc(t1,1,O1,0);
+   drawTaroc(t2,2,O2,0);
+   drawTaroc(t3,3,O3,0);
+   break;
+  case 5: // Tarots Pairs
+   drawTaroc(t1,1,X1,rv1);
+   drawTaroc(t2,2,X2,rv2);
+   drawTaroc(t3,3,X3,rv3);
+   drawTaroc(t4,4,X4,rv4);
+   drawTaroc(t5,5,X5,rv5);
+   drawTaroc(t6,6,X6,rv6);
+   drawDetails(t1,rv1);
+   break;
+  case 6:
+   drawTarocFake(1);
+   drawTaroc(t1,2,L1,rv1);
+   drawTarocFake(3);    
+   drawTaroc(t2,4,L2,rv2);
+   drawTarocFake(5);
+   drawTaroc(t3,6,L3,rv3);
+
+   drawTaroc(t4,7,L4,rv4);
+   drawTaroc(t5,8,L5,rv5);
+   drawTaroc(t6,9,L6,rv6);
+   drawTaroc(t7,10,L7,rv7);
+   drawTarocFake(11);
+   drawTaroc(t8,12,L8,rv8);
+   drawTarocFake(13);
+   drawTaroc(t9,14,L9,rv9);
+   drawTarocFake(15); 
+   drawDetails(t1,rv1);
+   break;
+  default:
     break;
  }
- //Details del primo tarocco
- //drawDetails(t5,rv5);
  panel.scrollTo(0,0);    
 }
 
