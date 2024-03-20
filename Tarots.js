@@ -19,6 +19,7 @@ const captionText=document.getElementById("caption");
 const modal=document.getElementById('myModal');
 const captionModal=document.getElementById('caption-modal');
 const setURL="index_AlteredSets.html?set=1";
+const details=document.getElementById('details');
 //const originalImage=new Image();
 //var CardURL="";
 
@@ -207,6 +208,9 @@ function drawDetails(idx,rev=0){
  var uk=book.attributes[3].nodeValue;
  var row,cell;
  myDetails.innerHTML="";
+ details.width=window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+ //details.width=myPanel.clientWidth;
+ details.Left=0; //myPanel.offsetLeft;
  
  // ID - Name
  row=myDetails.insertRow(-1);
