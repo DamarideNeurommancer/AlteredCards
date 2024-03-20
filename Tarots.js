@@ -105,18 +105,19 @@ function BirthDateTarots(){
 
  let tarots=getBDTarots(sum);
  var t1idx=tarots[0],t2idx=tarots[1],t3idx=tarots[2];
- var x=window.matchMedia("(max-width:400px)");
  
+ /*
+ var x=window.matchMedia("(max-width:400px)");
  //alert("max-width:400px? "+x.matches + " w=" + window.innerWidth + " h=" + window.innerHeight);
  //alert("screen.w=" + window.screen.width + " screen.hh=" + window.screen.height);
  const width  = window.innerWidth || document.documentElement.clientWidth || 
  document.body.clientWidth;
  const height = window.innerHeight|| document.documentElement.clientHeight|| 
  document.body.clientHeight;
-
-//alert("w="+width+" h="+height);
+ alert("w="+width+" h="+height);
+ */
  clearPanel();
- if(!isMobile()&&!x.matches){
+ //if(!isMobile()&&!x.matches){
   if(t2idx!=0){
    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
    myPanel.style.gridTemplateRows=gridString(1,330); //"330px";
@@ -133,8 +134,8 @@ function BirthDateTarots(){
   else{
    drawTaroc(t3idx,2,"Right Card");
   }
- }
- else{
+ //}
+ /*else{
   if(t2idx!=0){
    myPanel.style.gridTemplateColumns=gridString(1,200); //"200px";
    myPanel.style.gridTemplateRows=gridString(3,330); //"330px 330px 330px";
@@ -151,7 +152,7 @@ function BirthDateTarots(){
   else{
    drawTaroc(t3idx,4,"Right Card");
   }
- }
+ }*/
  //Details del primo tarocco
  drawDetails(t1idx,0);
  panel.scrollTo(0,0);  
@@ -675,9 +676,9 @@ function exDrawTarots(spread){
   rv9=getTarocUprightOrReversed();
  }
      
- var x=window.matchMedia("(max-width:400px)");
+ //var x=window.matchMedia("(max-width:400px)");
      
- if(!isMobile()&&!x.matches){
+ //if(!isMobile()&&!x.matches){
   switch(spread){
    case 0: // WitchesPentagram
     myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
@@ -710,7 +711,8 @@ function exDrawTarots(spread){
    default:
     break;
   }  
- }
+ //}
+ /*
  else{
    switch(spread){
    case 0: // WitchesPentagram
@@ -744,7 +746,7 @@ function exDrawTarots(spread){
    default:
     break;
   }
- } 
+ }*/ 
  switch(spread){
   case 0: // WitchesPentagram
    drawTaroc(t1,1,P1,rv1);
