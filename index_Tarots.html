@@ -240,11 +240,12 @@ a:active{
 }
 #details{
  float: right;
- width: auto; //52%;
+ width: 100%; //auto; //52%;
  height:auto;
  //text-align:justify;
  //overflow-x:scroll;
  //overflow-y:scroll;
+ //overflow: scroll;
 }
 .listTable{
  position: auto;
@@ -256,8 +257,14 @@ a:active{
  border: 1px solid white;
  border-radius: 10px;
  padding:5px;
- overflow:scroll;
-} 
+ //overflow:scroll;
+}
+/*.listTable:hover{
+ //text-decoration: underline overline #FF3028;
+ //text-decoration: underline dotted red;
+ //text-decoration: green wavy underline;
+ text-decoration: underline dotted;
+}*/ 
 </style>
 <div class="header" id="myHeader">
 <div id="mySidebar" class="sidebar">
@@ -347,11 +354,6 @@ a:active{
 <div id="details">
  <table class="listTable" id="myDetails" border="0">
 </div>
-
-<!--div class="box">
-  <p>Flip Vertical</p>
-  <canvas id="original"></canvas>
-</div-->
  
 <div id="myModal" class="modal">
  <span class="close">&times;</span>
