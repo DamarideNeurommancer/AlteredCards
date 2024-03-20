@@ -207,15 +207,15 @@ a:active{
  //grid-template-rows: repeat(3,300px);
  grid-gap: 1px;
  padding: 1px;
- max-width: 600px; //512px;
- overflow-x:scroll;
- overflow-y:scroll;
+ //max-width: 600px; //512px;
+ ////overflow-x:scroll;
+ //overflow-y:auto; //scroll;
 }
 #panel > div {
-  //background-color: rgba(255, 255, 255, 0.8);
+  //background-color: rgba(255,255,255,0.8);
   border: 1px solid black;
   text-align: center; //left;
-  font-size: 14px; //30px;
+  font-size: 14px;
 }
 .box{
  display:flex;
@@ -236,11 +236,11 @@ a:active{
 }
 #bigcontainer{
  float: left;
- width: 48%;
+ width: auto; //48%;
 }
 #details{
  float: right;
- width: 52%;
+ width: auto; //52%;
  height:auto;
  //text-align:justify;
  //overflow-x:scroll;
@@ -315,13 +315,13 @@ a:active{
   <td>
    <font color='White' size='1'>Spread</font>
    <select id="mySpreads" onchange="mySpreadChange()">
-    <option value="1" selected>Tarots of Date /of Birth Date</option>
+    <option value="1" selected>Tarots of Date</option>
     <option value="2">Four Winds</option>
     <option value="3">Path & Goal</option>
     <option value="4">Witches Pentagram</option>
-    <option value="5">Taroc de Marseille Cross</option>
-    <option value="6">Taroc de Marseille Open Reading</option>
-    <option value="7">Taroc Pairs &amp; Medallion</option>
+    <option value="5">Marseille Cross</option>
+    <option value="6">Marseille Open</option>
+    <option value="7">Pairs &amp; Medallion</option>
     <option value="8">Sacred Circle</option>
     <option value="9">Mandala</option>
     <option value="10">6 Tarots</option>

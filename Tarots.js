@@ -1,6 +1,5 @@
 // TODO
 // Credits per i contenuti
-// Help specifico per il tipo di spread
 // Fonts??
 var bxmlParsed=false;
 var xmlDoc;
@@ -16,12 +15,12 @@ const modalPopupImg=document.getElementById("img02");
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
 const header=document.getElementById('myHeader');
-//const modalImg=document.getElementById("img01");
 const captionText=document.getElementById("caption");
 const modal=document.getElementById('myModal');
 const captionModal=document.getElementById('caption-modal');
+const setURL="index_AlteredSets.html?set=1";
 //const originalImage=new Image();
-var CardURL="";
+//var CardURL="";
 
 var spreadNo=1;
 myDate.valueAsDate = new Date();
@@ -74,7 +73,7 @@ function myRead(){
   case 9: // Mandala: 9 Tarots
    MandalaTarots();
   default:
-   console.log("?!?");
+   BirthDateTarots();
  }
 }
 
@@ -159,15 +158,15 @@ function BirthDateTarots(){
 
 function drawTaroc(idx,idgrid,note,rev=0){
  book=catalog.childNodes[idx];
- if(book==null||book=="undefined")
+ /*if(book==null||book=="undefined")
  {
   console.log("book undefined: idx="+idx);
- }
- var CardID=book.attributes[1].nodeValue; //C
- var title = book.attributes[0].nodeValue + " - " + book.attributes[2].nodeValue; // I + N
+ }*/
+ var CardID=book.attributes[1].nodeValue;
+ var title = book.attributes[0].nodeValue+" - "+book.attributes[2].nodeValue;
  //Upright_Keywords
- var uk=book.attributes[3].nodeValue; //UK Upright_Keywords
- var url= URLRoot+book.attributes[8].nodeValue; //U url in AlterSleeves
+ var uk=book.attributes[3].nodeValue;
+ //var url= URLRoot+book.attributes[8].nodeValue; //U url in AlterSleeves
  var tFilename=CardID+".jpg";
  if(rev==1){
   //tFilename=CardID+"_R.jpg"; //TODO
@@ -177,7 +176,7 @@ function drawTaroc(idx,idgrid,note,rev=0){
  var CardsHTML=`<div id="${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}")'>${title}
  <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${uk}</p>
  <div>
-   <a href="${url}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}"></a>
+   <a href="${setURL}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}"></a>
    <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${note} <button id="${idx}" onclick='drawDetails("${idx}","${rev}")' title='Details' style="background-color:gold;font-size:4px;">&#9658;</button></p>
   </div>
  </div>`;
@@ -201,15 +200,14 @@ function drawDetails(idx,rev=0){
  {
   console.log("drawDetails: book undefined: idx="+idx);
  }
- var title = book.attributes[0].nodeValue + " - " + book.attributes[2].nodeValue; // I + N
+ var title=book.attributes[0].nodeValue+" - "+book.attributes[2].nodeValue;
  //Upright_Keywords
- var uk=book.attributes[3].nodeValue; //UK Upright_Keywords
+ var uk=book.attributes[3].nodeValue;
  var row,cell;
  myDetails.innerHTML="";
  
- // ID - Name (VIII - Strength)
+ // ID - Name
  row=myDetails.insertRow(-1);
- 
  cell=row.insertCell(-1);
  cell.style.textAlign="center";
  cell.style.fontSize="16px";
@@ -217,7 +215,7 @@ function drawDetails(idx,rev=0){
  cell.style.color="gold";
  cell.innerHTML=title;
  
- // Upright_Keywords (Strength, courage, persuasion, influence, compassion)
+ // Upright_Keywords
  row=myDetails.insertRow(-1);
  cell=row.insertCell(-1);
  cell.style.textAlign="center";
@@ -260,14 +258,15 @@ function drawDetails(idx,rev=0){
  cell.style.backgroundColor="DarkGoldenRod";
  cell.style.fontWeight="bolder";
  cell.style.color="black";
- var CardID=book.attributes[1].nodeValue; //C
+ var CardID=book.attributes[1].nodeValue;
  var tFilename=CardID+".jpg";
  if(rev==1){
-  tFilename=CardID+"_R.jpg";
+  //tFilename=CardID+"_R.jpg"; //TODO
  }
  //cell.innerHTML=_Description;
  cell.innerHTML=`<img src="${tFilename}" alt="${title}" title="${title}" width="15px" height="24px" onclick='myPopup("${tFilename}","${title}","${uk}")' style='cursor:zoom-in'> ${_Description}`;
  
+ // Upright
  row=myDetails.insertRow(-1);
  var _Upright=book.attributes[6].nodeValue;
  if(rev==1){
@@ -280,7 +279,7 @@ function drawDetails(idx,rev=0){
  cell.style.backgroundColor="Black";
  cell.style.fontWeight="bolder";
  cell.style.color="gold";
- cell.innerHTML=_Upright.replaceAll("\r\n","<br>")+"<br><br>";
+ cell.innerHTML=_Upright.replaceAll("\r\n","<br>").replaceAll("&quot;","'");
 }
 
 function getBDTarots(sum){
@@ -373,9 +372,9 @@ function getBDTarots(sum){
    l=21;
    r=3;
    break;
-  case 22: //??
-   l=0; //22;
-   r=0; //22;
+  case 22:
+   l=0;
+   r=0;
    break;
  }
  return [l,m,r];
@@ -834,10 +833,10 @@ function gridString(n,s){
 }
 
 function myPopup(file,imgtitle,note){
- var url="#"; // TODO 
+ //var url="index_AlteredSets.html?set=1"; 
  modal.style.display="block";
  modalPopupImg.src=file;
  modalPopupImg.alt=imgtitle;
  modalPopupImg.title=imgtitle+"\r\n"+note;
- captionModal.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+modalPopupImg.alt+"<br>"+note+"</a>";
+ captionModal.innerHTML="<a href='"+setURL+"' style='font-size: 16px;'>"+modalPopupImg.alt+"<br>"+note+"</a>";
 }
