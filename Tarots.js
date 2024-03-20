@@ -72,6 +72,7 @@ function myRead(){
    break;
   case 9: // Mandala: 9 Tarots
    MandalaTarots();
+   break;
   default:
    BirthDateTarots();
  }
