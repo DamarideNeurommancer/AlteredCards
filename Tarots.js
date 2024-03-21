@@ -422,7 +422,6 @@ function myResult(msg,imgurl,imgtitle,url){
 }
 
 function myHelp(){
- spreadNo
  var sHelp="Select a spread to get a tarots reading.\nPress 'Read' anytime you want to read again.\nClick on thumbnail image in the description area to zoom-in.";
  var title="";
  var imageUrl="";
@@ -854,4 +853,24 @@ function initVars(){
 }
 function dateChange(){
  localStorage.setItem("SpreadDate",myDate.value);
+}
+
+function myCredits(){
+ var url="https://biddytarot.com/tarot-card-meanings/major-arcana/";
+ var url1="https://hermitspiritus.com/tarot-cards";
+ var imgtitle="The Meanings of the Major Arcana Tarot Cards";
+ var imgtitle1="Rider-Waite Tarot Card Meanings List";   
+ var sCredits=`<a href='index_AlteredSets.html?set=1'><img src='./tarots/0.webp' alt='DamarideNeurommancer Tarots Set' title='DamarideNeurommancer Tarots Set' width="80" height="140"></a>\n<b style='color:red'>Credits</b>\nThe Tarot card meaning description here used is based on or extracted from:\n<center><img src="https://biddytarot.com/wp-content/uploads/BT-BiddyTarotLogo-@2x.png" alt="Biddy Tarot" height="63" width="63"></center> <b style='color:red'><i>The Meanings of the Major Arcana Tarot Cards</i></b>\n<span><a style='color:Blue;font-size:0.6rem;' href="${url}">${imgtitle}</a>\n\n<center><img src="https://hermitspiritus.com/images/logo.png" alt="Hermit Spiritus" height="84" width="168"></center> <b style='color:red'><i>Rider-Waite Tarot Card Meanings List</i></b>\n<span><a style='color:Blue;font-size:0.6rem;' href="${url1}">${imgtitle1}</a>`;
+ try{
+  Swal.fire({    
+   title: "",
+   html: "<span style='color:Black'><b>"+sCredits.replaceAll('\n','<br>')+"</b></span>",
+   imageUrl: null,
+   imageWidth: 80,
+   imageHeight: 104,
+   confirmButtonColor: "Black",
+   padding: 1,
+  })
+ }
+ catch{alert(sCredits);}
 }
