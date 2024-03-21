@@ -51,23 +51,26 @@ function myRead(){
   case 2: 
    FourWinds();
    break;
-  case 4: // 5 Tarots. 4 Random + 1 Quintessenza Calcolato
+  case 3: // 5 Tarots. 4 Random + 1 Quintessenza Calcolato
    WitchesPentagram();
    break;
-  case 5: // 4 Tarots Random
+  case 4: // 4 Tarots Random
    TarocDemarseilleCross();
    break;
-  case 6: // Tarot De Marseille Open Reading: 3 Tarots Random (No Reverse) 
+  case 5: // Tarot De Marseille Open Reading: 3 Tarots Random (No Reverse) 
    TarocDeMarseilleNoReverse();
    break;
-  case 7: // Tarot Pairs: 6 Tarocs Random
+  case 6: // Tarot Pairs: 6 Tarocs Random
    TarocPairs();
    break;
-  case 8: // Sacred Circle: 5 Tarots. 4 Random + 1 Center of Circle Calcolato
+  case 7: // Sacred Circle: 5 Tarots. 4 Random + 1 Center of Circle Calcolato
    SacredCircle();
    break;
-  case 9: // Mandala: 9 Tarots
+  case 8: // Mandala: 9 Tarots
    MandalaTarots();
+   break;
+  case 9: // All Tarots
+   AllTarots();
    break;
   default:
    BirthDateTarots();
@@ -496,6 +499,9 @@ function TarocPairs(){
 function MandalaTarots(){
  exDrawTarots(6);
 }
+function AllTarots(){
+ exDrawTarots(7);
+}
 // Spread: 0=WitchesPentagram 1=4Winds 2=SacredCircle 
 // 3=TarocDemarseilleCross 4=TarocDeMarseilleNoReverse 5=TarocPairs 6=Mandala
 function exDrawTarots(spread){
@@ -551,77 +557,77 @@ function exDrawTarots(spread){
  const L9="5. Dependancies, addictions and erraneous values";
  
  clearPanel();
-
- const t1=getRandomTaroc();
- const rv1=getTarocUprightOrReversed();
+ var t1,t2,t3,t4,t5,t6,t7,t8,t9;
+ var rv1,rv2,rv3,rv4,rv5,rv6,rv7,rv8,rv9;
+ if(spread<7){
+  t1=getRandomTaroc();
+  rv1=getTarocUprightOrReversed();
  
- var t2=getRandomTaroc();
- if(spread==4||spread==5){
-  while(t2==t1)
-   t2=getRandomTaroc();
- }
- const rv2=getTarocUprightOrReversed();
- 
- var t3=getRandomTaroc();
- if(spread==4||spread==5){
-  while(t3==t2||t3==t1)
-   t3=getRandomTaroc();
- }
- const rv3=getTarocUprightOrReversed();
- 
- const t4=getRandomTaroc();
- if(spread==5){
-  while(t4==t3||t4==t2||t4==t1)
-   t4=getRandomTaroc();
- }
- const rv4=getTarocUprightOrReversed();
- 
- var quintessence,t5,rv5;
- var t6,rv6;
- 
- // WitchesPentagram, 4Winds, SacredCircle 
- if(spread<3){
-  quintessence=t1+t2+t3+t4;
-  if (quintessence>22){
-   var decina=Math.floor(quintessence/10);
-   var unita=quintessence%10;
-   quintessence=decina+unita;
+  t2=getRandomTaroc();
+  if(spread==4||spread==5){
+   while(t2==t1)
+    t2=getRandomTaroc();
   }
-  t5=quintessence>22?0:quintessence;
-  rv5=getTarocUprightOrReversed();
- }
+  rv2=getTarocUprightOrReversed();
  
- // Tarot Pairs
- if(spread==5||spread==6){
-  t5=getRandomTaroc();
-  while(t5==t4||t5==t3||t5==t2||t5==t1)
+  t3=getRandomTaroc();
+  if(spread==4||spread==5){
+   while(t3==t2||t3==t1)
+    t3=getRandomTaroc();
+  }
+  rv3=getTarocUprightOrReversed();
+ 
+  t4=getRandomTaroc();
+  if(spread==5){
+   while(t4==t3||t4==t2||t4==t1)
+    t4=getRandomTaroc();
+  }
+  rv4=getTarocUprightOrReversed();
+ 
+  var quintessence; 
+  // WitchesPentagram, 4Winds, SacredCircle 
+  if(spread<3){
+   quintessence=t1+t2+t3+t4;
+   if (quintessence>22){
+    var decina=Math.floor(quintessence/10);
+    var unita=quintessence%10;
+    quintessence=decina+unita;
+   }
+   t5=quintessence>22?0:quintessence;
+   rv5=getTarocUprightOrReversed();
+  }
+ 
+  // Tarot Pairs
+  if(spread==5||spread==6){
    t5=getRandomTaroc();
-  rv5=getTarocUprightOrReversed();
+   while(t5==t4||t5==t3||t5==t2||t5==t1)
+    t5=getRandomTaroc();
+   rv5=getTarocUprightOrReversed();
   
-  t6=getRandomTaroc();
-  while(t6==t5||t6==t4||t6==t3||t6==t2||t6==t1)
    t6=getRandomTaroc();
-  rv6=getTarocUprightOrReversed();
- }
+   while(t6==t5||t6==t4||t6==t3||t6==t2||t6==t1)
+    t6=getRandomTaroc();
+   rv6=getTarocUprightOrReversed();
+  }
  
- // Mandala
- var t7,t8,t9,rv7,rv8,rv9
- if(spread==6){
-  t7=getRandomTaroc();
-  while(t7==t6||t7==t5||t7==t4||t7==t3||t7==t2||t7==t1)
+  // Mandala
+  if(spread==6){
    t7=getRandomTaroc();
-  rv7=getTarocUprightOrReversed();
+   while(t7==t6||t7==t5||t7==t4||t7==t3||t7==t2||t7==t1)
+    t7=getRandomTaroc();
+   rv7=getTarocUprightOrReversed();
   
-  t8=getRandomTaroc();
-  while(t8==t7||t8==t6||t8==t5||t8==t4||t8==t3||t8==t2||t8==t1)
    t8=getRandomTaroc();
-  rv8=getTarocUprightOrReversed();
+   while(t8==t7||t8==t6||t8==t5||t8==t4||t8==t3||t8==t2||t8==t1)
+    t8=getRandomTaroc();
+   rv8=getTarocUprightOrReversed();
   
-  t9=getRandomTaroc();
-  while(t9==t8||t9==t7||t9==t6||t9==t5||t9==t4||t9==t3||t9==t2||t9==t1)
    t9=getRandomTaroc();
-  rv9=getTarocUprightOrReversed();
- }
+   while(t9==t8||t9==t7||t9==t6||t9==t5||t9==t4||t9==t3||t9==t2||t9==t1)
+    t9=getRandomTaroc();
+   rv9=getTarocUprightOrReversed();
+  }
+ } 
      
  //var x=window.matchMedia("(max-width:400px)");
      
@@ -655,6 +661,16 @@ function exDrawTarots(spread){
     myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
     myPanel.style.gridTemplateRows=gridString(5,350); //"350px 350px 350px 350px 350px";
     break;
+   case 7:
+   if(!isMobile()){
+    myPanel.style.gridTemplateColumns=gridString(5,200);
+    myPanel.style.gridTemplateRows=gridString(5,330);
+   }
+   else{
+    myPanel.style.gridTemplateColumns=gridString(2,200);
+    myPanel.style.gridTemplateRows=gridString(11,330);
+   }
+   break;
    default:
     break;
   }  
@@ -768,6 +784,12 @@ function exDrawTarots(spread){
    drawTaroc(t9,14,L9,rv9);
    drawTarocFake(15); 
    drawDetails(t1,rv1);
+   break;
+  case 7:
+   for(var i=0;i<22;i++){
+    drawTaroc(i,i,"");
+   }
+   drawDetails(0,0);
    break;
   default:
     break;
