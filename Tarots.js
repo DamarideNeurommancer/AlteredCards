@@ -1,5 +1,4 @@
 // TODO
-// Credits per i contenuti
 // Fonts??
 var bxmlParsed=false;
 var xmlDoc;
@@ -20,6 +19,7 @@ const modal=document.getElementById('myModal');
 const captionModal=document.getElementById('caption-modal');
 const setURL="index_AlteredSets.html?set=1";
 const details=document.getElementById('details');
+const shop=document.getElementById("shop");
 
 var spreadNo=1;
 myDate.valueAsDate=new Date();
@@ -177,7 +177,7 @@ function drawTaroc(idx,idgrid,note,rev=0){
  <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${uk}</p>
  <div>
    <a href="${setURL}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}" height="218px"></a>
-   <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${note} <button id="${idx}" onclick='drawDetails("${idx}","${rev}")' title='Details' style="background-color:gold;font-size:4px;">&#9658;</button></p>
+   <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${note}  <button id="${idx}" onclick='drawDetails("${idx}","${rev}")' title='Details' style="background-color:gold;font-size:4px;cursor:cell">&#9658;</button>&emsp;<button id="z${idx}" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' title='Zoom-In' style="background-color:gold;font-size:4px;cursor:zoom-in">+</button></p>
   </div>
  </div>`;
  myPanel.innerHTML+=CardsHTML;
@@ -422,7 +422,7 @@ function myResult(msg,imgurl,imgtitle,url){
 }
 
 function myHelp(){
- var sHelp="Select a spread to get a tarots reading.\nPress 'Read' anytime you want to read again.\nClick on thumbnail image in the description area to zoom-in.";
+ var sHelp="Select a spread to get a tarots reading.\nPress 'Read' anytime you want to read again.\nClick on 'Details' button at the tile's bottom-left to select the description of current tarot and then move to the end of screen to read it.\nClick on 'Zoom-In' button at the tile's bottom-right or click on thumbnail image in the details' description area to zoom-in.";
  var title="";
  var imageUrl="";
  //if(modalImg.style.visibility=="hidden")
@@ -545,8 +545,8 @@ function exDrawTarots(spread){
  const X6="Pair 3";
  
  // Mandala
- const L1="9. Desires and higher purpose?";
- const L2="8. Self-awareness and self-image";
+ const L1="9. Desires and higher purpose?<br>";
+ const L2="8. Self-awareness and self-image<br>";
  const L3="2. Ambitions, desires and primal urges";
  const L4="7. Faults and weaknesses";
  const L5="1. Self";
@@ -810,6 +810,7 @@ function myPopup(file,imgtitle,note,rev){
  modalPopupImg.alt=imgtitle+(rev==1?" (Reversed)":"");
  modalPopupImg.title=modalPopupImg.alt+"\r\n"+note;
  captionModal.innerHTML="<a href='"+setURL+"' style='font-size: 16px;'>"+modalPopupImg.alt+"<br>"+note+"</a>";
+ shop.innerHTML="<br><br><br><a href='https://www.makeplayingcards.com/sell/damarideneurommancer' style='font-size:12px;'><img src='playing-card-spade-icon.png' alt='Marketplace' style='width:16px;height:16px;vertical-align:middle;background-color:yellow'> Marketplace</a>";
 }
 
 function myInit(){
