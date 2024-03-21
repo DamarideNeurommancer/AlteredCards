@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 </script>
 </head>
-<body style='background-color:#000000' onload="myRead()">
+<body style='background-color:#000000' onload="myInit()">
 <style>
 body{
  font-family: 'Roboto Condensed', sans-serif;
@@ -343,7 +343,7 @@ a:active{
 <div id="bigcontainer">
  <div id="divDate">
   <button id='myBtnPrev' onclick='setDate(-1)' title='Previous day'>&#9668;</button>
-  <input type="date" id="myDate" style="background-color:white;">
+  <input type="date" id="myDate" style="background-color:white;" onchange='dateChange()'>
   <button id='myBtnNext' onclick='setDate(1)' title='Next day'>&#9658;</button>
   <button id='myBtnReset' onclick='resetDate()' title='Today'><img src="reset-default-icon.webp" width='12' height='12'></button>
  </div>

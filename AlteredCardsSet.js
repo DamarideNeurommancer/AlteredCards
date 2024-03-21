@@ -4,9 +4,9 @@ const xmlCards=`<Cards><C I="169976" N="Cyclonic Rift" U="ou6zkmtloka3npb" R="1"
 const URLRoot="https://www.altersleeves.com/product/";
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
-const table=document.getElementById('myTable');
-const totCards=document.getElementById('totalCards');
-const myCols=document.getElementById('myColumns');
+var table=document.getElementById('myTable');
+var totCards=document.getElementById('totalCards');
+var myCols=document.getElementById('myColumns');
 const header=document.getElementById('myHeader');
 var bRequest=false;
 function myParseCards(){
@@ -22,6 +22,9 @@ function mySearch(MaxColumns){
   setNo=(myList.selectedIndex+1).toString();  
  }
  if(bRequest==false){
+  table=document.getElementById('myTable');
+  totCards=document.getElementById('totalCards');
+  myCols=document.getElementById('myColumns');
   var params=new URL(document.location).searchParams;
   var setID=params.get("set");
   if(setID!=""&&setID!=null){

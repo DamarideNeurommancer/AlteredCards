@@ -5,12 +5,12 @@ var bxmlParsed=false;
 var xmlDoc;
 var catalog,book;
 var totXmlTarots;
-const mySpreads=document.getElementById("mySpreads");
-const myDate=document.getElementById("myDate");
-const myDetails=document.getElementById('myDetails');
-const myDivDate=document.getElementById('divDate');
-const myPanel=document.getElementById('panel');
-const modalPopupImg=document.getElementById("img02");
+var mySpreads=document.getElementById("mySpreads");
+var myDate=document.getElementById("myDate");
+var myDetails=document.getElementById('myDetails');
+var myDivDate=document.getElementById('divDate');
+var myPanel=document.getElementById('panel');
+var modalPopupImg=document.getElementById("img02");
 
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
@@ -20,11 +20,9 @@ const modal=document.getElementById('myModal');
 const captionModal=document.getElementById('caption-modal');
 const setURL="index_AlteredSets.html?set=1";
 const details=document.getElementById('details');
-//const originalImage=new Image();
-//var CardURL="";
 
 var spreadNo=1;
-myDate.valueAsDate = new Date();
+myDate.valueAsDate=new Date();
 function myParseTarots(){
  var parser=new DOMParser();
  xmlDoc=parser.parseFromString(xmlTarots,"text/xml");
@@ -34,21 +32,18 @@ function myParseTarots(){
 }
 
 function mySpreadChange(){
- if(bxmlParsed==false){
-   myParseTarots();
- }  
+ if(bxmlParsed==false){myParseTarots();}  
  spreadNo=parseInt(mySpreads.selectedIndex+1);
  if(spreadNo!=1)
   myDivDate.style.visibility="hidden";
  else
   myDivDate.style.visibility="visible";
-  myRead();
+ mySave();
+ myRead();
 }
 
 function myRead(){
- if(bxmlParsed==false){
-  myParseTarots();
- }
+ if(bxmlParsed==false){myParseTarots();}
  switch(spreadNo){
   case 1:
    BirthDateTarots(); // 2 o 3 Tarots
@@ -390,6 +385,7 @@ function getBDTarots(sum){
 
 function resetDate(){
  myDate.valueAsDate=new Date();
+ dateChange();
  BirthDateTarots();
 }
 
@@ -397,37 +393,9 @@ function setDate(days){
  var oldDate=new Date(myDate.value);
  var newDate=new Date(oldDate.getFullYear(),oldDate.getMonth(),oldDate.getDate()+days);
  myDate.value=newDate.getFullYear()+"-"+(newDate.getMonth()+1).toString().padStart(2,'0')+"-"+newDate.getDate().toString().padStart(2,'0');
+ dateChange();
  BirthDateTarots();
 }
-
-/*
-originalImage.addEventListener('load',function(){
- let sx=25;
- let sy=53;
- let croppedWidth=301;
- let croppedHeight=220;
- canvas.width=croppedWidth;
- canvas.height=croppedHeight;
- context.drawImage(originalImage,sx,sy,croppedWidth,croppedHeight,0,0,croppedWidth,croppedHeight);
- var level=getRadioValue();
- if(level>0){
-   originalImage.crossOrigin = "anonymous";
-   const canvas1=document.createElement("canvas");
-   const context1=canvas1.getContext("2d",{willReadFrequently:true});
-   canvas1.width=croppedWidth;
-   canvas1.height=croppedHeight;
-   context1.drawImage(originalImage,sx,sy,croppedWidth,croppedHeight,0,0,croppedWidth,croppedHeight);
-   var data=context1.getImageData(0,0,canvas1.width,canvas1.height);  
-   if(level==1){
-    context.putImageData(vintage(data),0,0);
-   }else if(level==2){
-    context.putImageData(solarize(data),0,0);
-   }else{
-    context.putImageData(noise(data),0,0);
-   }
- } 
-});
-*/
 
 myDate.addEventListener('change',function(){
  myRead();
@@ -496,40 +464,15 @@ span.onclick=function(){
  modal.style.display="none";
 }
 
-/*
-let shareData={
- title: "",
- text: "",
- url: "",
-}
-
-async function myShare()
-{
- if(modalImg.style.visibility=="hidden")
-  return;
- var _imgtitle=modalImg.title; 
- var _url=CardURL;
- shareData={
-  title: "AlterSleeves Link",
-  text: _imgtitle,
-  url: _url,
- }
- if(navigator.canShare&&navigator.canShare(shareData)){
-  await navigator.share(shareData);
- }
-}
-***/
-
-function isMobile()
-{
+function isMobile(){
  return(window.orientation!=null&&window.orientation!="undefined");
 }
 
 function getRandomTaroc(){
- return Math.floor(Math.random()*totXmlTarots); //+1;
+ return Math.floor(Math.random()*totXmlTarots);
 }
 function getTarocUprightOrReversed(){
- return Math.floor(Math.random()*2); //+1;
+ return Math.floor(Math.random()*2);
 }
 
 function WitchesPentagram(){
@@ -638,15 +581,13 @@ function exDrawTarots(spread){
  
  // WitchesPentagram, 4Winds, SacredCircle 
  if(spread<3){
-  //var quintessence=t1+t2+t3+t4; // + 4;
-  quintessence=t1+t2+t3+t4; // + 4;
+  quintessence=t1+t2+t3+t4;
   if (quintessence>22){
-   var decina=Math.floor(quintessence/10); //quintessence/10;
+   var decina=Math.floor(quintessence/10);
    var unita=quintessence%10;
    quintessence=decina+unita;
   }
-  //var t5=quintessence>22?0:quintessence; // + 1;
-  t5=quintessence>22?0:quintessence; // + 1;
+  t5=quintessence>22?0:quintessence;
   rv5=getTarocUprightOrReversed();
  }
  
@@ -848,4 +789,47 @@ function myPopup(file,imgtitle,note,rev){
  modalPopupImg.alt=imgtitle+(rev==1?" (Reversed)":"");
  modalPopupImg.title=modalPopupImg.alt+"\r\n"+note;
  captionModal.innerHTML="<a href='"+setURL+"' style='font-size: 16px;'>"+modalPopupImg.alt+"<br>"+note+"</a>";
+}
+
+function myInit(){
+ var dtValue;
+ initVars();
+ if(bxmlParsed==false){myParseTarots();}
+ var storedSpreadNo=localStorage.getItem("SpreadNo");
+ if(storedSpreadNo!=""&&storedSpreadNo!=null&&storedSpreadNo!="undefined"){
+  spreadNo=storedSpreadNo;
+ }
+ else{
+  spreadNo=1;
+ }
+ if(spreadNo==1){
+  dtValue=localStorage.getItem("SpreadDate");
+  if(dtValue!=""&&dtValue!=null&&dtValue!="undefined"){
+   myDate.value=dtValue;
+  }
+ }
+ mySpreads.value=spreadNo;
+ mySpreadChange();
+}
+
+function mySave(){
+ try{
+  localStorage.setItem("SpreadNo",spreadNo);
+  if(spreadNo==1){
+   localStorage.setItem("SpreadDate",myDate.value);
+  }
+ }
+ catch(err){console.log(err);} 
+}
+
+function initVars(){
+ mySpreads=document.getElementById("mySpreads");
+ myDate=document.getElementById("myDate");
+ myDetails=document.getElementById('myDetails');
+ myDivDate=document.getElementById('divDate');
+ myPanel=document.getElementById('panel');
+ modalPopupImg=document.getElementById("img02");
+}
+function dateChange(){
+ localStorage.setItem("SpreadDate",myDate.value);
 }
