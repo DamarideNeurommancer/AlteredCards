@@ -165,25 +165,23 @@ function drawTaroc(idx,idgrid,note,rev=0){
  {
   console.log("book undefined: idx="+idx);
  }*/
- var CardID=book.attributes[1].nodeValue;
- var title = book.attributes[0].nodeValue+" - "+book.attributes[2].nodeValue;
+ var CardID=book.attributes[0].nodeValue;
+ var title = CardID+" - "+book.attributes[2].nodeValue;
  //Upright_Keywords
  var uk=book.attributes[3].nodeValue;
- //var url= URLRoot+book.attributes[8].nodeValue; //U url in AlterSleeves
- var tFilename=CardID+".jpg";
+ var tFilename="./tarots/"+CardID;
  if(rev==1){
-  //tFilename=CardID+"_R.jpg"; //TODO
+  tFilename+="_R";
  }
+ tFilename+=".webp";
  
- //background-color:gold;
  var CardsHTML=`<div id="${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}")'>${title}
  <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${uk}</p>
  <div>
-   <a href="${setURL}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}"></a>
+   <a href="${setURL}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}" height="218px"></a>
    <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${note} <button id="${idx}" onclick='drawDetails("${idx}","${rev}")' title='Details' style="background-color:gold;font-size:4px;">&#9658;</button></p>
   </div>
  </div>`;
- // click sul <div> e sul <p> per avere i dettagli
  myPanel.innerHTML+=CardsHTML;
  drawDetails(idx,rev);
 }
@@ -199,18 +197,19 @@ function clearPanel(){
 }
 function drawDetails(idx,rev=0){
  book=catalog.childNodes[idx];
- if(book==null||book=="undefined")
+ /*if(book==null||book=="undefined")
  {
   console.log("drawDetails: book undefined: idx="+idx);
- }
- var title=book.attributes[0].nodeValue+" - "+book.attributes[2].nodeValue;
+ }*/
+ var CardID=book.attributes[0].nodeValue;
+ var title=CardID+" - "+book.attributes[2].nodeValue;
  //Upright_Keywords
  var uk=book.attributes[3].nodeValue;
  var row,cell;
  myDetails.innerHTML="";
- details.width=window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+ //details.width=window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
  //details.width=myPanel.clientWidth;
- details.Left=0; //myPanel.offsetLeft;
+ //details.Left=0; //myPanel.offsetLeft;
  
  // ID - Name
  row=myDetails.insertRow(-1);
@@ -264,13 +263,14 @@ function drawDetails(idx,rev=0){
  cell.style.backgroundColor="DarkGoldenRod";
  cell.style.fontWeight="bolder";
  cell.style.color="black";
- var CardID=book.attributes[1].nodeValue;
- var tFilename=CardID+".jpg";
+ var CardID=book.attributes[0].nodeValue;
+ var tFilename="./tarots/"+CardID;
  if(rev==1){
-  //tFilename=CardID+"_R.jpg"; //TODO
+  tFilename+="_R";
  }
+ tFilename+=".webp";
  //cell.innerHTML=_Description;
- cell.innerHTML=`<img src="${tFilename}" alt="${title}" title="${title}" width="15px" height="24px" onclick='myPopup("${tFilename}","${title}","${uk}")' style='cursor:zoom-in'> ${_Description}`;
+ cell.innerHTML=`<img src="${tFilename}" alt="${title}" title="${title}" width="15px" height="24px" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' style='cursor:zoom-in'> ${_Description}`;
  
  // Upright
  row=myDetails.insertRow(-1);
@@ -286,6 +286,8 @@ function drawDetails(idx,rev=0){
  cell.style.fontWeight="bolder";
  cell.style.color="gold";
  cell.innerHTML=_Upright.replaceAll("\r\n","<br>").replaceAll("&quot;","'");
+ //window.location.hash='#details';
+ //myDetails.scrollIntoView();
 }
 
 function getBDTarots(sum){
@@ -839,11 +841,11 @@ function gridString(n,s){
  return gs;
 }
 
-function myPopup(file,imgtitle,note){
+function myPopup(file,imgtitle,note,rev){
  //var url="index_AlteredSets.html?set=1"; 
  modal.style.display="block";
  modalPopupImg.src=file;
- modalPopupImg.alt=imgtitle;
- modalPopupImg.title=imgtitle+"\r\n"+note;
+ modalPopupImg.alt=imgtitle+(rev==1?" (Reversed)":"");
+ modalPopupImg.title=modalPopupImg.alt+"\r\n"+note;
  captionModal.innerHTML="<a href='"+setURL+"' style='font-size: 16px;'>"+modalPopupImg.alt+"<br>"+note+"</a>";
 }
