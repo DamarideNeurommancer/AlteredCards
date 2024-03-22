@@ -20,7 +20,10 @@ const captionModal=document.getElementById('caption-modal');
 const setURL="index_AlteredSets.html?set=1";
 const details=document.getElementById('details');
 const shop=document.getElementById("shop");
-
+var speakData;
+var bSpeech=true;
+var t2sStarted=false;
+var t2sPaused=false;
 var spreadNo=1;
 myDate.valueAsDate=new Date();
 function myParseTarots(){
@@ -101,9 +104,8 @@ function BirthDateTarots(){
    sumStr=""+sum.toString();
   }
  }
-
- let tarots=getBDTarots(sum);
- var t1idx=tarots[0],t2idx=tarots[1],t3idx=tarots[2];
+ var tarots=getBDTarots(sum);
+ var t1=tarots[0],t2=tarots[1],t3=tarots[2];
  
  /*
  var x=window.matchMedia("(max-width:400px)");
@@ -117,7 +119,7 @@ function BirthDateTarots(){
  */
  clearPanel();
  //if(!isMobile()&&!x.matches){
-  if(t2idx!=0){
+  if(t2!=0){
    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
    myPanel.style.gridTemplateRows=gridString(1,330); //"330px";
   }
@@ -125,13 +127,13 @@ function BirthDateTarots(){
    myPanel.style.gridTemplateColumns=gridString(2,200); //"200px 200px";
    myPanel.style.gridTemplateRows=gridString(1,330); //"330px";
   }
-  drawTaroc(t1idx,1,"Left Card");
-  if(t2idx!=0){
-   drawTaroc(t2idx,2,"Middle Card");
-   drawTaroc(t3idx,3,"Right Card");
+  drawTaroc(t1,1,"Left Card");
+  if(t2!=0){
+   drawTaroc(t2,2,"Middle Card");
+   drawTaroc(t3,3,"Right Card");
   }
   else{
-   drawTaroc(t3idx,2,"Right Card");
+   drawTaroc(t3,2,"Right Card");
   }
  //}
  /*else{
@@ -153,7 +155,8 @@ function BirthDateTarots(){
   }
  }*/
  //Details del primo tarocco
- drawDetails(t1idx,0);
+ //drawDetails(t1idx,0);
+ drawDetails(t1,0,0,1);
  panel.scrollTo(0,0);  
 }
 
@@ -173,15 +176,24 @@ function drawTaroc(idx,idgrid,note,rev=0){
  }
  tFilename+=".webp";
  
- var CardsHTML=`<div id="${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}")'>${title}
+ /*var CardsHTML=`<div id="${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}")'>${title}
  <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${uk}</p>
  <div>
    <a href="${setURL}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}" height="218px"></a>
    <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${note}  <button id="${idx}" onclick='drawDetails("${idx}","${rev}")' title='Details' style="background-color:gold;font-size:4px;cursor:cell">&#9658;</button>&emsp;<button id="z${idx}" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' title='Zoom-In' style="background-color:gold;font-size:4px;cursor:zoom-in">+</button></p>
   </div>
+ </div>`;*/
+ 
+ var CardsHTML=`<div id="g${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")'>${title}
+ <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")'>${uk}</p>
+ <div>
+   <a href="${setURL}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}" height="218px"></a>
+   <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")'>${note}  <button id="${idx}" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")' title='Details' style="background-color:gold;font-size:4px;cursor:cell">&#9658;</button>&emsp;<button id="z${idx}" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' title='Zoom-In' style="background-color:gold;font-size:4px;cursor:zoom-in">+</button></p>
+  </div>
  </div>`;
  myPanel.innerHTML+=CardsHTML;
- drawDetails(idx,rev);
+ //drawDetails(idx,rev,0); //Dont Move to Details! 
+ drawDetails(idx,rev,0,idgrid); //Dont Move to Details!
 }
 
 function drawTarocFake(idgrid){
@@ -193,7 +205,10 @@ function drawTarocFake(idgrid){
 function clearPanel(){
  myPanel.innerHTML="";
 }
-function drawDetails(idx,rev=0){
+function drawDetails(idx,rev=0,moveTo=1,idgrid){
+ // Nel caso stesse leggendo
+ t2sStop()
+
  book=catalog.childNodes[idx];
  /*if(book==null||book=="undefined")
  {
@@ -277,15 +292,23 @@ function drawDetails(idx,rev=0){
   // Reversed
   _Upright=book.attributes[7].nodeValue;
  }
+ _Upright=_Upright.replaceAll("\r\n","<br>").replaceAll("&quot;","'");
+ 
  cell=row.insertCell(-1);
  cell.style.textAlign="justify";
  cell.style.fontSize="12px";
  cell.style.backgroundColor="Black";
  cell.style.fontWeight="bolder";
  cell.style.color="gold";
- cell.innerHTML=_Upright.replaceAll("\r\n","<br>").replaceAll("&quot;","'");
+ //cell.innerHTML=_Upright.replaceAll("\r\n","<br>").replaceAll("&quot;","'");
+ //cell.innerHTML=`<button onclick="topFunction()" id="myBtnTop" title="Go to top">Top</button> ${_Upright}`;
+ cell.innerHTML=`${_Upright}<br><button id="myBtnTop" onclick='topFunction(${idgrid})' title="Go up &#x25B2;">&#x25B2;</button>`;
+ if(bSpeech)
+  cell.innerHTML+=getText2SpeechHTML();
+  
  //window.location.hash='#details';
- //myDetails.scrollIntoView();
+ if(moveTo==1)
+  myDetails.scrollIntoView();
 }
 
 function getBDTarots(sum){
@@ -717,7 +740,8 @@ function exDrawTarots(spread){
    drawTaroc(t4,4,P4,rv4);
    drawTaroc(t5,5,P5,rv5);
    //Details del tarocco iniziale
-   drawDetails(t5,rv5);
+   //drawDetails(t5,rv5,0);
+   drawDetails(t5,rv5,0,5);
    break;
   case 1: // 4Winds
    drawTaroc(t1,1,W1,rv1);
@@ -725,7 +749,8 @@ function exDrawTarots(spread){
    drawTaroc(t3,3,W3,rv3);
    drawTaroc(t4,4,W4,rv4);
    drawTaroc(t5,5,W5,rv5);
-   drawDetails(t5,rv5);
+   //drawDetails(t5,rv5,0);
+   drawDetails(t5,rv5,0,5);
    break;
   case 2: // SacredCircle
    drawTarocFake(1);
@@ -737,7 +762,8 @@ function exDrawTarots(spread){
    drawTarocFake(7);
    drawTaroc(t4,8,S4,rv4);
    drawTarocFake(9);
-   drawDetails(t5,rv5);
+   //drawDetails(t5,rv5,0);
+   drawDetails(t5,rv5,0,5);
    break;
   case 3: // Tarots de Marseille Cross
    drawTarocFake(1);
@@ -749,7 +775,8 @@ function exDrawTarots(spread){
    drawTarocFake(7);
    drawTaroc(t4,8,M4,rv4);
    drawTarocFake(9);
-   drawDetails(t4,rv4);
+   //drawDetails(t4,rv4,0);
+   drawDetails(t4,rv4,0,8);
    break; 
   case 4: // Tarots de Marseille Open Reading (No Reverse)
    drawTaroc(t1,1,O1,0);
@@ -763,7 +790,8 @@ function exDrawTarots(spread){
    drawTaroc(t4,4,X4,rv4);
    drawTaroc(t5,5,X5,rv5);
    drawTaroc(t6,6,X6,rv6);
-   drawDetails(t1,rv1);
+   //drawDetails(t1,rv1,0);
+   drawDetails(t1,rv1,0,1);
    break;
   case 6:
    drawTarocFake(1);
@@ -782,13 +810,16 @@ function exDrawTarots(spread){
    drawTarocFake(13);
    drawTaroc(t9,14,L9,rv9);
    drawTarocFake(15); 
-   drawDetails(t1,rv1);
+   //drawDetails(t1,rv1,0);
+   drawDetails(t1,rv1,0,2);
    break;
   case 7:
    for(var i=0;i<22;i++){
     drawTaroc(i,i,"");
    }
-   drawDetails(0,0);
+   //drawDetails(0,0);
+   //drawDetails(0,0,0,0);
+   drawDetails(0,0,0,0,0);
    break;
   default:
     break;
@@ -851,6 +882,24 @@ function initVars(){
  myDivDate=document.getElementById('divDate');
  myPanel=document.getElementById('panel');
  modalPopupImg=document.getElementById("img02");
+ if ('speechSynthesis' in window) {
+  bSpeech=true;
+  speakData= new SpeechSynthesisUtterance();
+  speakData.volume = 1; // From 0 to 1
+  speakData.rate = 0.8; //1; // From 0.1 to 10
+  speakData.pitch = 1.5; //2; // From 0 to 2
+  //speakData.text = textToSpeak;
+  speakData.lang = 'en';
+  speakData.voice = getVoices()[0];
+  
+  // Select a voice
+  //const voices = speechSynthesis.getVoices();
+  //speakData.voice = voices[0]; // Choose a specific voice
+
+ }else{
+  // Speech Synthesis is not Supported 
+  bSpeech=false; 
+ }
 }
 function dateChange(){
  localStorage.setItem("SpreadDate",myDate.value);
@@ -875,3 +924,61 @@ function myCredits(){
  }
  catch{alert(sCredits);}
 }
+
+function topFunction(grididx){
+ document.getElementById("g"+grididx).scrollIntoView(); 
+} 
+
+function getText2SpeechHTML(){
+ var html=`&emsp;<button id="myStart" onclick='t2sStart()' title="Read">&#9658;</button> 
+ <button id="myPauseResume" onclick='t2sPauseResume()' title="Pause">&#x23F8;</button> 
+ <button id="myStop" onclick='t2sStop()' title="Stop">&#x23F9;</button>
+ `;
+ return html;
+}
+function t2sStart(){
+ t2sStarted=true;
+ var name=myDetails.rows[0].cells[0].innerText.split('-')[1];
+ var reading="Tarot: "+name+". "+myDetails.rows[1].cells[0].innerText + ". " + myDetails.rows[4].cells[0].innerText;
+ speakData.text=reading; //myDetails.rows[1].cells[0].innerText + ". " + myDetails.rows[4].cells[0].innerText;
+ //speakData.text=myDetails.rows[1].cells[0].innerText;
+ speechSynthesis.speak(speakData);
+ document.getElementById("myStart").style.backgroundColor="Red";
+}
+function t2sPauseResume(){
+ if(t2sStarted){
+  if(t2sPaused){
+   t2sPaused=false; // Resume
+   speechSynthesis.resume();
+   document.getElementById("myPauseResume").title="Pause";
+  }
+  else{
+   speechSynthesis.pause(); //Pause
+   document.getElementById("myPauseResume").title="Resume";
+   t2sPaused=true;
+  }
+ }
+}
+function t2sStop(){
+ window.speechSynthesis.cancel();
+ t2sStarted=false;
+ t2sPaused=false;
+ try{
+  document.getElementById("myPauseResume").title="Pause";
+  document.getElementById("myStart").style.backgroundColor="White";
+ }
+ catch(err){;}
+}
+// Initially, the getVoices() method will return an empty array because voices may not be loaded. 
+// The following is a small workaround for that.
+function getVoices() {
+ let voices=speechSynthesis.getVoices();
+ if(!voices.length){
+  let utterance=new SpeechSynthesisUtterance("");
+  speechSynthesis.speak(utterance);
+  voices=speechSynthesis.getVoices();
+ }
+ return voices;
+}
+
+  
