@@ -252,12 +252,19 @@ a:active{
  background-image: url('tarot-frame2.png');
  background-repeat: no-repeat;
  background-size: 100% 100%;
+ width: 100%;
 }
 .listTable td{
  border: 1px solid white;
  border-radius: 10px;
  padding:5px;
  //overflow:scroll;
+ width: 100%;
+}
+@media only screen and (min-width: 400px){
+ .listTable{
+  display: block;
+ }
 }
 /*.listTable:hover{
  //text-decoration: underline overline #FF3028;
