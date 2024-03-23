@@ -213,7 +213,7 @@ function clearPanel(){
 }
 function drawDetails(idx,rev=0,moveTo=1,idgrid){
  // Nel caso stesse leggendo
- t2sStop()
+ t2sStop();
 
  book=catalog.childNodes[idx];
  /*if(book==null||book=="undefined")
@@ -894,14 +894,11 @@ function initVars(){
   speakData.volume = 1; // From 0 to 1
   speakData.rate = 0.8; //1; // From 0.1 to 10
   speakData.pitch = 1.5; //2; // From 0 to 2
-  //speakData.text = textToSpeak;
   speakData.lang = 'en';
   speakData.voice = getVoices()[0];
-  
   // Select a voice
   //const voices = speechSynthesis.getVoices();
   //speakData.voice = voices[0]; // Choose a specific voice
-
  }else{
   // Speech Synthesis is not Supported 
   bSpeech=false; 
@@ -942,16 +939,33 @@ function getText2SpeechHTML(){
  `;
  return html;
 }
-function t2sStart(){
+function t2sStart(){ 
  t2sStarted=true;
+ document.getElementById("myDetails").rows[4].cells[0].style.borderColor="red";
  var name=myDetails.rows[0].cells[0].innerText.split('-')[1];
  var upkeyword=myDetails.rows[1].cells[0].innerText;
  var descr=myDetails.rows[4].cells[0].innerText;
- descr=descr.substr(0,descr.length-7);
  var reading="Tarot: "+name+". "+upkeyword+". "+descr;
+ //var selectedText="";
+ 
+ if(window.getSelection().containsNode(document.getElementById("myDetails").rows[4].cells[0],true)){
+  //selectedText=window.getSelection().toString();
+  reading=window.getSelection().toString();;
+ }
+ /*
+ if( selectedText=="")
+  descr=descr.substr(0,descr.length-7);
+ else
+  descr=selectedText;
+ var reading="Tarot: "+name+". "+upkeyword+". "+descr;
+ */
  speakData.text=reading;
  speechSynthesis.speak(speakData);
  document.getElementById("myStart").style.backgroundColor="Red";
+ speakData.onend=(event) => {
+   //console.log(`Utterance has finished being spoken after ${event.elapsedTime} seconds.`,);
+   t2sStop();
+ };
 }
 function t2sPauseResume(){
  if(t2sStarted){
@@ -959,24 +973,47 @@ function t2sPauseResume(){
    t2sPaused=false; // Resume
    speechSynthesis.resume();
    document.getElementById("myPauseResume").title="Pause";
+   document.getElementById("myDetails").rows[4].cells[0].style.borderColor="red";
   }
   else{
    speechSynthesis.pause(); //Pause
    document.getElementById("myPauseResume").title="Resume";
+   document.getElementById("myDetails").rows[4].cells[0].style.borderColor="green";
    t2sPaused=true;
   }
  }
 }
 function t2sStop(){
- window.speechSynthesis.cancel();
+ speechSynthesis.cancel();
  t2sStarted=false;
  t2sPaused=false;
  try{
   document.getElementById("myPauseResume").title="Pause";
   document.getElementById("myStart").style.backgroundColor="White";
+  document.getElementById("myDetails").rows[4].cells[0].style.borderColor="white";
  }
  catch(err){;}
 }
+
+/*speechSynthesis.addEventListener('end',(evt) => {
+  const {charIndex,utterance}=evt;
+
+  if (charIndex+1 === speakData.text.length){
+    // End fired when utterance finished
+    t2sStop();
+  } else {
+    // End fired before utterance finished
+  }
+});*/
+
+/*
+speechSynthesis.onend = (event) => {
+  console.log(
+    `Utterance has finished being spoken after ${event.elapsedTime} seconds.`,
+  );
+  t2sStop();
+};*/
+
 // Initially, the getVoices() method will return an empty array because voices may not be loaded. 
 // The following is a small workaround for that.
 function getVoices() {
@@ -1068,3 +1105,7 @@ function getAllAnimalSign(sign){
  }
  return(res);
 }  
+
+window.onresize=function(event){
+ myDetails.clientWidth=document.body.clientWidth;
+};
