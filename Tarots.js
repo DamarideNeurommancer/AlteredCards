@@ -10,6 +10,12 @@ var myDetails=document.getElementById('myDetails');
 var myDivDate=document.getElementById('divDate');
 var myPanel=document.getElementById('panel');
 var modalPopupImg=document.getElementById("img02");
+const zodiacMap=[["Aries","&#x2648;"],["Taurus","&#x2649;"],["Gemini","&#x264A;"],["Cancer","&#x264B;"],["Leo","&#x264C;"],["Virgo","&#x264D;"],["Libra","&#x264E;"],["Scorpio","&#x264F;"],["Sagittarius","&#x2650;"],["Capricorn","&#x2651;"],["Aquarius","&#x2652;"],["Pisces","&#x2653;"],["Pisces","&#x2653;"]];
+const planetMap=[["Mercury","&#x263F;"],["Venus","&#x2640;"],["Mars","&#x2642;"],["Jupiter","&#x2643;"],["Saturn","&#x2644;"],["Uranus","&#x2645"],["Neptune","&#x2646;"],["Pluto","&#x2647"],["Sun","&#x263C;"],["Moon","&#x263E"]];
+const elementMap=[["Air","&#x2634;"],["Water","&#x2635;"],["Earth","&#x2637;"],["Fire","&#x2632;"]];
+const suitMap=[["Wands","&#129668;"],["Cups","&#127942;"],["Swords","&#x2694;"],["Pentacles","&#x2605;"]];
+const animalMap=[["Land Mammals","&#128049;"],["Winged Creatures","&#129417;"],["Water Creatures","&#128044;"],["Reptiles","&#128013;"],["Insects","&#129419;"],["Lizards","&#129422;"]];
+
 
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
@@ -251,19 +257,19 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  var a=book.attributes[13].nodeValue;
  var s=book.attributes[14].nodeValue;
  
- var epzcas="Element: "+e;
+ var epzcas="Element: ["+getAllElementSign(e)+"]";
  if(z!="")
-  epzcas+=" Zodiac: "+z;
- else
-  epzcas+=" Planet: "+p; 
- epzcas+=" Suit: "+s;  
- epzcas+=" Color: "+c;
- epzcas+=" Animal: "+a;
+  epzcas+="  Zodiac: ["+getZodiacSign(z)+"]";
+ else 
+  epzcas+="  Planet: ["+getPlanetSign(p)+"]";  
+ epzcas+="  Suit: ["+getAllSuitSign(s)+"]";
+ epzcas+="  Color: ["+getColor(c)+"]";
+ epzcas+="  Animal: ["+getAllAnimalSign(a)+"]";
  
  row=myDetails.insertRow(-1);
  cell=row.insertCell(-1);
  cell.style.textAlign="center";
- cell.style.fontSize="12px";
+ cell.style.fontSize="14px";
  cell.style.fontWeight="bolder";
  cell.style.color="gold";
  cell.innerHTML=epzcas;
@@ -910,7 +916,7 @@ function myCredits(){
  var url1="https://hermitspiritus.com/tarot-cards";
  var imgtitle="The Meanings of the Major Arcana Tarot Cards";
  var imgtitle1="Rider-Waite Tarot Card Meanings List";   
- var sCredits=`<a href='index_AlteredSets.html?set=1'><img src='./tarots/0.webp' alt='DamarideNeurommancer Tarots Set' title='DamarideNeurommancer Tarots Set' width="80" height="140"></a>\n<b style='color:red'>Credits</b>\nThe Tarot card meaning description here used is based on or extracted from:\n<center><img src="https://biddytarot.com/wp-content/uploads/BT-BiddyTarotLogo-@2x.png" alt="Biddy Tarot" height="63" width="63"></center> <b style='color:red'><i>The Meanings of the Major Arcana Tarot Cards</i></b>\n<span><a style='color:Blue;font-size:0.6rem;' href="${url}">${imgtitle}</a>\n\n<center><img src="https://hermitspiritus.com/images/logo.png" alt="Hermit Spiritus" height="84" width="168"></center> <b style='color:red'><i>Rider-Waite Tarot Card Meanings List</i></b>\n<span><a style='color:Blue;font-size:0.6rem;' href="${url1}">${imgtitle1}</a>`;
+ var sCredits=`<a href='index_AlteredSets.html?set=1'><img src='./tarots/0.webp' alt='DamarideNeurommancer Tarots Set' title='DamarideNeurommancer Tarots Set' width="80" height="140"></a>\n<b style='color:red'>Credits</b>\nThe Tarot cards meaning description here used (whether not exclusively) is based on or extracted from:\n<center><img src="https://biddytarot.com/wp-content/uploads/BT-BiddyTarotLogo-@2x.png" alt="Biddy Tarot" height="63" width="63"></center> <b style='color:red'><i>The Meanings of the Major Arcana Tarot Cards</i></b>\n<span><a style='color:Blue;font-size:0.6rem;' href="${url}">${imgtitle}</a>\n\n<center><img src="https://hermitspiritus.com/images/logo.png" alt="Hermit Spiritus" height="84" width="168"></center> <b style='color:red'><i>Rider-Waite Tarot Card Meanings List</i></b>\n<span><a style='color:Blue;font-size:0.6rem;' href="${url1}">${imgtitle1}</a>`;
  try{
   Swal.fire({    
    title: "",
@@ -939,9 +945,11 @@ function getText2SpeechHTML(){
 function t2sStart(){
  t2sStarted=true;
  var name=myDetails.rows[0].cells[0].innerText.split('-')[1];
- var reading="Tarot: "+name+". "+myDetails.rows[1].cells[0].innerText + ". " + myDetails.rows[4].cells[0].innerText;
- speakData.text=reading; //myDetails.rows[1].cells[0].innerText + ". " + myDetails.rows[4].cells[0].innerText;
- //speakData.text=myDetails.rows[1].cells[0].innerText;
+ var upkeyword=myDetails.rows[1].cells[0].innerText;
+ var descr=myDetails.rows[4].cells[0].innerText;
+ descr=descr.substr(0,descr.length-7);
+ var reading="Tarot: "+name+". "+upkeyword+". "+descr;
+ speakData.text=reading;
  speechSynthesis.speak(speakData);
  document.getElementById("myStart").style.backgroundColor="Red";
 }
@@ -981,4 +989,82 @@ function getVoices() {
  return voices;
 }
 
-  
+function getZodiacSign(sign){
+ for(var i=0;i<12;i++){
+  if(zodiacMap[i][0]==sign)
+   return("<b style='color:silver'><i>"+sign+" </i></b>"+zodiacMap[i][1]);
+ }
+ return(sign);
+}
+
+function getPlanetSign(sign){
+ for(var i=0;i<planetMap.length;i++){
+  if(planetMap[i][0]==sign)
+   return("<b style='color:silver'><i>"+sign+" "+planetMap[i][1]+"</i></b>");
+ }
+ return(sign);
+}
+function getElementSign(sign){
+ for(var i=0;i<elementMap.length;i++){
+  if(elementMap[i][0]==sign)
+   return("<b style='color:silver'><i>"+sign+" "+elementMap[i][1]+"</i></b>");
+ }
+ return("");
+}
+function getAllElementSign(sign){
+ var res="";
+ var c=sign.split(',');
+ for(var i=0;i<c.length;i++){
+  res+=getElementSign(c[i]);
+  if(i<c.length-1)
+   res+=",";
+ }
+ return(res);
+}  
+function getColor(sign){
+  var res="";
+  var c=sign.split(',');
+  for(var i=0;i<c.length;i++){
+   res+="<b style='color:"+c[i]+"'>"+c[i]+"</b>";
+   if(i<c.length-1)
+    res+=",";
+  }
+  return(res);
+}
+function getSuitSign(sign){
+ for(var i=0;i<suitMap.length;i++){
+  if(suitMap[i][0]==sign)
+   return("<b style='color:silver'><i>"+sign+" </i>"+suitMap[i][1]+"</b>");
+ }
+ return("");
+} 
+
+function getAllSuitSign(sign){
+ var res="";
+ var c=sign.split(',');
+ for(var i=0;i<c.length;i++){
+  res+=getSuitSign(c[i]);
+  if(i<c.length-1)
+   res+=", ";
+ }
+ return(res);
+}
+
+function getAnimalSign(sign){
+ for(var i=0;i<animalMap.length;i++){
+  if(animalMap[i][0]==sign)
+   return("<b style='color:silver'><i>"+sign+" </i>"+animalMap[i][1]+"</b>");
+ }
+ return("");
+} 
+
+function getAllAnimalSign(sign){
+ var res="";
+ var c=sign.split(',');
+ for(var i=0;i<c.length;i++){
+  res+=getAnimalSign(c[i]);
+  if(i<c.length-1)
+   res+=", ";
+ }
+ return(res);
+}  
