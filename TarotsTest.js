@@ -227,7 +227,13 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  var uk=book.attributes[3].nodeValue;
  var row,cell;
  
- myDetails.style.gridTemplateColumns="auto"
+ myDetails.style.gridTemplateColumns="auto";
+ if(isMobile()){
+  if(spreadNo>1&&spreadNo<9)
+   myDetails.style.gridTemplateColumns="600px";
+   if(spreadNo==9)
+    myDetails.style.gridTemplateColumns="400px"; 
+ }
  myDetails.style.gridTemplateRows="auto auto auto auto auto";
  myDetails.innerHTML="";
  //details.width=window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
