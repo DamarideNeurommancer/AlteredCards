@@ -311,7 +311,9 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  cell.innerHTML=`${_Upright}<br><button id="myBtnTop" onclick='topFunction(${idgrid})' title="Go up &#x25B2;">&#x25B2;</button>`;
  if(bSpeech)
   cell.innerHTML+=getText2SpeechHTML();
-  
+ 
+ var x= document.getElementById('panel').clientWidth;
+ myDetails.clientWidth=Math.max(window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth ||x); 
  //window.location.hash='#details';
  if(moveTo==1)
   myDetails.scrollIntoView();
@@ -1107,5 +1109,7 @@ function getAllAnimalSign(sign){
 }  
 
 window.onresize=function(event){
- myDetails.clientWidth=document.body.clientWidth;
+ //myHeader.clientWidth=window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+ var x= document.getElementById('panel').clientWidth;
+ myDetails.clientWidth=Math.max(window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth ||x);
 };
