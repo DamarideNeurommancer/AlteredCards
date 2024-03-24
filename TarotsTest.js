@@ -227,8 +227,8 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  var uk=book.attributes[3].nodeValue;
  var row,cell;
  
- myDetails.style.gridTemplateColumns=gridString(1,"auto");
- myDetails.style.gridTemplateRows=gridString(5,"auto");
+ myDetails.style.gridTemplateColumns="auto"
+ myDetails.style.gridTemplateRows="auto auto auto auto auto";
  myDetails.innerHTML="";
  //details.width=window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
  //details.width=myPanel.clientWidth;
