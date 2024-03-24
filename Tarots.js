@@ -310,10 +310,7 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  //cell.innerHTML=`<button onclick="topFunction()" id="myBtnTop" title="Go to top">Top</button> ${_Upright}`;
  cell.innerHTML=`${_Upright}<br><button id="myBtnTop" onclick='topFunction(${idgrid})' title="Go up &#x25B2;">&#x25B2;</button>`;
  if(bSpeech)
-  cell.innerHTML+=getText2SpeechHTML();
- 
- var x= document.getElementById('panel').clientWidth;
- myDetails.clientWidth=Math.max(window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth ||x); 
+  cell.innerHTML+=getText2SpeechHTML(); 
  //window.location.hash='#details';
  if(moveTo==1)
   myDetails.scrollIntoView();
@@ -1106,10 +1103,4 @@ function getAllAnimalSign(sign){
    res+=", ";
  }
  return(res);
-}  
-
-window.onresize=function(event){
- //myHeader.clientWidth=window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
- var x= document.getElementById('panel').clientWidth;
- myDetails.clientWidth=Math.max(window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth ||x);
-};
+}
