@@ -27,6 +27,7 @@ const captionModal=document.getElementById('caption-modal');
 const setURL="index_AlteredSets.html?set=1";
 const details=document.getElementById('details');
 const shop=document.getElementById("shop");
+var bMobile=false;
 var speakData;
 var bSpeech=true;
 var t2sStarted=false;
@@ -228,11 +229,13 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  var row,cell;
  
  myDetails.style.gridTemplateColumns="auto";
- if(isMobile()){
-  if(spreadNo>1&&spreadNo<9)
+ if(bMobile){
+  if(spreadNo>1&&spreadNo<9){
    myDetails.style.gridTemplateColumns="600px";
-   if(spreadNo==9)
-    myDetails.style.gridTemplateColumns="400px"; 
+   myDetails.style.backgroundSize="600px auto";
+  }
+   //if(spreadNo==9)
+   // myDetails.style.gridTemplateColumns="400px"; 
  }
  myDetails.style.gridTemplateRows="auto auto auto auto auto";
  myDetails.innerHTML="";
@@ -313,7 +316,8 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  //cell.innerHTML=_Description;
  //cell.innerHTML=`<img src="${tFilename}" alt="${title}" title="${title}" width="15px" height="24px" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' style='cursor:zoom-in'> ${_Description}`;
  
- detailHTML=`<div id="d4" style="text-align:left;font-size:12px;background-color:DarkGoldenRod;font-weight:bolder;color:black"><img src="${tFilename}" alt="${title}" title="${title}" width="15px" height="24px" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' style='cursor:zoom-in'> ${_Description}</div>`;
+ detailHTML=`<div id="d4" style="text-align:left;font-size:12px;background-color:DarkGoldenRod;font-weight:bolder;color:black"><img src="${tFilename}" alt="${title}" title="${title}" width="15px" height="24px" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' style='cursor:zoom-in'> ${_Description}
+ <button id="myBtnTop" onclick='topFunction(${idgrid})'  title="Go up &#x25B2;">&#x25B2;</button></div>`;
  myDetails.innerHTML+=detailHTML;
  
  // Upright
@@ -340,7 +344,7 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
   cell.innerHTML+=getText2SpeechHTML(); 
  */
  detailHTML=`<div id="d5" style="text-align:justify;font-size:12px;background-color:Black;font-weight:bolder;color:gold">
- ${_Upright}<br><button id="myBtnTop" onclick='topFunction(${idgrid})' title="Go up &#x25B2;">&#x25B2;</button>
+ ${_Upright}<br><button id="myBtnTop" onclick='topFunction(${idgrid})' height="10px" title="Go up &#x25B2;">&#x25B2;</button>
  `;
  if(bSpeech)
   detailHTML+=getText2SpeechHTML();
@@ -925,6 +929,7 @@ function initVars(){
  myDivDate=document.getElementById('divDate');
  myPanel=document.getElementById('panel');
  modalPopupImg=document.getElementById("img02");
+ bMobile=isMobile();
  if ('speechSynthesis' in window) {
   bSpeech=true;
   speakData= new SpeechSynthesisUtterance();
