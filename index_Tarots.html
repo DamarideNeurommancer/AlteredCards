@@ -28,6 +28,7 @@
 body{
  font-family: 'Roboto Condensed', sans-serif;
  font-size: 8px;
+ //backdrop-filter: blur(20px);
 }
 .header{
  width: 100%;
@@ -203,13 +204,8 @@ a:active{
 #panel{
  display: grid;
  width: auto;
- //grid-template-columns: repeat(3,200px);
- //grid-template-rows: repeat(3,300px);
  grid-gap: 1px;
  padding: 1px;
- //max-width: 600px; //512px;
- ////overflow-x:scroll;
- //overflow-y:auto; //scroll;
 }
 #panel > div {
   //background-color: rgba(255,255,255,0.8);
@@ -235,8 +231,7 @@ a:active{
  box-shadow: 1px 2px lightblue;
 }
 #bigcontainer{
- //float: left;
- width: auto; //48%;
+ width: auto;
 }
 #details{
  //float: right;
@@ -261,11 +256,11 @@ a:active{
  //overflow:scroll;
  width: 100%;
 }
-@media only screen and (min-width: 400px){
+/*@media only screen and (min-width: 400px){
  .listTable{
   display: block;
  }
-}
+}*/
 /*.listTable:hover{
  //text-decoration: underline overline #FF3028;
  //text-decoration: underline dotted red;
@@ -278,13 +273,29 @@ a:active{
  cursor: pointer;
  padding: 10px;
  border-radius: 10px;
- font-size: 18px;
+ font-size: 8px;
  height: auto;
 }
 #myBtnTop:hover{
  background-color: #555;
  color: red;
  width: 48px;
+}
+
+.outer {
+  display: grid;
+  grid-template: 1fr / 1fr;
+  place-items: left;
+}
+.outer > * {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+}
+.outer .below {
+  z-index: 1;
+}
+.outer .top {
+  z-index: 2;
 } 
 </style>
 <div class="header" id="myHeader">
@@ -365,12 +376,22 @@ a:active{
 </div>
 
 <div id="bigcontainer">
- <div id="divDate">
+ <div id="divOuter" class="outer">
+ <div id="divDate" class="top">
   <button id='myBtnPrev' onclick='setDate(-1)' title='Previous day'>&#9668;</button>
   <input type="date" id="myDate" style="background-color:white;" onchange='dateChange()'>
   <button id='myBtnNext' onclick='setDate(1)' title='Next day'>&#9658;</button>
   <button id='myBtnReset' onclick='resetDate()' title='Today'><img src="reset-default-icon.webp" width='12' height='12'></button>
  </div>
+ 
+ <div id="divAll" class="below">
+  <button id='myBtnShuffle' onclick='shuffleDeck()' title='Shuffle Tarots Deck (with some random reversed card if check is checked)'>Shuffle</button>
+   <font size='2' color='White'><i><small>Random Reverse</i></small>
+   <input type='checkbox' id='myChkReverse' title='Reverse or not Reverse'>
+  <button id='myBtnDeck' onclick='initialDeck()' title='Initial Deck not shuffled and with no one reversed tarot'>Deck</button>
+ </div>
+ </div>
+ 
  <div id="panel">
  </div> 
 </div>

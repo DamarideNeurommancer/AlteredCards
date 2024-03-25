@@ -1,5 +1,4 @@
-// TODO
-// Fonts??
+//var mybody=document.getElementsByTagName('body')[0];
 var bxmlParsed=false;
 var xmlDoc;
 var catalog,book;
@@ -8,6 +7,9 @@ var mySpreads=document.getElementById("mySpreads");
 var myDate=document.getElementById("myDate");
 var myDetails=document.getElementById('myDetails');
 var myDivDate=document.getElementById('divDate');
+var myDivAll=document.getElementById('divAll');
+var myDivOuter=document.getElementById('divOuter');
+const myChkReverse=document.getElementById('myChkReverse');
 var myPanel=document.getElementById('panel');
 var modalPopupImg=document.getElementById("img02");
 const zodiacMap=[["Aries","&#x2648;"],["Taurus","&#x2649;"],["Gemini","&#x264A;"],["Cancer","&#x264B;"],["Leo","&#x264C;"],["Virgo","&#x264D;"],["Libra","&#x264E;"],["Scorpio","&#x264F;"],["Sagittarius","&#x2650;"],["Capricorn","&#x2651;"],["Aquarius","&#x2652;"],["Pisces","&#x2653;"],["Pisces","&#x2653;"]];
@@ -15,7 +17,6 @@ const planetMap=[["Mercury","&#x263F;"],["Venus","&#x2640;"],["Mars","&#x2642;"]
 const elementMap=[["Air","&#x2634;"],["Water","&#x2635;"],["Earth","&#x2637;"],["Fire","&#x2632;"]];
 const suitMap=[["Wands","&#129668;"],["Cups","&#127942;"],["Swords","&#x2694;"],["Pentacles","&#x2605;"]];
 const animalMap=[["Land Mammals","&#128049;"],["Winged Creatures","&#129417;"],["Water Creatures","&#128044;"],["Reptiles","&#128013;"],["Insects","&#129419;"],["Lizards","&#129422;"]];
-
 
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
@@ -26,6 +27,7 @@ const captionModal=document.getElementById('caption-modal');
 const setURL="index_AlteredSets.html?set=1";
 const details=document.getElementById('details');
 const shop=document.getElementById("shop");
+var bMobile=false;
 var speakData;
 var bSpeech=true;
 var t2sStarted=false;
@@ -43,10 +45,25 @@ function myParseTarots(){
 function mySpreadChange(){
  if(bxmlParsed==false){myParseTarots();}  
  spreadNo=parseInt(mySpreads.selectedIndex+1);
- if(spreadNo!=1)
-  myDivDate.style.visibility="hidden";
- else
-  myDivDate.style.visibility="visible";
+ myDivOuter.style.visibility="hidden";
+ myDivDate.style.visibility="hidden";
+ myDivAll.style.visibility="hidden";
+ switch(spreadNo){
+  case 1:
+   myDivOuter.style.visibility="visible";
+   myDivAll.style.visibility="hidden";
+   myDivDate.style.visibility="visible";
+   myDivDate.style.zIndex="2";
+   myDivAll.style.zIndex="1";
+   break;
+  case 9:
+   myDivOuter.style.visibility="visible";
+   myDivDate.style.visibility="hidden";
+   myDivAll.style.visibility="visible";
+   myDivDate.style.zIndex="1";
+   myDivAll.style.zIndex="2";
+  break; 
+ }
  mySave();
  myRead();
 }
@@ -66,7 +83,8 @@ function myRead(){
   case 4: // 4 Tarots Random
    TarocDemarseilleCross();
    break;
-  case 5: // Tarot De Marseille Open Reading: 3 Tarots Random (No Reverse) 
+  case 5: // Tarot De Marseille Open Reading: 3 Tarots Random (No Reverse)
+   // https://beingdoingtarot.com/tag/major-arcana-only-reading/ 
    TarocDeMarseilleNoReverse();
    break;
   case 6: // Tarot Pairs: 6 Tarocs Random
@@ -141,27 +159,7 @@ function BirthDateTarots(){
   else{
    drawTaroc(t3,2,"Right Card");
   }
- //}
- /*else{
-  if(t2idx!=0){
-   myPanel.style.gridTemplateColumns=gridString(1,200); //"200px";
-   myPanel.style.gridTemplateRows=gridString(3,330); //"330px 330px 330px";
-  }
-  else{
-   myPanel.style.gridTemplateColumns=gridString(1,200); //"200px";
-   myPanel.style.gridTemplateRows=gridString(2,330); //"330px 330px";
-  }
-  drawTaroc(t1idx,1,"Left Card");
-  if(t2idx!=0){
-   drawTaroc(t2idx,4,"Middle Card");
-   drawTaroc(t3idx,7,"Right Card");
-  }
-  else{
-   drawTaroc(t3idx,4,"Right Card");
-  }
- }*/
  //Details del primo tarocco
- //drawDetails(t1idx,0);
  drawDetails(t1,0,0,1);
  panel.scrollTo(0,0);  
 }
@@ -197,9 +195,9 @@ function drawTaroc(idx,idgrid,note,rev=0){
    <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")'>${note}  <button id="${idx}" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")' title='Details' style="background-color:gold;font-size:4px;cursor:cell">&#9658;</button>&emsp;<button id="z${idx}" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' title='Zoom-In' style="background-color:gold;font-size:4px;cursor:zoom-in">+</button></p>
   </div>
  </div>`;
- myPanel.innerHTML+=CardsHTML;
- //drawDetails(idx,rev,0); //Dont Move to Details! 
- drawDetails(idx,rev,0,idgrid); //Dont Move to Details!
+ myPanel.innerHTML+=CardsHTML; 
+ //drawDetails(idx,rev,0,idgrid); //Dont Move to Details!
+ // RIMETTI SE VUOI ELIMINARE LA SELEZIONE
 }
 
 function drawTarocFake(idgrid){
@@ -226,9 +224,6 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  var uk=book.attributes[3].nodeValue;
  var row,cell;
  myDetails.innerHTML="";
- //details.width=window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
- //details.width=myPanel.clientWidth;
- //details.Left=0; //myPanel.offsetLeft;
  
  // ID - Name
  row=myDetails.insertRow(-1);
@@ -314,102 +309,90 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  //window.location.hash='#details';
  if(moveTo==1)
   myDetails.scrollIntoView();
+ 
+ /**
+ mybody.style.backgroundImage="url('"+ tFilename+"')";
+ mybody.style.backgroundAttachment="fixed";
+ mybody.style.backgroundRepeat="no-repeat";//"repeat-y";
+ mybody.style.backgroundPosition="center"; 
+ //mybody.style.backgroundSize="cover";
+ **/
+ /*else{
+ document.getElementById("g"+idgrid).style.backgroundColor="darkblue";
+ document.getElementById("g"+idgrid).style.boxShadow="1px 2px lightblue";
+ }*/
+ selectBox(idgrid);
+ /*
+ console.log("Spread: ",spreadNo);
+ const gridComputedStyle = window.getComputedStyle(myPanel);
+ // get number of grid rows
+ const gridRowCount = gridComputedStyle.getPropertyValue("grid-template-rows").split(" ").length;
+ // get number of grid columns
+ const gridColumnCount = gridComputedStyle.getPropertyValue("grid-template-columns").split(" ").length;
+ console.log("GRID RxC= "+gridRowCount+" x "+gridColumnCount);
+ */
 }
 
+function selectBox(idgrid){
+ //console.log("Spread: ",spreadNo);
+ const gridComputedStyle = window.getComputedStyle(myPanel);
+ // get number of grid rows
+ const gridRowCount = gridComputedStyle.getPropertyValue("grid-template-rows").split(" ").length;
+ // get number of grid columns
+ const gridColumnCount = gridComputedStyle.getPropertyValue("grid-template-columns").split(" ").length;
+ //console.log("GRID RxC= "+gridRowCount+" x "+gridColumnCount);
+ for(var r=1;r<=gridRowCount;r++){
+  for(var c=1;c<=gridColumnCount;c++){
+   var idx=((r-1)*gridColumnCount)+c;
+   var elem="g"+idx;
+   try{
+     if(idgrid==idx){
+      document.getElementById(elem).style.backgroundColor="darkblue";
+      document.getElementById(elem).style.boxShadow="1px 2px lightblue";
+      //document.getElementById(elem).style.borderRadius="10px";
+      // NON lo fare!!!
+      //myDetails.scrollIntoView();
+     }
+     else
+     {
+      document.getElementById(elem).style.backgroundColor="transparent";
+      document.getElementById(elem).style.boxShadow="";
+      //document.getElementById(elem).style.borderRadius="10px";
+     }
+     document.getElementById(elem).style.borderRadius="10px";
+   }
+   catch(err){;}
+  }
+ }
+}
 function getBDTarots(sum){
  var l=0;
  var r=0;
  var m=0;
  switch(sum){
-  case 1:
-   l=10;
-   r=1;
-   break;
-  case 2:
-   l=20;
-   r=2;
-   break;
-  case 3:
-   l=21;
-   r=3;
-   break;
-  case 4:
-   l=13;
-   r=4;
-   break;
-  case 5:
-   l=14;
-   r=5;
-   break;
-  case 6:
-   l=15;
-   r=6;
-   break;
-  case 7:
-   l=16;
-   r=7;
-   break;
-  case 8:
-   l=17;
-   r=8;
-   break;
-  case 9:
-   l=18;
-   r=9;
-   break;
-  case 10:
-   l=10;
-   r=1;
-   break;
-  case 11:
-   l=11;
-   r=2;
-   break;
-  case 12:
-   l=12;
-   r=3;
-   break;
-  case 13:
-   l=13;
-   r=4;
-   break;
-  case 14:
-   l=14;
-   r=5;
-   break;
-  case 15:
-   l=15;
-   r=6;
-   break;
-  case 16:
-   l=16;
-   r=7;
-   break;
-  case 17:
-   l=17;
-   r=8;
-   break;
-  case 18:
-   l=18;
-   r=9;
-   break;
-  case 19: //exception: Sun/Wheel/Magician
-   l=19;
-   r=1;
-   m=10;
-   break;
-  case 20:
-   l=20;
-   r=2;
-   break;
-  case 21:
-   l=21;
-   r=3;
-   break;
-  case 22:
-   l=0;
-   r=0;
-   break;
+  case 1:l=10;r=1;break;
+  case 2:l=20;r=2;break;
+  case 3:l=21;r=3;break;
+  case 4:l=13;r=4;break;
+  case 5:l=14;r=5;break;
+  case 6:l=15;r=6;break;
+  case 7:l=16;r=7;break;
+  case 8:l=17;r=8;break;
+  case 9:l=18;r=9;break;
+  case 10:l=10;r=1;break;
+  case 11:l=11;r=2;break;
+  case 12:l=12;r=3;break;
+  case 13:l=13;r=4;break;
+  case 14:l=14;r=5;break;
+  case 15:l=15;r=6;break;
+  case 16:l=16;r=7;break;
+  case 17:l=17;r=8;break;
+  case 18:l=18;r=9;break;
+  //exception: Sun/Wheel/Magician
+  case 19:l=19;r=1;m=10;break;
+  case 20:l=20;r=2;break;
+  case 21:l=21;r=3;break;
+  case 22:l=0;r=0;break;
  }
  return [l,m,r];
 }
@@ -450,15 +433,15 @@ function myResult(msg,imgurl,imgtitle,url){
 }
 
 function myHelp(){
- var sHelp="Select a spread to get a tarots reading.\nPress 'Read' anytime you want to read again.\nClick on 'Details' button at the tile's bottom-left to select the description of current tarot and then move to the end of screen to read it.\nClick on 'Zoom-In' button at the tile's bottom-right or click on thumbnail image in the details' description area to zoom-in.";
+ var sHelp=`These are Major Arcana (greater secrets) tarots consisting of 22 cards.\nSelect a spread to get a tarots reading.\n
+ Press 'Read' anytime you want to read again.
+ Click on 'Details' button at the tile's bottom-left to select the description of current tarot and be moved to the end of screen to read it.
+ Click on 'Zoom-In' button at the tile's bottom-right or click on thumbnail image in the details' description area to zoom-in.
+ 'All Tarots' spread shows all tarots, shuffle deck with 'Shuffle 'button' with some reversed card when 'Random Reversed' is checked.
+ `;
  var title="";
  var imageUrl="";
- //if(modalImg.style.visibility=="hidden")
-  title="<span><a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>"; 
- //else{
- // imageUrl=modalImg.src;
- // title="<span><a style='color:Blue' href='"+CardURL+"'>"+modalImg.title+"</a></span>";
- //}  
+  title="<span><a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>";   
  try{
   Swal.fire({    
    title: title,
@@ -528,6 +511,12 @@ function MandalaTarots(){
 }
 function AllTarots(){
  exDrawTarots(7);
+}
+function initialDeck(){
+ AllTarots();
+}
+function shuffleDeck(){
+ exDrawTarots(8);
 }
 // Spread: 0=WitchesPentagram 1=4Winds 2=SacredCircle 
 // 3=TarocDemarseilleCross 4=TarocDeMarseilleNoReverse 5=TarocPairs 6=Mandala
@@ -656,87 +645,50 @@ function exDrawTarots(spread){
   }
  } 
      
- //var x=window.matchMedia("(max-width:400px)");
-     
- //if(!isMobile()&&!x.matches){
-  switch(spread){
-   case 0: // WitchesPentagram
-    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-    myPanel.style.gridTemplateRows=gridString(2,330); //"330px 330px";
-    break;
-   case 1: // 4Winds
-    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-    myPanel.style.gridTemplateRows=gridString(2,340); //"340px 340px";
-    break;
-   case 2: // SacredCircle
-    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-    myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
-    break;
-   case 3: // Tarots de Marseille Cross
-    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-    myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
-    break; 
-   case 4: // Tarots de Marseille Open Reading
-    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-    myPanel.style.gridTemplateRows=gridString(1,330); //"300px";
-    break;
-   case 5: // Tarots Pairs
-    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-    myPanel.style.gridTemplateRows=gridString(2,350); //"350px";
-    break; 
-   case 6: // Mandala
-    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-    myPanel.style.gridTemplateRows=gridString(5,350); //"350px 350px 350px 350px 350px";
-    break;
-   case 7:
-   if(!isMobile()){
-    myPanel.style.gridTemplateColumns=gridString(5,200);
-    myPanel.style.gridTemplateRows=gridString(5,330);
-   }
-   else{
-    myPanel.style.gridTemplateColumns=gridString(2,200);
-    myPanel.style.gridTemplateRows=gridString(11,330);
-   }
+ switch(spread){
+  case 0: // WitchesPentagram
+   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+   myPanel.style.gridTemplateRows=gridString(2,330); //"330px 330px";
    break;
-   default:
-    break;
-  }  
- //}
- /*
- else{
-   switch(spread){
-   case 0: // WitchesPentagram
-    myPanel.style.gridTemplateColumns=gridString(2,200); //"200px 200px";
-    myPanel.style.gridTemplateRows=gridString(3,330); //"330px 330px 330px";
-    break;
-   case 1: // 4Winds
-    myPanel.style.gridTemplateColumns=gridString(2,200); //"200px 200px";
-    myPanel.style.gridTemplateRows=gridString(3,340); //"340px 340px 340px";
-    break;
-   case 2: // SacredCircle
-    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-    myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
-    break;
-   case 3: // Tarots de Marseille Cross
-    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-    myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
-    break; 
-   case 4: // Tarots de Marseille Open Reading
-    myPanel.style.gridTemplateColumns=gridString(1,200); //"200px";
-    myPanel.style.gridTemplateRows=gridString(3,330); //"300px 300px 300px";
-    break;
-   case 5: // Tarots Pairs
-    myPanel.style.gridTemplateColumns=gridString(2,200); //"200px 200px";
-    myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
-    break;
-   case 6: // Mandala
-    myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-    myPanel.style.gridTemplateRows=gridString(5,350); //"350px 350px 350px 350px 350px";
-    break;
-   default:
-    break;
+  case 1: // 4Winds
+   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+   //myPanel.style.gridTemplateRows=gridString(2,340); //"340px 340px";
+   myPanel.style.gridTemplateRows=gridString(3,340); //"340px 340px";
+   break;
+  case 2: // SacredCircle
+   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+   myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
+   break;
+  case 3: // Tarots de Marseille Cross
+   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+   myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
+   break; 
+  case 4: // Tarots de Marseille Open Reading
+   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+   myPanel.style.gridTemplateRows=gridString(1,330); //"300px";
+   break;
+  case 5: // Tarots Pairs
+   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+   myPanel.style.gridTemplateRows=gridString(2,350); //"350px";
+   break; 
+  case 6: // Mandala
+   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
+   myPanel.style.gridTemplateRows=gridString(5,350); //"350px 350px 350px 350px 350px";
+   break;
+  case 7:
+  case 8:
+  if(!bMobile){
+   myPanel.style.gridTemplateColumns=gridString(5,200);
+   myPanel.style.gridTemplateRows=gridString(5,330);
   }
- }*/ 
+  else{
+   myPanel.style.gridTemplateColumns=gridString(2,200);
+   myPanel.style.gridTemplateRows=gridString(11,330);
+  }
+  break;
+  default:
+   break;
+ }   
  switch(spread){
   case 0: // WitchesPentagram
    drawTaroc(t1,1,P1,rv1);
@@ -744,17 +696,25 @@ function exDrawTarots(spread){
    drawTaroc(t3,3,P3,rv3);
    drawTaroc(t4,4,P4,rv4);
    drawTaroc(t5,5,P5,rv5);
-   //Details del tarocco iniziale
-   //drawDetails(t5,rv5,0);
    drawDetails(t5,rv5,0,5);
    break;
   case 1: // 4Winds
+   /*
    drawTaroc(t1,1,W1,rv1);
    drawTaroc(t2,2,W2,rv2);
    drawTaroc(t3,3,W3,rv3);
    drawTaroc(t4,4,W4,rv4);
    drawTaroc(t5,5,W5,rv5);
-   //drawDetails(t5,rv5,0);
+   */
+   drawTarocFake(1);
+   drawTaroc(t1,2,W1,rv1);
+   drawTarocFake(3);
+   drawTaroc(t2,4,W2,rv2);
+   drawTaroc(t5,5,W5,rv5);
+   drawTaroc(t3,6,W3,rv3);
+   drawTarocFake(7);
+   drawTaroc(t4,8,W4,rv4);
+   drawTarocFake(9);
    drawDetails(t5,rv5,0,5);
    break;
   case 2: // SacredCircle
@@ -767,7 +727,6 @@ function exDrawTarots(spread){
    drawTarocFake(7);
    drawTaroc(t4,8,S4,rv4);
    drawTarocFake(9);
-   //drawDetails(t5,rv5,0);
    drawDetails(t5,rv5,0,5);
    break;
   case 3: // Tarots de Marseille Cross
@@ -780,13 +739,13 @@ function exDrawTarots(spread){
    drawTarocFake(7);
    drawTaroc(t4,8,M4,rv4);
    drawTarocFake(9);
-   //drawDetails(t4,rv4,0);
    drawDetails(t4,rv4,0,8);
    break; 
   case 4: // Tarots de Marseille Open Reading (No Reverse)
    drawTaroc(t1,1,O1,0);
    drawTaroc(t2,2,O2,0);
    drawTaroc(t3,3,O3,0);
+   drawDetails(t3,0,0,3); // Aggiungo per selezione
    break;
   case 5: // Tarots Pairs
    drawTaroc(t1,1,X1,rv1);
@@ -795,7 +754,6 @@ function exDrawTarots(spread){
    drawTaroc(t4,4,X4,rv4);
    drawTaroc(t5,5,X5,rv5);
    drawTaroc(t6,6,X6,rv6);
-   //drawDetails(t1,rv1,0);
    drawDetails(t1,rv1,0,1);
    break;
   case 6:
@@ -805,7 +763,6 @@ function exDrawTarots(spread){
    drawTaroc(t2,4,L2,rv2);
    drawTarocFake(5);
    drawTaroc(t3,6,L3,rv3);
-
    drawTaroc(t4,7,L4,rv4);
    drawTaroc(t5,8,L5,rv5);
    drawTaroc(t6,9,L6,rv6);
@@ -815,22 +772,68 @@ function exDrawTarots(spread){
    drawTarocFake(13);
    drawTaroc(t9,14,L9,rv9);
    drawTarocFake(15); 
-   //drawDetails(t1,rv1,0);
    drawDetails(t1,rv1,0,2);
    break;
   case 7:
+   /*
    for(var i=0;i<22;i++){
     drawTaroc(i,i,"");
    }
-   //drawDetails(0,0);
-   //drawDetails(0,0,0,0);
-   drawDetails(0,0,0,0,0);
+   drawDetails(0,0,0,0);
+   */
+   for(var i=0;i<22;i++){
+    drawTaroc(i,i+1,"");
+   }
+   drawDetails(0,0,0,1);
+   break;
+  case 8:
+   var bReverse=myChkReverse.checked;
+   const s=[];
+   for(var i=0;i<2;i++) {
+    s[i]=[];
+    if(i==0)
+     for (var j=0;j<22;j++){
+      s[i][j]=j;
+     }
+    else
+     for (var j=0;j<22;j++){
+      s[i][j]=bReverse?getTarocUprightOrReversed():0;
+    }
+   }
+   console.log(s);
+   // Adesso shuffle
+   //s[0].sort(_ => Math.random() - 0.5);
+   shuffleArray(s[0]);
+   console.log(s);
+   for (var i=0;i<22;i++){
+    //drawTaroc(s[0][i],i,"",s[1][i]);
+    drawTaroc(s[0][i],i+1,"",s[1][i]);
+   }
+   //drawDetails(s[0][0],0,0,0);
+   drawDetails(s[0][0],0,0,1);
    break;
   default:
     break;
  }
  panel.scrollTo(0,0);    
 }
+
+// Fisher-Yates Algorithm
+/*
+It’s just a case of looping through the array (from the end to the start) and 
+picking a random item from the array and 
+swapping it with the item in the current iteration.
+*/
+
+const shuffleArray = array => {
+ for(let i=array.length-1;i>0;i--){
+  const j=Math.floor(Math.random()*(i+1));
+  const temp=array[i];
+  array[i]=array[j];
+  array[j]=temp;
+ }
+}
+
 
 function gridString(n,s){
  var gs="";
@@ -881,23 +884,25 @@ function mySave(){
 }
 
 function initVars(){
+ //mybody=document.getElementsByTagName('body')[0];
  mySpreads=document.getElementById("mySpreads");
  myDate=document.getElementById("myDate");
  myDetails=document.getElementById('myDetails');
  myDivDate=document.getElementById('divDate');
  myPanel=document.getElementById('panel');
  modalPopupImg=document.getElementById("img02");
- if ('speechSynthesis' in window) {
+
+ myDivAll=document.getElementById('divAll');
+ myDivOuter=document.getElementById('divOuter');
+ bMobile=isMobile();
+ if('speechSynthesis' in window){
   bSpeech=true;
-  speakData= new SpeechSynthesisUtterance();
-  speakData.volume = 1; // From 0 to 1
-  speakData.rate = 0.8; //1; // From 0.1 to 10
-  speakData.pitch = 1.5; //2; // From 0 to 2
-  speakData.lang = 'en';
-  speakData.voice = getVoices()[0];
-  // Select a voice
-  //const voices = speechSynthesis.getVoices();
-  //speakData.voice = voices[0]; // Choose a specific voice
+  speakData=new SpeechSynthesisUtterance();
+  speakData.volume=1; //0-1
+  speakData.rate=0.8; //0.1-10
+  speakData.pitch=1.5; //0-2
+  speakData.lang='en';
+  speakData.voice=getVoices()[0];
  }else{
   // Speech Synthesis is not Supported 
   bSpeech=false; 
@@ -908,11 +913,17 @@ function dateChange(){
 }
 
 function myCredits(){
- var url="https://biddytarot.com/tarot-card-meanings/major-arcana/";
- var url1="https://hermitspiritus.com/tarot-cards";
- var imgtitle="The Meanings of the Major Arcana Tarot Cards";
- var imgtitle1="Rider-Waite Tarot Card Meanings List";   
- var sCredits=`<a href='index_AlteredSets.html?set=1'><img src='./tarots/0.webp' alt='DamarideNeurommancer Tarots Set' title='DamarideNeurommancer Tarots Set' width="80" height="140"></a>\n<b style='color:red'>Credits</b>\nThe Tarot cards meaning description here used (whether not exclusively) is based on or extracted from:\n<center><img src="https://biddytarot.com/wp-content/uploads/BT-BiddyTarotLogo-@2x.png" alt="Biddy Tarot" height="63" width="63"></center> <b style='color:red'><i>The Meanings of the Major Arcana Tarot Cards</i></b>\n<span><a style='color:Blue;font-size:0.6rem;' href="${url}">${imgtitle}</a>\n\n<center><img src="https://hermitspiritus.com/images/logo.png" alt="Hermit Spiritus" height="84" width="168"></center> <b style='color:red'><i>Rider-Waite Tarot Card Meanings List</i></b>\n<span><a style='color:Blue;font-size:0.6rem;' href="${url1}">${imgtitle1}</a>`;
+ const url="https://biddytarot.com/tarot-card-meanings/major-arcana/";
+ const url1="https://hermitspiritus.com/tarot-cards";
+ const url2="https://beingdoingtarot.com/tag/major-arcana-only-reading/";
+ const imgtitle="The Meanings of the Major Arcana Tarot Cards";
+ const imgtitle1="Rider-Waite Tarot Card Meanings List";
+ const imgtitle2="Being Doing Tarot";   
+ var sCredits=`<a href='index_AlteredSets.html?set=1'><img src='./tarots/0.webp' alt='DamarideNeurommancer Tarots Set' title='DamarideNeurommancer Tarots Set' width="80" height="140"></a>\n<b style='color:red'>Credits</b>\nThe Tarot cards meaning description here used (whether not exclusively) is based on or extracted from:\n
+ <center><span><b><u><a style='color:Red;font-size:0.6rem;align:center' href="${url}"><img src="https://biddytarot.com/wp-content/uploads/BT-BiddyTarotLogo-@2x.png" alt="Biddy Tarot" height="63" width="63">\n${imgtitle}</a></u></b></center>\n
+ <center><span><b><u><a style='color:Red;font-size:0.6rem;' href="${url1}"><img src="https://hermitspiritus.com/images/logo.png" alt="Hermit Spiritus" height="64" width="168">\n${imgtitle1}</a></u></b></center>\n
+ \nSome spread reading techniques have been extracted from:
+ <span><b><u><a style='color:Red;font-size:0.6rem;' href="${url2}">${imgtitle2}</a></u></b>\n\n`;
  try{
   Swal.fire({    
    title: "",
@@ -934,8 +945,7 @@ function topFunction(grididx){
 function getText2SpeechHTML(){
  var html=`&emsp;<button id="myStart" onclick='t2sStart()' title="Read">&#9658;</button> 
  <button id="myPauseResume" onclick='t2sPauseResume()' title="Pause">&#x23F8;</button> 
- <button id="myStop" onclick='t2sStop()' title="Stop">&#x23F9;</button>
- `;
+ <button id="myStop" onclick='t2sStop()' title="Stop">&#x23F9;</button>`;
  return html;
 }
 function t2sStart(){ 
@@ -944,20 +954,10 @@ function t2sStart(){
  var name=myDetails.rows[0].cells[0].innerText.split('-')[1];
  var upkeyword=myDetails.rows[1].cells[0].innerText;
  var descr=myDetails.rows[4].cells[0].innerText;
- var reading="Tarot: "+name+". "+upkeyword+". "+descr;
- //var selectedText="";
- 
+ var reading="Tarot: "+name+". "+upkeyword+". "+descr; 
  if(window.getSelection().containsNode(document.getElementById("myDetails").rows[4].cells[0],true)){
-  //selectedText=window.getSelection().toString();
   reading=window.getSelection().toString();;
  }
- /*
- if( selectedText=="")
-  descr=descr.substr(0,descr.length-7);
- else
-  descr=selectedText;
- var reading="Tarot: "+name+". "+upkeyword+". "+descr;
- */
  speakData.text=reading;
  speechSynthesis.speak(speakData);
  document.getElementById("myStart").style.backgroundColor="Red";
@@ -993,25 +993,6 @@ function t2sStop(){
  }
  catch(err){;}
 }
-
-/*speechSynthesis.addEventListener('end',(evt) => {
-  const {charIndex,utterance}=evt;
-
-  if (charIndex+1 === speakData.text.length){
-    // End fired when utterance finished
-    t2sStop();
-  } else {
-    // End fired before utterance finished
-  }
-});*/
-
-/*
-speechSynthesis.onend = (event) => {
-  console.log(
-    `Utterance has finished being spoken after ${event.elapsedTime} seconds.`,
-  );
-  t2sStop();
-};*/
 
 // Initially, the getVoices() method will return an empty array because voices may not be loaded. 
 // The following is a small workaround for that.
