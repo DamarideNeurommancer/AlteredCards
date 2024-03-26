@@ -1168,7 +1168,7 @@ function drawTarocBack(idx,idgrid,rev=0){
   </div>
  </div>`;
  **/
- var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="background-image:url('./tarots/Back.webp');background-size:100% 100%;background-repeat:no-repeat;"></div>`;
+ var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="background-image:url('./tarots/Back.webp');background-size:100% 100%;background-repeat:no-repeat;border-color:gold"></div>`;
  myPanel.innerHTML+=CardsHTML;
 }
 
