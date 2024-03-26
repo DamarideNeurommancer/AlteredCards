@@ -296,6 +296,9 @@ a:active{
 }
 .outer .top {
   z-index: 2;
+}
+.outer .toptop {
+  z-index: 3;
 } 
 </style>
 <div class="header" id="myHeader">
@@ -360,7 +363,7 @@ a:active{
     <option value="3">Witches Pentagram</option>
     <option value="4">Marseille Cross</option>
     <option value="5">Marseille Open</option>
-    <option value="6">Pairs &amp; Medallion</option>
+    <option value="6">Pairs & Medallion</option>
     <option value="7">Sacred Circle</option>
     <option value="8">Mandala</option>
     <option value="9">All Tarots</option>
@@ -377,19 +380,22 @@ a:active{
 
 <div id="bigcontainer">
  <div id="divOuter" class="outer">
- <div id="divDate" class="top">
-  <button id='myBtnPrev' onclick='setDate(-1)' title='Previous day'>&#9668;</button>
-  <input type="date" id="myDate" style="background-color:white;" onchange='dateChange()'>
-  <button id='myBtnNext' onclick='setDate(1)' title='Next day'>&#9658;</button>
-  <button id='myBtnReset' onclick='resetDate()' title='Today'><img src="reset-default-icon.webp" width='12' height='12'></button>
- </div>
+  <div id="divDate" class="top">
+   <button id='myBtnPrev' onclick='setDate(-1)' title='Previous day'>&#9668;</button>
+   <input type="date" id="myDate" style="background-color:white;" onchange='dateChange()'>
+   <button id='myBtnNext' onclick='setDate(1)' title='Next day'>&#9658;</button>
+   <button id='myBtnReset' onclick='resetDate()' title='Today'><img src="reset-default-icon.webp" width='12' height='12'></button>
+  </div>
  
- <div id="divAll" class="below">
-  <button id='myBtnShuffle' onclick='shuffleDeck()' title='Shuffle Tarots Deck (with some random reversed card if check is checked)'>Shuffle</button>
+  <div id="divAll" class="below">
+   <button id='myBtnShuffle' onclick='shuffleDeck()' title='Shuffle Tarots Deck (with some random reversed card if check is checked)'>Shuffle &#128256;</button>
    <font size='2' color='White'><i><small>Random Reverse</i></small>
    <input type='checkbox' id='myChkReverse' title='Reverse or not Reverse'>
-  <button id='myBtnDeck' onclick='initialDeck()' title='Initial Deck not shuffled and with no one reversed tarot'>Deck</button>
- </div>
+   <button id='myBtnDeck' onclick='initialDeck()' title='Initial Deck not shuffled and with no one reversed tarot'>Deck &#x2620;</button>
+  </div>
+  
+  <div id="divChoose" class="toptop" style="font-size:12px;color:gold;font-weight:bolder">
+  </div>
  </div>
  
  <div id="panel">

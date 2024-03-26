@@ -8,6 +8,7 @@ var myDate=document.getElementById("myDate");
 var myDetails=document.getElementById('myDetails');
 var myDivDate=document.getElementById('divDate');
 var myDivAll=document.getElementById('divAll');
+var myDivChoose=document.getElementById('divChoose');
 var myDivOuter=document.getElementById('divOuter');
 const myChkReverse=document.getElementById('myChkReverse');
 var myPanel=document.getElementById('panel');
@@ -33,6 +34,9 @@ var bSpeech=true;
 var t2sStarted=false;
 var t2sPaused=false;
 var spreadNo=1;
+var maxCards=0;
+var cntClicks=0;
+var chosenCards=[];
 myDate.valueAsDate=new Date();
 function myParseTarots(){
  var parser=new DOMParser();
@@ -48,20 +52,43 @@ function mySpreadChange(){
  myDivOuter.style.visibility="hidden";
  myDivDate.style.visibility="hidden";
  myDivAll.style.visibility="hidden";
+ myDivChoose.style.visibility="hidden";
  switch(spreadNo){
   case 1:
    myDivOuter.style.visibility="visible";
-   myDivAll.style.visibility="hidden";
    myDivDate.style.visibility="visible";
+   myDivAll.style.visibility="hidden";
+   
+   myDivChoose.style.visibility="hidden";
+   
    myDivDate.style.zIndex="2";
    myDivAll.style.zIndex="1";
+   myDivChoose.style.zIndex="0";
    break;
   case 9:
    myDivOuter.style.visibility="visible";
    myDivDate.style.visibility="hidden";
    myDivAll.style.visibility="visible";
+   myDivChoose.style.visibility="hidden";
    myDivDate.style.zIndex="1";
    myDivAll.style.zIndex="2";
+   myDivChoose.style.zIndex="0";
+  break;
+  
+  case 10:
+  case 11:
+   myDivOuter.style.visibility="visible";
+   myDivDate.style.visibility="hidden";
+   myDivAll.style.visibility="hidden";
+   myDivChoose.style.visibility="visible";
+   if(spreadNo==10)
+    myDivChoose.innerHTML="Choose 2 tarots.";
+   else
+    myDivChoose.innerHTML="Choose 6 tarots.";
+   myDivChoose.innerHTML+=" Press 'Read' button to shuffle."
+   myDivDate.style.zIndex="0";
+   myDivAll.style.zIndex="1";
+   myDivChoose.style.zIndex="2";
   break; 
  }
  mySave();
@@ -98,6 +125,12 @@ function myRead(){
    break;
   case 9: // All Tarots
    AllTarots();
+   break;
+  case 10: // Path & Goals
+   Path_Goals();
+   break;
+  case 11: // SixTarots
+   SixTarots();
    break;
   default:
    BirthDateTarots();
@@ -434,10 +467,12 @@ function myResult(msg,imgurl,imgtitle,url){
 
 function myHelp(){
  var sHelp=`These are Major Arcana (greater secrets) tarots consisting of 22 cards.\nSelect a spread to get a tarots reading.\n
- Press 'Read' anytime you want to read again.
- Click on 'Details' button at the tile's bottom-left to select the description of current tarot and be moved to the end of screen to read it.
- Click on 'Zoom-In' button at the tile's bottom-right or click on thumbnail image in the details' description area to zoom-in.
+ Press '&#9668;Read' anytime you want to read again.
+ Click on 'Details' button <b style="background-color:gold;cursor:cell">&#9658;</b> at the tile's bottom-left to select the description of current tarot and be moved to the end of screen (the details-area) to read it.
+ Click on 'Zoom-In' button <b style="background-color:gold;cursor:zoom-in">+</b> at the tile's bottom-right or click on thumbnail image in the details' description area to zoom-in.
  'All Tarots' spread shows all tarots, shuffle deck with 'Shuffle 'button' with some reversed card when 'Random Reversed' is checked.
+ Listen to the tarot description reading using the audio button at the bottom of details area.
+ If there is a <b style="background-color:blue;color:white">selected text</b> at the botton box of details-area then that is read otherwise all the description is going to be read.
  `;
  var title="";
  var imageUrl="";
@@ -517,6 +552,12 @@ function initialDeck(){
 }
 function shuffleDeck(){
  exDrawTarots(8);
+}
+function Path_Goals(){
+ exDrawTarots(9);
+}
+function SixTarots(){
+ exDrawTarots(10);
 }
 // Spread: 0=WitchesPentagram 1=4Winds 2=SacredCircle 
 // 3=TarocDemarseilleCross 4=TarocDeMarseilleNoReverse 5=TarocPairs 6=Mandala
@@ -677,15 +718,25 @@ function exDrawTarots(spread){
    break;
   case 7:
   case 8:
-  if(!bMobile){
-   myPanel.style.gridTemplateColumns=gridString(5,200);
-   myPanel.style.gridTemplateRows=gridString(5,330);
-  }
-  else{
-   myPanel.style.gridTemplateColumns=gridString(2,200);
-   myPanel.style.gridTemplateRows=gridString(11,330);
-  }
-  break;
+   if(!bMobile){
+    myPanel.style.gridTemplateColumns=gridString(5,200);
+    myPanel.style.gridTemplateRows=gridString(5,330);
+   }
+   else{
+    myPanel.style.gridTemplateColumns=gridString(2,200);
+    myPanel.style.gridTemplateRows=gridString(11,330);
+   }
+   break;
+  case 9:
+   maxCards=2;
+   myPanel.style.gridTemplateColumns=gridString(22,20);
+   myPanel.style.gridTemplateRows=gridString(1,330);
+   break;
+  case 10:
+    maxCards=6;
+    myPanel.style.gridTemplateColumns=gridString(22,20);
+    myPanel.style.gridTemplateRows=gridString(1,330);
+   break;
   default:
    break;
  }   
@@ -699,13 +750,6 @@ function exDrawTarots(spread){
    drawDetails(t5,rv5,0,5);
    break;
   case 1: // 4Winds
-   /*
-   drawTaroc(t1,1,W1,rv1);
-   drawTaroc(t2,2,W2,rv2);
-   drawTaroc(t3,3,W3,rv3);
-   drawTaroc(t4,4,W4,rv4);
-   drawTaroc(t5,5,W5,rv5);
-   */
    drawTarocFake(1);
    drawTaroc(t1,2,W1,rv1);
    drawTarocFake(3);
@@ -789,7 +833,7 @@ function exDrawTarots(spread){
   case 8:
    var bReverse=myChkReverse.checked;
    const s=[];
-   for(var i=0;i<2;i++) {
+   for(var i=0;i<2;i++){
     s[i]=[];
     if(i==0)
      for (var j=0;j<22;j++){
@@ -800,18 +844,34 @@ function exDrawTarots(spread){
       s[i][j]=bReverse?getTarocUprightOrReversed():0;
     }
    }
-   console.log(s);
+   //console.log(s);
    // Adesso shuffle
    //s[0].sort(_ => Math.random() - 0.5);
    shuffleArray(s[0]);
-   console.log(s);
+   //console.log(s);
    for (var i=0;i<22;i++){
-    //drawTaroc(s[0][i],i,"",s[1][i]);
     drawTaroc(s[0][i],i+1,"",s[1][i]);
    }
    //drawDetails(s[0][0],0,0,0);
    drawDetails(s[0][0],0,0,1);
    break;
+  case 9: // Path & Goals: maxCards=2;
+  case 10: // Siz Tarots: //maxCards=6;
+    // Reset ----
+   chosenCards=[];
+   cntClicks=0;
+   //maxCards=2;
+   myDetails.innerHTML="";
+   // -----------
+   const spg=[];
+   for (var i=0;i<22;i++){
+    spg[i]=i;
+   }
+   shuffleArray(spg);
+   for (var i=0;i<22;i++){
+    drawTarocBack(spg[i],i+1);
+   }
+   break; 
   default:
     break;
  }
@@ -894,6 +954,7 @@ function initVars(){
 
  myDivAll=document.getElementById('divAll');
  myDivOuter=document.getElementById('divOuter');
+ myDivChoose=document.getElementById('divChoose');
  bMobile=isMobile();
  if('speechSynthesis' in window){
   bSpeech=true;
@@ -919,9 +980,9 @@ function myCredits(){
  const imgtitle="The Meanings of the Major Arcana Tarot Cards";
  const imgtitle1="Rider-Waite Tarot Card Meanings List";
  const imgtitle2="Being Doing Tarot";   
- var sCredits=`<a href='index_AlteredSets.html?set=1'><img src='./tarots/0.webp' alt='DamarideNeurommancer Tarots Set' title='DamarideNeurommancer Tarots Set' width="80" height="140"></a>\n<b style='color:red'>Credits</b>\nThe Tarot cards meaning description here used (whether not exclusively) is based on or extracted from:\n
- <center><span><b><u><a style='color:Red;font-size:0.6rem;align:center' href="${url}"><img src="https://biddytarot.com/wp-content/uploads/BT-BiddyTarotLogo-@2x.png" alt="Biddy Tarot" height="63" width="63">\n${imgtitle}</a></u></b></center>\n
- <center><span><b><u><a style='color:Red;font-size:0.6rem;' href="${url1}"><img src="https://hermitspiritus.com/images/logo.png" alt="Hermit Spiritus" height="64" width="168">\n${imgtitle1}</a></u></b></center>\n
+ var sCredits=`<a href='index_AlteredSets.html?set=1'><img src='./tarots/0.webp' alt='DamarideNeurommancer Tarots Set' title='DamarideNeurommancer Tarots Set' width="80" height="140"></a>\n<b style='color:red'>Credits</b>\nThe Tarot cards meaning description here used (whether not exclusively) is based on or extracted from:
+ <center><span><b><u><a style='color:Red;font-size:0.6rem;align:center' href="${url}"><img src="https://biddytarot.com/wp-content/uploads/BT-BiddyTarotLogo-@2x.png" alt="Biddy Tarot" height="63" width="63">\n${imgtitle}</a></u></b></center>
+ <center><span><b><u><a style='color:Red;font-size:0.6rem;' href="${url1}"><img src="https://hermitspiritus.com/images/logo.png" alt="Hermit Spiritus" height="64" width="168">\n${imgtitle1}</a></u></b></center>
  \nSome spread reading techniques have been extracted from:
  <span><b><u><a style='color:Red;font-size:0.6rem;' href="${url2}">${imgtitle2}</a></u></b>\n\n`;
  try{
@@ -944,7 +1005,7 @@ function topFunction(grididx){
 
 function getText2SpeechHTML(){
  var html=`&emsp;<button id="myStart" onclick='t2sStart()' title="Read">&#9658;</button> 
- <button id="myPauseResume" onclick='t2sPauseResume()' title="Pause">&#x23F8;</button> 
+ <button id="myPauseResume" onclick='t2sPauseResume()' title="Pause">&#x23F8;</button>
  <button id="myStop" onclick='t2sStop()' title="Stop">&#x23F9;</button>`;
  return html;
 }
@@ -1084,4 +1145,75 @@ function getAllAnimalSign(sign){
    res+=", ";
  }
  return(res);
+}
+
+function drawTarocBack(idx,idgrid,rev=0){
+ book=catalog.childNodes[idx];
+ /*if(book==null||book=="undefined")
+ {
+  console.log("book undefined: idx="+idx);
+ }*/
+ var CardID=book.attributes[0].nodeValue;
+ var title = CardID+" - "+book.attributes[2].nodeValue;
+ var tFilename="./tarots/"+CardID;
+ if(rev==1){
+  tFilename+="_R";
+ }
+ tFilename+=".webp";
+ 
+ /**
+ var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="background-image:url('./tarots/Back.webp');background-size:100% 100%;background-repeat:no-repeat;">
+ <div>
+   <img src="${tFilename}" alt="${title}" title="${title}" height="218px" style='visibility:hidden'>
+  </div>
+ </div>`;
+ **/
+ var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="background-image:url('./tarots/Back.webp');background-size:100% 100%;background-repeat:no-repeat;"></div>`;
+ myPanel.innerHTML+=CardsHTML;
+}
+
+function showTarots(idx,idgrid){
+ if(cntClicks<maxCards){
+  chosenCards.push(idx);
+  var id=document.getElementById("b"+idgrid);
+  id.style.visibility="hidden";
+  cntClicks++;
+  if(cntClicks==maxCards){
+   exDrawChosen(spreadNo);
+  }
+ }
+ else{
+   exDrawChosen(spreadNo);
+ }
+}
+
+function exDrawChosen(spread){
+ // Path & Goals
+ const P_G=[ ["Left: Where you are now"],["Right: Where you want to be"]]; 
+ // 6 Tarots
+ const SixT=[ ["1: 1. How you feel about yourself now"],["2. What you most want at this moment"],["3: Your fears"],
+ ["4: What is going for you"],["5: What is going against you"],["6: The outcome according to your current situation or the question you asked"]];
+ 
+ clearPanel();
+ switch(spread){
+  case 10: // Tarots de Marseille Open Reading
+   myPanel.style.gridTemplateColumns=gridString(2,200);
+   myPanel.style.gridTemplateRows=gridString(1,330);
+   for(var i=0;i<P_G.length;i++){
+    drawTaroc(chosenCards[i],i+1,P_G[i],0);
+   }
+   drawDetails(chosenCards[1],0,0,2);
+   break;
+  case 11: // 6 Tarots
+   myPanel.style.gridTemplateColumns=gridString(3,200);
+   myPanel.style.gridTemplateRows=gridString(2,350);
+   for(var i=0;i<SixT.length;i++){
+    drawTaroc(chosenCards[i],i+1,SixT[i],0);
+   }
+   drawDetails(1,0,0,2);
+   drawDetails(chosenCards[5],0,0,6);
+   break; 
+  default:
+   break;
+ }
 }
