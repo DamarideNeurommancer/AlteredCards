@@ -1279,7 +1279,10 @@ function b2c(blob){
 
 const capture = async () => {
  const screenshotTarget = document.body;
- html2canvas(screenshotTarget).then((canvas) => {
+ html2canvas(screenshotTarget,{
+   allowTaint : true,
+   useCors : true
+}).then((canvas) => {
     const base64image = canvas.toDataURL("image/png");
     window.location.href = base64image;
     //window.open(base64image);
