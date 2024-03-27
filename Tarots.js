@@ -1281,7 +1281,7 @@ const capture = async () => {
  const screenshotTarget = document.body;
  html2canvas(screenshotTarget).then((canvas) => {
     const base64image = canvas.toDataURL("image/png");
-    //window.location.href = base64image;
-    window.open(base64image);
+    window.location.href = base64image;
+    //window.open(base64image);
  });
 };
