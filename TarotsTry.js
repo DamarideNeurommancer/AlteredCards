@@ -1,3 +1,4 @@
+var sang;
 //var mybody=document.getElementsByTagName('body')[0];
 var bxmlParsed=false;
 var xmlDoc;
@@ -963,7 +964,8 @@ function initVars(){
   speakData.rate=0.8; //0.1-10
   speakData.pitch=1.5; //0-2
   speakData.lang='en';
-  speakData.voice=getVoices()[0];
+  speakData.voice=getVoices()[0]
+  sss=speechSynthesis;
  }else{
   alert("Speech Synthesis is not Supported!"); 
   bSpeech=false; 
@@ -1009,7 +1011,8 @@ function getText2SpeechHTML(){
  <button id="myStop" onclick='t2sStop()' title="Stop">&#x23F9;</button>`;
  return html;
 }
-function t2sStart(){ 
+function t2sStart(){
+try{ 
  t2sStarted=true;
  document.getElementById("myDetails").rows[4].cells[0].style.borderColor="red";
  var name=myDetails.rows[0].cells[0].innerText.split('-')[1];
@@ -1020,31 +1023,39 @@ function t2sStart(){
   reading=window.getSelection().toString();;
  }
  speakData.text=reading;
- speechSynthesis.speak(speakData);
+ //speechSynthesis.speak(speakData);
+ sss.speak(speakData);
  document.getElementById("myStart").style.backgroundColor="Red";
  speakData.onend=(event) => {
    //console.log(`Utterance has finished being spoken after ${event.elapsedTime} seconds.`,);
    t2sStop();
  };
+} catch(err){;}
 }
 function t2sPauseResume(){
+try{
  if(t2sStarted){
   if(t2sPaused){
    t2sPaused=false; // Resume
-   speechSynthesis.resume();
+   //speechSynthesis.resume();
+   sss.resume();
    document.getElementById("myPauseResume").title="Pause";
    document.getElementById("myDetails").rows[4].cells[0].style.borderColor="red";
   }
   else{
-   speechSynthesis.pause(); //Pause
+   //speechSynthesis.pause(); //Pause
+   sss.pause(); //Pause
    document.getElementById("myPauseResume").title="Resume";
    document.getElementById("myDetails").rows[4].cells[0].style.borderColor="green";
    t2sPaused=true;
   }
  }
+ } catch(err){;}
 }
 function t2sStop(){
- speechSynthesis.cancel();
+try{
+ //speechSynthesis.cancel();
+ sss.cancel();
  t2sStarted=false;
  t2sPaused=false;
  try{
@@ -1053,18 +1064,24 @@ function t2sStop(){
   document.getElementById("myDetails").rows[4].cells[0].style.borderColor="white";
  }
  catch(err){;}
+} catch(err){;}
 }
 
 // Initially, the getVoices() method will return an empty array because voices may not be loaded. 
 // The following is a small workaround for that.
 function getVoices() {
- let voices=speechSynthesis.getVoices();
+try{
+ //let voices=speechSynthesis.getVoices();
+ let voices=sss.getVoices();
  if(!voices.length){
   let utterance=new SpeechSynthesisUtterance("");
-  speechSynthesis.speak(utterance);
-  voices=speechSynthesis.getVoices();
+  //speechSynthesis.speak(utterance);
+  sss.speak(utterance);
+  //voices=speechSynthesis.getVoices();
+  voices=sss.getVoices();
  }
  return voices;
+ } catch(err){return "";}
 }
 
 function getZodiacSign(sign){
