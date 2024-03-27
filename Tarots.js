@@ -31,7 +31,7 @@ const shop=document.getElementById("shop");
 var bMobile=false;
 var speakData;
 var speakUp; // Opera Browser!!!
-var bSpeech=true;
+var bSpeech=false;
 var t2sStarted=false;
 var t2sPaused=false;
 var spreadNo=1;
@@ -1048,7 +1048,8 @@ function t2sStop(){
  t2sStarted=false;
  t2sPaused=false;
  try{
-  document.getElementById("myPauseResume").title="Pause";
+  if(!bMobile)
+   document.getElementById("myPauseResume").title="Pause";
   document.getElementById("myStart").style.backgroundColor="White";
   document.getElementById("myDetails").rows[4].cells[0].style.borderColor="white";
  }
