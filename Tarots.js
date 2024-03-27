@@ -621,24 +621,18 @@ function exDrawTarots(spread){
   rv1=getTarocUprightOrReversed();
  
   t2=getRandomTaroc();
-  if(spread==4||spread==5){
-   while(t2==t1)
-    t2=getRandomTaroc();
-  }
+  while(t2==t1)
+   t2=getRandomTaroc();
   rv2=getTarocUprightOrReversed();
  
   t3=getRandomTaroc();
-  if(spread==4||spread==5){
-   while(t3==t2||t3==t1)
-    t3=getRandomTaroc();
-  }
+  while(t3==t2||t3==t1)
+   t3=getRandomTaroc();
   rv3=getTarocUprightOrReversed();
  
   t4=getRandomTaroc();
-  if(spread==5){
-   while(t4==t3||t4==t2||t4==t1)
-    t4=getRandomTaroc();
-  }
+  while(t4==t3||t4==t2||t4==t1)
+   t4=getRandomTaroc();
   rv4=getTarocUprightOrReversed();
  
   var quintessence; 
@@ -789,7 +783,7 @@ function exDrawTarots(spread){
    drawTaroc(t1,1,O1,0);
    drawTaroc(t2,2,O2,0);
    drawTaroc(t3,3,O3,0);
-   drawDetails(t3,0,0,3); // Aggiungo per selezione
+   drawDetails(t3,0,0,3);
    break;
   case 5: // Tarots Pairs
    drawTaroc(t1,1,X1,rv1);
@@ -800,7 +794,7 @@ function exDrawTarots(spread){
    drawTaroc(t6,6,X6,rv6);
    drawDetails(t1,rv1,0,1);
    break;
-  case 6:
+  case 6: // Mandala
    drawTarocFake(1);
    drawTaroc(t1,2,L1,rv1);
    drawTarocFake(3);    
@@ -818,7 +812,7 @@ function exDrawTarots(spread){
    drawTarocFake(15); 
    drawDetails(t1,rv1,0,2);
    break;
-  case 7:
+  case 7: // All
    /*
    for(var i=0;i<22;i++){
     drawTaroc(i,i,"");
@@ -830,7 +824,7 @@ function exDrawTarots(spread){
    }
    drawDetails(0,0,0,1);
    break;
-  case 8:
+  case 8: // All Shuffle/Reverse
    var bReverse=myChkReverse.checked;
    const s=[];
    for(var i=0;i<2;i++){
@@ -844,25 +838,17 @@ function exDrawTarots(spread){
       s[i][j]=bReverse?getTarocUprightOrReversed():0;
     }
    }
-   //console.log(s);
-   // Adesso shuffle
-   //s[0].sort(_ => Math.random() - 0.5);
    shuffleArray(s[0]);
-   //console.log(s);
    for (var i=0;i<22;i++){
     drawTaroc(s[0][i],i+1,"",s[1][i]);
    }
-   //drawDetails(s[0][0],0,0,0);
    drawDetails(s[0][0],0,0,1);
    break;
   case 9: // Path & Goals: maxCards=2;
   case 10: // Siz Tarots: //maxCards=6;
-    // Reset ----
    chosenCards=[];
    cntClicks=0;
-   //maxCards=2;
    myDetails.innerHTML="";
-   // -----------
    const spg=[];
    for (var i=0;i<22;i++){
     spg[i]=i;
