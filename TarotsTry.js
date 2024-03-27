@@ -338,8 +338,10 @@ try{
  //cell.innerHTML=_Upright.replaceAll("\r\n","<br>").replaceAll("&quot;","'");
  //cell.innerHTML=`<button onclick="topFunction()" id="myBtnTop" title="Go to top">Top</button> ${_Upright}`;
  cell.innerHTML=`${_Upright}<br><button id="myBtnTop" onclick='topFunction(${idgrid})' title="Go up &#x25B2;">&#x25B2;</button>`;
+ alert("Before getText2SpeechHTML");
  if(bSpeech)
-  cell.innerHTML+=getText2SpeechHTML(); 
+  cell.innerHTML+=getText2SpeechHTML();
+ alert("After getText2SpeechHTML"); 
  //window.location.hash='#details';
  if(moveTo==1)
   myDetails.scrollIntoView();
