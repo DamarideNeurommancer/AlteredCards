@@ -1217,3 +1217,71 @@ function exDrawChosen(spread){
    break;
  }
 }
+
+/*
+const capture = async () => {
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  const video = document.createElement("video");
+
+  try {
+    const captureStream = await navigator.mediaDevices.getDisplayMedia();
+    video.srcObject = captureStream;
+    context.drawImage(video, 0, 0, window.width, window.height);
+    const frame = canvas.toDataURL("image/png");
+    captureStream.getTracks().forEach(track => track.stop());
+    window.location.href = frame;
+  } catch (err) {
+    console.error("Error: " + err);
+  }
+};
+*/
+
+function takeScreenshot() {
+	//var screenshot = document.documentElement.cloneNode(true);
+	//var screenshot = document.body.cloneNode(true);
+	//var screenshot = myPanel.cloneNode(true);
+	var screenshot = myDetails.cloneNode(true);
+	/*
+  screenshot.style.pointerEvents = 'none';
+	screenshot.style.overflow = 'hidden';
+	screenshot.style.webkitUserSelect = 'none';
+	screenshot.style.mozUserSelect = 'none';
+	screenshot.style.msUserSelect = 'none';
+	screenshot.style.oUserSelect = 'none';
+	screenshot.style.userSelect = 'none';
+	screenshot.dataset.scrollX = window.scrollX;
+	screenshot.dataset.scrollY = window.scrollY;
+	*/
+	var blob=new Blob([screenshot.outerHTML],{
+		type: 'text/html' //'image/png' //'text/html'
+	});
+	return blob;
+}
+
+function capture2() {
+	window.URL = window.URL || window.webkitURL;
+	window.open(window.URL
+		.createObjectURL(takeScreenshot()));
+}
+
+/*
+function b2c(blob){  
+  var ctx = this.getContext('2d');
+  var img = new Image();
+  img.onload = function(){
+    ctx.drawImage(img, 0, 0)
+  }
+  img.src=URL.createObjectURL(blob);
+};
+*/
+
+
+const capture = async () => {
+ const screenshotTarget = document.body;
+ html2canvas(screenshotTarget).then((canvas) => {
+    const base64image = canvas.toDataURL("image/png");
+    //window.location.href = base64image;
+    window.open(base64image);
+ });
+};

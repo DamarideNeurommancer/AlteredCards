@@ -229,6 +229,7 @@ a:active{
  text-decoration:underline;
  border-radius: 10px;
  box-shadow: 1px 2px lightblue;
+ //transform: rotate(-2deg);
 }
 #bigcontainer{
  width: auto;
@@ -373,6 +374,7 @@ a:active{
    <button id='myBtn' onclick='myRead()' title='Read Tarots'>&#9668;Read</button>
    <button id='myBtnHelp' onclick='myHelp()' title='Help'>?</button>
    <button id='myBtnCredits' onclick='myCredits()' title='Credits'><img src="info-circle-icon.webp" width='12' height='12'></button>
+   <button id='myBtnCapture' onclick='capture()' title='Capture'>&#x2622;</button>
   </td>
  </tr>
  </table></div>
@@ -413,7 +415,8 @@ a:active{
  <p id="caption-modal">
  <p id="shop" title="Tarots Shop">
  </div>
-</div> 
+</div>   
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.5/dist/html2canvas.min.js"></script>
 <script src="TarotsXml.js" type="text/javascript"></script>
 <script src="Tarots.js" type="text/javascript"></script>
 </body></html>
