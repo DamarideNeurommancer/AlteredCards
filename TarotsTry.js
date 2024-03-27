@@ -30,7 +30,7 @@ const details=document.getElementById('details');
 const shop=document.getElementById("shop");
 var bMobile=false;
 var speakData;
-var bSpeech=true;
+var bSpeech=false; //true;
 var t2sStarted=false;
 var t2sPaused=false;
 var spreadNo=1;
