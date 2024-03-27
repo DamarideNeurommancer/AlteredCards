@@ -964,7 +964,7 @@ function initVars(){
   speakData.lang='en';
   speakData.voice=getVoices()[0];
  }else{
-  // Speech Synthesis is not Supported 
+  alert("Speech Synthesis is not Supported!"); 
   bSpeech=false; 
  }
 }
