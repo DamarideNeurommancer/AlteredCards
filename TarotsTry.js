@@ -245,7 +245,8 @@ function clearPanel(){
 function drawDetails(idx,rev=0,moveTo=1,idgrid){
 try{
  // Nel caso stesse leggendo
- t2sStop();
+ if(bSpeech)
+  t2sStop();
 
  book=catalog.childNodes[idx];
  /*if(book==null||book=="undefined")
