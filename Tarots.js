@@ -30,6 +30,7 @@ const details=document.getElementById('details');
 const shop=document.getElementById("shop");
 var bMobile=false;
 var speakData;
+var speakUp; // Opera Browser!!!
 var bSpeech=true;
 var t2sStarted=false;
 var t2sPaused=false;
@@ -244,7 +245,8 @@ function clearPanel(){
 }
 function drawDetails(idx,rev=0,moveTo=1,idgrid){
  // Nel caso stesse leggendo
- t2sStop();
+ if(bSpeech)
+  t2sStop();
 
  book=catalog.childNodes[idx];
  /*if(book==null||book=="undefined")
@@ -949,6 +951,7 @@ function initVars(){
   speakData.rate=0.8; //0.1-10
   speakData.pitch=1.5; //0-2
   speakData.lang='en';
+  speakUp=speechSynthesis;
   speakData.voice=getVoices()[0];
  }else{
   // Speech Synthesis is not Supported 
@@ -990,12 +993,15 @@ function topFunction(grididx){
 } 
 
 function getText2SpeechHTML(){
- var html=`&emsp;<button id="myStart" onclick='t2sStart()' title="Read">&#9658;</button> 
- <button id="myPauseResume" onclick='t2sPauseResume()' title="Pause">&#x23F8;</button>
- <button id="myStop" onclick='t2sStop()' title="Stop">&#x23F9;</button>`;
+ var html=`&emsp;<button id="myStart" onclick='t2sStart()' title="Read">&#9658;</button>`;
+ if(!bMobile) 
+  html+=`<button id="myPauseResume" onclick='t2sPauseResume()' title="Pause">&#x23F8;</button>`;
+ html+=`<button id="myStop" onclick='t2sStop()' title="Stop">&#x23F9;</button>`;
  return html;
 }
-function t2sStart(){ 
+function t2sStart(){
+ if(!bSpeech)
+  return; 
  t2sStarted=true;
  document.getElementById("myDetails").rows[4].cells[0].style.borderColor="red";
  var name=myDetails.rows[0].cells[0].innerText.split('-')[1];
@@ -1006,7 +1012,8 @@ function t2sStart(){
   reading=window.getSelection().toString();;
  }
  speakData.text=reading;
- speechSynthesis.speak(speakData);
+ //speechSynthesis.speak(speakData);
+ speakUp.speak(speakData);
  document.getElementById("myStart").style.backgroundColor="Red";
  speakData.onend=(event) => {
    //console.log(`Utterance has finished being spoken after ${event.elapsedTime} seconds.`,);
@@ -1014,15 +1021,19 @@ function t2sStart(){
  };
 }
 function t2sPauseResume(){
+ if(!bSpeech)
+  return;
  if(t2sStarted){
   if(t2sPaused){
    t2sPaused=false; // Resume
-   speechSynthesis.resume();
+   //speechSynthesis.resume();
+   speakUp.resume();
    document.getElementById("myPauseResume").title="Pause";
    document.getElementById("myDetails").rows[4].cells[0].style.borderColor="red";
   }
   else{
-   speechSynthesis.pause(); //Pause
+   //speechSynthesis.pause(); //Pause
+   speakUp.pause();
    document.getElementById("myPauseResume").title="Resume";
    document.getElementById("myDetails").rows[4].cells[0].style.borderColor="green";
    t2sPaused=true;
@@ -1030,7 +1041,10 @@ function t2sPauseResume(){
  }
 }
 function t2sStop(){
- speechSynthesis.cancel();
+ if(!bSpeech)
+  return;
+ //speechSynthesis.cancel();
+ speakUp.cancel();
  t2sStarted=false;
  t2sPaused=false;
  try{
@@ -1043,12 +1057,17 @@ function t2sStop(){
 
 // Initially, the getVoices() method will return an empty array because voices may not be loaded. 
 // The following is a small workaround for that.
-function getVoices() {
- let voices=speechSynthesis.getVoices();
+function getVoices(){
+ if(!bSpeech)
+  return "";
+ //let voices=speechSynthesis.getVoices();
+ let voices=speakUp.getVoices();
  if(!voices.length){
   let utterance=new SpeechSynthesisUtterance("");
-  speechSynthesis.speak(utterance);
-  voices=speechSynthesis.getVoices();
+  //speechSynthesis.speak(utterance);
+  speakUp.speak(utterance);
+  //voices=speechSynthesis.getVoices();
+  voices=speakUp.getVoices();
  }
  return voices;
 }
