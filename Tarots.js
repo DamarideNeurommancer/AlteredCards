@@ -48,29 +48,29 @@ function myParseTarots(){
 }
 
 function mySpreadChange(){
+ const HIDDEN="hidden";
+ const VISIBLE="visible";
  if(bxmlParsed==false){myParseTarots();}  
  spreadNo=parseInt(mySpreads.selectedIndex+1);
- myDivOuter.style.visibility="hidden";
- myDivDate.style.visibility="hidden";
- myDivAll.style.visibility="hidden";
- myDivChoose.style.visibility="hidden";
+ myDivOuter.style.visibility=HIDDEN;
+ myDivDate.style.visibility=HIDDEN;
+ myDivAll.style.visibility=HIDDEN;
+ myDivChoose.style.visibility=HIDDEN;
  switch(spreadNo){
   case 1:
-   myDivOuter.style.visibility="visible";
-   myDivDate.style.visibility="visible";
-   myDivAll.style.visibility="hidden";
-   
-   myDivChoose.style.visibility="hidden";
-   
+   myDivOuter.style.visibility=VISIBLE;
+   myDivDate.style.visibility=VISIBLE;
+   myDivAll.style.visibility=HIDDEN;
+   myDivChoose.style.visibility=HIDDEN;
    myDivDate.style.zIndex="2";
    myDivAll.style.zIndex="1";
    myDivChoose.style.zIndex="0";
    break;
   case 9:
-   myDivOuter.style.visibility="visible";
-   myDivDate.style.visibility="hidden";
-   myDivAll.style.visibility="visible";
-   myDivChoose.style.visibility="hidden";
+   myDivOuter.style.visibility=VISIBLE;
+   myDivDate.style.visibility=HIDDEN;
+   myDivAll.style.visibility=VISIBLE;
+   myDivChoose.style.visibility=HIDDEN;
    myDivDate.style.zIndex="1";
    myDivAll.style.zIndex="2";
    myDivChoose.style.zIndex="0";
@@ -78,10 +78,10 @@ function mySpreadChange(){
   
   case 10:
   case 11:
-   myDivOuter.style.visibility="visible";
-   myDivDate.style.visibility="hidden";
-   myDivAll.style.visibility="hidden";
-   myDivChoose.style.visibility="visible";
+   myDivOuter.style.visibility=VISIBLE;
+   myDivDate.style.visibility=HIDDEN;
+   myDivAll.style.visibility=HIDDEN;
+   myDivChoose.style.visibility=VISIBLE;
    if(spreadNo==10)
     myDivChoose.innerHTML="Choose 2 tarots.";
    else
@@ -815,12 +815,6 @@ function exDrawTarots(spread){
    drawDetails(t1,rv1,0,2);
    break;
   case 7: // All
-   /*
-   for(var i=0;i<22;i++){
-    drawTaroc(i,i,"");
-   }
-   drawDetails(0,0,0,0);
-   */
    for(var i=0;i<22;i++){
     drawTaroc(i,i+1,"");
    }
@@ -890,8 +884,7 @@ function gridString(n,s){
  return gs;
 }
 
-function myPopup(file,imgtitle,note,rev){
- //var url="index_AlteredSets.html?set=1"; 
+function myPopup(file,imgtitle,note,rev){ 
  modal.style.display="block";
  modalPopupImg.src=file;
  modalPopupImg.alt=imgtitle+(rev==1?" (Reversed)":"");
@@ -966,13 +959,17 @@ function myCredits(){
  const url="https://biddytarot.com/tarot-card-meanings/major-arcana/";
  const url1="https://hermitspiritus.com/tarot-cards";
  const url2="https://beingdoingtarot.com/tag/major-arcana-only-reading/";
+ const url3="https://www.tarotschool.com/Calculator.html";
  const imgtitle="The Meanings of the Major Arcana Tarot Cards";
  const imgtitle1="Rider-Waite Tarot Card Meanings List";
- const imgtitle2="Being Doing Tarot";   
- var sCredits=`<a href='index_AlteredSets.html?set=1'><img src='./tarots/0.webp' alt='DamarideNeurommancer Tarots Set' title='DamarideNeurommancer Tarots Set' width="80" height="140"></a>\n<b style='color:red'>Credits</b>\nThe Tarot cards meaning description here used (whether not exclusively) is based on or extracted from:
- <center><span><b><u><a style='color:Red;font-size:0.6rem;align:center' href="${url}"><img src="https://biddytarot.com/wp-content/uploads/BT-BiddyTarotLogo-@2x.png" alt="Biddy Tarot" height="63" width="63">\n${imgtitle}</a></u></b></center>
- <center><span><b><u><a style='color:Red;font-size:0.6rem;' href="${url1}"><img src="https://hermitspiritus.com/images/logo.png" alt="Hermit Spiritus" height="64" width="168">\n${imgtitle1}</a></u></b></center>
- \nSome spread reading techniques have been extracted from:
+ const imgtitle2="Being Doing Tarot";
+ const imgtitle3="The Tarot School: Birth Card Calculator";   
+ var sCredits=`<a href='index_AlteredSets.html?set=1'><img src='./tarots/0.webp' alt='DamarideNeurommancer Tarots Set' title='DamarideNeurommancer Tarots Set' width="80" height="140"></a>\n<b style='color:red'>Credits</b>\nThe Tarot cards meaning here used (whether not exclusively) is based on or extracted from:
+ <center><span><b><u><a style='color:Red;font-size:0.6rem;align:center' href="${url}"><img src="https://biddytarot.com/wp-content/uploads/BT-BiddyTarotLogo-@2x.png" alt="Biddy Tarot" height="50" width="50">\n${imgtitle}</a></u></b></center>
+ <center><span><b><u><a style='color:Red;font-size:0.6rem;' href="${url1}"><img src="https://hermitspiritus.com/images/logo.png" alt="Hermit Spiritus" height="60" width="168">\n${imgtitle1}</a></u></b></center>
+ The formula for determining your birth tarots has been learned from:
+ <center><span><b><u><a style='color:Red;font-size:0.6rem;' href="${url3}"><img src="https://www.tarotschool.com/images/TarotLogoemboss_purple.jpg" alt="The Tarot School" height="50" width="50">\n${imgtitle3}</a></u></b></center>
+ Some tarots spread reading techniques have been extracted from:
  <span><b><u><a style='color:Red;font-size:0.6rem;' href="${url2}">${imgtitle2}</a></u></b>\n\n`;
  try{
   Swal.fire({    
@@ -1007,6 +1004,7 @@ function t2sStart(){
  var name=myDetails.rows[0].cells[0].innerText.split('-')[1];
  var upkeyword=myDetails.rows[1].cells[0].innerText;
  var descr=myDetails.rows[4].cells[0].innerText;
+ descr=descr.substr(0,descr.length-7);
  var reading="Tarot: "+name+". "+upkeyword+". "+descr; 
  if(window.getSelection().containsNode(document.getElementById("myDetails").rows[4].cells[0],true)){
   reading=window.getSelection().toString();;
@@ -1153,20 +1151,14 @@ function getAllAnimalSign(sign){
  return(res);
 }
 
-function drawTarocBack(idx,idgrid,rev=0){
+function drawTarocBack(idx,idgrid){
  book=catalog.childNodes[idx];
  /*if(book==null||book=="undefined")
  {
   console.log("book undefined: idx="+idx);
  }*/
  var CardID=book.attributes[0].nodeValue;
- var title = CardID+" - "+book.attributes[2].nodeValue;
- var tFilename="./tarots/"+CardID;
- if(rev==1){
-  tFilename+="_R";
- }
- tFilename+=".webp";
- 
+ var title = CardID+" - "+book.attributes[2].nodeValue; 
  /**
  var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="background-image:url('./tarots/Back.webp');background-size:100% 100%;background-repeat:no-repeat;">
  <div>
@@ -1176,33 +1168,51 @@ function drawTarocBack(idx,idgrid,rev=0){
  **/
  var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="background-image:url('./tarots/Back.webp');background-size:100% 100%;background-repeat:no-repeat;border-color:gold"></div>`;
  myPanel.innerHTML+=CardsHTML;
+ if(!bMobile&&idgrid==22){
+   var b22=document.getElementById("b22");
+   b22.style.width="200px";
+ }
 }
 
 function showTarots(idx,idgrid){
+ const HIDDEN="hidden";
  if(cntClicks<maxCards){
   chosenCards.push(idx);
   var id=document.getElementById("b"+idgrid);
-  id.style.visibility="hidden";
+  id.style.visibility=HIDDEN;
   cntClicks++;
   if(cntClicks==maxCards){
    exDrawChosen(spreadNo);
   }
+  if(!bMobile){
+   var last=22;
+   for(var i=22;i>0;i--){
+    var idt=document.getElementById("b"+i);
+    if(idt.style.visibility!=HIDDEN){
+     if(i==last){
+      idt.style.width="200px";
+      break;
+     }
+    }
+    last--;
+   }
+  }
  }
  else{
-   exDrawChosen(spreadNo);
+  exDrawChosen(spreadNo);
  }
 }
 
 function exDrawChosen(spread){
  // Path & Goals
- const P_G=[ ["Left: Where you are now"],["Right: Where you want to be"]]; 
+ const P_G=[["Left: Where you are now"],["Right: Where you want to be"]]; 
  // 6 Tarots
- const SixT=[ ["1: 1. How you feel about yourself now"],["2. What you most want at this moment"],["3: Your fears"],
+ const SixT=[["1: 1. How you feel about yourself now"],["2. What you most want at this moment"],["3: Your fears"],
  ["4: What is going for you"],["5: What is going against you"],["6: The outcome according to your current situation or the question you asked"]];
  
  clearPanel();
  switch(spread){
-  case 10: // Tarots de Marseille Open Reading
+  case 10: // Path & Goals
    myPanel.style.gridTemplateColumns=gridString(2,200);
    myPanel.style.gridTemplateRows=gridString(1,330);
    for(var i=0;i<P_G.length;i++){
@@ -1222,4 +1232,8 @@ function exDrawChosen(spread){
   default:
    break;
  }
+}
+
+function myPrint(){
+ window.print(); 
 }
