@@ -725,13 +725,23 @@ function exDrawTarots(spread){
    break;
   case 9:
    maxCards=2;
-   myPanel.style.gridTemplateColumns=gridString(22,20);
-   myPanel.style.gridTemplateRows=gridString(1,330);
-   break;
-  case 10:
-    maxCards=6;
+   if(!bMobile){
     myPanel.style.gridTemplateColumns=gridString(22,20);
     myPanel.style.gridTemplateRows=gridString(1,330);
+   }else{
+     myPanel.style.gridTemplateColumns=gridString(1,300);
+     myPanel.style.gridTemplateRows=gridString(22,20);
+    }
+   break;
+  case 10:
+   maxCards=6;
+   if(!bMobile){
+    myPanel.style.gridTemplateColumns=gridString(22,20);
+    myPanel.style.gridTemplateRows=gridString(1,330);
+   }else{
+     myPanel.style.gridTemplateColumns=gridString(1,300);
+     myPanel.style.gridTemplateRows=gridString(22,20);
+    }
    break;
   default:
    break;
@@ -862,7 +872,7 @@ function exDrawTarots(spread){
 
 // Fisher-Yates Algorithm
 /*
-ItÂ’s just a case of looping through the array (from the end to the start) and 
+It’s just a case of looping through the array (from the end to the start) and 
 picking a random item from the array and 
 swapping it with the item in the current iteration.
 */
@@ -1166,11 +1176,19 @@ function drawTarocBack(idx,idgrid){
   </div>
  </div>`;
  **/
- var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="background-image:url('./tarots/Back.webp');background-size:100% 100%;background-repeat:no-repeat;border-color:gold"></div>`;
+ var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="background-image:url('./tarots/Back.webp');background-size:100% 100%;background-repeat:no-repeat;border-color:gold;cursor:pointer;"></div>`;
  myPanel.innerHTML+=CardsHTML;
- if(!bMobile&&idgrid==22){
+ /*if(!bMobile&&idgrid==22){
    var b22=document.getElementById("b22");
    b22.style.width="200px";
+ }
+ */
+ if(idgrid==22){
+   var b22=document.getElementById("b22");
+   if(!bMobile)
+    b22.style.width="200px";
+   else
+    b22.style.height="200px";
  }
 }
 
@@ -1179,24 +1197,28 @@ function showTarots(idx,idgrid){
  if(cntClicks<maxCards){
   chosenCards.push(idx);
   var id=document.getElementById("b"+idgrid);
+  //id.style.backgroundSize="80% 80%";
   id.style.visibility=HIDDEN;
   cntClicks++;
   if(cntClicks==maxCards){
    exDrawChosen(spreadNo);
   }
-  if(!bMobile){
+  //if(!bMobile){
    var last=22;
    for(var i=22;i>0;i--){
     var idt=document.getElementById("b"+i);
     if(idt.style.visibility!=HIDDEN){
      if(i==last){
-      idt.style.width="200px";
+      if(!bMobile)
+       idt.style.width="200px";
+      else
+       idt.style.height="200px";
       break;
      }
     }
     last--;
    }
-  }
+  //}//
  }
  else{
   exDrawChosen(spreadNo);
