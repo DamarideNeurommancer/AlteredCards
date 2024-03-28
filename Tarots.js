@@ -862,7 +862,7 @@ function exDrawTarots(spread){
 
 // Fisher-Yates Algorithm
 /*
-It’s just a case of looping through the array (from the end to the start) and 
+ItÂ’s just a case of looping through the array (from the end to the start) and 
 picking a random item from the array and 
 swapping it with the item in the current iteration.
 */
