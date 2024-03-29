@@ -111,8 +111,7 @@ function myRead(){
   case 4: // 4 Tarots Random
    TarocDemarseilleCross();
    break;
-  case 5: // Tarot De Marseille Open Reading: 3 Tarots Random (No Reverse)
-   // https://beingdoingtarot.com/tag/major-arcana-only-reading/ 
+  case 5: // Tarot De Marseille Open Reading: 3 Tarots Random (No Reverse) 
    TarocDeMarseilleNoReverse();
    break;
   case 6: // Tarot Pairs: 6 Tarocs Random
@@ -164,26 +163,15 @@ function BirthDateTarots(){
  }
  var tarots=getBDTarots(sum);
  var t1=tarots[0],t2=tarots[1],t3=tarots[2];
- 
- /*
- var x=window.matchMedia("(max-width:400px)");
- //alert("max-width:400px? "+x.matches + " w=" + window.innerWidth + " h=" + window.innerHeight);
- //alert("screen.w=" + window.screen.width + " screen.hh=" + window.screen.height);
- const width  = window.innerWidth || document.documentElement.clientWidth || 
- document.body.clientWidth;
- const height = window.innerHeight|| document.documentElement.clientHeight|| 
- document.body.clientHeight;
- alert("w="+width+" h="+height);
- */
  clearPanel();
  //if(!isMobile()&&!x.matches){
   if(t2!=0){
-   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-   myPanel.style.gridTemplateRows=gridString(1,330); //"330px";
+   myPanel.style.gridTemplateColumns=gridString(3,200);
+   myPanel.style.gridTemplateRows=gridString(1,330);
   }
   else{
-   myPanel.style.gridTemplateColumns=gridString(2,200); //"200px 200px";
-   myPanel.style.gridTemplateRows=gridString(1,330); //"330px";
+   myPanel.style.gridTemplateColumns=gridString(2,200);
+   myPanel.style.gridTemplateRows=gridString(1,330);
   }
   drawTaroc(t1,1,"Left Card");
   if(t2!=0){
@@ -193,7 +181,6 @@ function BirthDateTarots(){
   else{
    drawTaroc(t3,2,"Right Card");
   }
- //Details del primo tarocco
  drawDetails(t1,0,0,1);
  panel.scrollTo(0,0);  
 }
@@ -214,14 +201,6 @@ function drawTaroc(idx,idgrid,note,rev=0){
  }
  tFilename+=".webp";
  
- /*var CardsHTML=`<div id="${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}")'>${title}
- <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${uk}</p>
- <div>
-   <a href="${setURL}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}" height="218px"></a>
-   <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}")'>${note}  <button id="${idx}" onclick='drawDetails("${idx}","${rev}")' title='Details' style="background-color:gold;font-size:4px;cursor:cell">&#9658;</button>&emsp;<button id="z${idx}" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' title='Zoom-In' style="background-color:gold;font-size:4px;cursor:zoom-in">+</button></p>
-  </div>
- </div>`;*/
- 
  var CardsHTML=`<div id="g${idgrid}" class="box" style="color:DarkGoldenRod;font-weight:bolder;align-content:left;" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")'>${title}
  <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")'>${uk}</p>
  <div>
@@ -230,12 +209,10 @@ function drawTaroc(idx,idgrid,note,rev=0){
   </div>
  </div>`;
  myPanel.innerHTML+=CardsHTML; 
- //drawDetails(idx,rev,0,idgrid); //Dont Move to Details!
- // RIMETTI SE VUOI ELIMINARE LA SELEZIONE
+ //drawDetails(idx,rev,0,idgrid); //Don't Move to Details! Redo to avoid selection.
 }
 
 function drawTarocFake(idgrid){
- //var CardsHTML=`<div id="${idgrid}" class="box"><div>`;
  var CardsHTML=`<div id="${idgrid}"><div>`;
  myPanel.innerHTML+=CardsHTML;
 }
@@ -244,15 +221,10 @@ function clearPanel(){
  myPanel.innerHTML="";
 }
 function drawDetails(idx,rev=0,moveTo=1,idgrid){
- // Nel caso stesse leggendo
  if(bSpeech)
   t2sStop();
 
  book=catalog.childNodes[idx];
- /*if(book==null||book=="undefined")
- {
-  console.log("drawDetails: book undefined: idx="+idx);
- }*/
  var CardID=book.attributes[0].nodeValue;
  var title=CardID+" - "+book.attributes[2].nodeValue;
  //Upright_Keywords
@@ -341,7 +313,6 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  cell.innerHTML=`${_Upright}<br><button id="myBtnTop" onclick='topFunction(${idgrid})' title="Go up &#x25B2;">&#x25B2;</button>`;
  if(bSpeech)
   cell.innerHTML+=getText2SpeechHTML(); 
- //window.location.hash='#details';
  if(moveTo==1)
   myDetails.scrollIntoView();
  
@@ -370,11 +341,11 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
 
 function selectBox(idgrid){
  //console.log("Spread: ",spreadNo);
- const gridComputedStyle = window.getComputedStyle(myPanel);
+ const gridComputedStyle=window.getComputedStyle(myPanel);
  // get number of grid rows
- const gridRowCount = gridComputedStyle.getPropertyValue("grid-template-rows").split(" ").length;
+ const gridRowCount=gridComputedStyle.getPropertyValue("grid-template-rows").split(" ").length;
  // get number of grid columns
- const gridColumnCount = gridComputedStyle.getPropertyValue("grid-template-columns").split(" ").length;
+ const gridColumnCount=gridComputedStyle.getPropertyValue("grid-template-columns").split(" ").length;
  //console.log("GRID RxC= "+gridRowCount+" x "+gridColumnCount);
  for(var r=1;r<=gridRowCount;r++){
   for(var c=1;c<=gridColumnCount;c++){
@@ -392,7 +363,6 @@ function selectBox(idgrid){
      {
       document.getElementById(elem).style.backgroundColor="transparent";
       document.getElementById(elem).style.boxShadow="";
-      //document.getElementById(elem).style.borderRadius="10px";
      }
      document.getElementById(elem).style.borderRadius="10px";
    }
@@ -494,6 +464,7 @@ function myHelp(){
 }
 
 function openNav(){
+ myDivOuter.style.marginLeft="180px";
  sideBar.style.width="180px";
  main.style.marginLeft="180px";
 }
@@ -501,6 +472,7 @@ function openNav(){
 function closeNav(){
  sideBar.style.width="0";
  main.style.marginLeft="0";
+ myDivOuter.style.marginLeft="0";
 }
 
 document.addEventListener('click',function handleClickOutside(event){
@@ -561,8 +533,7 @@ function Path_Goals(){
 function SixTarots(){
  exDrawTarots(10);
 }
-// Spread: 0=WitchesPentagram 1=4Winds 2=SacredCircle 
-// 3=TarocDemarseilleCross 4=TarocDeMarseilleNoReverse 5=TarocPairs 6=Mandala
+
 function exDrawTarots(spread){
  // Witches Pentagram
  const P1="Top: Spirit - What is your goal?";
@@ -684,33 +655,32 @@ function exDrawTarots(spread){
      
  switch(spread){
   case 0: // WitchesPentagram
-   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-   myPanel.style.gridTemplateRows=gridString(2,330); //"330px 330px";
+   myPanel.style.gridTemplateColumns=gridString(3,200);
+   myPanel.style.gridTemplateRows=gridString(2,330);
    break;
   case 1: // 4Winds
-   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-   //myPanel.style.gridTemplateRows=gridString(2,340); //"340px 340px";
-   myPanel.style.gridTemplateRows=gridString(3,340); //"340px 340px";
+   myPanel.style.gridTemplateColumns=gridString(3,200);
+   myPanel.style.gridTemplateRows=gridString(3,340);
    break;
   case 2: // SacredCircle
-   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-   myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
+   myPanel.style.gridTemplateColumns=gridString(3,200);
+   myPanel.style.gridTemplateRows=gridString(3,350);
    break;
   case 3: // Tarots de Marseille Cross
-   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-   myPanel.style.gridTemplateRows=gridString(3,350); //"350px 350px 350px";
+   myPanel.style.gridTemplateColumns=gridString(3,200);
+   myPanel.style.gridTemplateRows=gridString(3,350);
    break; 
   case 4: // Tarots de Marseille Open Reading
-   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-   myPanel.style.gridTemplateRows=gridString(1,330); //"300px";
+   myPanel.style.gridTemplateColumns=gridString(3,200);
+   myPanel.style.gridTemplateRows=gridString(1,330);
    break;
   case 5: // Tarots Pairs
-   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-   myPanel.style.gridTemplateRows=gridString(2,350); //"350px";
+   myPanel.style.gridTemplateColumns=gridString(3,200);
+   myPanel.style.gridTemplateRows=gridString(2,350);
    break; 
   case 6: // Mandala
-   myPanel.style.gridTemplateColumns=gridString(3,200); //"200px 200px 200px";
-   myPanel.style.gridTemplateRows=gridString(5,350); //"350px 350px 350px 350px 350px";
+   myPanel.style.gridTemplateColumns=gridString(3,200);
+   myPanel.style.gridTemplateRows=gridString(5,350);
    break;
   case 7:
   case 8:
@@ -1176,9 +1146,18 @@ function drawTarocBack(idx,idgrid){
   </div>
  </div>`;
  **/
- var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="background-image:url('./tarots/Back.webp');background-size:100% 100%;background-repeat:no-repeat;border-color:gold;cursor:pointer;"></div>`;
+ var back="./tarots/Back3.webp";
+ if(spreadNo==10)
+  back="./tarots/Back2.webp";
+ 
+ var style=`background-image:url('${back}');background-size:100% 100%;background-repeat:no-repeat;border-color:gold;cursor:pointer;border-top-left-radius: 6px;border-bottom-left-radius: 6px;`;
+ if(idgrid==22){
+  style=`background-image:url('${back}');background-size:100% 100%;background-repeat:no-repeat;border-color:gold;cursor:pointer;border-radius:6px;`;
+ }
+ var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="${style}"></div>`;
  myPanel.innerHTML+=CardsHTML;
- if(!bMobile&&idgrid==22){
+ //if(!bMobile&&idgrid==22){
+ if(idgrid==22){
    var b22=document.getElementById("b22");
    b22.style.width="200px";
  }
@@ -1199,13 +1178,12 @@ function showTarots(idx,idgrid){
  if(cntClicks<maxCards){
   chosenCards.push(idx);
   var id=document.getElementById("b"+idgrid);
-  //id.style.backgroundSize="80% 80%";
   id.style.visibility=HIDDEN;
   cntClicks++;
   if(cntClicks==maxCards){
    exDrawChosen(spreadNo);
   }
-  if(!bMobile){
+  //if(!bMobile){
    var last=22;
    for(var i=22;i>0;i--){
     var idt=document.getElementById("b"+i);
@@ -1220,7 +1198,7 @@ function showTarots(idx,idgrid){
     }
     last--;
    }
-  }//
+  //}//
  }
  else{
   exDrawChosen(spreadNo);
