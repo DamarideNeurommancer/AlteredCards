@@ -74,8 +74,7 @@ function mySpreadChange(){
    myDivDate.style.zIndex="1";
    myDivAll.style.zIndex="2";
    myDivChoose.style.zIndex="0";
-  break;
-  
+   break;
   case 10:
   case 11:
    myDivOuter.style.visibility=VISIBLE;
@@ -86,11 +85,11 @@ function mySpreadChange(){
     myDivChoose.innerHTML="Choose 2 tarots.";
    else
     myDivChoose.innerHTML="Choose 6 tarots.";
-   myDivChoose.innerHTML+=" Press 'Read' button to shuffle."
-   myDivDate.style.zIndex="0";
-   myDivAll.style.zIndex="1";
-   myDivChoose.style.zIndex="2";
-  break; 
+    myDivChoose.innerHTML+=" Press 'Read' button to shuffle."
+    myDivDate.style.zIndex="0";
+    myDivAll.style.zIndex="1";
+    myDivChoose.style.zIndex="2";
+    break; 
  }
  mySave();
  myRead();
@@ -1239,3 +1238,45 @@ function exDrawChosen(spread){
 function myPrint(){
  window.print(); 
 }
+
+function myShare(){
+ //var canvas = document.getElementById("canvas");
+ const canvas = document.createElement("canvas");
+ var newBody=document.body.innerHTML;
+ rasterizeHTML.drawHTML(newBody,canvas);
+ var image = canvas.toDataURL("image/png");
+  
+ var element = document.createElement('a');
+ var filename = './test.png';
+ element.setAttribute('href', image);
+ element.setAttribute('download', filename);
+ element.click();
+ element.remove();
+  
+ canvas.toBlob(async (blob) => {
+  // Even if you want to share just one file you need to
+  // send them as an array of files.
+  const files = [new File([blob],'image.png',{type: blob.type})];
+  const shareData={
+   text: 'DamarideNeurommancer Tarots',
+   title: 'DamarideNeurommancer Tarots Reading',
+   files,
+  };
+  if(navigator.canShare&&navigator.canShare(shareData)){
+   await navigator.share(shareData);
+  }
+    /*if (navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData)
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          console.error(err.name, err.message)
+        }
+      }
+    } else {
+      console.warn('Sharing not supported', shareData)
+    }*/
+ })
+};
+
+
