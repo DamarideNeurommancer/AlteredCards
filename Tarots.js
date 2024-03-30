@@ -1243,12 +1243,18 @@ function myShare(){
  //var canvas = document.getElementById("canvas");
  const canvas = document.createElement("canvas");
  var newBody=myPanel.innerHTML; //document.body.innerHTML;
- rasterizeHTML.drawHTML(newBody,canvas);
- var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+ //rasterizeHTML.drawHTML(newBody,canvas);
+ //var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+ var base64data;
+ rasterizeHTML.drawHTML(html).then(function (renderResult) {
+    context.drawImage(renderResult.image,0,0);
+    base64data = canvas.toDataURL('image/png'); 
+ });
   
  var element = document.createElement('a');
  var filename = './test.png';
- element.setAttribute('href', image);
+ //element.setAttribute('href', image);
+ element.setAttribute('src', base64data);
  element.setAttribute('download', filename);
  element.click();
  element.remove();
