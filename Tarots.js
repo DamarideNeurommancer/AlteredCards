@@ -1242,9 +1242,9 @@ function myPrint(){
 function myShare(){
  //var canvas = document.getElementById("canvas");
  const canvas = document.createElement("canvas");
- var newBody=document.body.innerHTML;
+ var newBody=myPanel.innerHTML; //document.body.innerHTML;
  rasterizeHTML.drawHTML(newBody,canvas);
- var image = canvas.toDataURL("image/png");
+ var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
   
  var element = document.createElement('a');
  var filename = './test.png';
