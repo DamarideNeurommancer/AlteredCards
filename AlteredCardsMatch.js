@@ -3,10 +3,13 @@ var xmlDoc,catalog,totXmlCards;
 const game=document.getElementById('game');
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
-const dsCardStyle="width:120px;height:156px;border-radius:2px;align:center;";
-const dsCardLinkStyle="width:120px;height:140px;border-radius:6px;align:center;";
-const mbCardStyle="width:60px;height:80px;border-radius:2px;align:center;";
-const mbCardLinkStyle="width:60px;height:66px;border-radius:6px;align:center;";
+const dsCardStyle="width:120px;height:156px;border-radius:6px;align:center;";
+const dsCardLinkStyle="width:120px;height:140px;border-radius:6px;align:center;padding:2px;";
+const mbCardStyle="width:60px;height:80px;border-radius:6px;align:center;padding:2px;";
+const mbCardLinkStyle="width:60px;height:66px;border-radius:6px;align:center;padding:2px;";
+const tarots=document.getElementById('useTarots');
+const listTarots=[["0","The Fool"],["I","The Magician"],["II","The High Priestess"],["III","The Empress"],["IV","The Emperor"],["V","The Hierophant"],["VI","The Lovers"],["VII","The Chariot"],["VIII","Strength"],["IX","The Hermit"],["X","Wheel of Fortune"],["XI","Justice"],["XII","The Hanged Man"],["XIII","Death"],["XIV","Temperance"],["XV","The Devil"],["XVI","The Tower"],["XVII","The Star"],["XVIII","The Moon"],["XIX","The Sun"],["XX","Judgement"],["XXI","The World"]];
+var bTarots=false;
 var loadedCards;
 let firstPick;
 let isPaused=true;
@@ -32,16 +35,34 @@ function myRndCard(){
  return rndCard;
 }
 
+let newArr=[];
 function createArray(N){
- let newArr=[];
+ bTarots=tarots.checked;
+ newArr=[];
+ let rndNum;
  for(let i=1;i<=N/2;i++){
-  let rndNum=myRndCard();  
+  
+  rndNum=!bTarots?myRndCard():getRandomTaroc();
+  if(i>1){
+   while(dupCards(rndNum))
+    rndNum=!bTarots?myRndCard():getRandomTaroc(); 
+  }  
   newArr.push(rndNum);
  }
  for(let i=0;i<N/2;i++){
   newArr.push(newArr[i]);
  }
  return newArr;
+}
+function dupCards(rndNum){
+ var res=false;
+ for(var j=0;j<newArr.length;j++){
+  if(newArr[j]==rndNum){
+   res=true;
+   break;
+  }
+ }
+ return res;
 }
 const resetGame = async() => {
  game.innerHTML='';
@@ -56,23 +77,30 @@ const resetGame = async() => {
 
 function displayCards(CardsList){
  var CardsHTML="";
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var CardSTYLE=dsCardStyle;
+ var sStyleFront="background-image:url('neurommancer_logo.png');";
  if(isMobile()){
   game.style.gridTemplateColumns="90px 90px 90px 90px";
   game.style.gridTemplateRows="90px 90px 90px 90px";
   CardSTYLE=mbCardStyle; 
  }
+ var CardID,CardNAME;
  for(let i=0;i<CardsList.length;i++){
-  var book=catalog.childNodes[CardsList[i]];
-  var CardID=book.attributes[0].nodeValue;
-  if(Number(CardID)>100){CardID +=".jpg";}else{CardID +=".webp";}
-  var CardNAME=book.attributes[1].nodeValue;
+  if(!bTarots){
+   var book=catalog.childNodes[CardsList[i]];
+   CardID=book.attributes[0].nodeValue;
+   if(Number(CardID)>100){CardID +=".jpg";}else{CardID +=".webp";}
+   CardNAME=book.attributes[1].nodeValue;
+  }
+  else{
+   CardID="./tarots/"+listTarots[CardsList[i]][0]+".webp";
+   CardNAME=listTarots[CardsList[i]][0]+" "+listTarots[CardsList[i]][1];
+   sStyleFront="background-image:url('./tarots/Back2.webp');background-size:60%;";
+  }
   const color='#F5F5F5';
   CardsHTML+=`<div class="card" onclick="clickCard(event)" data-cardname="${CardNAME}" style="background-color:${color};">
-   <div class="front"></div>
+   <div class="front" style="${sStyleFront}"></div>
    <div class="back rotated" style="background-color:${color};">
-   <!--img src="${CardID}" alt="${CardNAME}" style="width:120px;height:156px;border-radius:2px;align:center;"/-->
    <img src="${CardID}" alt="${CardNAME}" style="${CardSTYLE}"/>
    </div></div>`;
   game.innerHTML=CardsHTML; 
@@ -161,7 +189,6 @@ function displayCardsLink(CardsList){
  if(CardsList==null||CardsList==="undefined")
   CardsList=loadedCards;
  var CardsHTML="";
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var CardSTYLE=dsCardLinkStyle;//dsCardStyle;
  var CardFONT="font-size:10px;align:center;";
  if(isMobile()){
@@ -170,13 +197,24 @@ function displayCardsLink(CardsList){
   CardSTYLE=mbCardStyle;//mbCardLinkStyle;
   CardFONT="font-size:6px;align:center;"; 
  }
+ var CardID,CardNAME,CardURL,CardFile;
+ if(bTarots)
+  CardURL="index_AlteredSets.html?set=1";
+  
  for(let i=0;i<CardsList.length;i++){
-  var book=catalog.childNodes[CardsList[i]];
-  var CardID=book.attributes[0].nodeValue;
-  var CardFile=CardID;
-  if(Number(CardID)>100){CardFile +=".jpg";}else{CardFile +=".webp";}
-  var CardNAME=book.attributes[1].nodeValue;
-  var CardURL=(Number(CardID)>100?URLRoot:"")+book.attributes[2].nodeValue;
+  if(!bTarots){
+   var book=catalog.childNodes[CardsList[i]];
+   CardID=book.attributes[0].nodeValue;
+   CardFile=CardID;
+   if(Number(CardID)>100){CardFile +=".jpg";}else{CardFile +=".webp";}
+   CardNAME=book.attributes[1].nodeValue;
+   CardURL=(Number(CardID)>100?URLRoot:"")+book.attributes[2].nodeValue;
+  }
+  else{
+   CardID=listTarots[CardsList[i]][0];
+   CardFile="./tarots/"+listTarots[CardsList[i]][0]+".webp";
+   CardNAME=listTarots[CardsList[i]][1];
+  }
   CardsHTML+=`<div class="cardlink"><div class="frontlink"><a href="${CardURL}">
   <img src="${CardFile}" alt="${CardNAME}" style="${CardSTYLE}" title="${CardID} ${CardNAME}"><font style="${CardFONT}"><br>&nbsp;${CardNAME}</font></a>
   </div></div>`;
@@ -186,4 +224,8 @@ function displayCardsLink(CardsList){
 function isMobile()
 {
  return(window.orientation!=null&&window.orientation!="undefined");
+}
+
+function getRandomTaroc(){
+ return Math.floor(Math.random()*22);
 }
