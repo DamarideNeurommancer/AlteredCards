@@ -81,6 +81,7 @@ function myHelp(){
    html: "<span style='color:Black'><b>"+sHelp.replaceAll('\n','<br>')+"</b>",
    confirmButtonColor: "Black",
    padding: 1,
+   position: 'top-left',
   })
  }
  catch{
