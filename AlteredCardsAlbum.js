@@ -9,6 +9,7 @@ const header=document.getElementById('myHeader');
 const myChkApp=document.getElementById('myChkAppend');
 const myTree=document.getElementById('myTree');
 const myView=document.getElementById('myView');
+var bMobile=isMobile();
 function myParseCards(){
  var parser=new DOMParser();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
@@ -18,10 +19,17 @@ function myParseCards(){
 }
 
 function mySearch(MaxColumns){
+ if(MaxColumns===null||MaxColumns==undefined||MaxColumns==="undefined"||MaxColumns==0){
+  if(!bMobile)
+   MaxColumns=6;
+  else
+   MaxColumns=2;
+  myCols.value=MaxColumns;
+ } 
  if(!myView.checked)
   gridSearch(MaxColumns);
  else
- treeSearch(); 
+   treeSearch(MaxColumns);   
 }
 function gridSearch(MaxColumns){
  if(MaxColumns<=0)
@@ -33,9 +41,7 @@ function gridSearch(MaxColumns){
  var numCardID=parseInt(filter);
  if(Number.isInteger(numCardID))
   bIsCardID=true;
- if(bxmlParsed==false){
-   myParseCards();
- }
+ if(bxmlParsed==false){myParseCards();}
  myTree.innerHTML="";
  table.innerHTML="";
  var CardCnt=0;
@@ -132,9 +138,7 @@ function getRndInt(max){
 }
 
 function myRndSearch(){
- if(bxmlParsed==false){
-   myParseCards();
- }
+ if(bxmlParsed==false){myParseCards();}
  myTree.innerHTML="";
  myView.checked=false;
  var rndCard=getRndInt(totXmlCards);
@@ -201,72 +205,6 @@ document.addEventListener('click',function handleClickOutside(event){
  }
 });
 
-
-function treeSearch(){
- var input,filter,bIsCardID;
- input=document.getElementById("myInput");
- filter=input.value.replaceAll("*"," ").replaceAll("%"," ").trim().toUpperCase();
- bIsCardID=false;
- var numCardID=parseInt(filter);
- if(Number.isInteger(numCardID))
-  bIsCardID=true;
- if(bxmlParsed==false){
-   myParseCards();
- }
- table.innerHTML="";
- myTree.innerHTML="";
- var buf=`<input type="radio" name="node" id="expand" checked="checked" value="0" onclick="expandAll()"/><font size='2' color='White'><small><label for="expand">Expand All</label></small></font><input type="radio" name="node" id="collapse" value="1" onclick="collapseAll()"/><font size='2' color='White'><small><label for="collapse">Collapse All</label></small></font>`;
- buf+='<ul id="myUL"><li><span class="caret">Altered Cards</span><ul class="nested">';
- var CardCnt=0;
-
- for(var i=0;i<totXmlCards;i++){
-  var book=catalog.childNodes[i];
-  var CardID=book.attributes[0].nodeValue;
-  var CardNAME=book.attributes[1].nodeValue; 
-  if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
-   var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
-   var RelatedCards=book.attributes[3].nodeValue;
-   CardCnt++;
-   
-   var href="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:40px;height:52px;border-radius:2px;' title=\""+CardID+" "+CardNAME+"\"></a>";
-   if(RelatedCards!="")
-    buf+=('<li><span class="caret">'+href+' '+CardID+' \"'+CardNAME+'\"</span>');
-   else
-    buf+=('<li><span class="simple">'+href+' '+CardID+' \"'+CardNAME+'\"</span></li>');
-
-   if(RelatedCards!=""){
-    if(RelatedCards.endsWith(";"))
-     RelatedCards=RelatedCards.substring(0,RelatedCards.length-1);
-    var relatedIDList=RelatedCards.split(';');
-    buf+=('<ul class="nested">');
-    for(var iRel=0;iRel<relatedIDList.length;iRel++){
-     var bookRel=getCardByID(relatedIDList[iRel]);
-     //CardCnt++;
-     var CardIDRel=bookRel.attributes[0].nodeValue;
-     var CardNAMERel=bookRel.attributes[1].nodeValue;
-     var CardURLRel=(CardIDRel>100?URLRoot:"")+bookRel.attributes[2].nodeValue;
-     var href="<a href='"+CardURLRel+"'><img src='"+CardIDRel+(CardIDRel>100?".jpg":".webp")+"' alt='"+CardIDRel+"' style='width:40px;height:52px;border-radius:2px;' title=\""+CardIDRel+" "+CardNAMERel+"\"></a>";
-     buf+=('<li class="simple">');
-     buf+=(href+" "+CardIDRel+" \""+CardNAMERel+"\"");
-     buf+=("</li>");
-    }
-    buf+=("</ul>");
-   }
-   if(RelatedCards!="")
-    buf+=("</li>");
-   if(bIsCardID==true)
-    break; 
-  }
- }
- buf+=("</ul></li></ul><div></div");
- myTree.innerHTML=buf;
- myTree.style.fontSize="16px";
- treeClick();
- totCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves";
- expandAll();
- window.scrollTo(0,0);
-}
-
 function treeClick(){
  if(myTree.innerHTML=="")
   return;
@@ -299,7 +237,7 @@ function collapseAll(){
  }
 }
 function getCardByID(inputCardID){
- for (var i=0;i<totXmlCards;i++){
+ for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
   if(CardID==inputCardID){
@@ -309,4 +247,79 @@ function getCardByID(inputCardID){
 }
 function chooseView(){
  mySearch(myCols.value);
+}
+
+function treeSearch(MaxColumns){
+ var input,filter,bIsCardID;
+ input=document.getElementById("myInput");
+ filter=input.value.replaceAll("*"," ").replaceAll("%"," ").trim().toUpperCase();
+ if(filter==""&&bMobile){
+  myView.checked=false;
+  return(gridSearch(MaxColumns));
+ } 
+ bIsCardID=false;
+ var numCardID=parseInt(filter);
+ if(Number.isInteger(numCardID))
+  bIsCardID=true;
+ if(bxmlParsed==false){myParseCards();}
+ table.innerHTML="";
+ myTree.innerHTML="";
+ var buf=[];
+ buf.push(`<input type="radio" name="node" id="expand" checked="checked" value="0" onclick="expandAll()"/><font size='2' color='White'><small><label for="expand">Expand All</label></small></font><input type="radio" name="node" id="collapse" value="1" onclick="collapseAll()"/><font size='2' color='White'><small><label for="collapse">Collapse All</label></small></font>`);
+ buf.push('<ul id="myUL"><li><span class="caret">Altered Cards</span><ul class="nested">');
+ var CardCnt=0;
+ var RelatedCnt=0;
+
+ for(var i=0;i<totXmlCards;i++){
+  var book=catalog.childNodes[i];
+  var CardID=book.attributes[0].nodeValue;
+  var CardNAME=book.attributes[1].nodeValue; 
+  if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
+   var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
+   var RelatedCards=book.attributes[3].nodeValue;
+   CardCnt++;
+   
+   var href="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:40px;height:52px;border-radius:2px;' title=\""+CardID+" "+CardNAME+"\"></a>";
+   if(RelatedCards!="")
+    buf.push('<li><span class="caret">'+href+' '+CardID+' \"'+CardNAME+'\"</span>');
+   else
+    buf.push('<li><span class="simple">'+href+' '+CardID+' \"'+CardNAME+'\"</span></li>');
+
+   if(RelatedCards!=""){
+    if(RelatedCards.endsWith(";"))
+     RelatedCards=RelatedCards.substring(0,RelatedCards.length-1);
+    var relatedIDList=RelatedCards.split(';');
+    buf.push('<ul class="nested">');
+    for(var iRel=0;iRel<relatedIDList.length;iRel++){
+     var bookRel=getCardByID(relatedIDList[iRel]);
+     RelatedCnt++;
+     var CardIDRel=bookRel.attributes[0].nodeValue;
+     var CardNAMERel=bookRel.attributes[1].nodeValue;
+     var CardURLRel=(CardIDRel>100?URLRoot:"")+bookRel.attributes[2].nodeValue;
+     var href="<a href='"+CardURLRel+"'><img src='"+CardIDRel+(CardIDRel>100?".jpg":".webp")+"' alt='"+CardIDRel+"' style='width:40px;height:52px;border-radius:2px;' title=\""+CardIDRel+" "+CardNAMERel+"\"></a>";
+     buf.push('<li class="simple">'+href+" "+CardIDRel+" \""+CardNAMERel+"\"</li>");
+    }
+    buf.push("</ul>");
+   }
+   if(RelatedCards!="")
+    buf.push("</li>");
+   if(bIsCardID==true)
+    break; 
+  }
+ }
+ buf.push("</ul></li></ul><div></div");
+ totCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves"+(RelatedCnt>0?" ("+RelatedCnt+" related)":"");
+ if(CardCnt>0){
+  myTree.innerHTML=buf.join('');
+  myTree.style.fontSize="16px";
+  treeClick();
+  buf=[];
+ //totCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves ("+RelatedCnt+" related)";
+ //if(filter!="")
+  expandAll();
+ }
+ window.scrollTo(0,0);
+}
+function isMobile(){
+ return(window.orientation!=null&&window.orientation!="undefined");
 }
