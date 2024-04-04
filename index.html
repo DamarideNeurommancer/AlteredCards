@@ -34,6 +34,7 @@ body{
  padding: 2px 4px;
  background: #555;
  color: #f1f1f1;
+ z-index:1000;
 }
 .content{
  padding: 16px;
@@ -133,7 +134,19 @@ img:hover{
 @media screen and (max-height: 450px){
  .sidebar {padding-top: 15px;}
  .sidebar a {font-size: 18px;}
-} 
+}
+ul, #myUL{list-style-type:none;}
+#myUL{margin:0;padding:0;}
+.caret{cursor: pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+.caret::before{content:"\25B6";color:white;display:inline-block;margin-right:6px;}
+.caret:hover{color:gold;font-size:20px;font-weight:bolder;}
+.caret-down::before{-ms-transform: rotate(90deg);-webkit-transform:rotate(90deg);transform:rotate(90deg);}
+.nested{display:none;}
+.active{display:block;}
+.simple{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+.simple:hover{color:violet;font-size:20px;font-weight:bolder;font-style:italic}
+.simple::before{content:"\25B6";color:transparent;display:inline-block;margin-right:6px;}
+.center-header{font-size:16px;color:white;} 
 </style>
 <div class="header" id="myHeader">
 <div id="mySidebar" class="sidebar">
@@ -190,14 +203,16 @@ img:hover{
  <tr>
   <td>
    <input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
-   <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'>Search</button>
+   <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12' title='Search by Card-Name or Card-Id'></button>
    <button id='myBtnHelp' onclick='myHelp()'>?</button>
-   <font size='2' color='White'><i><small>Columns per row</i></small>
-   <input type='number' id='myColumns' oninput='columnsValueChange()' size='1' maxlength='1' value='6' min='1' max='6'>
+   <font size='2' color='White'><i><small>Cols</small></i></font>
+   <input type='number' id='myColumns' oninput='columnsValueChange()' size='1' maxlength='1' value='6' min='1' max='6' title='Columns per row'>
    &nbsp;
    <button id='myBtnRnd' onclick='myRndSearch()'><img src="random-icon.png" width='12' height='12'>Random</button>
-   <font size='2' color='White'><i><small>Append random result</i></small>
+   <font size='2' color='White'><i><small>Append random result</small></i></font>
    <input type='checkbox' id='myChkAppend'>
+   <font size='2' color='White'><i><small><label for="myView" title='Tree/Grid View'>Tree</label></small></i></font>
+   <input type='checkbox' id='myView' onclick='chooseView()' title='Tree/Grid View'>
   </td>
  </tr>
 
@@ -213,6 +228,7 @@ document.getElementById('myBtn').click();
 });
 </script>
 <div id='center-header'><table id="myTable">
+<div id='myTree'></div>
 </div>
 <script src="AlteredCardsXml.js" type="text/javascript"></script>
 <script src="AlteredCardsAlbum.js" type="text/javascript"></script>

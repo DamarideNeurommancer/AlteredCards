@@ -16,6 +16,8 @@ function myParseCards(){
 }
 
 function mySearch(MaxColumns){
+ if(MaxColumns<=0)
+  return;
  var setNo="1";
  if(MaxColumns!="undefined"){
   var myList=document.getElementById("mySets");
