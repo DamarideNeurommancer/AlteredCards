@@ -85,6 +85,12 @@ img:hover{
  -ms-transform:scale(1.2);
  -webkit-transform:scale(1.2);
 }
+.swal2-popup{
+ font-size: 0.6rem;
+ text-align: left;
+ background: White;
+ border-radius: 80px; 
+}
 .sidebar{
  height: 100%;
  width: 0;
@@ -206,7 +212,7 @@ ul, #myUL{list-style-type:none;}
    <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12' title='Search by Card-Name or Card-Id'></button>
    <button id='myBtnHelp' onclick='myHelp()'>?</button>
    <font size='2' color='White'><i><small>Cols</small></i></font>
-   <input type='number' id='myColumns' oninput='columnsValueChange()' size='1' maxlength='1' value='6' min='1' max='6' title='Columns per row'>
+   <input type='number' id='myColumns' oninput='columnsValueChange()' size='2' maxlength='1' value='6' min='1' max='6' title='Columns per row'>
    &nbsp;
    <button id='myBtnRnd' onclick='myRndSearch()'><img src="random-icon.png" width='12' height='12'>Random</button>
    <font size='2' color='White'><i><small>Append random result</small></i></font>
