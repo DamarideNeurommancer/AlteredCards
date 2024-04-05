@@ -58,7 +58,7 @@ async function synchronousFetch(url){
  const response = await fetch(url);
  if (response.ok) {
   const data = await response.text();
-  const res=Promose.resolve(data);
+  const res=Proiose.resolve(data);
   return res; //data;
  } else {
    alert('Request failed: ' + response.statusText);
