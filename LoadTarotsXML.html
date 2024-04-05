@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang='en-US'>
+<head>
+<title>DamarideNeurommancer | AlterSleeves Cards</title>
+</head>
+   <body>
+   <div id='myTree'></div>
+   <script>
+var bxmlParsed=false;
+var xmlDoc,catalog,totXmlTarots;
+var xmlTarots="";
+const myTree=document.getElementById('myTree');
+
+function treeSearch(){
+ if(bxmlParsed==false){myParseTarots();}
+ 
+ myTree.innerHTML="";
+ var CardURL="index_AlteredSets.html?set=1";
+ var buf=[];
+ buf.push('<ul><li><span>Tarots</span><ul>');
+ for(var i=0;i<totXmlTarots;i++){
+  var book=catalog.childNodes[i];
+  var CardID=book.attributes[0].nodeValue;
+  var CardNAME=book.attributes[2].nodeValue;
+  var href="<a href='"+CardURL+"'><img src='./tarots/"+CardID+".webp' alt='"+CardID+"' style='width:40px;height:52px;border-radius:2px;' title=\""+CardID+" "+CardNAME+"\"></a>";
+  buf.push('<li><span class="simple">'+href+' '+CardID+' \"'+CardNAME+'\"</span></li>');
+ }
+ buf.push("</ul></li></ul>");
+ myTree.innerHTML=buf.join('');
+ buf=[]; 
+}
+
+function init(){
+try {
+ const url = 'https://damarideneurommancer.github.io/AlteredCards/TarotsXml.xml';
+ const responseData = synchronousFetch(url);
+ console.log('Response data:', responseData);
+ xmlTarots=responseData;
+ myParseTarots();
+ treeSearch();
+ } catch (error) {
+  console.log('Error:', error.message);
+  alert(error.message);
+}
+}
+
+function myParseTarots(){
+ var parser=new DOMParser();
+ xmlDoc=parser.parseFromString(xmlTarots,"text/xml");
+ catalog=xmlDoc.getElementsByTagName('Tarots')[0];
+ totXmlTarots=catalog.childElementCount;
+ bxmlParsed=true;
+}
+
+
+async function synchronousFetch(url){
+ const response = await fetch(url);
+ if (response.ok) {
+  const data = await response.text();
+  return data;
+ } else {
+   alert('Request failed: ' + response.statusText);
+ }
+}
+
+init();
+
+   </script>
+   
+   </body>
+</html>
