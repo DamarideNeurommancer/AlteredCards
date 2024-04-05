@@ -163,33 +163,28 @@ function BirthDateTarots(){
  var tarots=getBDTarots(sum);
  var t1=tarots[0],t2=tarots[1],t3=tarots[2];
  clearPanel();
- //if(!isMobile()&&!x.matches){
-  if(t2!=0){
-   myPanel.style.gridTemplateColumns=gridString(3,200);
-   myPanel.style.gridTemplateRows=gridString(1,330);
-  }
-  else{
-   myPanel.style.gridTemplateColumns=gridString(2,200);
-   myPanel.style.gridTemplateRows=gridString(1,330);
-  }
-  drawTaroc(t1,1,"Left Card");
-  if(t2!=0){
-   drawTaroc(t2,2,"Middle Card");
-   drawTaroc(t3,3,"Right Card");
-  }
-  else{
-   drawTaroc(t3,2,"Right Card");
-  }
+ if(t2!=0){
+  myPanel.style.gridTemplateColumns=gridString(3,200);
+  myPanel.style.gridTemplateRows=gridString(1,330);
+ }
+ else{
+  myPanel.style.gridTemplateColumns=gridString(2,200);
+  myPanel.style.gridTemplateRows=gridString(1,330);
+ }
+ drawTaroc(t1,1,"Left Card");
+ if(t2!=0){
+  drawTaroc(t2,2,"Middle Card");
+  drawTaroc(t3,3,"Right Card");
+ }
+ else{
+  drawTaroc(t3,2,"Right Card");
+ }
  drawDetails(t1,0,0,1);
  panel.scrollTo(0,0);  
 }
 
 function drawTaroc(idx,idgrid,note,rev=0){
  book=catalog.childNodes[idx];
- /*if(book==null||book=="undefined")
- {
-  console.log("book undefined: idx="+idx);
- }*/
  var CardID=book.attributes[0].nodeValue;
  var title = CardID+" - "+book.attributes[2].nodeValue;
  //Upright_Keywords
@@ -204,7 +199,7 @@ function drawTaroc(idx,idgrid,note,rev=0){
  <p style="color:white;font-size:12px;font-style:italic" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")'>${uk}</p>
  <div>
    <a href="${setURL}"><img class="modal-content" src="${tFilename}" alt="${title}" title="${title}" height="218px"></a>
-   <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")'>${note}  <button id="${idx}" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")' title='Details' style="background-color:gold;font-size:4px;cursor:cell">&#9658;</button>&emsp;<button id="z${idx}" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' title='Zoom-In' style="background-color:gold;font-size:4px;cursor:zoom-in">+</button></p>
+   <p style="color:white;font-size:10px;font-style:italic" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")'>${note}  <button id="${idx}" onclick='drawDetails("${idx}","${rev}",1,"${idgrid}")' title='Details' style="background-color:gold;font-size:8px;cursor:cell">&#9658;</button>&emsp;<button id="z${idx}" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' title='Zoom-In' style="background-color:gold;font-size:8px;cursor:zoom-in">+</button></p>
   </div>
  </div>`;
  myPanel.innerHTML+=CardsHTML; 
@@ -289,7 +284,6 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
   tFilename+="_R";
  }
  tFilename+=".webp";
- //cell.innerHTML=_Description;
  cell.innerHTML=`<img src="${tFilename}" alt="${title}" title="${title}" width="15px" height="24px" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' style='cursor:zoom-in'> ${_Description}`;
  
  // Upright
@@ -307,45 +301,18 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  cell.style.backgroundColor="Black";
  cell.style.fontWeight="bolder";
  cell.style.color="gold";
- //cell.innerHTML=_Upright.replaceAll("\r\n","<br>").replaceAll("&quot;","'");
- //cell.innerHTML=`<button onclick="topFunction()" id="myBtnTop" title="Go to top">Top</button> ${_Upright}`;
  cell.innerHTML=`${_Upright}<br><button id="myBtnTop" onclick='topFunction(${idgrid})' title="Go up &#x25B2;">&#x25B2;</button>`;
  if(bSpeech)
   cell.innerHTML+=getText2SpeechHTML(); 
  if(moveTo==1)
   myDetails.scrollIntoView();
- 
- /**
- mybody.style.backgroundImage="url('"+ tFilename+"')";
- mybody.style.backgroundAttachment="fixed";
- mybody.style.backgroundRepeat="no-repeat";//"repeat-y";
- mybody.style.backgroundPosition="center"; 
- //mybody.style.backgroundSize="cover";
- **/
- /*else{
- document.getElementById("g"+idgrid).style.backgroundColor="darkblue";
- document.getElementById("g"+idgrid).style.boxShadow="1px 2px lightblue";
- }*/
  selectBox(idgrid);
- /*
- console.log("Spread: ",spreadNo);
- const gridComputedStyle = window.getComputedStyle(myPanel);
- // get number of grid rows
- const gridRowCount = gridComputedStyle.getPropertyValue("grid-template-rows").split(" ").length;
- // get number of grid columns
- const gridColumnCount = gridComputedStyle.getPropertyValue("grid-template-columns").split(" ").length;
- console.log("GRID RxC= "+gridRowCount+" x "+gridColumnCount);
- */
 }
 
 function selectBox(idgrid){
- //console.log("Spread: ",spreadNo);
  const gridComputedStyle=window.getComputedStyle(myPanel);
- // get number of grid rows
  const gridRowCount=gridComputedStyle.getPropertyValue("grid-template-rows").split(" ").length;
- // get number of grid columns
  const gridColumnCount=gridComputedStyle.getPropertyValue("grid-template-columns").split(" ").length;
- //console.log("GRID RxC= "+gridRowCount+" x "+gridColumnCount);
  for(var r=1;r<=gridRowCount;r++){
   for(var c=1;c<=gridColumnCount;c++){
    var idx=((r-1)*gridColumnCount)+c;
@@ -355,7 +322,7 @@ function selectBox(idgrid){
       document.getElementById(elem).style.backgroundColor="darkblue";
       document.getElementById(elem).style.boxShadow="1px 2px lightblue";
       //document.getElementById(elem).style.borderRadius="10px";
-      // NON lo fare!!!
+      // No!!!
       //myDetails.scrollIntoView();
      }
      else
@@ -457,6 +424,7 @@ function myHelp(){
    imageHeight: 104,
    confirmButtonColor: "Black",
    padding: 1,
+   position: (bMobile?'top-left':''),
   })
  }
  catch{alert(sHelp);}
@@ -694,23 +662,13 @@ function exDrawTarots(spread){
    break;
   case 9:
    maxCards=2;
-   //if(!bMobile){
-    myPanel.style.gridTemplateColumns=gridString(22,20);
-    myPanel.style.gridTemplateRows=gridString(1,330);
-   /*}else{
-     myPanel.style.gridTemplateColumns=gridString(1,300);
-     myPanel.style.gridTemplateRows=gridString(22,20);
-   }*/
+   myPanel.style.gridTemplateColumns=gridString(22,20);
+   myPanel.style.gridTemplateRows=gridString(1,330);
    break;
   case 10:
    maxCards=6;
-   //if(!bMobile){
-    myPanel.style.gridTemplateColumns=gridString(22,20);
-    myPanel.style.gridTemplateRows=gridString(1,330);
-   /*}else{
-     myPanel.style.gridTemplateColumns=gridString(1,300);
-     myPanel.style.gridTemplateRows=gridString(22,20);
-   }*/
+   myPanel.style.gridTemplateColumns=gridString(22,20);
+   myPanel.style.gridTemplateRows=gridString(1,330);
    break;
   default:
    break;
@@ -959,6 +917,7 @@ function myCredits(){
    imageHeight: 104,
    confirmButtonColor: "Black",
    padding: 1,
+   position: (bMobile?'top-left':''),
   })
  }
  catch{alert(sCredits);}
@@ -1132,72 +1091,39 @@ function getAllAnimalSign(sign){
 
 function drawTarocBack(idx,idgrid){
  book=catalog.childNodes[idx];
- /*if(book==null||book=="undefined")
- {
-  console.log("book undefined: idx="+idx);
- }*/
  var CardID=book.attributes[0].nodeValue;
  var title = CardID+" - "+book.attributes[2].nodeValue; 
- /**
- var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="background-image:url('./tarots/Back.webp');background-size:100% 100%;background-repeat:no-repeat;">
- <div>
-   <img src="${tFilename}" alt="${title}" title="${title}" height="218px" style='visibility:hidden'>
-  </div>
- </div>`;
- **/
  var back="./tarots/Back3.webp";
  if(spreadNo==10)
   back="./tarots/Back2.webp";
  
- var style=`background-image:url('${back}');background-size:100% 100%;background-repeat:no-repeat;border-color:gold;cursor:pointer;border-top-left-radius: 6px;border-bottom-left-radius: 6px;`;
+ var style=`background-image:url('${back}');background-size:100% 100%;background-repeat:no-repeat;border-color:gold;cursor:pointer;border-top-left-radius:6px;border-bottom-left-radius:6px;`;
  if(idgrid==22){
   style=`background-image:url('${back}');background-size:100% 100%;background-repeat:no-repeat;border-color:gold;cursor:pointer;border-radius:6px;`;
  }
- var CardsHTML=`<div id="b${idgrid}" class="box" onclick='showTarots("${idx}","${idgrid}")' style="${style}"></div>`;
+ var CardsHTML=`<div id="b${idgrid}" class="box1" onclick='showTarots("${idx}","${idgrid}")' style="${style}"></div>`;
  myPanel.innerHTML+=CardsHTML;
- //if(!bMobile&&idgrid==22){
  if(idgrid==22){
    var b22=document.getElementById("b22");
    b22.style.width="200px";
  }
- 
- /*
- if(idgrid==22){
-   var b22=document.getElementById("b22");
-   if(!bMobile)
-    b22.style.width="200px";
-   else
-    b22.style.height="200px";
- }
- */
 }
 
 function showTarots(idx,idgrid){
  const HIDDEN="hidden";
  if(cntClicks<maxCards){
+  for(var i=0;i<maxCards;i++){
+   if(chosenCards[i]==idx)
+    return;
+  }
   chosenCards.push(idx);
   var id=document.getElementById("b"+idgrid);
-  id.style.visibility=HIDDEN;
+  id.style.filter="invert(100%)";
+  id.style.cursor="not-allowed";
   cntClicks++;
   if(cntClicks==maxCards){
    exDrawChosen(spreadNo);
   }
-  //if(!bMobile){
-   var last=22;
-   for(var i=22;i>0;i--){
-    var idt=document.getElementById("b"+i);
-    if(idt.style.visibility!=HIDDEN){
-     if(i==last){
-      //if(!bMobile)
-       idt.style.width="200px";
-      //else
-       //idt.style.height="200px";
-      break;
-     }
-    }
-    last--;
-   }
-  //}//
  }
  else{
   exDrawChosen(spreadNo);

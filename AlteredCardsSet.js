@@ -9,6 +9,7 @@ var totCards=document.getElementById('totalCards');
 var myCols=document.getElementById('myColumns');
 const header=document.getElementById('myHeader');
 var bRequest=false;
+var bMobile=isMobile();
 function myParseCards(){
  var parser=new DOMParser();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
@@ -16,6 +17,13 @@ function myParseCards(){
 }
 
 function mySearch(MaxColumns){
+ if(MaxColumns===null||MaxColumns==undefined||MaxColumns==="undefined"){
+  if(!bMobile)
+   MaxColumns=6;
+  else
+   MaxColumns=2;
+  myCols.value=MaxColumns;
+ }
  if(MaxColumns<=0)
   return;
  var setNo="1";
@@ -118,3 +126,6 @@ document.addEventListener('click',function handleClickOutside(event){
   closeNav();
  }
 });
+function isMobile(){
+ return(window.orientation!=null&&window.orientation!="undefined");
+}

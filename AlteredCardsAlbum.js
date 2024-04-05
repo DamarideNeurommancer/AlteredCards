@@ -311,7 +311,7 @@ function treeSearch(MaxColumns){
  totCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves"+(RelatedCnt>0?" ("+RelatedCnt+" related)":"");
  if(CardCnt>0){
   myTree.innerHTML=buf.join('');
-  myTree.style.fontSize="16px";
+  myTree.style.fontSize=!bMobile?"16px":"12px";
   treeClick();
   buf=[];
  //totCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves ("+RelatedCnt+" related)";
