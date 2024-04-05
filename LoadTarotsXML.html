@@ -35,7 +35,6 @@ try {
  const responseData = synchronousFetch(url);
  console.log('Response data:', responseData);
  xmlTarots=responseData;
- dataAsJson = JSON.parse(convert.xml2json(responseData))
  myParseTarots();
  treeSearch();
  } catch (error) {
@@ -46,7 +45,7 @@ try {
 
 function myParseTarots(){
  var parser=new DOMParser();
- xmlDoc=parser.parseFromString(xmlTarots,"text/xml");
+ xmlDoc=parser.parseFromString(xmlTarots,"application/xml");
  catalog=xmlDoc.getElementsByTagName('Tarots')[0];
  totXmlTarots=catalog.childElementCount;
  bxmlParsed=true;
