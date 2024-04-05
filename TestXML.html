@@ -54,12 +54,14 @@
 				// Request finished and response 
 				// is ready and Status is "OK"
 				if (this.readyState == 4 && this.status == 200) {
-					empDetails(this);
+					//empDetails(this);
+					taroysDetails(this);
 				}
 			};
 
 			// employee.xml is the external xml file
-			xmlhttp.open("GET", "employee.xml", true);
+			//xmlhttp.open("GET", "employee.xml", true);
+			xmlhttp.open("GET", "TarotsXml.xml", true);
 			xmlhttp.send();
 		}
 
@@ -93,6 +95,26 @@
 			// Print the xml data in table form
 			document.getElementById("id").innerHTML = table;
 		}
+		
+function taroysDetails(xml){
+ let xmlDoc = xml.responseXML;
+ catalog=xmlDoc.getElementsByTagName('Tarots')[0];
+ totXmlTarots=catalog.childElementCount;
+ myTree.innerHTML="";
+ var CardURL="index_AlteredSets.html?set=1";
+ var buf=[];
+ buf.push('<ul><li><span>Tarots</span><ul>');
+ for(var i=0;i<totXmlTarots;i++){
+  var book=catalog.childNodes[i];
+  var CardID=book.attributes[0].nodeValue;
+  var CardNAME=book.attributes[2].nodeValue;
+  var href="<a href='"+CardURL+"'><img src='./tarots/"+CardID+".webp' alt='"+CardID+"' style='width:40px;height:52px;border-radius:2px;' title=\""+CardID+" "+CardNAME+"\"></a>";
+  buf.push('<li><span class="simple">'+href+' '+CardID+' \"'+CardNAME+'\"</span></li>');
+ }
+ buf.push("</ul></li></ul>");
+ document.getElementById("myTree").innerHTML=buf.join('');
+ buf=[]; 
+}
 	</script>
 </head>
 
@@ -105,6 +127,7 @@
 
 	<br><br>
 	<table id="id"></table>
+	<div id='myTree'></div>
 </body>
 
 </html>
