@@ -10,6 +10,7 @@ const myChkApp=document.getElementById('myChkAppend');
 const myTree=document.getElementById('myTree');
 const myView=document.getElementById('myView');
 var bMobile=isMobile();
+var cw;
 function myParseCards(){
  var parser=new DOMParser();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
@@ -51,6 +52,12 @@ function gridSearch(MaxColumns){
  else
   nCols=myCols.value;
 
+ var imgW=192;
+ var imgH=266;
+ if(bMobile){
+  imgW=cw/(nCols>6)?6:nCols);
+  imgH=(cw*1.38);
+ }
  var row,cell;
  for (var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
@@ -65,7 +72,8 @@ function gridSearch(MaxColumns){
     row=table.rows[table.rows.length-1];
 
    cell=row.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:192px;height:266px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+   //cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:192px;height:266px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
    if(bIsCardID==true){
     var RelatedCards=book.attributes[3].nodeValue;
     if(RelatedCards!=""){
@@ -319,6 +327,7 @@ function treeSearch(MaxColumns){
  window.scrollTo(0,0);
 }
 function isMobile(){
+ cw=document.documentElement.clientWidth;
  return(window.orientation!=null&&window.orientation!="undefined");
 }
 function inputValueChange(){
