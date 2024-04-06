@@ -19,7 +19,7 @@ function myParseCards(){
 }
 
 function mySearch(MaxColumns){
- if(MaxColumns===null||MaxColumns==undefined||MaxColumns==="undefined"||MaxColumns==0){
+ if(MaxColumns===null||MaxColumns==undefined||MaxColumns==="undefined"){
   if(!bMobile)
    MaxColumns=6;
   else
@@ -314,12 +314,25 @@ function treeSearch(MaxColumns){
   myTree.style.fontSize=!bMobile?"16px":"12px";
   treeClick();
   buf=[];
- //totCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves ("+RelatedCnt+" related)";
- //if(filter!="")
   expandAll();
  }
  window.scrollTo(0,0);
 }
 function isMobile(){
  return(window.orientation!=null&&window.orientation!="undefined");
+}
+function inputValueChange(){
+ if(bMobile){
+  var input=document.getElementById("myInput");
+  var filter=input.value.replaceAll("*"," ").replaceAll("%"," ").trim();
+  var lb=document.getElementById("lb1");
+  if(filter==""){
+   myView.style.visibility="hidden";
+   lb.style.visibility="hidden";
+  }
+  else{
+   myView.style.visibility="visible";
+   lb.style.visibility="visible";
+  }
+ } 
 }

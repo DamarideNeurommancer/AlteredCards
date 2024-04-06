@@ -211,7 +211,7 @@ li{padding-left:20px;}
  <table>
  <tr>
   <td>
-   <input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
+   <input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true' oninput='inputValueChange()'>
    <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12' title='Search by Card-Name or Card-Id'></button>
    <button id='myBtnHelp' onclick='myHelp()'>?</button>
    <font size='2' color='White'><i><small>Cols</small></i></font>
@@ -220,7 +220,7 @@ li{padding-left:20px;}
    <button id='myBtnRnd' onclick='myRndSearch()'><img src="random-icon.png" width='12' height='12'>Random</button>
    <font size='2' color='White'><i><small>Append random result</small></i></font>
    <input type='checkbox' id='myChkAppend'>
-   <font size='2' color='White'><i><small><label for="myView" title='Tree/Grid View'>Tree</label></small></i></font>
+   <font size='2' color='White'><i><small><label for="myView" id="lb1" title='Tree/Grid View'>Tree</label></small></i></font>
    <input type='checkbox' id='myView' onclick='chooseView()' title='Tree/Grid View'>
   </td>
  </tr>
