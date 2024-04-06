@@ -113,6 +113,11 @@ function isMobile()
  bMobile=(window.orientation!=null&&window.orientation!="undefined");
  if(bMobile){
   imgW=(document.documentElement.clientWidth/2)-8;
-  imgH=Math.round(imgW*1.38);
+  if(imgW>192){
+   imgW=192;
+   imgH=266;
+  }
+  else
+   imgH=Math.round(imgW*1.38);
  }
 }
