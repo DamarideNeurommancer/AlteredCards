@@ -56,7 +56,7 @@ function gridSearch(MaxColumns){
  var imgH=266;
  if(bMobile){
   //imgW=(cw/(nCols>6?6:nCols))-4;
-  imgW=(cw/2)-6);
+  imgW=(cw/2)-6;
   imgH=Math.round(imgW*1.38);
  }
  var row,cell;
