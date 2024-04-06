@@ -55,8 +55,8 @@ function gridSearch(MaxColumns){
  var imgW=192;
  var imgH=266;
  if(bMobile){
-  imgW=cw/(nCols>6?6:nCols);
-  imgH=(cw*1.38);
+  imgW=(cw/(nCols>6?6:nCols)-4;
+  imgH=Math.round(imgW*1.38);
  }
  var row,cell;
  for (var i=0;i<totXmlCards;i++){
