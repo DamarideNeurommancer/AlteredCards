@@ -9,8 +9,9 @@ const header=document.getElementById('myHeader');
 const myChkApp=document.getElementById('myChkAppend');
 const myTree=document.getElementById('myTree');
 const myView=document.getElementById('myView');
-var bMobile=isMobile();
-var cw;
+var imgW=192;
+var imgH=266;
+isMobile();
 function myParseCards(){
  var parser=new DOMParser();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
@@ -52,13 +53,11 @@ function gridSearch(MaxColumns){
  else
   nCols=myCols.value;
 
- var imgW=192;
- var imgH=266;
- if(bMobile){
+ /*if(bMobile){
   //imgW=(cw/(nCols>6?6:nCols))-4;
-  imgW=(cw/2)-6;
+  imgW=(cw/2)-8;
   imgH=Math.round(imgW*1.38);
- }
+ }*/
  var row,cell;
  for (var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
@@ -73,7 +72,6 @@ function gridSearch(MaxColumns){
     row=table.rows[table.rows.length-1];
 
    cell=row.insertCell(-1);
-   //cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:192px;height:266px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
    cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
    if(bIsCardID==true){
     var RelatedCards=book.attributes[3].nodeValue;
@@ -112,7 +110,7 @@ function mySearchCardID(Look4CardID,lastRow){
    var CardNAME=book.attributes[1].nodeValue;
    var CardURL=URLRoot+book.attributes[2].nodeValue;
    var cell=lastRow.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:192px;height:266px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";    
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";    
    break;
   }
  }
@@ -182,7 +180,7 @@ function myRndSearch(){
   row=table.rows[totRows-1];
 
  cell=row.insertCell(-1);
- cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID + "' style='width:192px;height:266px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+ cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID + "' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
   
  if(bAppendResult==true)
   row.scrollIntoView({behavior: "smooth"});
@@ -328,8 +326,11 @@ function treeSearch(MaxColumns){
  window.scrollTo(0,0);
 }
 function isMobile(){
- cw=document.documentElement.clientWidth;
- return(window.orientation!=null&&window.orientation!="undefined");
+ bMobile=(window.orientation!=null&&window.orientation!="undefined");
+ if(bMobile){
+  imgW=(document.documentElement.clientWidth/2)-8;
+  imgH=Math.round(imgW*1.38);
+ }
 }
 function inputValueChange(){
  if(bMobile){
