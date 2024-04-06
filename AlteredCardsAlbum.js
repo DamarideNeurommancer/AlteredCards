@@ -11,6 +11,7 @@ const myTree=document.getElementById('myTree');
 const myView=document.getElementById('myView');
 var imgW=192;
 var imgH=266;
+var bMobile=false;
 isMobile();
 function myParseCards(){
  var parser=new DOMParser();
