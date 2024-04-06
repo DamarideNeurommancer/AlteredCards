@@ -2,29 +2,24 @@
 
 <head>
 	<title>Reads the XML data using JavaScript</title>
-
 	<!-- CSS -->
 	<style>
 		table {
 			border-collapse: collapse;
 			width: 100%;
 		}
-
 		th,
 		td {
 			text-align: left;
 			padding: 8px;
 		}
-
 		tr:nth-child(even) {
 			background-color: #7ce2af
 		}
-
 		th {
 			background-color: #7c0f65;
 			color: white;
 		}
-
 		.button {
 			position: relative;
 			text-align: center;
@@ -36,18 +31,16 @@
 			border-radius: 30px;
 			font-size: 30px;
 			width: 500px;
-
 		}
-
 		.button:hover {
 			color: black;
 			background: white;
 		}
 	</style>
-
 	<!--JavaScript-->
 	<script>
-		function loadXMLDoc() {
+//https://www.geeksforgeeks.org/read-xml-file-and-print-the-details-as-tabular-data-by-using-javascript/
+    function loadXMLDoc() {
 			let xmlhttp = new XMLHttpRequest();
 			xmlhttp.onreadystatechange = function () {
 
@@ -113,7 +106,22 @@ function taroysDetails(xml){
  }
  buf.push("</ul></li></ul>");
  document.getElementById("myTree").innerHTML=buf.join('');
- buf=[]; 
+ buf=[];
+ info(); 
+}
+
+function info(){
+var ratio = window.devicePixelRatio || 1;
+var is_touch_device = 'ontouchstart' in document.documentElement;
+var touch_status = (is_touch_device) ? 'touch' : 'no-touch';
+touch_status = ' ts:' + touch_status;
+var width_height = 'wh:' + screen.width + 'x' + screen.height;
+var client_width_height = ' cwh:' + document.documentElement.clientWidth + 'x' + document.documentElement.clientHeight;
+var rw = screen.width * ratio;
+var rh = screen.height * ratio;
+var ratio_width_height = ' r:' + ratio + ' rwh:' + rw + 'x' + rh;
+var data_string = width_height + client_width_height + ratio_width_height + touch_status;
+alert (data_string);
 }
 	</script>
 </head>
