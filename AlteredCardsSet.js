@@ -9,7 +9,10 @@ var totCards=document.getElementById('totalCards');
 var myCols=document.getElementById('myColumns');
 const header=document.getElementById('myHeader');
 var bRequest=false;
-var bMobile=isMobile();
+var bMobile=false;
+var imgW=192;
+var imgH=266;
+isMobile();
 function myParseCards(){
  var parser=new DOMParser();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
@@ -74,7 +77,7 @@ function mySearch(MaxColumns){
     row=table.rows[table.rows.length-1];
 
    cell=row.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:192px;height:266px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
   }
  }
  totCards.innerHTML="<font size='1'>Found "+CardCnt+" cards in this Set";
@@ -127,5 +130,9 @@ document.addEventListener('click',function handleClickOutside(event){
  }
 });
 function isMobile(){
- return(window.orientation!=null&&window.orientation!="undefined");
+ bMobile=(window.orientation!=null&&window.orientation!="undefined");
+ if(bMobile){
+  imgW=(document.documentElement.clientWidth/2)-8;
+  imgH=Math.round(imgW*1.38);
+ }
 }

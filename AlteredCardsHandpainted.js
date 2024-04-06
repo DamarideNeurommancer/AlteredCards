@@ -10,12 +10,14 @@ const modalImg=document.getElementById("img01");
 const caption_md=document.getElementById("caption_md");
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
-
+var bMobile=false;
+var imgW=192;
+var imgH=266;
+isMobile();
 function myParseCards(){
  var parser=new DOMParser();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
  bxmlParsed=true;
- bMobile=isMobile();
 }
 
 function mySearch(){
@@ -42,7 +44,7 @@ function mySearch(){
     row=table.rows[table.rows.length-1];
 
    cell=row.insertCell(-1);
-   cell.innerHTML="<img src='"+CardID+".webp' alt='"+CardID+"' style='width:192px;height:266px;border-radius:10px;cursor:zoom-in;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br><a href='"+CardURL+"'>"+CardNAME+"</font></a>";
+   cell.innerHTML="<img src='"+CardID+".webp' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;cursor:zoom-in;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br><a href='"+CardURL+"'>"+CardNAME+"</font></a>";
    cell.addEventListener('click',function(){
    myPopup(this);
    });
@@ -108,5 +110,9 @@ document.addEventListener('click',function handleClickOutside(event){
 });
 function isMobile()
 {
- return(window.orientation!=null&&window.orientation!="undefined");
+ bMobile=(window.orientation!=null&&window.orientation!="undefined");
+ if(bMobile){
+  imgW=(document.documentElement.clientWidth/2)-8;
+  imgH=Math.round(imgW*1.38);
+ }
 }
