@@ -24,7 +24,7 @@ function mySearch(){
  var CardCnt=0;
  var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var totXmlCards=catalog.childElementCount;
- var nCols=(bMobile?2:6);
+ var nCols=(bMobile?2:3);
  var row,cell;
  for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
