@@ -35,7 +35,7 @@ function mySearch(){
  var numCardID=parseInt(filter);
  if(Number.isInteger(numCardID))
   bIsCardID=true;
- if(bxmlParsed==false){myParseCards();}
+ if(bxmlParsed==false){myParseCardsEx();}
  table.innerHTML="";   
  prevIx=null;
  prevTr=null;
@@ -288,7 +288,7 @@ function getRndInt(max){
 }
 
 function myRndSearch(){
- if(bxmlParsed==false){myParseCards();}
+ if(bxmlParsed==false){myParseCardsEx();}
  var rndCard=getRndInt(totXmlCards);
  var bAppendResult=appendResult.checked;
  var CardCnt=0;
