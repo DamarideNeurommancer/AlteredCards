@@ -1,5 +1,3 @@
-var bxmlParsed=false;
-var xmlDoc;
 var rndCard=-1;
 const canvas=document.getElementById('mycanvas');
 const context=canvas.getContext('2d');
@@ -16,21 +14,12 @@ const modalPopupImg=document.getElementById("img02");
 const scryfall=document.getElementById("scryfall");
 const originalImage=new Image();
 var CardURL="";
-function myParseCards(){
- var parser=new DOMParser();
- xmlDoc=parser.parseFromString(xmlCards,"text/xml");
- bxmlParsed=true;
-}
 
 function mySearch(){
- if(bxmlParsed==false){
-   myParseCards();
- } 
+ if(bxmlParsed==false){myParseCards();} 
  modalImg.style.visibility="hidden";
  captionText.innerHTML="";
  resultText.innerHTML="";
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- var totXmlCards=catalog.childElementCount;
  rndCard=getRndInt(totXmlCards); 
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
@@ -76,8 +65,7 @@ function myCheck()
   return;
  var input,filter;
  input=document.getElementById("myInput");
- filter=input.value.replaceAll("*"," ").replaceAll("%"," ").trim().toUpperCase(); 
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
+ filter=input.value.replaceAll("*"," ").replaceAll("%"," ").trim().toUpperCase();
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
@@ -113,7 +101,7 @@ function myResult(msg,imgurl,imgtitle,url){
 }
 
 function myHelp(){
- var sHelp ="Click 'New' button to get a new card or simply pat the image.\nEnter your guessed card's name and hit return.\nClick 'Check' button to unveil the whole card.\nClick the shown card or press the 'Zoom In' button and in the popup you have links to Alter Sleeves and to Scryfall.\nOnce unveiled you can share the card's AlterSleeves Link.";
+ var sHelp ="Click 'New' button to get a new card or simply pat the image.\nEnter your guessed card's name and hit return.\nClick 'Check' button to unveil the whole card.\nClick the shown card or press the 'Zoom In' button and in the popup you have links to Alter Sleeves and to Scryfall.\nOnce unveiled, on mobile, you can share the card's AlterSleeves Link.";
  var title="";
  var imageUrl="";
  if(modalImg.style.visibility=="hidden")

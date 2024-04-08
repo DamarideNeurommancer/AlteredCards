@@ -1,5 +1,4 @@
- var bxmlParsed=false;
-var xmlDoc,bSpeech;
+var bSpeech;
 var msgSpeech;
 var input=document.getElementById("myInput");
 const table=document.getElementById('myTable');
@@ -17,10 +16,8 @@ const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
 const myContent=document.getElementById('myContent');
 
-function myParseCards(){
- var parser=new DOMParser();
- xmlDoc=parser.parseFromString(xmlCards,"text/xml");
- bxmlParsed=true;   
+function myParseCardsEx(){
+ myParseCards();   
  bSpeech=false;
  if('speechSynthesis' in window){
   bSpeech=true;
@@ -38,15 +35,11 @@ function mySearch(){
  var numCardID=parseInt(filter);
  if(Number.isInteger(numCardID))
   bIsCardID=true;
- if(bxmlParsed==false){
-   myParseCards();
- }
+ if(bxmlParsed==false){myParseCards();}
  table.innerHTML="";   
  prevIx=null;
  prevTr=null;
  var CardCnt=0;
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- var totXmlCards=catalog.childElementCount;
  var row,cell;
 
  for(var i=0;i<totXmlCards;i++){
@@ -122,7 +115,6 @@ function mySearch(){
 
 function addToCell(x,className){  
  var cell=x.parentNode.cells[3];
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var book=catalog.childNodes[cell.innerHTML];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
@@ -186,7 +178,6 @@ function showRelated(index){
  var xmlindex=rowMaster.cells[3].innerText;
  selectRow(rowMaster,'selected');
  rowMaster.scrollIntoView({behavior: "auto"});
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  var book=catalog.childNodes[xmlindex];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;  
@@ -219,7 +210,6 @@ function showRelated(index){
 }
  
 function mySearchRelatedID(Look4CardID,lastRow){
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  for(var i=0;i<catalog.childElementCount;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
@@ -237,7 +227,6 @@ function mySearchRelatedID(Look4CardID,lastRow){
 }
 
 function mySearchCardID(Look4CardID,lastRow){
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
  for(var i=0;i<catalog.childElementCount;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
@@ -299,11 +288,7 @@ function getRndInt(max){
 }
 
 function myRndSearch(){
- if(bxmlParsed==false){
-  myParseCards();
- }
- var catalog=xmlDoc.getElementsByTagName('Cards')[0];
- var totXmlCards=catalog.childElementCount;
+ if(bxmlParsed==false){myParseCards();}
  var rndCard=getRndInt(totXmlCards);
  var bAppendResult=appendResult.checked;
  var CardCnt=0;

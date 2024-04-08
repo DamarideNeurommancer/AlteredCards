@@ -1,5 +1,3 @@
-var bxmlParsed=false;
-var xmlDoc,catalog,totXmlCards;
 const game=document.getElementById('game');
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
@@ -15,22 +13,12 @@ let firstPick;
 let isPaused=true;
 let matches;
 
-function myParseCards(){
- var parser=new DOMParser();
- xmlDoc=parser.parseFromString(xmlCards,"text/xml");
- bxmlParsed=true;
- catalog=xmlDoc.getElementsByTagName('Cards')[0];
- totXmlCards=catalog.childElementCount;   
-}
-
 function getRndInt(max){
  return(Math.floor(Math.random()*max)+1);
 }
 
 function myRndCard(){
- if(bxmlParsed==false){
-  myParseCards();
- }
+ if(bxmlParsed==false){myParseCards();}
  var rndCard = getRndInt(totXmlCards);
  return rndCard;
 }
@@ -215,6 +203,7 @@ function displayCardsLink(CardsList){
    CardFile="./tarots/"+listTarots[CardsList[i]][0]+".webp";
    CardNAME=listTarots[CardsList[i]][1];
   }
+  var lanard="stuka"
   CardsHTML+=`<div class="cardlink"><div class="frontlink"><a href="${CardURL}">
   <img src="${CardFile}" alt="${CardNAME}" style="${CardSTYLE}" title="${CardID} ${CardNAME}"><font style="${CardFONT}"><br>&nbsp;${CardNAME}</font></a>
   </div></div>`;

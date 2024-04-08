@@ -1,5 +1,3 @@
-var bxmlParsed=false;
-var xmlDoc,catalog,totXmlCards;
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
 const table=document.getElementById('myTable');
@@ -13,13 +11,6 @@ var imgW=192;
 var imgH=266;
 var bMobile=false;
 isMobile();
-function myParseCards(){
- var parser=new DOMParser();
- xmlDoc=parser.parseFromString(xmlCards,"text/xml");
- catalog=xmlDoc.getElementsByTagName('Cards')[0];
- totXmlCards=catalog.childElementCount;
- bxmlParsed=true;
-}
 
 function mySearch(MaxColumns){
  if(MaxColumns===null||MaxColumns==undefined||MaxColumns==="undefined"){
@@ -54,11 +45,6 @@ function gridSearch(MaxColumns){
  else
   nCols=myCols.value;
 
- /*if(bMobile){
-  //imgW=(cw/(nCols>6?6:nCols))-4;
-  imgW=(cw/2)-8;
-  imgH=Math.round(imgW*1.38);
- }*/
  var row,cell;
  for (var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
