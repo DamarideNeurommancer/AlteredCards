@@ -104,8 +104,18 @@ function mySearchCardID(Look4CardID,lastRow){
 }
 
 function myHelp(){
- var sHelp="Search by Card-Name or Card-ID.\nCard-ID is a numeric value shown in the tooltip.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nDefault and max value for 'columns per row' is 6, changing that value relaunches the search.\nSwitch view between gridview and treeview with checkbox 'Tree'.";
- sHelp+="\nCards: "+xmlDoc.getElementsByTagName('Cards')[0].childElementCount;
+ var sHelp=`Search by Card-Name or Card-ID.
+ Card-ID is a numeric value shown in the tooltip.
+ When searching by Card-ID you get the card and all its related cards if any.
+ All cards are displayed when a blank search field is given.
+ You can hit 'RETURN' at the end of input text avoiding 'Search' button.
+ Default and max value for 'columns per row' is 6, changing that value relaunches the search.
+ Switch views between gridview and treeview with checkbox 'Tree'.
+ In the sidebar menu there are also entries for:
+ <ul style="background-color:black;"><li><a href="index_Match.html"><img src="match-icon.webp" width='12' height='12'>Match Game</a></li>
+ <li><a href="index_Guess.html"><img src="guess-icon.webp" width='12' height='12' style='background-color:red'>Guess Game</a></li>
+ <li><a href="index_Tarots.html"><img src="./tarots/Back2.webp" width='12' height='12'>Tarots Reading</a></li></ul>`;
+ sHelp+="\nTotal Cards: "+totXmlCards;
  try{
   Swal.fire({
    title: "<span><a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>",
