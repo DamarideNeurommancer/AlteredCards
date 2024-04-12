@@ -142,7 +142,7 @@ function myHelp(){
   var url=prevTd.querySelector('a').getAttribute('href');
   var imgtitle=prevTd.querySelector('img').getAttribute('title');  
   Swal.fire({
-   title: "<span><a style='color:Blue' href='"+url+"'>"+imgtitle+"</a></span>",
+   title: "<span><a style='color:Blue;background-color:white' href='"+url+"'>"+imgtitle+"</a></span>",
    html: "<span style='color:Black'><b>"+sHelp.replaceAll('\n','<br>')+"</b></span>",
    imageUrl: imgurl,
    imageWidth: 80,
