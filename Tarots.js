@@ -191,6 +191,8 @@ function drawTaroc(idx,idgrid,note,rev=0){
  var uk=book.attributes[3].nodeValue;
  var tFilename="./tarots/"+CardID;
  if(rev==1){
+  //Reversed_Keywords
+  uk=book.attributes[4].nodeValue;
   tFilename+="_R";
  }
  tFilename+=".webp";
@@ -223,6 +225,10 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
  var title=CardID+" - "+book.attributes[2].nodeValue;
  //Upright_Keywords
  var uk=book.attributes[3].nodeValue;
+ if(rev==1){
+  //Reversed_Keywords
+  uk=book.attributes[4].nodeValue;
+ }
  var row,cell;
  myDetails.innerHTML="";
  
@@ -284,7 +290,7 @@ function drawDetails(idx,rev=0,moveTo=1,idgrid){
   tFilename+="_R";
  }
  tFilename+=".webp";
- cell.innerHTML=`<img src="${tFilename}" alt="${title}" title="${title}" width="15px" height="24px" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' style='cursor:zoom-in'> ${_Description}`;
+ cell.innerHTML=`<img src="${tFilename}" alt="${title}" title="${title}" width="15px" height="24px" onclick='myPopup("${tFilename}","${title}","${uk}","${rev}")' style='cursor:zoom-in'> ${_Description} <button onclick='topFunction(${idgrid})' title="Go up &#x25B2;" style="background-color:transparent;color:white;font-size:8px;border-radius:6px;">&#x25B2;</button>`;
  
  // Upright
  row=myDetails.insertRow(-1);
