@@ -1,0 +1,350 @@
+<!DOCTYPE html><html lang='en-US'>
+<head>
+<title>DamarideNeurommancer | AlterSleeves Cards
+</title><link rel="icon" type="image/x-icon" href="favicon.ico"><meta name='subtitle' content='DamarideNeurommancer AlterSleeves Cards'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta http-equiv='content-type' content='text/html; charset=Unicode'>
+<meta charset='UTF-16'>
+<meta property='og:title' content='DamarideNeurommancer Archives - Alter Sleeves'>
+<meta name='description' content='DamarideNeurommancer AlterSleeves Cards'>
+<meta name='robots' content='index,follow'>
+<meta name='subject' content='DamarideNeurommancer AlterSleeves Cards'>
+<meta name='language' content='US'>
+<meta name='Classification' content='MTG Cards'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+<meta property='og:locale' content='en_US'>
+<meta property='og:type' content='website'>
+<meta property='og:description' content='Molecular Biotechnologist in the streets, Alterist in the sheets. Requests/suggestions are always welcome! For commissions, send me a PM on Instagram (@DamarideNeurommancer), Twitter (@DamNeurommancer), or ask for my email!'>
+<meta property='og:url' content='https://www.altersleeves.com/seller/damarideneurommancer/'>
+<meta property='og:site_name' content='Alter Sleeves'>
+<script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@9">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet"> 
+</script>
+</head>
+<body style='background-color:#000000' onload="mySearch()">
+<style>
+body{
+ font-family: 'Roboto Condensed', sans-serif;
+ font-size: 8px;
+}
+.header{
+ position: fixed;
+ width: 100%;
+ top: 0;  
+ padding: 2px 4px;
+ background: #555;
+ color: #f1f1f1;
+}
+.table-container{
+ position: flex;
+ overflow-y:auto;
+ margin-bottom: 200px;
+}
+.footer-container{
+ position: fixed;
+ width: 100%;
+ bottom: 0;
+ padding: 2px 4px;
+ overflow-y:hidden;
+ overflow-x:scroll;
+ background: #555;
+ color: #f1f1f1;
+ scrollbar-color: White #555;
+}
+.footer-container::-webkit-scrollbar{
+ background: #555;
+}
+.footer-container::-webkit-scrollbar-thumb{
+ background: White;
+}
+a:link{
+ color: White;
+ background-color: transparent;
+ text-decoration: none;
+}
+a:visited{
+ color: pink;
+ background-color: transparent;
+ text-decoration: none;
+}
+a:hover{
+ color: red;
+ background-color: transparent;
+ text-decoration: underline;
+}
+a:active{
+ color: yellow;
+ background-color: transparent;
+ text-decoration: underline;
+}
+.fa{
+ padding: 3px;
+ font-size: 10px;
+ width: 16px;
+ text-align: center;
+ text-decoration: none;
+ margin: 5px 2px;
+}
+.fa img:hover{
+ opacity: 0.7;
+ border: 0px;
+}
+img:hover{
+ border: 2px solid white;
+}
+table .selected{
+ background-color: White;
+ color: black;
+}
+.swal2-popup{
+ font-size: 0.6rem;
+ text-align: left;
+ background: White;
+ border-radius: 80px; 
+}
+.listTable td{
+ border: 1px solid white;
+ border-radius: 10px;
+}
+.footerTable td{
+  border: 1px solid white;
+  border-radius: 10px;
+}
+.modal{
+ display: none;
+ position: fixed;
+ z-index: 1;
+ padding-top: 100px;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ overflow: auto;
+ background-color: rgb(0,0,0);
+ background-color: rgba(0,0,0,0.9);
+}
+.modal-content{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ border-radius: 20px;
+}
+#caption{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ text-align: center;
+ color: White;
+ padding: 10px 0;
+ height: 20px;
+}
+#scryfall{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ text-align: center;
+}
+.modal-content, #caption, #scryfall{    
+ -webkit-animation-name: zoom;
+ -webkit-animation-duration: 0.6s;
+ animation-name: zoom;
+ animation-duration: 0.6s;
+}
+@-webkit-keyframes zoom{
+ from {-webkit-transform:scale(0)} 
+ to {-webkit-transform:scale(1)}
+}
+@keyframes zoom{
+ from {transform:scale(0)} 
+ to {transform:scale(1)}
+}
+.close{
+ position: absolute;
+ top: 15px;
+ right: 35px;
+ color: #f1f1f1;
+ font-size: 40px;
+ font-weight: bold;
+ transition: 0.3s;
+}
+.close:hover,
+.close:focus{
+ color: #bbb;
+ text-decoration: none;
+ cursor: pointer;
+}
+.sidebar{
+ height: 100%;
+ width: 0;
+ position: fixed;
+ z-index: 1;
+ top: 0;
+ left: 0;
+ background-color: #111;
+ overflow-x: hidden;
+ padding-top: 40px;
+ transition: 0.5s;
+}
+.sidebar a{
+ padding: 8px 8px 1px 32px;
+ text-decoration: none;
+ font-size: 20px;
+ color: White;
+ display: block;
+ transition: 0.3s;
+}
+.sidebar a:hover{
+ color: black;
+ background: DarkKhaki;
+}
+.sidebar .closebtn{
+ position: absolute;
+ top: 0;
+ right: 25px;
+ font-size: 36px;
+ margin-left: 50px;
+}
+.openbtn{
+ font-size: 16px;
+ cursor: pointer;
+ background-color: #555;
+ color: White;
+ padding: 1px 1px;
+ border: none;
+}
+.openbtn:hover{
+ background-color: White;
+ color: black;
+}
+#main{
+ transition: margin-left .5s;
+ padding: 20px;
+}
+@media screen and (max-height: 450px){
+ .sidebar {padding-top: 15px;}
+ .sidebar a {font-size: 18px;}
+} 
+</style> 
+<div class="header" id="myHeader">
+ <div id="mySidebar" class="sidebar">
+ <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+ <a href="https://www.instagram.com/damarideneurommancer/?hl=en"><img src="instagram-icon.png" width='12' height='12'> Instagram</a>
+ <a href="https://twitter.com/DamNeurommancer"><img src="twitter-icon.png" width='12' height='12'> Twitter</a>
+ <a href="https://linktr.ee/damarideneurommancer"><img src="evil-icon.png" width='12' height='12'> Shop</a>
+ <a href="https://www.altersleeves.com/browse/?browse_type=by&artist_id=16"><img src="altersleeves-icon.png" width='12' height='12'> AS Cards</a>
+ <a href="https://www.altersleeves.com/alterist/damarideneurommancer/"><img src="altersleeves-icon.png" width='12' height='12'> AS Overview</a>
+ <a href="https://www.inkedgaming.com/collections/artists-damaride-neurommancer"><img src="shopify-icon.webp" width='12' height='12'> Playmats</a>
+ <a href="https://www.makeplayingcards.com/sell/damarideneurommancer"><img src="playing-card-spade-icon.png" width='12' height='12' style='background-color:yellow'> Tarots</a>
+ <a href="index.html"><img src="home-icon.png" width='12' height='12'> Home</a>
+ <a href="SlideShowGallery.html"><img src="album-icon.png" width='12' height='12'> Gallery</a>
+ <a href="index_AlteredSets.html"><img src="set-icon.png" width='12' height='12' style='background-color:white'> Sets</a>
+ <a href="index_AlteredPatreon.html"><img src="patreon-icon.png" width='12' height='12'> Patreon</a>
+ <a href="index_AlteredHandpainted.html"><img src="handpainted-icon.png" width='12' height='12' style='background-color:darkkhaki'> Handpainted</a>
+ <a href="index_AlteredFlipTokens.html"><img src="handpainted-icon.png" width='12' height='12' style='background-color:darkkhaki'> Flip Tokens</a>
+ <a href="SearchByImage.html"><img src="searchbyimage.png" width='12' height='12'> Similarity</a>
+ <a href="index_Match.html"><img src="match-icon.webp" width='12' height='12'> Match Game</a>
+ <a href="index_Guess.html"><img src="guess-icon.webp" width='12' height='12' style='background-color:red'> Guess Game</a>
+ <h2><center>&copy<i> DamarideNeurommancer</i></center></h2>
+ </div>
+ <div id="main">
+ <button class="openbtn" onclick="openNav()">&#9776;</button>
+ <font color='White' style='font-size: 20px;'>&#10024; DamarideNeurommancer</font>
+ </div>
+  <font color='White'>
+  <table>
+  <tr>
+  <td>
+   <a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='neurommancer_logo.png' alt='' width='62' height='62' title='Alters by DamarideNeurommancer' style='border-radius:50%'></a>
+  </td>
+  <td>
+   <font color='White' size='2'>Creating MTG alters,<br>digital and handpainted.<br><font size='1'>
+   <a href="https://www.instagram.com/damarideneurommancer/?hl=en" class="fa"><img src="instagram-icon.png" width='16' height='16' title='Instagram'></a>
+   <a href="https://twitter.com/DamNeurommancer" class="fa"><img src="twitter-icon.png" width='16' height='16' title='Twitter'></a>
+   <a href="https://linktr.ee/damarideneurommancer" class="fa"><img src="evil-icon.png" width='16' height='16' title='Shop'></a>
+   <a href="https://www.altersleeves.com/alterist/damarideneurommancer/" class="fa"><img src="altersleeves-icon.png" width='16' height='16' title='AS Cards'></a>
+   <a href="https://www.inkedgaming.com/collections/artists-damaride-neurommancer" class="fa"><img src="shopify-icon.webp" width='16' height='16' title='Playmats'></a>
+   <a href="https://www.makeplayingcards.com/sell/damarideneurommancer" class="fa"><img src="playing-card-spade-icon.png" width='16' height='16' style='background-color:yellow' title='Tarots'></a>
+   <a href="index.html" class="fa"><img src="home-icon.png" width='16' height='16' title='Home'></a>
+   <a href="SlideShowGallery.html" class="fa"><img src="album-icon.png" width='16' height='16' title='Cards Gallery'></a>
+   <a href="index_AlteredSets.html" class="fa"><img src="set-icon.png" width='16' height='16' title='Sets'></a>
+   <a href="index_AlteredPatreon.html" class="fa"><img src="patreon-icon.png" width='16' height='16' title='Patreon'></a>
+   <a href="index_AlteredHandpainted.html" class="fa"><img src="handpainted-icon.png" width='16' height='16' title='Handpainted Cards' style='background-color:darkkhaki'></a>
+   <a href="index_AlteredFlipTokens.html" class="fa"><img src="handpainted-icon.png" width='16' height='16' title='Flip Tokens'></a>
+   <a href="SearchByImage.html" class="fa"><img src="searchbyimage.png" width='16' height='16' title='Search Cards by Image Similarity'></a>
+   </td>
+  </tr>
+  </table>
+  <div id='search-header'>
+   <table>
+    <tr>
+     <td><input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
+      <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'>Search</button>
+      <button id='myBtnHelp' onclick='myHelp()' title='Help'>?</button>
+      <button id='myBtnPopup' onclick='myPopup()' title='Zoom card image'><img src="zoom-icon.png" width='12' height='12'></button>
+      <button id='myBtnShare' onclick='myShare()' title='Share Alter Sleeves image link'><img src="share-icon.webp" width='12' height='12'></button>
+      &nbsp;
+      <button id='myBtnRnd' onclick='myRndSearch()'><img src="random-icon.png" width='12' height='12'>Random</button>
+      <font size='2' color='White'><i><small>
+      <input type='checkbox' id='myChkAppend'>
+      <label for="myChkAppend">Append random result</label>
+      <input type='checkbox' id='myChkSpeakUp'>
+      <label for="myChkSpeech">Speak up</label>
+      <button id='myBtnSimilar' onclick='mySimilar()' title='Search cards similar to the selected one'><img src="searchbyimage.png" width='12' height='12'></button>
+      </small></i>
+     </td>
+     
+    </tr>
+    <tr>
+     <td id='totalCards'></td>
+    </tr>
+   </table>
+  </div>
+
+</div>
+<script>
+ var input = document.getElementById('myInput');
+ input.addEventListener('keyup', function(event){
+ if (event.keyCode == 13){
+  document.getElementById('myBtn').click();
+ }
+});
+</script>
+
+<h2 style="text-align:center">+</h2> 
+<h1 style="text-align:center">+</h1>
+<h1 style="text-align:center">+</h1>
+<h1 style="text-align:center">'</h1>
+<h1 style="text-align:center">'</h1>
+<h1 style="text-align:center">'</h1>
+<h1 style="text-align:center">'</h1>
+
+<div class="table-container" id="myContent">
+ <div class='left' id='center-header' style='background-attachment:fixed;background-repeat:repeat-y;background-position:center;'>
+  <table class="listTable" id='myTable' border="0" style="background-color:#000000;">
+  </table>
+ </div>
+</div>
+
+<div class="footer-container" id="myFooter">
+  <div class='bottom-img' id='img-header'>
+   <table class="footerTable" id='myTableImg' border="0">
+   </table>
+  </div>
+</div>
+
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img01">
+  <div>
+  <p id="caption">
+  <p id="scryfall" title="Search on Scryfall">
+  </div>
+</div>
+<script src="AlteredCardsXml.js" type="text/javascript"></script>
+<script src="AlteredCardsEx.js" type="text/javascript"></script>
+</body></html>
