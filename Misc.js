@@ -245,11 +245,20 @@ function openTab(evt, tabName) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display="block";
   evt.currentTarget.className+=" active";
+  try{
+   if(tabName=="Search"){
+    if(prevIx!=null){
+     showRow(prevIx);
+     table.rows[prevIx].scrollIntoView(true,{behavior: "smooth"});
+     window.scrollBy(0,-240);
+    }
+   }
+  }
+  catch{;}
 }
 
 function showRow(index){
  selectRow(table.rows[index],'selected');
- //showGeoLink();
 }
 
 function showGeoLink(){
@@ -296,9 +305,8 @@ function getGoogleMapsLink(hashCode){
   else if (c2 <= -180.0){
    c2 += 360.0;
   }
-  var lastC1 = c1+"."+dddLatFraz;
-  var lastC2 = c2+"."+dddLonFraz;
-  //string gmapslink = "https://www.google.com/maps?q=" + lastC1 + "," + lastC2 + "&ll=" + lastC1 + "," + lastC2 + "&z=3";
+  var lastC1=c1+"."+dddLatFraz;
+  var lastC2=c2+"."+dddLonFraz;
   var gmapslink="https://www.google.com/maps?q="+lastC1+","+lastC2+"&ll="+lastC1+","+lastC2+"&z=1";
   return(gmapslink);
 }
@@ -318,32 +326,32 @@ function hashArtImage(originalImage){
 }
 
 function bmvbhash_even(data,bits) {
-  let blocksize_x = Math.floor( data.width / bits );
-  let blocksize_y = Math.floor( data.height / bits );
+ let blocksize_x = Math.floor( data.width / bits );
+ let blocksize_y = Math.floor( data.height / bits );
 
-  let result = [];
-  for( let y = 0; y < bits; y++ ) {
-    for( let x = 0; x < bits; x++ ) {
-      let total = 0;
+ let result = [];
+ for( let y = 0; y < bits; y++ ) {
+  for( let x = 0; x < bits; x++ ) {
+   let total = 0;
 
-      for( let iy = 0; iy < blocksize_y; iy++ ) {
-        for( let ix = 0; ix < blocksize_x; ix++ ) {
-          let cx = x * blocksize_x + ix;
-          let cy = y * blocksize_y + iy;
-          let ii = ( cy * data.width + cx ) * 4;
+   for( let iy = 0; iy < blocksize_y; iy++ ) {
+    for( let ix = 0; ix < blocksize_x; ix++ ) {
+     let cx = x * blocksize_x + ix;
+     let cy = y * blocksize_y + iy;
+     let ii = ( cy * data.width + cx ) * 4;
 
-          let alpha = data.data[ii+3];
-          if( alpha === 0 ) {
-            total += 765;
-          } else {
-            total += data.data[ii] + data.data[ii+1] + data.data[ii+2];
-          }
-        }
-      }
-      result.push( total );
+     let alpha = data.data[ii+3];
+     if( alpha === 0 ) {
+       total += 765;
+     } else {
+       total += data.data[ii] + data.data[ii+1] + data.data[ii+2];
+     }
     }
+   }
+   result.push( total );
   }
-  this.translate_blocks_to_bits( result, blocksize_x * blocksize_y ); 
+ }
+ this.translate_blocks_to_bits( result, blocksize_x * blocksize_y ); 
   return this.bits_to_hexhash( result );
 }
 
