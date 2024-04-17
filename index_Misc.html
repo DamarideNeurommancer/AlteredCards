@@ -251,8 +251,8 @@ table .selected{
  margin: 20px;
  display: block;
  width: 80%;
- //max-width: 350px;
  border-radius: 20px;
+ cursor: zoom-in;
 } 
 </style> 
 <div class="header" id="myHeader">
@@ -332,15 +332,6 @@ table .selected{
  }
 });
 </script>
-<!--h2 style="text-align:center">+</h2> 
-<h1 style="text-align:center">+</h1>
-<h1 style="text-align:center">+</h1>
-<h1 style="text-align:center">'</h1>
-<h1 style="text-align:center">'</h1>
-<h1 style="text-align:center">'</h1>
-<h1 style="text-align:center">'</h1>
-<h2 style="text-align:center">'</h2-->
-
 <div class="tab" id="myTabs">
   <button class="tablinks" onclick="openTab(event, 'Search')" id="defaultTab">Search</button>
   <button class="tablinks" onclick="openTab(event, 'DNA')">DNA</button>
@@ -368,16 +359,14 @@ table .selected{
 </div>
 
 <div id="GeoPosition" class="tabcontent">
-  <label class="button" for="fileElem"><i>Select image file</i><br></label>
-  <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" title="Select image from Filesystem">
-  <!--h3>Geo Position</h3-->
+  <!--label class="button" for="fileElem"><i>Select image file</i><br></label>
+  <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" title="Select image from Filesystem"-->
   <h3 id="geoLink" title="Geo Link"></h3>
-  <img class="thumb-content" id="imgGeo">
+  <img class="thumb-content" id="imgGeo" onclick='myPopup()'>
   <p id="captionGeo">
-  <!--p id="geoLink" title="Geo Link"-->
 </div>
 
-<canvas id="mycanvas" width="301px" height="220px" style='visibility:hidden'></canvas>
+<!--canvas id="mycanvas" width="301px" height="220px" style='visibility:hidden'></canvas-->
 
 <div id="myModal" class="modal">
   <span class="close">&times;</span>

@@ -1,11 +1,7 @@
 var input=document.getElementById("myInput");
 const table=document.getElementById('myTable');
 const totalCards=document.getElementById('totalCards');
-//const tableimg=document.getElementById('myTableImg');
 const obj=document.getElementById('center-header');
-//const footer_img=document.getElementById('myFooter');
-//const speakUp=document.getElementById('myChkSpeakUp');
-//const appendResult=document.getElementById('myChkAppend');
 const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
 const captionText=document.getElementById("caption");
@@ -17,10 +13,6 @@ const defaultTab=document.getElementById("defaultTab");
 const imgGeo=document.getElementById("imgGeo");
 const captionGeo=document.getElementById("captionGeo");
 const geoLink=document.getElementById("geoLink");
-//const myTabs=document.getElementById('myTabs');
-//const header=document.getElementById('myHeader');
-//const myTabs=document.getElementById('left');
-
 //const canvas=document.getElementById('mycanvas');
 //const context=canvas.getContext('2d');
 
@@ -273,14 +265,9 @@ function showGeoLink(){
  imgGeo.style.height="266px";
  imgGeo.alt=imgtitle;
  captionGeo.innerHTML="<a href='"+url+"' style='font-size: 16px;margin:20px;'>"+imgGeo.alt+"</a>";
- //geoLink.innerHTML="<a href='https://scryfall.com/search?q=!\""+scryCard.replaceAll("'","%27").replaceAll("&","%26")+"\"' style='font-size: 12px;'><img src='forward-arrow-icon.png' alt='Geo Link'> Geo Link</a>";
- //geoLink.innerHTML="<a href='https://www.google.com/maps' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Geo Link</a>";
- //var hash=hashArtImage(imgGeo);
 }
 
 imgGeo.addEventListener('load',function(){
-  //var hashCode=hashArtImage(imgGeo);
-  //geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Geo Link</a>";
   var hashCode=hashArtImage(imgGeo);
   geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Geo Position</a>";
 });
