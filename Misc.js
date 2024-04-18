@@ -277,10 +277,10 @@ function showGeoLinkOrigImage(){
 function showOriginalImages(){
  showCardImage(imgGeo,192,266,captionGeo);
  showCardImage(imgOrigDNA,192,266,captionDNA);
- //showCardImage(imgDNAColor,192,266,null,"DNA Color");
- imgDNAColor.src=drawBlurred(imgGeo);
- //showCardImage(imgDNABW,192,266,null,"DNA Paths");
- imgDNABW.src=drawBlurred(imgGeo);
+ showCardImage(imgDNAColor,192,266,null,"DNA Color");
+ //imgDNAColor.src=drawBlurred(imgGeo);
+ showCardImage(imgDNABW,192,266,null,"DNA Paths");
+ //imgDNABW.src=drawBlurred(imgGeo);
 }
 
 function showCardImage(elem,w,h,caption,title=""){
