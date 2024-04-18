@@ -270,10 +270,6 @@ function showRow(index){
  selectRow(table.rows[index],'selected');
 }
 
-function showGeoLinkOrigImage(){
- showCardImage(imgGeo,192,266,captionGeo);
-}
-
 function showOriginalImages(){
  showCardImage(imgGeo,192,266,captionGeo);
  showCardImage(imgOrigDNA,192,266,captionDNA);
@@ -621,3 +617,7 @@ function drawBlurred(originalImage){
  context.putImageData(gaussianBlur(data),0,0);
  return canvas.toDataURL();
 }
+
+imgOrigDNA.addEventListener('load',function(){
+  createDNA(imgOrigDNA);
+});
