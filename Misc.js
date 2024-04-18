@@ -13,8 +13,16 @@ const defaultTab=document.getElementById("defaultTab");
 const imgGeo=document.getElementById("imgGeo");
 const captionGeo=document.getElementById("captionGeo");
 const geoLink=document.getElementById("geoLink");
-//const canvas=document.getElementById('mycanvas');
-//const context=canvas.getContext('2d');
+const imgOrigDNA=document.getElementById("imgOrigDNA");
+const captionDNA=document.getElementById("captionDNA");
+const myTabs=document.getElementById("myTabs");
+
+const imgDNAColor=document.getElementById("imgDNAColor");
+const imgDNABW=document.getElementById("imgDNABW");
+const seqLength=document.getElementById("seqLength");
+const DNASeq=document.getElementById("DNASeq");
+
+const nucleotidesBits=[["00","A"],["01","C"],["10","G"],["11","T"]];
 
 defaultTab.click();
 function mySearch(){
@@ -42,7 +50,7 @@ function mySearch(){
    CardCnt++;
    row=table.insertRow(-1);
    row.addEventListener('click',function(){
-   selectRow(this,'selected');
+    selectRow(this,'selected');
    });
 
    cell=row.insertCell(-1);
@@ -66,6 +74,7 @@ function mySearch(){
  }
  else
   obj.style.backgroundImage="";
+ defaultTab.click(); 
  window.scrollTo(0,0);
 }
 
@@ -73,9 +82,7 @@ let prevIx=null;
 let prevTr=null;
 function selectRow(tr,className){
  let ix=tr.rowIndex;
- if(ix===prevIx){
-  ;
- }
+ if(ix===prevIx){;}
  else{
   if(prevTr){
    prevTr.className=prevTr.className.replace(className,"");
@@ -86,8 +93,8 @@ function selectRow(tr,className){
  }   
  var imgurl=tr.querySelector('img').getAttribute('src');
  obj.style.backgroundImage="url('"+ imgurl+"')";
- // Da qui devi chiamare GeoLink
- showGeoLink();  
+ // Da qui devi chiamare il caricamento delle immagini originali
+ showOriginalImages();  
 }
 
 function myHelp(){
@@ -178,14 +185,16 @@ span.onclick=function(){
 
 function openNav(){
  myContent.style.marginLeft="181px";
+ myTabs.style.marginLeft="181px";
  sideBar.style.width="180px";
- main.style.marginLeft="180px"; 
+ main.style.marginLeft="180px";
 }
 
 function closeNav(){
  sideBar.style.width="0";
  main.style.marginLeft="0";
  myContent.style.marginLeft="0px";
+ myTabs.style.marginLeft="0px";
 }
 
 document.addEventListener('click',function handleClickOutside(event){
@@ -245,36 +254,52 @@ function openTab(evt, tabName) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display="block";
   evt.currentTarget.className+=" active";
-  try{
-   if(tabName=="Search"){
+  if(tabName=="Search"){
+   try{
     if(prevIx!=null){
      showRow(prevIx);
-     table.rows[prevIx].scrollIntoView(true,{behavior: "smooth"});
+     table.rows[prevIx].scrollIntoView(true,{behavior:"smooth"});
      window.scrollBy(0,-240);
     }
-   }
   }
   catch{;}
+ }
 }
 
 function showRow(index){
  selectRow(table.rows[index],'selected');
 }
 
-function showGeoLink(){
+function showGeoLinkOrigImage(){
+ showCardImage(imgGeo,192,266,captionGeo);
+}
+
+function showOriginalImages(){
+ showCardImage(imgGeo,192,266,captionGeo);
+ showCardImage(imgOrigDNA,192,266,captionDNA);
+ //showCardImage(imgDNAColor,192,266,null,"DNA Color");
+ imgDNAColor.src=drawBlurred(imgGeo);
+ //showCardImage(imgDNABW,192,266,null,"DNA Paths");
+ imgDNABW.src=drawBlurred(imgGeo);
+}
+
+function showCardImage(elem,w,h,caption,title=""){
  if(prevTr===null)
   return;
  var img=prevTr.querySelector('img').getAttribute('src');
  var imgtitle=prevTr.querySelector('img').getAttribute('title'); 
  var url=prevTr.querySelector('a').getAttribute('href');
     
- imgGeo.style.display="block";
- imgGeo.src=img;
- imgGeo.style.width="192px";
- imgGeo.style.height="266px";
- imgGeo.alt=imgtitle;
- captionGeo.innerHTML="<a href='"+url+"' style='font-size: 16px;margin:20px;'>"+imgGeo.alt+"</a>";
+ elem.style.display="block";
+ elem.src=img;
+ elem.title=title==""?imgtitle:title;
+ elem.style.width=w+"px";
+ elem.style.height=h+"px";
+ elem.alt=imgtitle;
+ if(caption!=null)
+  caption.innerHTML="<a href='"+url+"' style='font-size: 16px;margin:20px;'>"+elem.alt+"</a>";
 }
+
 
 imgGeo.addEventListener('load',function(){
   var hashCode=hashArtImage(imgGeo);
@@ -290,20 +315,20 @@ function getGoogleMapsLink(hashCode){
   var dddLon=parseInt("0x"+secondHalfHash,16);
   var dddLatFraz=parseInt("0x"+frazFirstHalf,16);
   var dddLonFraz=parseInt("0x"+frazSecondHalf,16);
-  var c1=(dddLat % 180.0);
-  if(c1 > 90.0){
-   c1 -= 180.0;
+  var c1=(dddLat%180.0);
+  if(c1>90.0){
+   c1-=180.0;
   }
-  else if(c1 <= -90.0){
-   c1 += 180.0;
+  else if(c1<=-90.0){
+   c1+=180.0;
   }
 
-  var c2=(dddLon % 360.0);
-  if(c2 > 180.0){
-   c2 -= 360.0;
+  var c2=(dddLon%360.0);
+  if(c2>180.0){
+   c2-=360.0;
   }
   else if (c2 <= -180.0){
-   c2 += 360.0;
+   c2+=360.0;
   }
   var lastC1=c1+"."+dddLatFraz;
   var lastC2=c2+"."+dddLonFraz;
@@ -311,48 +336,52 @@ function getGoogleMapsLink(hashCode){
   return(gmapslink);
 }
 
-function hashArtImage(originalImage){
+function getArtImageData(originalImage){
  const canvas=document.createElement("canvas");
  const context=canvas.getContext("2d",{willReadFrequently:true});
- let sx=25;
- let sy=53;
- let croppedWidth=301;
- let croppedHeight=220;
+ const sx=25;
+ const sy=53;
+ const croppedWidth=301;
+ const croppedHeight=220;
  canvas.width=croppedWidth;
  canvas.height=croppedHeight;
  context.drawImage(originalImage,sx,sy,croppedWidth,croppedHeight,0,0,croppedWidth,croppedHeight);
- var datab=context.getImageData(0,0,canvas.width,canvas.height);
- return(bmvbhash_even(datab,12)); 
+ return(context.getImageData(0,0,canvas.width,canvas.height));
+}
+
+function hashArtImage(originalImage){
+ var data=getArtImageData(originalImage);
+ return(bmvbhash_even(data,12));  
 }
 
 function bmvbhash_even(data,bits) {
- let blocksize_x = Math.floor( data.width / bits );
- let blocksize_y = Math.floor( data.height / bits );
+ let blocksize_x=Math.floor(data.width/bits);
+ let blocksize_y=Math.floor(data.height/bits);
 
  let result = [];
- for( let y = 0; y < bits; y++ ) {
-  for( let x = 0; x < bits; x++ ) {
-   let total = 0;
+ for(let y=0;y<bits;y++){
+  for(let x=0;x<bits;x++){
+   let total=0;
 
-   for( let iy = 0; iy < blocksize_y; iy++ ) {
-    for( let ix = 0; ix < blocksize_x; ix++ ) {
-     let cx = x * blocksize_x + ix;
-     let cy = y * blocksize_y + iy;
-     let ii = ( cy * data.width + cx ) * 4;
+   for(let iy=0;iy<blocksize_y;iy++){
+    for(let ix=0;ix<blocksize_x;ix++){
+     let cx=x*blocksize_x+ix;
+     let cy=y*blocksize_y+iy;
+     let ii=(cy*data.width+cx)*4;
 
-     let alpha = data.data[ii+3];
-     if( alpha === 0 ) {
-       total += 765;
-     } else {
-       total += data.data[ii] + data.data[ii+1] + data.data[ii+2];
+     let alpha=data.data[ii+3];
+     if(alpha===0){
+       total+=765;
+     }else{
+      total+=data.data[ii]+data.data[ii+1]+data.data[ii+2];
      }
     }
    }
-   result.push( total );
+   result.push(total);
   }
  }
- this.translate_blocks_to_bits( result, blocksize_x * blocksize_y ); 
-  return this.bits_to_hexhash( result );
+ this.translate_blocks_to_bits(result,blocksize_x*blocksize_y); 
+  return this.bits_to_hexhash(result);
 }
 
 function median(data){
@@ -360,14 +389,14 @@ function median(data){
  mdarr.sort(function(a,b){ 
   return a-b; 
  });
- if(mdarr.length % 2 === 0 ){
+ if(mdarr.length%2===0){
   return(mdarr[mdarr.length/2]+mdarr[mdarr.length/2+1])/2.0;
  }
- return mdarr[Math.floor( mdarr.length / 2 )];
+ return mdarr[Math.floor(mdarr.length/2)];
 }
 function translate_blocks_to_bits(blocks,pixels_per_block){
- let half_block_value = pixels_per_block * 256 * 3 / 2;
- let bandsize = blocks.length / 4;
+ let half_block_value=pixels_per_block*256*3/2;
+ let bandsize=blocks.length/4;
 
  // Compare medians across four horizontal bands
  for(let i=0;i<4;i++){
@@ -381,7 +410,7 @@ function translate_blocks_to_bits(blocks,pixels_per_block){
    // of blocks of value equal to the median.  To avoid
    // generating hashes of all zeros or ones, in that case output
    // 0 if the median is in the lower value space, 1 otherwise
-   blocks[j] = Number( v > m || ( Math.abs( v - m ) < 1 && m > half_block_value ) );
+   blocks[j]=Number(v>m||(Math.abs(v-m)<1&&m>half_block_value));
   }
  }
 }
@@ -422,3 +451,173 @@ function fileToDataUri(field){
   reader.readAsDataURL(field);
  });
 }  
+
+function createDNA(originalImage){
+ var data=getArtImageData(originalImage);
+ var seqDNA=getDNASequence(data);
+ seqLength.innerHTML="Length: "+(seqDNA.length)+ " nucleotides";
+ DNASeq.innerHTML=seqDNA;
+ imgDNAColor.src=drawDNA(originalImage,seqDNA);
+ imgDNABW.src=drawDNABW(imgDNAColor);
+}
+
+function getDNASequence(imageData){ 
+ var seq="";
+ var bits="";
+ let pixels=imageData.data;
+ let cnt=0;
+ for(var i=0;i<pixels.length;i+=4){
+ cnt++;
+  const r=pixels[i];
+  const g=pixels[i+1];
+  const b=pixels[i+2];
+  const rb=dec2bin(r);
+  const gb=dec2bin(g);
+  const bb=dec2bin(b);
+  bits+=rb.substring(6,8);
+  bits+=gb.substring(6,8);
+  bits+=bb.substring(7,8);
+  //seq+=conv2nucleotides(rb)+conv2nucleotides(gb)+conv2nucleotides(bb);
+ }
+ seq=conv2nucleotides(bits);
+ //console.log("I: "+i + "pixels.length: "+pixels.length+ " cycles:"+cnt+ " SeqLen: "+seq.length);
+ return(seq);  
+}
+
+const zeroPad=(num,places)=>String(num).padStart(places,'0');
+function conv2nucleotides(val)
+{
+ //if(val.length<8)
+  //val=zeroPad(val,8);
+ const group=2;
+ const last_sextet=val.length-group;
+ var sextet="";
+ var outSeq="";
+ for(var start=0;start<=last_sextet;start+=group){
+  sextet=val.substring(start,start+group);
+  for(var j=0;j<nucleotidesBits.length;j++){
+   if(sextet==nucleotidesBits[j][0]){
+    outSeq+=nucleotidesBits[j][1];
+   }
+  }
+ }
+ //if(outSeq.length!=4)
+ // console.warn("Error val:"+val);
+ return(outSeq);
+}
+
+function dec2bin(dec){
+ return zeroPad((dec>>>0).toString(2),8);
+}
+
+function handleFiles1(files){
+ files=[...files];
+ files.forEach(manageFile1);
+}
+
+async function manageFile1(file){
+let img=document.createElement('img')
+ const ID=file.name.split('.')[0];
+ img.id=ID;
+ img.title=file.name;
+ console.log("*Image: "+file.name)
+ img.alt="";
+ img.addEventListener("load",async function(){
+  createDNA(img);
+ });
+ img.src=await fileToDataUri(file);
+}
+
+function drawDNA(originalImage,nucleotides){
+ const canvas=document.createElement("canvas");
+ const context=canvas.getContext("2d",{willReadFrequently:true});
+ const w=350;
+ const h=473;
+ canvas.width=w;
+ canvas.height=h;
+ context.drawImage(originalImage,0,0,w,h,0,0,w,h);
+ var data=context.getImageData(0,0,canvas.width,canvas.height);
+ context.putImageData(emboss(DNA2Image(data,nucleotides)),0,0);
+ return canvas.toDataURL();
+}
+
+function DNA2Image(imgData,nucleotides){
+ var tempData=imgData;
+ var len=nucleotides.length;
+ var r,g,b;
+ var p;
+ for(var i=0;i<len;i++){
+  const n=nucleotides[i];
+  switch(n){
+   case 'A':
+    r=255;
+    g=0;
+    b=0;
+    break;
+   case 'C':
+    r=255;
+    g=234;
+    b=0;
+    break;
+   case 'G':
+     r=0;
+     g=255;
+     b=0;
+    break;
+   case 'T':
+     r=0;
+     g=0;
+     b=255;
+    break;
+  }
+  p=i*4;
+  tempData.data[p]  =r;
+  tempData.data[p+1]=g;
+  tempData.data[p+2]=b;
+ }  
+ return tempData;
+}
+
+function drawDNABW(originalImage){
+ const canvas=document.createElement("canvas");
+ const context=canvas.getContext("2d",{willReadFrequently:true});
+ const w=350;
+ const h=473;
+ canvas.width=w;
+ canvas.height=h;
+ context.drawImage(originalImage,0,0,w,h,0,0,w,h);
+ var data=context.getImageData(0,0,canvas.width,canvas.height);
+ context.putImageData(emboss(canny(data)),0,0);
+ return canvas.toDataURL();
+}
+function myPopupDNAC(){
+ myPopupDNA(imgDNAColor,"DNA Color")
+}
+function myPopupDNABW(){
+ myPopupDNA(imgDNABW,"DNA B&W")
+}
+
+function myPopupDNA(imgDNA, title){
+ if(imgDNA===null)
+  return;
+ var img=imgDNA.src;
+ var imgtitle=title; 
+ var url=""; 
+ modal.style.display="block";
+ modalImg.src=img;
+ modalImg.alt=imgtitle;
+ captionText.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+modalImg.alt+"</a>";
+ scryfall.innerHTML="";
+}
+function drawBlurred(originalImage){
+ const canvas=document.createElement("canvas");
+ const context=canvas.getContext("2d",{willReadFrequently:true});
+ const w=350;
+ const h=488;
+ canvas.width=w;
+ canvas.height=h;
+ context.drawImage(originalImage,0,0,w,h,0,0,w,h);
+ var data=context.getImageData(0,0,canvas.width,canvas.height);
+ context.putImageData(gaussianBlur(data),0,0);
+ return canvas.toDataURL();
+}
