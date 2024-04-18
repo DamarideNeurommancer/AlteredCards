@@ -452,7 +452,7 @@ async function createDNA(originalImage){
  seqLength.innerHTML="Length: "+(seqDNA.length)+ " nucleotides";
  DNASeq.innerHTML=seqDNA;
  imgDNAColor.src=await drawDNA(originalImage,seqDNA);
- imgDNABW.src=await drawDNABW(imgDNAColor);
+ //imgDNABW.src=await drawDNABW(imgDNAColor);
 }
 
 function getDNASequence(imageData){ 
@@ -618,4 +618,8 @@ function drawBlurred(originalImage){
 
 imgOrigDNA.addEventListener('load',function(){
   createDNA(imgOrigDNA);
+});
+
+imgDNAColor.addEventListener('load',function(){
+  imgDNABW.src=drawDNABW(imgDNAColor);
 });
