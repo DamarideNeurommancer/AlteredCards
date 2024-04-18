@@ -274,9 +274,7 @@ function showOriginalImages(){
  showCardImage(imgGeo,192,266,captionGeo);
  showCardImage(imgOrigDNA,192,266,captionDNA);
  showCardImage(imgDNAColor,192,266,null,"DNA Color");
- //imgDNAColor.src=drawBlurred(imgGeo);
  showCardImage(imgDNABW,192,266,null,"DNA Paths");
- //imgDNABW.src=drawBlurred(imgGeo);
 }
 
 function showCardImage(elem,w,h,caption,title=""){
@@ -448,13 +446,13 @@ function fileToDataUri(field){
  });
 }  
 
-function createDNA(originalImage){
+async function createDNA(originalImage){
  var data=getArtImageData(originalImage);
  var seqDNA=getDNASequence(data);
  seqLength.innerHTML="Length: "+(seqDNA.length)+ " nucleotides";
  DNASeq.innerHTML=seqDNA;
- imgDNAColor.src=drawDNA(originalImage,seqDNA);
- imgDNABW.src=drawDNABW(imgDNAColor);
+ imgDNAColor.src=await drawDNA(originalImage,seqDNA);
+ imgDNABW.src=await drawDNABW(imgDNAColor);
 }
 
 function getDNASequence(imageData){ 
@@ -524,7 +522,7 @@ let img=document.createElement('img')
  img.src=await fileToDataUri(file);
 }
 
-function drawDNA(originalImage,nucleotides){
+async function drawDNA(originalImage,nucleotides){
  const canvas=document.createElement("canvas");
  const context=canvas.getContext("2d",{willReadFrequently:true});
  const w=350;
@@ -574,7 +572,7 @@ function DNA2Image(imgData,nucleotides){
  return tempData;
 }
 
-function drawDNABW(originalImage){
+async function drawDNABW(originalImage){
  const canvas=document.createElement("canvas");
  const context=canvas.getContext("2d",{willReadFrequently:true});
  const w=350;
