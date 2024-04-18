@@ -617,9 +617,14 @@ function drawBlurred(originalImage){
 }
 
 imgOrigDNA.addEventListener('load',function(){
-  createDNA(imgOrigDNA);
+ createDNA(imgOrigDNA);
 });
 
 imgDNAColor.addEventListener('load',function(){
-  imgDNABW.src=drawDNABW(imgDNAColor);
+ imgDNABW.src=drawDNABW(imgDNAColor);
 });
+
+function paintPaths(){
+ if(imgDNAColor!=null)
+  imgDNABW.src=drawDNABW(imgDNAColor);
+}
