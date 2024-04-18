@@ -274,7 +274,7 @@ function showOriginalImages(){
  showCardImage(imgGeo,192,266,captionGeo);
  showCardImage(imgOrigDNA,192,266,captionDNA);
  showCardImage(imgDNAColor,192,266,null,"DNA Color");
- showCardImage(imgDNABW,192,266,null,"DNA Paths");
+ //showCardImage(imgDNABW,192,266,null,"DNA Paths");
 }
 
 function showCardImage(elem,w,h,caption,title=""){
