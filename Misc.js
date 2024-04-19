@@ -326,7 +326,7 @@ function showCardImage(elem,w,h,caption,title=""){
 
 imgGeo.addEventListener('load',function(){
   var hashCode=hashArtImage(imgGeo);
-  geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Altered Card Geo Position</a>";
+  geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;text-decoration:underline;'> Altered Card Geo Position</a>";
 });
 
 function getGoogleMapsLink(hashCode){
@@ -645,15 +645,15 @@ async function createAA(originalImage){
  //var data=getArtImageData(originalImage);
  //var seqDNA=getDNASequence(data);
  var seqDNA="";
- if(DNASeq!=null&&DNASeq.innerText!=""&&DNASeq.innerText.length>0)
-  seqDNA=DNASeq.value;
+ if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0)
+  seqDNA=DNASeq.innerText;
  else{
   var data=getArtImageData(originalImage);
   seqDNA=getDNASequence(data);
  }
  var seqAA=getAminoAcids(seqDNA); 
- seqLengthAA.innerHTML="Length: "+(seqAA.length)+ " amino acids";
- AASeq.innerHTML=seqAA;
+ seqLengthAA.innerText="Length: "+(seqAA.length)+ " amino acids";
+ AASeq.innerText=seqAA;
  await drawAA(originalImage,seqAA);
 }
 
@@ -851,4 +851,41 @@ function myPopupAAC(){
 }
 function myPopupAABW(){
  myPopupCanvas(imgAABW,"");
+}
+
+function complementReverseDNA(nucleotides){
+ var len=nucleotides.length;
+ var complement="";
+ for(var i=0;i<len;i++){
+  const n=nucleotides[i];
+  switch(n){
+   case 'A':
+    //complement+='T';
+    complement='T'+complement;
+    break;
+   case 'T':
+    //complement+='A';
+    complement='A'+complement;
+    break;
+   case 'G':
+    //complement+='C';
+    complement='C'+complement;
+    break;
+   case 'C':
+    //complement+='G';
+    complement='G'+complement;
+    break;
+   default:
+    //complement+='N';
+    complement='N'+complement;
+    break;    
+  }
+ }
+ return(complement);
+}
+
+function myReverseDNA(){
+ if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0){
+   DNASeq.innerHTML=complementReverseDNA(DNASeq.innerHTML);
+ }
 }

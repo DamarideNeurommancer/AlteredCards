@@ -365,8 +365,8 @@ table .selected{
 
  <div id="DNA" class="tabcontent">
   <h5>Altered Card DNA Image</h5>
-  <label class="button" for="fileElem1"><i>Select image file</i><br></label>
-  <input type="file" id="fileElem1" accept="image/*" onchange="handleFiles1(this.files)" title="Select image from Filesystem">
+  <!--label class="button" for="fileElem1"><i>Select image file</i><br></label>
+  <input type="file" id="fileElem1" accept="image/*" onchange="handleFiles1(this.files)" title="Select image from Filesystem"-->
   <div class="container">
    <div class="box">
     <img class="thumb-content" id="imgOrigDNA" onclick='myPopup()'>
@@ -404,7 +404,7 @@ table .selected{
   
   <p><label for="DNASeq">DNA Sequence</label></p>
   <textarea id="DNASeq" name="DNASeq" rows="6" cols="40" placeholder="DNA Sequence..." readonly style="background-color:white"></textarea>
-  <p id="seqLength"></p>
+  <p id="seqLength"></p><button id='myBtnReverseDNA' onclick='myReverseDNA()' title='Reverse Complement DNA Sequence'>Reverse Complement <img src="reset-default-icon.webp" width='12' height='12'></button>
  </div>
 
  <div id="AminoAcids" class="tabcontent">
@@ -445,7 +445,6 @@ table .selected{
      <tr><td>M-Methionine</td><td><div style="background-color:rgb(149,255,128);height:10px;"></div></td></tr>
      <tr><td style="font-style:italic">- Stop</td><td><div style="background-color:rgb(255,128,128);height:10px;"></div></td></tr>
      <tr><td style="font-style:italic">? Default</td><td><div style="background-color:rgb(255,255,255);height:10px;"></div></td></tr>
-
     </table>
    </div>
    <div class="box">
