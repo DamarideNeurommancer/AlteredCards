@@ -225,7 +225,7 @@ table .selected{
  border: none;
  outline: none;
  cursor: pointer;
- padding: 6px 16px;
+ padding: 6px 10px;
  transition: 0.3s;
 }
 /* Change background color of buttons on hover */
@@ -405,13 +405,48 @@ table .selected{
   </div>
   
   <p><label for="DNASeq">DNA Sequence</label></p>
-  <textarea id="DNASeq" name="DNASeq" rows="6" cols="40" placeholder="DNA Sequence..." readonly></textarea>
+  <textarea id="DNASeq" name="DNASeq" rows="6" cols="40" placeholder="DNA Sequence..." readonly style="background-color:white"></textarea>
   <p id="seqLength"></p>
 </div>
 
 <div id="AminoAcids" class="tabcontent">
-  <h3>Amino Acids</h3>
-  <p>Image of Amino Acids of image card.</p>
+  <h5>Altered Card Amino Acids Image</h5>
+  <!--label class="button" for="fileElem1"><i>Select image file</i><br></label>
+  <input type="file" id="fileElem1" accept="image/*" onchange="handleFiles1(this.files)" title="Select image from Filesystem"-->
+  <div class="container">
+   <div class="box">
+    <img class="thumb-content" id="imgOrigAA" onclick='myPopup()'>
+    <p id="captionAA">    
+   </div>
+   <div class="box">
+    <canvas class="thumb-content" id="imgAAColor" onclick='myPopupAAC()' title="AminoAcids"></canvas>
+    <table>
+     <tr ><td></td><td>DNA Image</td><td></td><td></td></tr>
+     <tr><td>A-Adenine</td><td>C-Cytosine</td><td>G-Guanine</td><td>T-Thymine</td></tr>
+     <tr>
+     <td><div style="background-color:Red;height:10px;"></div></td>
+     <td><div style="background-color:Yellow;height:10px;"></div></td>
+     <td><div style="background-color:Green;height:10px;"></div></td>
+     <td><div style="background-color:Blue;height:10px;"></div></td>
+     </tr>
+    </table>
+   </div>
+   <div class="box">
+    <canvas class="thumb-content" id="imgAABW" onclick='myPopupAABW()' title="AminoAcids Paths"></canvas>
+    <table>
+     <tr ><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>DNA Paths</td></tr>
+     <tr style="height:18px;"><td></td><td></td><td></td><td></td></tr>
+     <tr>
+     <td><div style="background-color:transparent;height:10px;"></div></td>
+     <td><div style="background-color:transparent;height:10px;"></div></td>
+     <td><div style="background-color:transparent;height:10px;"></div></td>
+     <td><div style="background-color:transparent;height:10px;"></div></td>
+     </tr>
+    </table>
+   </div>
+    <p><label for="AASeq">Amino Acids Sequence</label></p>
+  <textarea id="AASeq" name="AASeq" rows="6" cols="40" placeholder="Amino Acids Sequence..." readonly style="background-color:white"></textarea>
+  <p id="seqLengthAA"></p>
 </div>
 
 <div id="GeoPosition" class="tabcontent">
