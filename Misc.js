@@ -646,7 +646,7 @@ async function createAA(originalImage){
  //var seqDNA=getDNASequence(data);
  var seqDNA="";
  if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0)
-  seqDNA=DNASeq.innerText;
+  seqDNA=DNASeq.innerHTML;
  else{
   var data=getArtImageData(originalImage);
   seqDNA=getDNASequence(data);
