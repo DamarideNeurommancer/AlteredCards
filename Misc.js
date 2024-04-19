@@ -22,8 +22,32 @@ const imgDNABW=document.getElementById("imgDNABW");
 const seqLength=document.getElementById("seqLength");
 const DNASeq=document.getElementById("DNASeq");
 
-const nucleotidesBits=[["00","A"],["01","C"],["10","G"],["11","T"]];
+const imgOrigAA=document.getElementById("imgOrigAA");
+const captionAA=document.getElementById("captionAA");
+const imgAAColor=document.getElementById("imgAAColor");
+const imgAABW=document.getElementById("imgAABW");
+const seqLengthAA=document.getElementById("seqLengthAA");
+const AASeq=document.getElementById("AASeq");
 
+const nucleotidesBits=[["00","A"],["01","C"],["10","G"],["11","T"]];
+const CODONS=[
+  "TTT", "TTC", "TTA", "TTG", "TCT",
+  "TCC", "TCA", "TCG", "TAT", "TAC", "TGT", "TGC", "TGG", "CTT",
+  "CTC", "CTA", "CTG", "CCT", "CCC", "CCA", "CCG", "CAT", "CAC",
+  "CAA", "CAG", "CGT", "CGC", "CGA", "CGG", "ATT", "ATC", "ATA",
+  "ATG", "ACT", "ACC", "ACA", "ACG", "AAT", "AAC", "AAA", "AAG",
+  "AGT", "AGC", "AGA", "AGG", "GTT", "GTC", "GTA", "GTG", "GCT",
+  "GCC", "GCA", "GCG", "GAT", "GAC", "GAA", "GAG", "GGT", "GGC",
+  "GGA", "GGG" ];
+
+const AMINOS_PER_CODON=[
+  "F", "F", "L", "L", "S", "S",
+  "S", "S", "Y", "Y", "C", "C", "W", "L", "L", "L", "L", "P", "P",
+  "P", "P", "H", "H", "Q", "Q", "R", "R", "R", "R", "I", "I", "I",
+  "M", "T", "T", "T", "T", "N", "N", "K", "K", "S", "S", "R", "R",
+  "V", "V", "V", "V", "A", "A", "A", "A", "D", "D", "E", "E", "G",
+  "G", "G", "G"];
+          
 defaultTab.click();
 function mySearch(){
  var filter;
@@ -94,11 +118,13 @@ function selectRow(tr,className){
  var imgurl=tr.querySelector('img').getAttribute('src');
  obj.style.backgroundImage="url('"+ imgurl+"')";
  // Da qui devi chiamare il caricamento delle immagini originali
- showOriginalImages();  
+ //document.body.style.cursor='wait';
+ showOriginalImages();
+ //document.body.style.cursor='default';  
 }
 
 function myHelp(){
- var sHelp ="Search by Card-Name or Card-ID that is a numeric value.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nClick on Card-Id/Card-Name columns in cards list to get the image of that card and its related cards in the bottom panel (horizontally scrollable).In the 'Zoom In' popup you have links to Alter Sleeves and to Scryfall";
+ var sHelp ="Search by Card-Name or Card-ID that is a numeric value.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nClick on Card-Id/Card-Name columns in cards list to get 'DNA Image' and 'AminoAcids Image' and 'Geo Position' of selected card. Then move to the correspondent tab to view the results.\nIn the tabs, clicking on the images you open a 'Zoom In' popup.";
  try{
   var imgurl=prevTr.querySelector('img').getAttribute('src');
   var url=prevTr.querySelector('a').getAttribute('href');
@@ -275,6 +301,7 @@ function showRow(index){
 function showOriginalImages(){
  showCardImage(imgGeo,192,266,captionGeo);
  showCardImage(imgOrigDNA,192,266,captionDNA);
+ showCardImage(imgOrigAA,192,266,captionAA);
  //showCardImage(imgDNAColor,192,266,null,"DNA Color");
  //showCardImage(imgDNABW,192,266,null,"DNA Paths");
 }
@@ -513,11 +540,9 @@ async function manageFile1(file){
  console.log("*Image: "+file.name)
  imgOrigDNA.alt="";
  imgOrigDNA.addEventListener("load",async function(){
-  //createDNA(img);
   createDNA(imgOrigDNA);
  });
  imgOrigDNA.src=await fileToDataUri(file);
- 
 }
 
 async function drawDNA(originalImage,nucleotides){
@@ -600,14 +625,230 @@ function myPopupCanvas(canvasId,title){
  scryfall.innerHTML="<a href='"+url+"' style='font-size: 16px;'><img src='"+imgOrig+"' alt='"+imgtitle+"' style='width:60px;height:84px;vertical-align:middle;' title=''></a>";
 }
 
-imgOrigDNA.addEventListener('load',function(){
- createDNA(imgOrigDNA);
-});
-
 function setImage(canvasId,data){
  let tempCanvas=document.getElementById(canvasId).getContext('2d');
  tempCanvas.canvas.width=data.width;
  tempCanvas.canvas.height=data.height;
  tempCanvas.clearRect(0,0,tempCanvas.canvas.width,tempCanvas.canvas.height);
  tempCanvas.putImageData(data,0,0);
+}
+
+imgOrigDNA.addEventListener('load',function(){
+ createDNA(imgOrigDNA);
+});
+
+imgOrigAA.addEventListener('load',function(){
+ createAA(imgOrigAA);
+});
+
+async function createAA(originalImage){
+ //var data=getArtImageData(originalImage);
+ //var seqDNA=getDNASequence(data);
+ var seqDNA="";
+ if(DNASeq!=null&&DNASeq.innerText!=""&&DNASeq.innerText.length>0)
+  seqDNA=DNASeq.value;
+ else{
+  var data=getArtImageData(originalImage);
+  seqDNA=getDNASequence(data);
+ }
+ var seqAA=getAminoAcids(seqDNA); 
+ seqLengthAA.innerHTML="Length: "+(seqAA.length)+ " amino acids";
+ AASeq.innerHTML=seqAA;
+ await drawAA(originalImage,seqAA);
+}
+
+function getAminoAcids(seqDNA){
+ var seqLen=seqDNA.length;
+ if((seqLen%3)!=0){ 
+  var delta=3-(seqLen%3); 
+  seqDNA.padEnd(delta,' ');
+  seqLen=seqDNA.length;
+ }
+ var aaSeq="";
+ for(var i=0;i<seqLen;i+=3){
+  aaSeq+=codonToAminoAcid(seqDNA.substr(i,3));
+ }
+ return aaSeq;
+}
+
+function codonToAminoAcid(codon){
+ for(var k=0;k<CODONS.length;k++){
+  if(CODONS[k]==codon){
+   return AMINOS_PER_CODON[k];
+  }
+ }
+ // never reach here with valid codon
+ //return "X";
+ return "-";
+}
+
+function handleFiles2(files){
+ files=[...files];
+ files.forEach(manageFile2);
+}
+
+async function manageFile2(file){ 
+ const ID=file.name.split('.')[0];
+ imgOrigAA.id=ID;
+ imgOrigAA.title=file.name;
+ console.log("*Image: "+file.name)
+ imgOrigAA.alt="";
+ imgOrigAA.addEventListener("load",async function(){
+  createAA(imgOrigAA);
+ });
+ imgOrigAA.src=await fileToDataUri(file);
+ 
+}
+
+async function drawAA(originalImage,codons){
+ const canvas=document.createElement("canvas");
+ const context=canvas.getContext("2d",{willReadFrequently:true});
+ const w=200;
+ const h=276;
+ canvas.width=w;
+ canvas.height=h;
+ context.drawImage(originalImage,0,0,w,h,0,0,w,h);
+ var data=context.getImageData(0,0,canvas.width,canvas.height);
+ var data1=AA2Image(data,codons)
+ setImage('imgAAColor',data1);
+ setImage('imgAABW',emboss(canny(data1)));
+ var img=prevTr.querySelector('img').getAttribute('src');
+ var imgtitle=prevTr.querySelector('img').getAttribute('title');
+ imgAAColor.title=imgtitle+"\n(Amino Acids Image)";
+ imgAABW.title=imgtitle+"\n(Amino Acids Paths)";
+}
+
+function AA2Image(imgData,codons){
+ var tempData=imgData;
+ var len=codons.length;
+ var r,g,b;
+ var p;
+ for(var i=0;i<len;i++){
+  const c=codons[i];
+  switch(c){
+   case 'H':   //histidine 255,128,193
+      r = 255;    // red
+      g = 128;    // green
+      b = 193;    // blue
+      break;
+   case 'E':   //glutamic acid 255,162,128
+      r = 255;    // red
+      g = 162;    // green
+      b = 128;    // blue
+      break;
+   case 'D':   //aspartic acid 255,193,128
+      r = 255;    // red
+      g = 193;    // green
+      b = 128;    // blue
+      break;
+   case 'K':   //lysine 255,128,227
+      r = 255;    // red
+      g = 128;    // green
+      b = 227;    // blue
+      break;
+   case 'C':   //cysteine 249,255,128
+      r = 249;    // red
+      g = 255;    // green
+      b = 128;    // blue
+      break;
+   case 'G':   //glycine 217,255,128
+      r = 217;    // red
+      g = 255;    // green
+      b = 128;    // blue
+      break;
+   case 'A':   //alanine 183,255,128
+      r = 183;    // red
+      g = 255;    // green
+      b = 128;    // blue
+      break;
+   case 'V':   //valine 128,255,138
+      r = 128;    // red
+      g = 255;    // green
+      b = 138;    // blue
+      break;
+   case 'L':   //leucine 128,255,172
+      r = 128;    // red
+      g = 255;    // green
+      b = 172;    // blue
+      break;
+   case 'I':   //isoleucine 128,255,206
+      r = 128;    // red
+      g = 255;    // green
+      b = 206;    // blue
+      break;
+   case 'F':   //phenylalanine 128,255,238
+      r = 128;    // red
+      g = 255;    // green
+      b = 238;    // blue
+      break;
+   case 'W':   //tryptophan 128,238,255
+      r = 128;    // red
+      g = 238;    // green
+      b = 255;    // blue
+      break;
+   case 'S':   //serine 128,206,255
+      r = 128;    // red
+      g = 206;    // green
+      b = 255;    // blue
+      break;
+   case 'T':   //threonine 128,172,255
+      r = 128;    // red
+      g = 172;    // green
+      b = 255;    // blue
+      break;
+   case 'Q':   //glutamine 149,128,255
+      r = 149;    // red
+      g = 128;    // green
+      b = 255;    // blue
+      break;
+   case 'N':   //asparagine 183,128,255
+      r = 183;    // red
+      g = 128;    // green
+      b = 255;    // blue
+      break;
+   case 'Y':   //tyrosine 217,128,255
+      r = 217;    // red
+      g = 128;    // green
+      b = 255;    // blue
+      break;
+   case 'R':   //arginine 249,128,255
+      r = 249;    // red
+      g = 128;    // green
+      b = 255;    // blue
+      break;
+   case 'P':   //proline 255,128,162
+      r = 255;    // red
+      g = 128;    // green
+      b = 162;    // blue
+      break;
+   case 'M':   //methionine 149,255,128
+      r = 149;    // red
+      g = 255;    // green
+      b = 128;    // blue
+      break;
+   case '-':   //Stop (Ochre ) 255,128,128 oppure (Amber) 255,227,128 oppure (Opal) 128,128,255
+      r = 255; //    0; // 19;    // red
+      g = 128; //   0; // 12;    // green
+      b = 128; // 0; // 18;    // blue
+      break;
+   default:
+      // Default a Black
+      r = 255; // 255;    // red
+      g = 255; // 255;    // green
+      b = 255; // 255;    // blue
+      break;
+  }
+  p=i*4;
+  tempData.data[p]  =r;
+  tempData.data[p+1]=g;
+  tempData.data[p+2]=b;
+ }  
+ return tempData;
+}
+
+function myPopupAAC(){
+ myPopupCanvas(imgAAColor,"");
+}
+function myPopupAABW(){
+ myPopupCanvas(imgAABW,"");
 }
