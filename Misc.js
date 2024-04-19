@@ -299,7 +299,7 @@ function showCardImage(elem,w,h,caption,title=""){
 
 imgGeo.addEventListener('load',function(){
   var hashCode=hashArtImage(imgGeo);
-  geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Geo Position</a>";
+  geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Altered Card Geo Position</a>";
 });
 
 function getGoogleMapsLink(hashCode){
@@ -523,8 +523,8 @@ async function manageFile1(file){
 async function drawDNA(originalImage,nucleotides){
  const canvas=document.createElement("canvas");
  const context=canvas.getContext("2d",{willReadFrequently:true});
- const w=350;
- const h=473;
+ const w=340; //350;
+ const h=488; //473;
  canvas.width=w;
  canvas.height=h;
  context.drawImage(originalImage,0,0,w,h,0,0,w,h);
@@ -532,6 +532,10 @@ async function drawDNA(originalImage,nucleotides){
  var data1=DNA2Image(data,nucleotides)
  setImage('imgDNAColor',data1);
  setImage('imgDNABW',emboss(canny(data1)));
+ var img=prevTr.querySelector('img').getAttribute('src');
+ var imgtitle=prevTr.querySelector('img').getAttribute('title');
+ imgDNAColor.title=imgtitle+" (DNA Image)";
+ imgDNABW.title=imgtitle+" (DNA Paths)";
 }
 
 function DNA2Image(imgData,nucleotides){
@@ -572,20 +576,21 @@ function DNA2Image(imgData,nucleotides){
 }
 
 function myPopupDNAC(){
- myPopupCanvas(imgDNAColor,"DNA Image");
+ myPopupCanvas(imgDNAColor,"");
 }
 function myPopupDNABW(){
- myPopupCanvas(imgDNABW,"DNA Paths");
+ myPopupCanvas(imgDNABW,"");
 }
 
 function myPopupCanvas(canvasId,title){
  if(prevTr===null)
   return;
- var imgtitle=prevTr.querySelector('img').getAttribute('title') +" ("+title+")";
+ var img=canvasId.toDataURL();
+ //if( img==null)
+  //return; 
+ var imgtitle=prevTr.querySelector('img').getAttribute('title')+(title?" ("+title+")":"");
  var url=prevTr.querySelector('a').getAttribute('href');
  var imgOrig=prevTr.querySelector('img').getAttribute('src');
- 
- var img=canvasId.toDataURL(); 
  modal.style.display="block";
  modalImg.src=img;
  modalImg.alt=imgtitle;

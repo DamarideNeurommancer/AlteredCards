@@ -350,10 +350,10 @@ table .selected{
 });
 </script>
 <div class="tab" id="myTabs">
-  <button class="tablinks" onclick="openTab(event, 'List')" id="defaultTab">List</button>
-  <button class="tablinks" onclick="openTab(event, 'DNA')">DNA</button>
-  <button class="tablinks" onclick="openTab(event, 'AminoAcids')">AminoAcids</button>
-  <button class="tablinks" onclick="openTab(event, 'GeoPosition')">Geo Position</button>
+  <button class="tablinks" onclick="openTab(event,'List')" id="defaultTab"><img src="list-icon.png" width='12' height='12' style='background-color:white;'> List</button>
+  <button class="tablinks" onclick="openTab(event,'DNA')">DNA</button>
+  <button class="tablinks" onclick="openTab(event,'AminoAcids')">AminoAcids</button>
+  <button class="tablinks" onclick="openTab(event,'GeoPosition')"><img src='forward-arrow-icon.png' width='12' height='12'>Geo Position</button>
 </div>
 
 <!-- Tab content -->
@@ -405,7 +405,7 @@ table .selected{
   </div>
   
   <p><label for="DNASeq">DNA Sequence</label></p>
-  <textarea id="DNASeq" name="DNASeq" rows="4" cols="50" placeholder="DNA Sequence..." readonly></textarea>
+  <textarea id="DNASeq" name="DNASeq" rows="6" cols="40" placeholder="DNA Sequence..." readonly></textarea>
   <p id="seqLength"></p>
 </div>
 
