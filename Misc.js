@@ -273,8 +273,8 @@ function showRow(index){
 function showOriginalImages(){
  showCardImage(imgGeo,192,266,captionGeo);
  showCardImage(imgOrigDNA,192,266,captionDNA);
- showCardImage(imgDNAColor,192,266,null,"DNA Color");
- showCardImage(imgDNABW,192,266,null,"DNA Paths");
+ //showCardImage(imgDNAColor,192,266,null,"DNA Color");
+ //showCardImage(imgDNABW,192,266,null,"DNA Paths");
 }
 
 function showCardImage(elem,w,h,caption,title=""){
@@ -417,7 +417,8 @@ function bits_to_hexhash( bits ) {
  }
  return hex.join('');
 }
-    
+
+/*    
 function handleFiles(files){
  files=[...files];
  files.forEach(manageFile);
@@ -434,7 +435,22 @@ let img=document.createElement('img')
   geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Geo Position</a>";
  });
  img.src=await fileToDataUri(file);
+ 
+const ID=file.name.split('.')[0];
+ imgGeo.id=ID;
+ imgGeo.title=file.name;
+ console.log("*Image: "+file.name)
+ imgGeo.alt="";
+ imgGeo.addEventListener("load",async function(){
+  var hashCode=hashArtImage(imgGeo);
+  geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Geo Position</a>";
+ });
+ imgGeo.src=await fileToDataUri(file); 
+ 
+ 
+ 
 }
+*/
 
 function fileToDataUri(field){
  return new Promise((resolve) => {
@@ -451,8 +467,9 @@ async function createDNA(originalImage){
  var seqDNA=getDNASequence(data);
  seqLength.innerHTML="Length: "+(seqDNA.length)+ " nucleotides";
  DNASeq.innerHTML=seqDNA;
- imgDNAColor.src=await drawDNA(originalImage,seqDNA);
+ //imgDNAColor.src=await drawDNA(originalImage,seqDNA);
  //imgDNABW.src=await drawDNABW(imgDNAColor);
+ await drawDNA(originalImage,seqDNA);
 }
 
 function getDNASequence(imageData){ 
@@ -510,7 +527,8 @@ function handleFiles1(files){
 }
 
 async function manageFile1(file){
-let img=document.createElement('img')
+ /*
+ let img=document.createElement('img')
  const ID=file.name.split('.')[0];
  img.id=ID;
  img.title=file.name;
@@ -520,6 +538,19 @@ let img=document.createElement('img')
   createDNA(img);
  });
  img.src=await fileToDataUri(file);
+ */
+ 
+ const ID=file.name.split('.')[0];
+ imgOrigDNA.id=ID;
+ imgOrigDNA.title=file.name;
+ console.log("*Image: "+file.name)
+ imgOrigDNA.alt="";
+ imgOrigDNA.addEventListener("load",async function(){
+  //createDNA(img);
+  createDNA(imgOrigDNA);
+ });
+ imgOrigDNA.src=await fileToDataUri(file);
+ 
 }
 
 async function drawDNA(originalImage,nucleotides){
@@ -531,8 +562,12 @@ async function drawDNA(originalImage,nucleotides){
  canvas.height=h;
  context.drawImage(originalImage,0,0,w,h,0,0,w,h);
  var data=context.getImageData(0,0,canvas.width,canvas.height);
- context.putImageData(emboss(DNA2Image(data,nucleotides)),0,0);
- return canvas.toDataURL();
+ //context.putImageData(emboss(DNA2Image(data,nucleotides)),0,0);
+ //return canvas.toDataURL();
+ var data1=DNA2Image(data,nucleotides)
+ setImage('imgDNAColor',data1);
+ setImage('imgDNABW',emboss(canny(data1)));
+ //return(emboss(DNA2Image(data,nucleotides)));
 }
 
 function DNA2Image(imgData,nucleotides){
@@ -585,13 +620,15 @@ async function drawDNABW(originalImage){
  return canvas.toDataURL();
 }
 function myPopupDNAC(){
- myPopupDNA(imgDNAColor,"DNA Color")
+ //myPopupDNA(imgDNAColor,"DNA Color");
+ myPopupCanvas(imgDNAColor,"DNA Color");
 }
 function myPopupDNABW(){
- myPopupDNA(imgDNABW,"DNA B&W")
+ //myPopupDNA(imgDNABW,"DNA B&W");
+ myPopupCanvas(imgDNABW,"DNA B&W");
 }
 
-function myPopupDNA(imgDNA, title){
+/*function myPopupDNA(imgDNA, title){
  if(imgDNA===null)
   return;
  var img=imgDNA.src;
@@ -602,7 +639,23 @@ function myPopupDNA(imgDNA, title){
  modalImg.alt=imgtitle;
  captionText.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+modalImg.alt+"</a>";
  scryfall.innerHTML="";
+}*/
+function myPopupCanvas(canvasId,title){
+ //let tempCanvas=document.getElementById(canvasId).getContext('2d');
+ //const canvas=document.createElement("canvas");
+ //const context=canvas.getContext("2d",{willReadFrequently:true});
+ var img=canvasId.toDataURL();
+ //var imgtitle=title; 
+ var url=""; 
+ modal.style.display="block";
+ modalImg.src=img;
+ modalImg.alt=title;
+ modalImg.title=title;
+ captionText.innerHTML=title; //"<a href='"+url+"' style='font-size: 16px;'>"+title+"</a>";
+ scryfall.innerHTML="";
 }
+
+/*
 function drawBlurred(originalImage){
  const canvas=document.createElement("canvas");
  const context=canvas.getContext("2d",{willReadFrequently:true});
@@ -612,19 +665,33 @@ function drawBlurred(originalImage){
  canvas.height=h;
  context.drawImage(originalImage,0,0,w,h,0,0,w,h);
  var data=context.getImageData(0,0,canvas.width,canvas.height);
- context.putImageData(gaussianBlur(data),0,0);
- return canvas.toDataURL();
+ //context.putImageData(gaussianBlur(data),0,0);
+ //return canvas.toDataURL();
+ var data1=gaussianBlur(data);
+ setImage('imgDNAColor',data1);
+ setImage('imgDNABW',data1);
 }
+*/
 
 imgOrigDNA.addEventListener('load',function(){
  createDNA(imgOrigDNA);
 });
 
-imgDNAColor.addEventListener('load',function(){
- imgDNABW.src=drawDNABW(imgDNAColor);
-});
-
-function paintPaths(){
+/*imgDNAColor.addEventListener('load',function(){
+ imgDNABW.src=await drawDNABW(imgDNAColor);
+});*/
+                                                   
+/*
+async function paintPaths(){
  if(imgDNAColor!=null)
-  imgDNABW.src=drawDNABW(imgDNAColor);
+  imgDNABW.src=await drawDNABW(imgDNAColor);
+}
+*/
+
+function setImage(canvasId,data){
+ let tempCanvas=document.getElementById(canvasId).getContext('2d');
+ tempCanvas.canvas.width=data.width;
+ tempCanvas.canvas.height=data.height;
+ tempCanvas.clearRect(0,0,tempCanvas.canvas.width,tempCanvas.canvas.height);
+ tempCanvas.putImageData(data,0,0);
 }

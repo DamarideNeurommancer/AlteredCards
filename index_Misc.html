@@ -367,16 +367,17 @@ table .selected{
 
 <div id="DNA" class="tabcontent">
   <h5>Altered Card DNA Image</h5>
-  <button id='btnDNA' onclick='paintPaths()'><img src="album-icon.png" width='12' height='12'>Paint Paths</button>
-  <!--label class="button" for="fileElem1"><i>Select image file</i><br></label>
-  <input type="file" id="fileElem1" accept="image/*" onchange="handleFiles1(this.files)" title="Select image from Filesystem"-->
+  <!--button id='btnDNA' onclick='paintPaths()'><img src="album-icon.png" width='12' height='12'>Paint Paths</button-->
+  <label class="button" for="fileElem1"><i>Select image file</i><br></label>
+  <input type="file" id="fileElem1" accept="image/*" onchange="handleFiles1(this.files)" title="Select image from Filesystem">
   <div class="container">
    <div class="box">
     <img class="thumb-content" id="imgOrigDNA" onclick='myPopup()'>
     <p id="captionDNA">    
    </div>
    <div class="box">
-    <img class="thumb-content" id="imgDNAColor" onclick='myPopupDNAC()' title="DNA">
+    <!--img class="thumb-content" id="imgDNAColor" onclick='myPopupDNAC()' title="DNA"-->
+    <canvas class="thumb-content" id="imgDNAColor" onclick='myPopupDNAC()' title="DNA"></canvas>
     <p>DNA Image Color</p>
     <table>
      <tr><td>A-Adenine</td><td>C-Cytosine</td><td>G-Guanine</td><td>T-Thymine</td></tr>
@@ -389,7 +390,8 @@ table .selected{
     </table>
    </div>
    <div class="box">
-    <img class="thumb-content" id="imgDNABW" onclick='myPopupDNABW()' title="DNA Paths" >
+    <!--img class="thumb-content" id="imgDNABW" onclick='myPopupDNABW()' title="DNA Paths"-->
+    <canvas class="thumb-content" id="imgDNABW" onclick='myPopupDNABW()' title="DNA"></canvas>
     <p>DNA Image B&W</p>
    </div>
   </div>
