@@ -61,11 +61,11 @@ function mySearch(){
    cell=row.insertCell(-1);
    cell.innerHTML="<font size='2' style='padding: 4px;'>"+CardNAME+"</font>";
  
-   cell=row.insertCell(-1);
+   /*cell=row.insertCell(-1);
    cell.innerHTML="<font size='1' style='visibility:hidden;'>"+i+"</font>";
    cell.innerText=i;
    cell.nodeValue=i;
-   cell.hidden=true;
+   cell.hidden=true;*/
   }
  }
  totalCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves";
@@ -254,7 +254,7 @@ function openTab(evt, tabName) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display="block";
   evt.currentTarget.className+=" active";
-  if(tabName=="Search"){
+  if(tabName=="List"){
    try{
     if(prevIx!=null){
      showRow(prevIx);
@@ -264,6 +264,8 @@ function openTab(evt, tabName) {
   }
   catch{;}
  }
+ else
+  window.scrollTo(0,0);
 }
 
 function showRow(index){
@@ -424,18 +426,7 @@ function handleFiles(files){
  files.forEach(manageFile);
 }
 
-async function manageFile(file){
-let img=document.createElement('img')
- const ID=file.name.split('.')[0];
- img.id=ID;
- img.title=file.name;
- img.alt="";
- img.addEventListener("load",async function(){
-  var hashCode=hashArtImage(img);
-  geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Geo Position</a>";
- });
- img.src=await fileToDataUri(file);
- 
+async function manageFile(file){ 
 const ID=file.name.split('.')[0];
  imgGeo.id=ID;
  imgGeo.title=file.name;
@@ -445,10 +436,7 @@ const ID=file.name.split('.')[0];
   var hashCode=hashArtImage(imgGeo);
   geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Geo Position</a>";
  });
- imgGeo.src=await fileToDataUri(file); 
- 
- 
- 
+ imgGeo.src=await fileToDataUri(file);  
 }
 */
 
@@ -467,8 +455,6 @@ async function createDNA(originalImage){
  var seqDNA=getDNASequence(data);
  seqLength.innerHTML="Length: "+(seqDNA.length)+ " nucleotides";
  DNASeq.innerHTML=seqDNA;
- //imgDNAColor.src=await drawDNA(originalImage,seqDNA);
- //imgDNABW.src=await drawDNABW(imgDNAColor);
  await drawDNA(originalImage,seqDNA);
 }
 
@@ -488,18 +474,14 @@ function getDNASequence(imageData){
   bits+=rb.substring(6,8);
   bits+=gb.substring(6,8);
   bits+=bb.substring(7,8);
-  //seq+=conv2nucleotides(rb)+conv2nucleotides(gb)+conv2nucleotides(bb);
  }
  seq=conv2nucleotides(bits);
- //console.log("I: "+i + "pixels.length: "+pixels.length+ " cycles:"+cnt+ " SeqLen: "+seq.length);
  return(seq);  
 }
 
 const zeroPad=(num,places)=>String(num).padStart(places,'0');
 function conv2nucleotides(val)
 {
- //if(val.length<8)
-  //val=zeroPad(val,8);
  const group=2;
  const last_sextet=val.length-group;
  var sextet="";
@@ -512,8 +494,6 @@ function conv2nucleotides(val)
    }
   }
  }
- //if(outSeq.length!=4)
- // console.warn("Error val:"+val);
  return(outSeq);
 }
 
@@ -526,20 +506,7 @@ function handleFiles1(files){
  files.forEach(manageFile1);
 }
 
-async function manageFile1(file){
- /*
- let img=document.createElement('img')
- const ID=file.name.split('.')[0];
- img.id=ID;
- img.title=file.name;
- console.log("*Image: "+file.name)
- img.alt="";
- img.addEventListener("load",async function(){
-  createDNA(img);
- });
- img.src=await fileToDataUri(file);
- */
- 
+async function manageFile1(file){ 
  const ID=file.name.split('.')[0];
  imgOrigDNA.id=ID;
  imgOrigDNA.title=file.name;
@@ -562,12 +529,9 @@ async function drawDNA(originalImage,nucleotides){
  canvas.height=h;
  context.drawImage(originalImage,0,0,w,h,0,0,w,h);
  var data=context.getImageData(0,0,canvas.width,canvas.height);
- //context.putImageData(emboss(DNA2Image(data,nucleotides)),0,0);
- //return canvas.toDataURL();
  var data1=DNA2Image(data,nucleotides)
  setImage('imgDNAColor',data1);
  setImage('imgDNABW',emboss(canny(data1)));
- //return(emboss(DNA2Image(data,nucleotides)));
 }
 
 function DNA2Image(imgData,nucleotides){
@@ -607,86 +571,33 @@ function DNA2Image(imgData,nucleotides){
  return tempData;
 }
 
-async function drawDNABW(originalImage){
- const canvas=document.createElement("canvas");
- const context=canvas.getContext("2d",{willReadFrequently:true});
- const w=350;
- const h=473;
- canvas.width=w;
- canvas.height=h;
- context.drawImage(originalImage,0,0,w,h,0,0,w,h);
- var data=context.getImageData(0,0,canvas.width,canvas.height);
- context.putImageData(emboss(canny(data)),0,0);
- return canvas.toDataURL();
-}
 function myPopupDNAC(){
- //myPopupDNA(imgDNAColor,"DNA Color");
- myPopupCanvas(imgDNAColor,"DNA Color");
+ myPopupCanvas(imgDNAColor,"DNA Image");
 }
 function myPopupDNABW(){
- //myPopupDNA(imgDNABW,"DNA B&W");
- myPopupCanvas(imgDNABW,"DNA B&W");
+ myPopupCanvas(imgDNABW,"DNA Paths");
 }
 
-/*function myPopupDNA(imgDNA, title){
- if(imgDNA===null)
+function myPopupCanvas(canvasId,title){
+ if(prevTr===null)
   return;
- var img=imgDNA.src;
- var imgtitle=title; 
- var url=""; 
+ var imgtitle=prevTr.querySelector('img').getAttribute('title') +" ("+title+")";
+ var url=prevTr.querySelector('a').getAttribute('href');
+ var imgOrig=prevTr.querySelector('img').getAttribute('src');
+ 
+ var img=canvasId.toDataURL(); 
  modal.style.display="block";
  modalImg.src=img;
  modalImg.alt=imgtitle;
- captionText.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+modalImg.alt+"</a>";
- scryfall.innerHTML="";
-}*/
-function myPopupCanvas(canvasId,title){
- //let tempCanvas=document.getElementById(canvasId).getContext('2d');
- //const canvas=document.createElement("canvas");
- //const context=canvas.getContext("2d",{willReadFrequently:true});
- var img=canvasId.toDataURL();
- //var imgtitle=title; 
- var url=""; 
- modal.style.display="block";
- modalImg.src=img;
- modalImg.alt=title;
- modalImg.title=title;
- captionText.innerHTML=title; //"<a href='"+url+"' style='font-size: 16px;'>"+title+"</a>";
- scryfall.innerHTML="";
+ modalImg.title=imgtitle;
+ captionText.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+imgtitle+"</a>";
+ //Now isn't scryfall
+ scryfall.innerHTML="<a href='"+url+"' style='font-size: 16px;'><img src='"+imgOrig+"' alt='"+imgtitle+"' style='width:60px;height:84px;vertical-align:middle;' title=''></a>";
 }
-
-/*
-function drawBlurred(originalImage){
- const canvas=document.createElement("canvas");
- const context=canvas.getContext("2d",{willReadFrequently:true});
- const w=350;
- const h=488;
- canvas.width=w;
- canvas.height=h;
- context.drawImage(originalImage,0,0,w,h,0,0,w,h);
- var data=context.getImageData(0,0,canvas.width,canvas.height);
- //context.putImageData(gaussianBlur(data),0,0);
- //return canvas.toDataURL();
- var data1=gaussianBlur(data);
- setImage('imgDNAColor',data1);
- setImage('imgDNABW',data1);
-}
-*/
 
 imgOrigDNA.addEventListener('load',function(){
  createDNA(imgOrigDNA);
 });
-
-/*imgDNAColor.addEventListener('load',function(){
- imgDNABW.src=await drawDNABW(imgDNAColor);
-});*/
-                                                   
-/*
-async function paintPaths(){
- if(imgDNAColor!=null)
-  imgDNABW.src=await drawDNABW(imgDNAColor);
-}
-*/
 
 function setImage(canvasId,data){
  let tempCanvas=document.getElementById(canvasId).getContext('2d');

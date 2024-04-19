@@ -255,21 +255,21 @@ table .selected{
  cursor: zoom-in;
 }
 
-.box {
-    display:flex;
-    flex-direction: column;
-    justify-content:center;
-    align-items:left;
-    margin: 2px;
-    margin-bottom: 20px;
+.box{
+ display:flex;
+ flex-direction: column;
+ justify-content:center;
+ align-items:left;
+ margin: 2px;
+ margin-bottom: 20px;
 }
 
-.container {
-    display:flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    justify-content:left;
-    align-items:left;
+.container{
+ display:flex;
+ flex-wrap: wrap;
+ flex-direction: row;
+ justify-content:left;
+ align-items:left;
 } 
 </style> 
 <div class="header" id="myHeader">
@@ -327,7 +327,7 @@ table .selected{
    <table>
     <tr>
      <td>
-      <input type='search' id='myInput' size='20' placeholder='Card-name...' title='Search by card-name...' data-clear-btn='true'>
+      <input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
       <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'></button>
       <button id='myBtnHelp' onclick='myHelp()' title='Help'>?</button>
       <button id='myBtnPopup' onclick='myPopup()' title='Zoom card image'><img src="zoom-icon.png" width='12' height='12'></button>
@@ -350,14 +350,14 @@ table .selected{
 });
 </script>
 <div class="tab" id="myTabs">
-  <button class="tablinks" onclick="openTab(event, 'Search')" id="defaultTab">Search</button>
+  <button class="tablinks" onclick="openTab(event, 'List')" id="defaultTab">List</button>
   <button class="tablinks" onclick="openTab(event, 'DNA')">DNA</button>
   <button class="tablinks" onclick="openTab(event, 'AminoAcids')">AminoAcids</button>
   <button class="tablinks" onclick="openTab(event, 'GeoPosition')">Geo Position</button>
 </div>
 
 <!-- Tab content -->
-<div id="Search" class="tabcontent">
+<div id="List" class="tabcontent">
   <div class="table-container" id="myContent">
    <div class='left' id='center-header' style='background-attachment:fixed;background-repeat:no-repeat;background-position:center;background-position-y:220px;background-size:300px;'>
     <table class="listTable" id='myTable' border="0" style="background-color:#000000;"></table>
@@ -367,7 +367,6 @@ table .selected{
 
 <div id="DNA" class="tabcontent">
   <h5>Altered Card DNA Image</h5>
-  <!--button id='btnDNA' onclick='paintPaths()'><img src="album-icon.png" width='12' height='12'>Paint Paths</button-->
   <label class="button" for="fileElem1"><i>Select image file</i><br></label>
   <input type="file" id="fileElem1" accept="image/*" onchange="handleFiles1(this.files)" title="Select image from Filesystem">
   <div class="container">
@@ -376,10 +375,10 @@ table .selected{
     <p id="captionDNA">    
    </div>
    <div class="box">
-    <!--img class="thumb-content" id="imgDNAColor" onclick='myPopupDNAC()' title="DNA"-->
     <canvas class="thumb-content" id="imgDNAColor" onclick='myPopupDNAC()' title="DNA"></canvas>
-    <p>DNA Image Color</p>
+    <!--p style="text-align:center">DNA Image</p-->
     <table>
+     <tr ><td></td><td>DNA Image</td><td></td><td></td></tr>
      <tr><td>A-Adenine</td><td>C-Cytosine</td><td>G-Guanine</td><td>T-Thymine</td></tr>
      <tr>
      <td><div style="background-color:Red;height:10px;"></div></td>
@@ -390,9 +389,18 @@ table .selected{
     </table>
    </div>
    <div class="box">
-    <!--img class="thumb-content" id="imgDNABW" onclick='myPopupDNABW()' title="DNA Paths"-->
-    <canvas class="thumb-content" id="imgDNABW" onclick='myPopupDNABW()' title="DNA"></canvas>
-    <p>DNA Image B&W</p>
+    <canvas class="thumb-content" id="imgDNABW" onclick='myPopupDNABW()' title="DNA Paths"></canvas>
+    <!--p style="text-align:center">DNA Paths</p-->
+    <table>
+     <tr ><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>DNA Paths</td></tr>
+     <tr style="height:18px;"><td></td><td></td><td></td><td></td></tr>
+     <tr>
+     <td><div style="background-color:transparent;height:10px;"></div></td>
+     <td><div style="background-color:transparent;height:10px;"></div></td>
+     <td><div style="background-color:transparent;height:10px;"></div></td>
+     <td><div style="background-color:transparent;height:10px;"></div></td>
+     </tr>
+    </table>
    </div>
   </div>
   
