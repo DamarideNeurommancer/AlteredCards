@@ -407,8 +407,13 @@ function myPopup(){
  modalImg.alt=imgtitle;
  captionText.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+modalImg.alt+"</a>";
  var result=imgtitle.indexOf(" ");
+ var CardID=imgtitle.substr(0,result-1).trim();
  var scryCard=imgtitle.substring(result+1);
- scryfall.innerHTML="<a href='https://scryfall.com/search?q=!\""+scryCard.replaceAll("'","%27").replaceAll("&","%26")+"\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
+ if(CardID >100)
+  scryfall.innerHTML="<a href='https://scryfall.com/search?q=!\""+scryCard.replaceAll("'","%27").replaceAll("&","%26")+"\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
+ else
+  scryfall.innerHTML="";
+  
 }
 
 var span=document.getElementsByClassName("close")[0];
