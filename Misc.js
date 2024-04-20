@@ -350,7 +350,7 @@ function getGoogleMapsLink(hashCode){
   }
   var lastC1=c1+"."+dddLatFraz;
   var lastC2=c2+"."+dddLonFraz;
-  var gmapslink="https://www.google.com/maps?q="+lastC1+","+lastC2+"&ll="+lastC1+","+lastC2+"&z=1";
+  var gmapslink="https://www.google.com/maps?q="+lastC1+","+lastC2+"&ll="+lastC1+","+lastC2+"&z=2";
   return(gmapslink);
 }
 
@@ -541,7 +541,7 @@ async function drawDNA(originalImage,nucleotides){
  context.drawImage(originalImage,0,0,w,h,0,0,w,h);
  var data=context.getImageData(0,0,canvas.width,canvas.height);
  var data1=DNA2Image(data,nucleotides)
- setImage('imgDNAColor',data1,"white",14,70);
+ setImage('imgDNAColor',data1,"Black",14,70);
  setImage('imgDNABW',emboss(canny(data1)),"Red",14,70);
  var img=prevTr.querySelector('img').getAttribute('src');
  var imgtitle=prevTr.querySelector('img').getAttribute('title');
