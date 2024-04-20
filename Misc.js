@@ -47,7 +47,7 @@ const AMINOS_PER_CODON=[
   "M", "T", "T", "T", "T", "N", "N", "K", "K", "S", "S", "R", "R",
   "V", "V", "V", "V", "A", "A", "A", "A", "D", "D", "E", "E", "G",
   "G", "G", "G"];
-          
+const wmt="\u00A9 DamarideNeurommancer";          
 defaultTab.click();
 function mySearch(){
  var filter;
@@ -63,6 +63,8 @@ function mySearch(){
  for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
+  if( CardID<=100)
+   continue;
   var CardNAME=book.attributes[1].nodeValue;
   
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
@@ -117,7 +119,6 @@ function selectRow(tr,className){
  }   
  var imgurl=tr.querySelector('img').getAttribute('src');
  obj.style.backgroundImage="url('"+ imgurl+"')";
- // Da qui devi chiamare il caricamento delle immagini originali
  //document.body.style.cursor='wait';
  showOriginalImages();
  //document.body.style.cursor='default';  
@@ -262,21 +263,17 @@ async function myShare()
 
 
 function openTab(evt, tabName) {
-  // Declare all variables
   var i,tabcontent,tablinks;
-
   // Get all elements with class="tabcontent" and hide them
   tabcontent=document.getElementsByClassName("tabcontent");
   for(i=0;i<tabcontent.length;i++){
     tabcontent[i].style.display="none";
   }
-
   // Get all elements with class="tablinks" and remove the class "active"
   tablinks=document.getElementsByClassName("tablinks");
   for(i=0;i<tablinks.length;i++){
     tablinks[i].className=tablinks[i].className.replace(" active", "");
   }
-
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display="block";
   evt.currentTarget.className+=" active";
@@ -302,8 +299,6 @@ function showOriginalImages(){
  showCardImage(imgGeo,192,266,captionGeo);
  showCardImage(imgOrigDNA,192,266,captionDNA);
  showCardImage(imgOrigAA,192,266,captionAA);
- //showCardImage(imgDNAColor,192,266,null,"DNA Color");
- //showCardImage(imgDNABW,192,266,null,"DNA Paths");
 }
 
 function showCardImage(elem,w,h,caption,title=""){
@@ -420,19 +415,10 @@ function median(data){
 function translate_blocks_to_bits(blocks,pixels_per_block){
  let half_block_value=pixels_per_block*256*3/2;
  let bandsize=blocks.length/4;
-
- // Compare medians across four horizontal bands
  for(let i=0;i<4;i++){
   let m=this.median(blocks.slice(i*bandsize,(i+1)*bandsize));
-      
   for(let j=i*bandsize;j<(i+1)*bandsize;j++){
    let v=blocks[j];
-   // Output a 1 if the block is brighter than the median.
-   // With images dominated by black or white, the median may
-   // end up being 0 or the max value, and thus having a lot
-   // of blocks of value equal to the median.  To avoid
-   // generating hashes of all zeros or ones, in that case output
-   // 0 if the median is in the lower value space, 1 otherwise
    blocks[j]=Number(v>m||(Math.abs(v-m)<1&&m>half_block_value));
   }
  }
@@ -548,19 +534,19 @@ async function manageFile1(file){
 async function drawDNA(originalImage,nucleotides){
  const canvas=document.createElement("canvas");
  const context=canvas.getContext("2d",{willReadFrequently:true});
- const w=340; //350;
- const h=488; //473;
+ const w=340;
+ const h=488;
  canvas.width=w;
  canvas.height=h;
  context.drawImage(originalImage,0,0,w,h,0,0,w,h);
  var data=context.getImageData(0,0,canvas.width,canvas.height);
  var data1=DNA2Image(data,nucleotides)
- setImage('imgDNAColor',data1);
- setImage('imgDNABW',emboss(canny(data1)));
+ setImage('imgDNAColor',data1,"white",14,70);
+ setImage('imgDNABW',emboss(canny(data1)),"Red",14,70);
  var img=prevTr.querySelector('img').getAttribute('src');
  var imgtitle=prevTr.querySelector('img').getAttribute('title');
- imgDNAColor.title=imgtitle+" (DNA Image)";
- imgDNABW.title=imgtitle+" (DNA Paths)";
+ imgDNAColor.title=imgtitle+"\n(DNA Image)";
+ imgDNABW.title=imgtitle+"\n(DNA Paths)";
 }
 
 function DNA2Image(imgData,nucleotides){
@@ -601,36 +587,38 @@ function DNA2Image(imgData,nucleotides){
 }
 
 function myPopupDNAC(){
- myPopupCanvas(imgDNAColor,"");
+ myPopupCanvas(imgDNAColor,"DNA Image");
 }
 function myPopupDNABW(){
- myPopupCanvas(imgDNABW,"");
+ myPopupCanvas(imgDNABW,"DNA Paths");
 }
 
 function myPopupCanvas(canvasId,title){
  if(prevTr===null)
-  return;
- var img=canvasId.toDataURL();
- //if( img==null)
-  //return; 
- var imgtitle=prevTr.querySelector('img').getAttribute('title')+(title?" ("+title+")":"");
+  return;  
+ var imgtitle=prevTr.querySelector('img').getAttribute('title');
  var url=prevTr.querySelector('a').getAttribute('href');
  var imgOrig=prevTr.querySelector('img').getAttribute('src');
  modal.style.display="block";
- modalImg.src=img;
+ modalImg.src=canvasId.toDataURL();
  modalImg.alt=imgtitle;
- modalImg.title=imgtitle;
+ modalImg.title=imgtitle+(title?"\n("+title+")":"");
  captionText.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+imgtitle+"</a>";
- //Now isn't scryfall
  scryfall.innerHTML="<a href='"+url+"' style='font-size: 16px;'><img src='"+imgOrig+"' alt='"+imgtitle+"' style='width:60px;height:84px;vertical-align:middle;' title=''></a>";
 }
 
-function setImage(canvasId,data){
+function setImage(canvasId,data,wmC="white",wmFS=14,wx=20){
  let tempCanvas=document.getElementById(canvasId).getContext('2d');
  tempCanvas.canvas.width=data.width;
  tempCanvas.canvas.height=data.height;
  tempCanvas.clearRect(0,0,tempCanvas.canvas.width,tempCanvas.canvas.height);
  tempCanvas.putImageData(data,0,0);
+ 
+ //var cw=tempCanvas.canvas.width;
+ var ch=tempCanvas.canvas.height;
+ tempCanvas.font=wmFS+"px verdana";
+ tempCanvas.fillStyle=wmC;
+ tempCanvas.fillText(wmt,wx,ch-20);
 }
 
 imgOrigDNA.addEventListener('load',function(){
@@ -642,8 +630,6 @@ imgOrigAA.addEventListener('load',function(){
 });
 
 async function createAA(originalImage){
- //var data=getArtImageData(originalImage);
- //var seqDNA=getDNASequence(data);
  var seqDNA="";
  if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0)
   seqDNA=DNASeq.innerHTML;
@@ -678,7 +664,6 @@ function codonToAminoAcid(codon){
   }
  }
  // never reach here with valid codon
- //return "X";
  return "-";
 }
 
@@ -710,8 +695,8 @@ async function drawAA(originalImage,codons){
  context.drawImage(originalImage,0,0,w,h,0,0,w,h);
  var data=context.getImageData(0,0,canvas.width,canvas.height);
  var data1=AA2Image(data,codons)
- setImage('imgAAColor',data1);
- setImage('imgAABW',emboss(canny(data1)));
+ setImage('imgAAColor',data1,"Blue",10);
+ setImage('imgAABW',emboss(canny(data1)),"Red",10);
  var img=prevTr.querySelector('img').getAttribute('src');
  var imgtitle=prevTr.querySelector('img').getAttribute('title');
  imgAAColor.title=imgtitle+"\n(Amino Acids Image)";
@@ -726,116 +711,115 @@ function AA2Image(imgData,codons){
  for(var i=0;i<len;i++){
   const c=codons[i];
   switch(c){
-   case 'H':   //histidine 255,128,193
-      r = 255;    // red
-      g = 128;    // green
-      b = 193;    // blue
+   case 'H': //histidine 255,128,193
+      r = 255;
+      g = 128;
+      b = 193;
       break;
-   case 'E':   //glutamic acid 255,162,128
-      r = 255;    // red
-      g = 162;    // green
-      b = 128;    // blue
+   case 'E': //glutamic acid 255,162,128
+      r = 255;
+      g = 162;
+      b = 128;
       break;
-   case 'D':   //aspartic acid 255,193,128
-      r = 255;    // red
-      g = 193;    // green
-      b = 128;    // blue
+   case 'D': //aspartic acid 255,193,128
+      r = 255;
+      g = 193;
+      b = 128;
       break;
-   case 'K':   //lysine 255,128,227
-      r = 255;    // red
-      g = 128;    // green
-      b = 227;    // blue
+   case 'K': //lysine 255,128,227
+      r = 255;
+      g = 128;
+      b = 227;
       break;
-   case 'C':   //cysteine 249,255,128
-      r = 249;    // red
-      g = 255;    // green
-      b = 128;    // blue
+   case 'C': //cysteine 249,255,128
+      r = 249;
+      g = 255;
+      b = 128;
       break;
-   case 'G':   //glycine 217,255,128
-      r = 217;    // red
-      g = 255;    // green
-      b = 128;    // blue
+   case 'G': //glycine 217,255,128
+      r = 217;
+      g = 255;
+      b = 128;
       break;
-   case 'A':   //alanine 183,255,128
-      r = 183;    // red
-      g = 255;    // green
-      b = 128;    // blue
+   case 'A': //alanine 183,255,128
+      r = 183;
+      g = 255;
+      b = 128;
       break;
-   case 'V':   //valine 128,255,138
-      r = 128;    // red
-      g = 255;    // green
-      b = 138;    // blue
+   case 'V': //valine 128,255,138
+      r = 128;
+      g = 255;
+      b = 138;
       break;
-   case 'L':   //leucine 128,255,172
-      r = 128;    // red
-      g = 255;    // green
-      b = 172;    // blue
+   case 'L': //leucine 128,255,172
+      r = 128;
+      g = 255;
+      b = 172;
       break;
-   case 'I':   //isoleucine 128,255,206
-      r = 128;    // red
-      g = 255;    // green
-      b = 206;    // blue
+   case 'I': //isoleucine 128,255,206
+      r = 128;
+      g = 255;
+      b = 206;
       break;
-   case 'F':   //phenylalanine 128,255,238
-      r = 128;    // red
-      g = 255;    // green
-      b = 238;    // blue
+   case 'F': //phenylalanine 128,255,238
+      r = 128;
+      g = 255;
+      b = 238;
       break;
-   case 'W':   //tryptophan 128,238,255
-      r = 128;    // red
-      g = 238;    // green
-      b = 255;    // blue
+   case 'W': //tryptophan 128,238,255
+      r = 128;
+      g = 238;
+      b = 255;
       break;
-   case 'S':   //serine 128,206,255
-      r = 128;    // red
-      g = 206;    // green
-      b = 255;    // blue
+   case 'S': //serine 128,206,255
+      r = 128;
+      g = 206;
+      b = 255;
       break;
-   case 'T':   //threonine 128,172,255
-      r = 128;    // red
-      g = 172;    // green
-      b = 255;    // blue
+   case 'T': //threonine 128,172,255
+      r = 128;
+      g = 172;
+      b = 255;
       break;
-   case 'Q':   //glutamine 149,128,255
-      r = 149;    // red
-      g = 128;    // green
-      b = 255;    // blue
+   case 'Q': //glutamine 149,128,255
+      r = 149;
+      g = 128;
+      b = 255;
       break;
-   case 'N':   //asparagine 183,128,255
-      r = 183;    // red
-      g = 128;    // green
-      b = 255;    // blue
+   case 'N': //asparagine 183,128,255
+      r = 183;
+      g = 128;
+      b = 255;
       break;
-   case 'Y':   //tyrosine 217,128,255
-      r = 217;    // red
-      g = 128;    // green
-      b = 255;    // blue
+   case 'Y': //tyrosine 217,128,255
+      r = 217;
+      g = 128;
+      b = 255;
       break;
-   case 'R':   //arginine 249,128,255
-      r = 249;    // red
-      g = 128;    // green
-      b = 255;    // blue
+   case 'R': //arginine 249,128,255
+      r = 249;
+      g = 128;
+      b = 255;
       break;
-   case 'P':   //proline 255,128,162
-      r = 255;    // red
-      g = 128;    // green
-      b = 162;    // blue
+   case 'P': //proline 255,128,162
+      r = 255;
+      g = 128;
+      b = 162;
       break;
-   case 'M':   //methionine 149,255,128
-      r = 149;    // red
-      g = 255;    // green
-      b = 128;    // blue
+   case 'M': //methionine 149,255,128
+      r = 149;
+      g = 255;
+      b = 128;
       break;
-   case '-':   //Stop (Ochre ) 255,128,128 oppure (Amber) 255,227,128 oppure (Opal) 128,128,255
-      r = 255; //    0; // 19;    // red
-      g = 128; //   0; // 12;    // green
-      b = 128; // 0; // 18;    // blue
+   case '-': //Stop (Ochre ) 255,128,128 or (Amber) 255,227,128 or (Opal) 128,128,255
+      r = 255; 
+      g = 128; 
+      b = 128; 
       break;
-   default:
-      // Default a Black
-      r = 255; // 255;    // red
-      g = 255; // 255;    // green
-      b = 255; // 255;    // blue
+   default: // Default white
+      r = 255;
+      g = 255;
+      b = 255;
       break;
   }
   p=i*4;
@@ -847,10 +831,10 @@ function AA2Image(imgData,codons){
 }
 
 function myPopupAAC(){
- myPopupCanvas(imgAAColor,"");
+ myPopupCanvas(imgAAColor,"Amino Acids Image");
 }
 function myPopupAABW(){
- myPopupCanvas(imgAABW,"");
+ myPopupCanvas(imgAABW,"Amino Acids Paths");
 }
 
 function complementReverseDNA(nucleotides){
@@ -860,23 +844,18 @@ function complementReverseDNA(nucleotides){
   const n=nucleotides[i];
   switch(n){
    case 'A':
-    //complement+='T';
     complement='T'+complement;
     break;
    case 'T':
-    //complement+='A';
     complement='A'+complement;
     break;
    case 'G':
-    //complement+='C';
     complement='C'+complement;
     break;
    case 'C':
-    //complement+='G';
     complement='G'+complement;
     break;
    default:
-    //complement+='N';
     complement='N'+complement;
     break;    
   }
@@ -886,6 +865,6 @@ function complementReverseDNA(nucleotides){
 
 function myReverseDNA(){
  if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0){
-   DNASeq.innerHTML=complementReverseDNA(DNASeq.innerHTML);
+   DNASeq.innerHTML=complementReverseDNA(DNASeq.innerHTML);   
  }
 }
