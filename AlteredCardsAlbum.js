@@ -114,7 +114,8 @@ function myHelp(){
  In the sidebar menu there are also entries for:
  <ul style="background-color:black;"><li><a href="index_Match.html"><img src="match-icon.webp" width='12' height='12'>Match Game</a></li>
  <li><a href="index_Guess.html"><img src="guess-icon.webp" width='12' height='12' style='background-color:red'>Guess Game</a></li>
- <li><a href="index_Tarots.html"><img src="./tarots/Back2.webp" width='12' height='12'>Tarots Reading</a></li></ul>`;
+ <li><a href="index_Tarots.html"><img src="./tarots/Back2.webp" width='12' height='12'>Tarots Reading</a></li>
+ <li><a href="index_Misc.html" title="Miscellanea: DNA/AminoAcids/GeoPosition" style="font-size:14px">&#x1F9EC;Miscellanea</a></li></ul>`;
  sHelp+="\nTotal Cards: "+totXmlCards;
  try{
   Swal.fire({
@@ -213,7 +214,7 @@ function treeClick(){
  if(myTree.innerHTML=="")
   return;
  var toggler=document.getElementsByClassName('caret');
- for(var i=0;i<toggler.length;i++){
+ for(var i=0,len=toggler.length;i<len;i++){
   toggler[i].addEventListener('click',function(){
    this.parentElement.querySelector('.nested').classList.toggle('active');
    this.classList.toggle('caret-down');
@@ -224,7 +225,7 @@ function expandAll(){
  if(myTree.innerHTML=="")
   return;
  var toggler=document.getElementsByClassName('caret');
- for(var i=0;i<toggler.length;i++){
+ for(var i=0,len=toggler.length;i<len;i++){
   if(toggler[i].className!=""&&toggler[i].className=="caret"){
    toggler[i].click();
   }
@@ -234,7 +235,7 @@ function collapseAll(){
  if(myTree.innerHTML=="")
   return;
  var toggler=document.getElementsByClassName('caret');
- for(var i=0;i<toggler.length;i++){
+ for(var i=0,len=toggler.length;i<len;i++){
   if(toggler[i].className!=""&&toggler[i].className=="caret caret-down"){
    toggler[i].click();
   }
@@ -300,7 +301,7 @@ function treeSearch(MaxColumns){
      RelatedCards=RelatedCards.substring(0,RelatedCards.length-1);
     var relatedIDList=RelatedCards.split(';');
     buf.push('<ul class="nested">');
-    for(var iRel=0;iRel<relatedIDList.length;iRel++){
+    for(var iRel=0,len=relatedIDList.length;iRel<len;iRel++){
      var bookRel=getCardByID(relatedIDList[iRel]);
      RelatedCnt++;
      var CardIDRel=bookRel.attributes[0].nodeValue;
