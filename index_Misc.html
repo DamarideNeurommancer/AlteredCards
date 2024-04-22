@@ -267,6 +267,31 @@ textarea{
  border-radius: 4px;
  background-color: white;
 }
+/*.stamp{
+ --r: 4px; // control the radius of the circles
+ padding: calc(2*var(--r));
+ filter: grayscale(.4) drop-shadow(0 0 1px #0005) drop-shadow(0 0 1px #0005);
+ background: 
+  radial-gradient(var(--r),#0000 98%,#fff) round
+    calc(-1.5*var(--r)) calc(-1.5*var(--r)) /calc(3*var(--r)) calc(3*var(--r)),
+    linear-gradient(#fff 0 0)  no-repeat
+    50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r));
+}*/
+.img-magnifier-container {
+  position:relative;
+  justify-content:center;
+  align-items:center;  
+}
+
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /*Set the size of the magnifier glass:*/
+  width: 100px;
+  height: 100px;
+}
 </style> 
 <div class="header" id="myHeader">
  <div id="mySidebar" class="sidebar">
@@ -365,8 +390,8 @@ textarea{
 
  <div id="DNA" class="tabcontent">
   <h5>&#x1F9EC; Altered Card DNA Image</h5>
-  <!--label class="button" for="fileElem1"><i>Select image file</i><br></label>
-  <input type="file" id="fileElem1" accept="image/*" onchange="handleFiles1(this.files)" title="Select image from Filesystem"-->
+  <label class="button" for="fileElem1"><i>Select image file</i><br></label>
+  <input type="file" id="fileElem1" accept="image/*" onchange="handleFiles1(this.files)" title="Select image from Filesystem">
   <div class="container">
    <div class="box">
     <img class="thumb-content" id="imgOrigDNA" onclick='myPopup()'>
@@ -409,8 +434,8 @@ textarea{
 
  <div id="AminoAcids" class="tabcontent">
   <h5>&#x1F9A0; Altered Card Amino Acids Image</h5>
-  <!--label class="button" for="fileElem2"><i>Select image file</i><br></label>
-  <input type="file" id="fileElem2" accept="image/*" onchange="handleFiles2(this.files)" title="Select image from Filesystem"-->
+  <!label class="button" for="fileElem2"><i>Select image file</i><br></label>
+  <input type="file" id="fileElem2" accept="image/*" onchange="handleFiles2(this.files)" title="Select image from Filesystem">
   <div class="container">
    <div class="box">
     <img class="thumb-content" id="imgOrigAA" onclick='myPopup()'>
@@ -473,16 +498,20 @@ textarea{
   <h3 id="geoLink" title="Altered Card Geo Position"></h3>
   <img class="thumb-content" id="imgGeo" onclick='myPopup()'>
   <p id="captionGeo">
- </div>
+ </div> 
+
 
 <div id="myModal" class="modal">
   <span class="close">&times;</span>
+                               <div class="img-magnifier-container">
   <img class="modal-content" id="img01">
+                               </div> 
   <div>
   <p id="caption">
   <p id="scryfall" title="Search on Scryfall">
   </div>
 </div>
+
 <script src="AlteredCardsXml.js"></script>
 <script src="Misc.js"></script>
 <script src="Misc_filters.js"></script>
