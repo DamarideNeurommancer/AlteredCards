@@ -47,11 +47,7 @@ const AMINOS_PER_CODON=[
   "M", "T", "T", "T", "T", "N", "N", "K", "K", "S", "S", "R", "R",
   "V", "V", "V", "V", "A", "A", "A", "A", "D", "D", "E", "E", "G",
   "G", "G", "G"];
-const wmt="\u00A9 DamarideNeurommancer";
-var lastIxList=-1;
-var lastIxDna=-1;
-var lastIxAa=-1;
-var lastIxGeo=-1;          
+const wmt="\u00A9 DamarideNeurommancer";          
 defaultTab.click();
 function mySearch(){
  var filter;
@@ -124,7 +120,7 @@ function selectRow(tr,className){
  var imgurl=tr.querySelector('img').getAttribute('src');
  obj.style.backgroundImage="url('"+ imgurl+"')";
  //document.body.style.cursor='wait';
- //showOriginalImages();
+ showOriginalImages();
  //document.body.style.cursor='default';  
 }
 
@@ -207,7 +203,6 @@ function myPopup(){
  var result=imgtitle.indexOf(" ");
  var scryCard=imgtitle.substring(result+1);
  scryfall.innerHTML="<a href='https://scryfall.com/search?q=!\""+scryCard.replaceAll("'","%27").replaceAll("&","%26")+"\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
- magnify("img01",3);
 }
 
 var span=document.getElementsByClassName("close")[0];
@@ -282,8 +277,6 @@ function openTab(evt, tabName) {
   // Show the current tab, and add an "active" class to the button that opened the tab
   document.getElementById(tabName).style.display="block";
   evt.currentTarget.className+=" active";
-  
-  /*
   if(tabName=="List"){
    try{
     if(prevIx!=null){
@@ -296,44 +289,6 @@ function openTab(evt, tabName) {
  }
  else
   window.scrollTo(0,0);
- */
-  switch(tabName){
-   case "List":
-    try{
-     if(prevIx!=null&& prevIx!= lastIxList){
-      lastIxList=prevIx;
-      showRow(prevIx);
-      table.rows[prevIx].scrollIntoView(true,{behavior:"smooth"});
-      window.scrollBy(0,-240);
-     }
-    }
-    catch{;}
-    break;
-    
-   case "DNA":
-    if(prevIx!=null&& prevIx!= lastIxDna){
-     showCardImage(imgOrigDNA,192,266,captionDNA);
-     lastIxDna=prevIx;
-     window.scrollTo(0,0);
-    }
-    break;
-     
-   case "AminoAcids":
-    if(prevIx!=null&& prevIx!= lastIxAa){
-     showCardImage(imgOrigAA,192,266,captionAA);
-     lastIxAa=prevIx;
-     window.scrollTo(0,0);
-    }
-    break;
-    
-   case "GeoPosition":
-    if(prevIx!=null&& prevIx!= lastIxGeo){
-     showCardImage(imgGeo,192,266,captionGeo);
-     lastIxGeo=prevIx;
-     window.scrollTo(0,0);
-    }
-    break;  
-  }
 }
 
 function showRow(index){
@@ -648,7 +603,6 @@ function myPopupCanvas(canvasId,title){
  modalImg.src=canvasId.toDataURL();
  modalImg.alt=imgtitle;
  modalImg.title=imgtitle+(title?"\n("+title+")":"");
- //modalImg.className="modal-content stamp";
  captionText.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+imgtitle+"</a>";
  scryfall.innerHTML="<a href='"+url+"' style='font-size: 16px;'><img src='"+imgOrig+"' alt='"+imgtitle+"' style='width:60px;height:84px;vertical-align:middle;' title=''></a>";
 }
@@ -913,61 +867,4 @@ function myReverseDNA(){
  if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0){
    DNASeq.innerHTML=complementReverseDNA(DNASeq.innerHTML);   
  }
-}
-
-//////////////////////
-function magnify(imgID, zoom) {
-  var img, glass, w, h, bw;
-  img = document.getElementById(imgID);
-  /*create magnifier glass:*/
-  glass = document.createElement("DIV");
-  glass.setAttribute("class", "img-magnifier-glass");
-  /*insert magnifier glass:*/
-  img.parentElement.insertBefore(glass, img);
-  /*set background properties for the magnifier glass:*/
-  glass.style.backgroundImage = "url('" + img.src + "')";
-  glass.style.backgroundRepeat = "no-repeat";
-  glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
-  var delta=img.x;
-  bw = 3;
-  w = glass.offsetWidth / 2;
-  h = glass.offsetHeight / 2;
-  /*execute a function when someone moves the magnifier glass over the image:*/
-  glass.addEventListener("mousemove", moveMagnifier);
-  img.addEventListener("mousemove", moveMagnifier);
-  /*and also for touch screens:*/
-  glass.addEventListener("touchmove", moveMagnifier);
-  img.addEventListener("touchmove", moveMagnifier);
-  function moveMagnifier(e) {
-    var pos, x, y;
-    /*prevent any other actions that may occur when moving over the image*/
-    e.preventDefault();
-    /*get the cursor's x and y positions:*/
-    pos = getCursorPos(e);
-    x = pos.x;
-    y = pos.y;
-    /*prevent the magnifier glass from being positioned outside the image:*/
-    if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
-    if (x < w / zoom) {x = w / zoom;}
-    if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
-    if (y < h / zoom) {y = h / zoom;}
-    /*set the position of the magnifier glass:*/
-    glass.style.left = (x - w) + delta+"px";
-    glass.style.top = (y - h) + "px";
-    /*display what the magnifier glass "sees":*/
-    glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
-  }
-  function getCursorPos(e) {
-    var a, x = 0, y = 0;
-    e = e || window.event;
-    /*get the x and y positions of the image:*/
-    a = img.getBoundingClientRect();
-    /*calculate the cursor's x and y coordinates, relative to the image:*/
-    x = e.pageX - a.left;
-    y = e.pageY - a.top;
-    /*consider any page scrolling:*/
-    x = x - window.pageXOffset;
-    y = y - window.pageYOffset;
-    return {x : x, y : y};
-  }
 }
