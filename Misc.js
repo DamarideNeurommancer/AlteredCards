@@ -19,14 +19,14 @@ const myTabs=document.getElementById("myTabs");
 
 const imgDNAColor=document.getElementById("imgDNAColor");
 const imgDNABW=document.getElementById("imgDNABW");
-const seqLength=document.getElementById("seqLength");
 const DNASeq=document.getElementById("DNASeq");
+const DNASeqLbl=document.getElementById("DNASeqLbl");
 
 const imgOrigAA=document.getElementById("imgOrigAA");
 const captionAA=document.getElementById("captionAA");
 const imgAAColor=document.getElementById("imgAAColor");
 const imgAABW=document.getElementById("imgAABW");
-const seqLengthAA=document.getElementById("seqLengthAA");
+const AASeqLbl=document.getElementById("AASeqLbl");
 const AASeq=document.getElementById("AASeq");
 
 const nucleotidesBits=[["00","A"],["01","C"],["10","G"],["11","T"]];
@@ -199,6 +199,7 @@ function myPopup(){
  modal.style.display="block";
  modalImg.src=img;
  modalImg.alt=imgtitle;
+//modalImg.style.borderRadius="20px";
  captionText.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+modalImg.alt+"</a>";
  var result=imgtitle.indexOf(" ");
  var scryCard=imgtitle.substring(result+1);
@@ -466,7 +467,7 @@ function fileToDataUri(field){
 async function createDNA(originalImage){
  var data=getArtImageData(originalImage);
  var seqDNA=getDNASequence(data);
- seqLength.innerHTML="Length: "+(seqDNA.length)+ " nucleotides";
+ DNASeqLbl.innerHTML="DNA Sequence: "+(seqDNA.length)+ " nucleotides";
  DNASeq.innerHTML=seqDNA;
  await drawDNA(originalImage,seqDNA);
 }
@@ -540,13 +541,15 @@ async function drawDNA(originalImage,nucleotides){
  canvas.height=h;
  context.drawImage(originalImage,0,0,w,h,0,0,w,h);
  var data=context.getImageData(0,0,canvas.width,canvas.height);
- var data1=DNA2Image(data,nucleotides)
+ var data1=DNA2Image(data,nucleotides);
  setImage('imgDNAColor',data1,"Black",14,70);
  setImage('imgDNABW',emboss(canny(data1)),"Red",14,70);
  var img=prevTr.querySelector('img').getAttribute('src');
  var imgtitle=prevTr.querySelector('img').getAttribute('title');
  imgDNAColor.title=imgtitle+"\n(DNA Image)";
  imgDNABW.title=imgtitle+"\n(DNA Paths)";
+ DNAsample(nucleotides);
+ DNAsampleEx(nucleotides);
 }
 
 function DNA2Image(imgData,nucleotides){
@@ -600,11 +603,13 @@ function myPopupCanvas(canvasId,title){
  var url=prevTr.querySelector('a').getAttribute('href');
  var imgOrig=prevTr.querySelector('img').getAttribute('src');
  modal.style.display="block";
+ //modalImg.style.borderRadius="0px"; 
  modalImg.src=canvasId.toDataURL();
  modalImg.alt=imgtitle;
  modalImg.title=imgtitle+(title?"\n("+title+")":"");
+ 
  captionText.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+imgtitle+"</a>";
- scryfall.innerHTML="<a href='"+url+"' style='font-size: 16px;'><img src='"+imgOrig+"' alt='"+imgtitle+"' style='width:60px;height:84px;vertical-align:middle;' title=''></a>";
+ scryfall.innerHTML="<a href='"+url+"' style='font-size: 16px;'><img src='"+imgOrig+"' alt='"+imgtitle+"' style='width:60px;height:84px;vertical-align:middle;border-radius:6px' title='"+imgtitle+"'></a>";
 }
 
 function setImage(canvasId,data,wmC="white",wmFS=14,wx=20){
@@ -638,7 +643,7 @@ async function createAA(originalImage){
   seqDNA=getDNASequence(data);
  }
  var seqAA=getAminoAcids(seqDNA); 
- seqLengthAA.innerText="Length: "+(seqAA.length)+ " amino acids";
+ AASeqLbl.innerHTML="Amino Acids Sequence: "+(seqAA.length)+ " amino acids";
  AASeq.innerText=seqAA;
  await drawAA(originalImage,seqAA);
 }
@@ -838,6 +843,9 @@ function myPopupAABW(){
 }
 
 function complementReverseDNA(nucleotides){
+ // Complement&Reverse DNA only not RNA
+ if(nucleotides.indexOf("U")>-1)
+  return nucleotides;
  var len=nucleotides.length;
  var complement="";
  for(var i=0;i<len;i++){
@@ -866,5 +874,77 @@ function complementReverseDNA(nucleotides){
 function myReverseDNA(){
  if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0){
    DNASeq.innerHTML=complementReverseDNA(DNASeq.innerHTML);   
+ }
+}
+
+function DNAsample(nucleotides){
+ if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0){
+  var html="<pre>&#x1F52C; DNA Sample\n";
+  var len=nucleotides.length;
+  const maxLen=800;
+  colorDNA=document.getElementById('colorDNA');
+  for(var i=0;i<maxLen&&i<len;i++){
+   const n=nucleotides[i];
+   switch(n){
+    case 'A':
+     html+="<span class='nct cA'>A</span>";
+     break;
+    case 'C':
+     html+="<span class='nct cC'>C</span>";
+     break;
+    case 'G':
+     html+="<span class='nct cG'>G</span>"; 
+     break;
+    case 'T':
+     html+="<span class='nct cT'>T</span>"; 
+     break;
+   }
+   if((i+1)%40==0)
+    html+="\n"; 
+ }
+  html+="</pre>";  
+  colorDNA.innerHTML=html;
+ }
+}
+
+function myDNA2RNA(){
+ if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0){
+  var nucleotides=DNASeq.innerHTML;
+  if(nucleotides.indexOf('A')>-1)
+   DNASeq.innerHTML=DNASeq.innerHTML.replaceAll('A','U');
+  else
+   DNASeq.innerHTML=DNASeq.innerHTML.replaceAll('U','A');
+ }
+}
+
+function DNAsampleEx(nucleotides){
+ if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0){
+  var html="<pre>&#x1F9EA; DNA Sample 2\n";
+  var len=nucleotides.length;
+  const maxLen=390;
+  colorDNA2=document.getElementById('colorDNA2');
+  for(var i=0;i<maxLen&&i<len;i++){
+   const n=nucleotides[i];
+   switch(n){
+    case 'A':
+     html+="<span class='nct cA'>__</span>";
+     break;
+    case 'C':
+     html+="<span class='nct cC'>__</span>";
+     break;
+    case 'G':
+     html+="<span class='nct cG'>__</span>"; 
+     break;
+    case 'T':
+     html+="<span class='nct cT'>__</span>"; 
+     break;
+   }
+   if((i+1)%3==0&&(i+1)%15!=0)
+    html+="__";
+   if((i+1)%15==0)
+    html+="\n"; 
+ }
+  html+="</pre>";  
+  colorDNA2.innerHTML=html;
  }
 }
