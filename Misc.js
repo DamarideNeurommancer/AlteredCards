@@ -607,6 +607,10 @@ function myPopupCanvas(canvasId,title){
  var imgtitle=prevTr.querySelector('img').getAttribute('title');
  var url=prevTr.querySelector('a').getAttribute('href');
  var imgOrig=prevTr.querySelector('img').getAttribute('src');
+ modal.style.paddingTop="100px";
+ if(canvasId.id==="imgDNASample"){
+  modal.style.paddingTop="2px";
+ }
  modal.style.display="block";
  modalImg.style.borderRadius="0px"; 
  modalImg.src=canvasId.toDataURL();
