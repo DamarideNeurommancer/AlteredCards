@@ -243,7 +243,7 @@ table .selected{
  margin: 20px;
  display: block;
  width: 80%;
- border-radius: 20px;
+ //border-radius: 20px;
  cursor: zoom-in;
 }
 .box{
@@ -424,8 +424,14 @@ textarea{
   <textarea id="DNASeq" name="DNASeq" rows="6" cols="40" placeholder="DNA Sequence..." readonly></textarea>
   <p></p><button id='myBtnReverseDNA' onclick='myReverseDNA()' title='Reverse Complement DNA Sequence'>Reverse Complement <img src="reset-default-icon.webp" width='12' height='12'></button>
   <button id='myBtnDNA-RNA' onclick='myDNA2RNA()' title='Transcription from DNA to RNA and viceversa'>DNA&#x2194;RNA</button>
-   <div id="colorDNA"></div>
-   <div id="colorDNA2"></div>
+  <div id="colorDNA"></div>
+  <div id="colorDNA2"></div>
+  <div class="container">
+   <div class="box">
+    <p>&#x1F52C; DNA Sample</p>
+    <canvas class="thumb-content" id="imgDNASample" onclick='myPopupDNASample()' title="DNA Sample" style="margin:0px;"></canvas>
+   </div>
+  </div>
  </div>
 
  <div id="AminoAcids" class="tabcontent">

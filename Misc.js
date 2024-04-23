@@ -28,6 +28,7 @@ const imgAAColor=document.getElementById("imgAAColor");
 const imgAABW=document.getElementById("imgAABW");
 const AASeqLbl=document.getElementById("AASeqLbl");
 const AASeq=document.getElementById("AASeq");
+const imgDNASample=document.getElementById("imgDNASample");
 
 const nucleotidesBits=[["00","A"],["01","C"],["10","G"],["11","T"]];
 const CODONS=[
@@ -550,6 +551,10 @@ async function drawDNA(originalImage,nucleotides){
  imgDNABW.title=imgtitle+"\n(DNA Paths)";
  DNAsample(nucleotides);
  DNAsampleEx(nucleotides);
+ //New
+ var data2=DNASample2Image(nucleotides);
+ setImage('imgDNASample',data2,"White",14,70);
+ imgDNASample.title=imgtitle+"\n(DNA Sample)"
 }
 
 function DNA2Image(imgData,nucleotides){
@@ -603,7 +608,7 @@ function myPopupCanvas(canvasId,title){
  var url=prevTr.querySelector('a').getAttribute('href');
  var imgOrig=prevTr.querySelector('img').getAttribute('src');
  modal.style.display="block";
- //modalImg.style.borderRadius="0px"; 
+ modalImg.style.borderRadius="0px"; 
  modalImg.src=canvasId.toDataURL();
  modalImg.alt=imgtitle;
  modalImg.title=imgtitle+(title?"\n("+title+")":"");
@@ -919,7 +924,7 @@ function myDNA2RNA(){
 
 function DNAsampleEx(nucleotides){
  if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0){
-  var html="<pre>&#x1F9EA; DNA Sample 2\n";
+  var html="<pre>&#x1F9EA; DNA Sample\n";
   var len=nucleotides.length;
   const maxLen=390;
   colorDNA2=document.getElementById('colorDNA2');
@@ -947,4 +952,39 @@ function DNAsampleEx(nucleotides){
   html+="</pre>";  
   colorDNA2.innerHTML=html;
  }
+}
+
+function DNASample2Image(nucleotides){
+const canvas=document.createElement("canvas");
+ const ctx=canvas.getContext("2d",{willReadFrequently:true});
+ const w=350;
+ const h=746;
+ canvas.width=w;
+ canvas.height=h; 
+ ctx.fillStyle = "black";
+ ctx.fillRect(0,0,canvas.width, canvas.height);
+ var p=0; //nucletodes index
+ ctx.fillStyle = "red";
+ var color;
+ for(var y=5; y<740;y+=8){
+  for(var x=5; x<344;x+=8){
+    const n=nucleotides[p];
+    switch(n){
+     case 'A':color="red";break;
+     case 'C':color="yellow";break;
+     case 'G':color="green";break;
+     case 'T':color="blue";break;
+    }
+    ctx.fillStyle=color;
+    ctx.beginPath();
+    ctx.arc(x,y,3,0,2*Math.PI);
+    ctx.fill();
+    p++;
+   }
+ }
+ return(ctx.getImageData(0,0,canvas.width,canvas.height));
+}  
+
+function myPopupDNASample(){
+ myPopupCanvas(imgDNASample,"DNA Sample");
 }
