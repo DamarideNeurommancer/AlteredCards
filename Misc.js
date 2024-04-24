@@ -197,6 +197,7 @@ function myPopup(){
  var img=prevTr.querySelector('img').getAttribute('src');
  var imgtitle=prevTr.querySelector('img').getAttribute('title'); 
  var url=prevTr.querySelector('a').getAttribute('href'); 
+ modal.style.paddingTop="100px";
  modal.style.display="block";
  modalImg.src=img;
  modalImg.alt=imgtitle;
