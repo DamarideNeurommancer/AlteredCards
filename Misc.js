@@ -452,8 +452,6 @@ const ID=file.name.split('.')[0];
  imgGeo.addEventListener("load",async function(){
   var hashCode=hashArtImage(imgGeo);
   geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Altered Card Geo Position</a>";
-  //img2ascii(imgGeo);
-  //img2ascii();
  });
  imgGeo.src=await fileToDataUri(file);  
 }
@@ -998,60 +996,4 @@ function DNASample2Image(nucleotides){
 
 function myPopupDNASample(){
  myPopupCanvas(imgDNASample,"DNA Sample");
-}
-
-//const density_str="Ñ@#W$9876543210?!abc;:+=-,.   ";
-const density_str="@#$0%?!;:+=-,.   ";
-//const density_str=" .:-=+*#%@";
-//const density_str="@%#*+=-:. ";
-//function img2ascii(originalImage){
-function img2ascii(){
- const canvas=document.createElement("canvas");
- const context=canvas.getContext("2d",{willReadFrequently:true});
- const sx=0;
- const sy=0;
- const croppedWidth=350;
- const croppedHeight=488;
- canvas.width=croppedWidth;
- canvas.height=croppedHeight;
- //context.drawImage(originalImage,sx,sy,croppedWidth,croppedHeight,0,0,croppedWidth,croppedHeight);
- context.drawImage(imgGeo,sx,sy,croppedWidth,croppedHeight,0,0,croppedWidth,croppedHeight);
- var origData=context.getImageData(0,0,canvas.width,canvas.height);
- var grayData=grayscale(origData);
-
- var paintData=drawAscii(grayData);
- setImage('imgAscii',paintData,"Red",16,70); 
-}
-function drawAscii(imgData){
- const canvas=document.createElement("canvas");
- const ctx=canvas.getContext("2d",{willReadFrequently:true});
- const w=1400;
- const h=1952;
- canvas.width=w;
- canvas.height=h; 
- ctx.fillStyle = "black";
- ctx.fillRect(0,0,canvas.width, canvas.height);
- ctx.fillStyle = "lime";
- ctx.font="4px Courier, monospace";    
- var p=-1;
- var y=0;
- var x=0;
- var tempData=imgData;
- for(var r=0;r<tempData.height;r++){
-  x=0;
-  y+=4;
-  for(var c=0;c<tempData.width;c++){
-   x=c*4;
-   var gray=tempData.data[(r*350+c)*4];
-   var density_str_index=parseInt(gray/255*(density_str.length-1)+0.5);
-       density_str_index=density_str.length-density_str_index-1;
-   var character=density_str[density_str_index];
-   ctx.fillText(character,x,y);
-  }
- }
- return(ctx.getImageData(0,0,canvas.width,canvas.height)); 
-}
-
-function myPopupimgAscii(){
- myPopupCanvas(imgAscii,"Ascii Art");
 }
