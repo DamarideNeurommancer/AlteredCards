@@ -200,7 +200,7 @@ function myPopup(){
  modal.style.display="block";
  modalImg.src=img;
  modalImg.alt=imgtitle;
-//modalImg.style.borderRadius="20px";
+ modalImg.style.borderRadius="20px";
  captionText.innerHTML="<a href='"+url+"' style='font-size: 16px;'>"+modalImg.alt+"</a>";
  var result=imgtitle.indexOf(" ");
  var scryCard=imgtitle.substring(result+1);
@@ -309,7 +309,8 @@ function showCardImage(elem,w,h,caption,title=""){
  var img=prevTr.querySelector('img').getAttribute('src');
  var imgtitle=prevTr.querySelector('img').getAttribute('title'); 
  var url=prevTr.querySelector('a').getAttribute('href');
-    
+ 
+ elem.style.borderRadius="20px";   
  elem.style.display="block";
  elem.src=img;
  elem.title=title==""?imgtitle:title;
