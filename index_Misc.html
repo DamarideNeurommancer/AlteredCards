@@ -477,7 +477,7 @@ textarea{
    <div class="box">
     <canvas class="thumb-content" id="imgAABW" onclick='myPopupAABW()' title="AminoAcids Paths"></canvas>
     <table>
-     <tr ><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>Amino Acids Paths</td></tr>
+     <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>Amino Acids Paths</td></tr>
      <tr style="height:18px;"><td></td><td></td><td></td><td></td></tr>
      <tr>
      <td><div style="background-color:transparent;height:10px;"></div></td>
@@ -491,6 +491,14 @@ textarea{
    
    <p><label for="AASeq" id="AASeqLbl">Amino Acids Sequence</label></p>
    <textarea id="AASeq" name="AASeq" rows="6" cols="40" placeholder="Amino Acids Sequence..." readonly></textarea>
+   
+   <p></p><button id='myBtnAASample' onclick='aaSample()' title='Take a random sample of Amino Acids'>&#x1F9EA; Take a Sample</button>
+   <div class="container">
+    <div class="box">
+     <p id="captionAASample"></p>
+     <canvas class="thumb-content" id="imgAASample" onclick='myPopupAASample()' title="Amino Acids Sample" style="margin:0px;"></canvas>
+    </div>
+   </div>
  </div>
 
  <div id="GeoPosition" class="tabcontent">

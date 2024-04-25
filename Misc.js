@@ -29,6 +29,7 @@ const imgAABW=document.getElementById("imgAABW");
 const AASeqLbl=document.getElementById("AASeqLbl");
 const AASeq=document.getElementById("AASeq");
 const imgDNASample=document.getElementById("imgDNASample");
+const imgAASample=document.getElementById("imgAASample");
 
 const nucleotidesBits=[["00","A"],["01","C"],["10","G"],["11","T"]];
 const CODONS=[
@@ -380,7 +381,7 @@ function bmvbhash_even(data,bits) {
  let blocksize_x=Math.floor(data.width/bits);
  let blocksize_y=Math.floor(data.height/bits);
 
- let result = [];
+ let result=[];
  for(let y=0;y<bits;y++){
   for(let x=0;x<bits;x++){
    let total=0;
@@ -437,36 +438,6 @@ function bits_to_hexhash( bits ) {
  return hex.join('');
 }
 
-/*   
-function handleFiles(files){
- files=[...files];
- files.forEach(manageFile);
-}
-
-async function manageFile(file){ 
-const ID=file.name.split('.')[0];
- imgGeo.id=ID;
- imgGeo.title=file.name;
- console.log("*Image: "+file.name)
- imgGeo.alt="";
- imgGeo.addEventListener("load",async function(){
-  var hashCode=hashArtImage(imgGeo);
-  geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Altered Card Geo Position</a>";
- });
- imgGeo.src=await fileToDataUri(file);  
-}
-*/
-
-function fileToDataUri(field){
- return new Promise((resolve) => {
-  const reader=new FileReader();
-  reader.addEventListener("load", () => {
-   resolve(reader.result);
-  });
-  reader.readAsDataURL(field);
- });
-}  
-
 async function createDNA(originalImage){
  var data=getArtImageData(originalImage);
  var seqDNA=getDNASequence(data);
@@ -517,25 +488,6 @@ function conv2nucleotides(val)
 function dec2bin(dec){
  return zeroPad((dec>>>0).toString(2),8);
 }
-
-/*
-function handleFiles1(files){
- files=[...files];
- files.forEach(manageFile1);
-}
-
-async function manageFile1(file){ 
- const ID=file.name.split('.')[0];
- imgOrigDNA.id=ID;
- imgOrigDNA.title=file.name;
- console.log("*Image: "+file.name)
- imgOrigDNA.alt="";
- imgOrigDNA.addEventListener("load",async function(){
-  createDNA(imgOrigDNA);
- });
- imgOrigDNA.src=await fileToDataUri(file);
-}
-*/
 
 async function drawDNA(originalImage,nucleotides){
  const canvas=document.createElement("canvas");
@@ -612,7 +564,7 @@ function myPopupCanvas(canvasId,title){
  var url=prevTr.querySelector('a').getAttribute('href');
  var imgOrig=prevTr.querySelector('img').getAttribute('src');
  modal.style.paddingTop="100px";
- if(canvasId.id==="imgDNASample"){
+ if(canvasId.id==="imgDNASample"||canvasId.id==="imgAASample"){
   modal.style.paddingTop="2px";
  }
  modal.style.display="block";
@@ -685,25 +637,6 @@ function codonToAminoAcid(codon){
  return "-";
 }
 
-/*
-function handleFiles2(files){
- files=[...files];
- files.forEach(manageFile2);
-}
-
-async function manageFile2(file){ 
- const ID=file.name.split('.')[0];
- imgOrigAA.id=ID;
- imgOrigAA.title=file.name;
- console.log("*Image: "+file.name)
- imgOrigAA.alt="";
- imgOrigAA.addEventListener("load",async function(){
-  createAA(imgOrigAA);
- });
- imgOrigAA.src=await fileToDataUri(file); 
-}
-*/
-
 async function drawAA(originalImage,codons){
  const canvas=document.createElement("canvas");
  const context=canvas.getContext("2d",{willReadFrequently:true});
@@ -731,115 +664,115 @@ function AA2Image(imgData,codons){
   const c=codons[i];
   switch(c){
    case 'H': //histidine 255,128,193
-      r = 255;
-      g = 128;
-      b = 193;
-      break;
+    r=255;
+    g=128;
+    b=193;
+    break;
    case 'E': //glutamic acid 255,162,128
-      r = 255;
-      g = 162;
-      b = 128;
-      break;
+    r=255;
+    g=162;
+    b=128;
+    break;
    case 'D': //aspartic acid 255,193,128
-      r = 255;
-      g = 193;
-      b = 128;
-      break;
+    r=255;
+    g=193;
+    b=128;
+    break;
    case 'K': //lysine 255,128,227
-      r = 255;
-      g = 128;
-      b = 227;
-      break;
+    r=255;
+    g=128;
+    b=227;
+    break;
    case 'C': //cysteine 249,255,128
-      r = 249;
-      g = 255;
-      b = 128;
-      break;
+    r=249;
+    g=255;
+    b=128;
+    break;
    case 'G': //glycine 217,255,128
-      r = 217;
-      g = 255;
-      b = 128;
-      break;
+    r=217;
+    g=255;
+    b=128;
+    break;
    case 'A': //alanine 183,255,128
-      r = 183;
-      g = 255;
-      b = 128;
-      break;
+    r=183;
+    g=255;
+    b=128;
+    break;
    case 'V': //valine 128,255,138
-      r = 128;
-      g = 255;
-      b = 138;
-      break;
+    r=128;
+    g=255;
+    b=138;
+    break;
    case 'L': //leucine 128,255,172
-      r = 128;
-      g = 255;
-      b = 172;
-      break;
+    r=128;
+    g=255;
+    b=172;
+    break;
    case 'I': //isoleucine 128,255,206
-      r = 128;
-      g = 255;
-      b = 206;
-      break;
+    r=128;
+    g=255;
+    b=206;
+    break;
    case 'F': //phenylalanine 128,255,238
-      r = 128;
-      g = 255;
-      b = 238;
-      break;
+    r=128;
+    g=255;
+    b=238;
+    break;
    case 'W': //tryptophan 128,238,255
-      r = 128;
-      g = 238;
-      b = 255;
-      break;
+    r=128;
+    g=238;
+    b=255;
+    break;
    case 'S': //serine 128,206,255
-      r = 128;
-      g = 206;
-      b = 255;
+    r=128;
+    g=206;
+    b=255;
       break;
    case 'T': //threonine 128,172,255
-      r = 128;
-      g = 172;
-      b = 255;
-      break;
+    r=128;
+    g=172;
+    b=255;
+    break;
    case 'Q': //glutamine 149,128,255
-      r = 149;
-      g = 128;
-      b = 255;
-      break;
+    r=149;
+    g=128;
+    b=255;
+    break;
    case 'N': //asparagine 183,128,255
-      r = 183;
-      g = 128;
-      b = 255;
-      break;
+    r=183;
+    g=128;
+    b=255;
+    break;
    case 'Y': //tyrosine 217,128,255
-      r = 217;
-      g = 128;
-      b = 255;
-      break;
+    r=217;
+    g=128;
+    b=255;
+    break;
    case 'R': //arginine 249,128,255
-      r = 249;
-      g = 128;
-      b = 255;
-      break;
+    r=249;
+    g=128;
+    b=255;
+    break;
    case 'P': //proline 255,128,162
-      r = 255;
-      g = 128;
-      b = 162;
-      break;
+    r=255;
+    g=128;
+    b=162;
+    break;
    case 'M': //methionine 149,255,128
-      r = 149;
-      g = 255;
-      b = 128;
-      break;
+    r=149;
+    g=255;
+    b=128;
+    break;
    case '-': //Stop (Ochre ) 255,128,128 or (Amber) 255,227,128 or (Opal) 128,128,255
-      r = 255; 
-      g = 128; 
-      b = 128; 
-      break;
+    r=255; 
+    g=128; 
+    b=128; 
+    break;
    default: // Default white
-      r = 255;
-      g = 255;
-      b = 255;
-      break;
+    r=255;
+    g=255;
+    b=255;
+    break;
   }
   p=i*4;
   tempData.data[p]  =r;
@@ -970,10 +903,10 @@ function DNASample2Image(nucleotides){
  const h=746;
  canvas.width=w;
  canvas.height=h; 
- ctx.fillStyle = "black";
+ ctx.fillStyle="black";
  ctx.fillRect(0,0,canvas.width, canvas.height);
  var p=0; //nucletodes index
- ctx.fillStyle = "red";
+ //ctx.fillStyle="red";
  var color;
  for(var y=5; y<740;y+=8){
   for(var x=5; x<344;x+=8){
@@ -997,3 +930,163 @@ function DNASample2Image(nucleotides){
 function myPopupDNASample(){
  myPopupCanvas(imgDNASample,"DNA Sample");
 }
+
+function aaSample(){
+ if(AASeq!=null&&AASeq.innerHTML!=""&&AASeq.innerHTML.length>0){
+  var data=AASample2Image(AASeq.innerHTML);
+  setImage('imgAASample',data,"White",14,70);
+  var img=prevTr.querySelector('img').getAttribute('src');
+  var imgtitle=prevTr.querySelector('img').getAttribute('title');
+  imgAASample.title=imgtitle+"\n(Amino Acids Sample)" 
+ }
+}
+
+function AASample2Image(codons){
+ const canvas=document.createElement("canvas");
+ const ctx=canvas.getContext("2d",{willReadFrequently:true});
+ const w=350;
+ const h=746;
+ canvas.width=w;
+ canvas.height=h; 
+ ctx.fillStyle="black";
+ ctx.fillRect(0,0,canvas.width, canvas.height);
+ 
+ var startp=getRndStartCodonsSeq(codons.length)-3956; //0;
+ if( startp<0)
+  startp=0;
+ var p=startp; //aa index
+ var cnt=0;
+ //ctx.fillStyle="red";
+ var color;
+ for(var y=5; y<740;y+=8){
+  for(var x=5; x<344;x+=8){
+   const c=codons[p];
+   switch(c){
+    case 'H': //histidine 255,128,193
+     color="rgb(255,128,193)";break;
+    case 'E': //glutamic acid 255,162,128
+     color="rgb(255,162,128)";break;
+    case 'D': //aspartic acid 255,193,128
+     color="rgb(255,193,128)";break;
+    case 'K': //lysine 255,128,227
+     color="rgb(255,128,227)";break;
+    case 'C': //cysteine 249,255,128
+     color="rgb(249,255,128)";break;
+    case 'G': //glycine 217,255,128
+     color="rgb(217,255,128)";break;
+    case 'A': //alanine 183,255,128
+     color="rgb(183,255,128)";break;
+    case 'V': //valine 128,255,138
+     color="rgb(128,255,138)";break;
+    case 'L': //leucine 128,255,172
+     color="rgb(128,255,172)";break;
+    case 'I': //isoleucine 128,255,206
+     color="rgb(128,255,206)";break;
+    case 'F': //phenylalanine 128,255,238
+     color="rgb(128,255,238)";break;
+    case 'W': //tryptophan 128,238,255
+     color="rgb(128,238,255)";break;
+    case 'S': //serine 128,206,255
+     color="rgb(128,206,255)";break;
+    case 'T': //threonine 128,172,255
+     color="rgb(128,172,255)";break;
+    case 'Q': //glutamine 149,128,255
+     color="rgb(149,128,255)";break;
+    case 'N': //asparagine 183,128,255
+     color="rgb(183,128,255)";break;
+    case 'Y': //tyrosine 217,128,255
+     color="rgb(217,128,255)";break;
+    case 'R': //arginine 249,128,255
+     color="rgb(249,128,255)";break;
+    case 'P': //proline 255,128,162
+     color="rgb(255,128,162)";break;
+    case 'M': //methionine 149,255,128
+     color="rgb(149,255,128)";break;
+    case '-': //Stop (Ochre ) 255,128,128 or (Amber) 255,227,128 or (Opal) 128,128,255
+     color="rgb(255,128,128)";break;
+    default: // Default white
+     color="rgb(255,255,255)";break;
+   }
+   ctx.fillStyle=color;
+   ctx.beginPath();
+   ctx.arc(x,y,3,0,2*Math.PI);
+   ctx.fill();
+   p++;
+   cnt++;
+  }
+ }
+ captionAASample.innerHTML="&#x1F9EA; AA Sample (start at: "+startp+" length: "+cnt+" )";
+ return(ctx.getImageData(0,0,canvas.width,canvas.height));
+}
+
+function myPopupAASample(){
+ myPopupCanvas(imgAASample,"DNA Image");
+}
+
+function getRndStartCodonsSeq(max){
+ return(Math.floor(Math.random()*max));
+}
+
+/*//---
+function fileToDataUri(field){
+ return new Promise((resolve) => {
+  const reader=new FileReader();
+  reader.addEventListener("load", () => {
+   resolve(reader.result);
+  });
+  reader.readAsDataURL(field);
+ });
+}
+   
+function handleFiles(files){ //Geo
+ files=[...files];
+ files.forEach(manageFile);
+}
+
+async function manageFile(file){ 
+const ID=file.name.split('.')[0];
+ imgGeo.id=ID;
+ imgGeo.title=file.name;
+ console.log("*Image: "+file.name)
+ imgGeo.alt="";
+ imgGeo.addEventListener("load",async function(){
+  var hashCode=hashArtImage(imgGeo);
+  geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Altered Card Geo Position</a>";
+ });
+ imgGeo.src=await fileToDataUri(file);  
+}
+
+function handleFiles1(files){
+ files=[...files];
+ files.forEach(manageFile1);
+}
+
+async function manageFile1(file){ //DNA 
+ const ID=file.name.split('.')[0];
+ imgOrigDNA.id=ID;
+ imgOrigDNA.title=file.name;
+ console.log("*Image: "+file.name)
+ imgOrigDNA.alt="";
+ imgOrigDNA.addEventListener("load",async function(){
+  createDNA(imgOrigDNA);
+ });
+ imgOrigDNA.src=await fileToDataUri(file);
+}
+
+function handleFiles2(files){ //AA
+ files=[...files];
+ files.forEach(manageFile2);
+}
+
+async function manageFile2(file){ 
+ const ID=file.name.split('.')[0];
+ imgOrigAA.id=ID;
+ imgOrigAA.title=file.name;
+ console.log("*Image: "+file.name)
+ imgOrigAA.alt="";
+ imgOrigAA.addEventListener("load",async function(){
+  createAA(imgOrigAA);
+ });
+ imgOrigAA.src=await fileToDataUri(file); 
+}
+//---*/
