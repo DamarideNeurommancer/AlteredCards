@@ -336,8 +336,8 @@ function getGoogleMapsLink(hashCode){
   var frazSecondHalf=hashCode.substring(27);
   var dddLat=parseInt("0x"+firstHalfHash,16);
   var dddLon=parseInt("0x"+secondHalfHash,16);
-  var dddLatFraz=parseInt("0x"+frazFirstHalf,16);
-  var dddLonFraz=parseInt("0x"+frazSecondHalf,16);
+  var dddLatFraz=parseInt("0x"+frazFirstHalf,16).toString().substring(0,2);
+  var dddLonFraz=parseInt("0x"+frazSecondHalf,16).toString().substring(0,2);
   var c1=(dddLat%180.0);
   if(c1>90.0){
    c1-=180.0;
@@ -345,7 +345,6 @@ function getGoogleMapsLink(hashCode){
   else if(c1<=-90.0){
    c1+=180.0;
   }
-
   var c2=(dddLon%360.0);
   if(c2>180.0){
    c2-=360.0;
@@ -1027,7 +1026,7 @@ function getRndStartCodonsSeq(max){
  return(Math.floor(Math.random()*max));
 }
 
-/*//---
+//---
 function fileToDataUri(field){
  return new Promise((resolve) => {
   const reader=new FileReader();
@@ -1055,7 +1054,7 @@ const ID=file.name.split('.')[0];
  });
  imgGeo.src=await fileToDataUri(file);  
 }
-
+/*
 function handleFiles1(files){
  files=[...files];
  files.forEach(manageFile1);
