@@ -355,7 +355,7 @@ function getGoogleMapsLink(hashCode){
   }
   var lastC1=c1+"."+dddLatFraz;
   var lastC2=c2+"."+dddLonFraz;
-  var gmapslink="https://www.google.com/maps?q="+lastC1+","+lastC2+"&ll="+lastC1+","+lastC2+"&z=2";
+  var gmapslink="https://www.google.com/maps?q="+lastC1+","+lastC2+"&ll="+lastC1+","+lastC2+"&z=1&t=k";
   return(gmapslink);
 }
 
