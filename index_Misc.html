@@ -346,7 +346,8 @@ textarea{
       <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'></button>
       <button id='myBtnHelp' onclick='myHelp()' title='Help'>?</button>
       <button id='myBtnPopup' onclick='myPopup()' title='Zoom card image'><img src="zoom-icon.png" width='12' height='12'></button>
-      <button id='myBtnShare' onclick='myShare()' title='Share Scryfall card link'><img src="share-icon.webp" width='12' height='12'></button>
+      <button id='myBtnShare' onclick='myShare()' title='Share Alter Sleeves card link'><img src="share-icon.webp" width='12' height='12'></button>
+      <button id='myBtnSimilar' onclick='mySimilar()' title='Search cards similar to the selected one'><img src="searchbyimage.png" width='8' height='14'></button>
      </td>  
     </tr>
     <tr>
@@ -424,6 +425,7 @@ textarea{
   <textarea id="DNASeq" name="DNASeq" rows="6" cols="40" placeholder="DNA Sequence..." readonly></textarea>
   <p></p><button id='myBtnReverseDNA' onclick='myReverseDNA()' title='Reverse Complement DNA Sequence'>Reverse Complement <img src="reset-default-icon.webp" width='12' height='12'></button>
   <button id='myBtnDNA-RNA' onclick='myDNA2RNA()' title='Transcription from DNA to RNA and viceversa'>DNA&#x2194;RNA</button>
+  
   <div id="colorDNA"></div>
   <div id="colorDNA2"></div>
   <div class="container">
@@ -432,6 +434,14 @@ textarea{
     <canvas class="thumb-content" id="imgDNASample" onclick='myPopupDNASample()' title="DNA Sample" style="margin:0px;"></canvas>
    </div>
   </div>
+  
+  <p></p><button id='myBtnDNA_CGR' onclick='myDNA_CGR()' title='Chaos Game Representation of DNA'>&#x1F9EA; DNA Chaos Game Representation</button>
+   <div class="container">
+    <div class="box">
+     <p id="captionDNA_CGR"></p>
+     <canvas class="thumb-content" id="imgDNA_CGR" onclick='myPopupDNA_CGR()' title="Chaos Game Representation" style="margin:0px;"></canvas>
+    </div>
+   </div>
  </div>
 
  <div id="AminoAcids" class="tabcontent">

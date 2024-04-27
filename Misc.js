@@ -30,6 +30,8 @@ const AASeqLbl=document.getElementById("AASeqLbl");
 const AASeq=document.getElementById("AASeq");
 const imgDNASample=document.getElementById("imgDNASample");
 const imgAASample=document.getElementById("imgAASample");
+const imgDNA_CGR=document.getElementById("imgDNA_CGR");
+const captionDNA_CGR=document.getElementById("captionDNA_CGR");
 
 const nucleotidesBits=[["00","A"],["01","C"],["10","G"],["11","T"]];
 const CODONS=[
@@ -50,6 +52,7 @@ const AMINOS_PER_CODON=[
   "V", "V", "V", "V", "A", "A", "A", "A", "D", "D", "E", "E", "G",
   "G", "G", "G"];
 const wmt="\u00A9 DamarideNeurommancer";          
+const CGR_DOC="https://www.meity.gov.in/writereaddata/files/Bio-sewuence_AlpanaDey.pdf";
 defaultTab.click();
 function mySearch(){
  var filter;
@@ -88,12 +91,6 @@ function mySearch(){
     
    cell=row.insertCell(-1);
    cell.innerHTML="<font size='2' style='padding: 4px;'>"+CardNAME+"</font>";
- 
-   /*cell=row.insertCell(-1);
-   cell.innerHTML="<font size='1' style='visibility:hidden;'>"+i+"</font>";
-   cell.innerText=i;
-   cell.nodeValue=i;
-   cell.hidden=true;*/
   }
  }
  totalCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves";
@@ -255,7 +252,7 @@ async function myShare()
  }
 }
 
-/*function mySimilar()
+function mySimilar()
 {
  if(prevTr===null)
   return;
@@ -263,7 +260,7 @@ async function myShare()
  var result=imgtitle.indexOf(" ");
  var cardID=imgtitle.substr(0,result);
  location.href="SearchByImage.html?id="+cardID;
-}*/
+}
 
 
 function openTab(evt, tabName) {
@@ -500,16 +497,17 @@ async function drawDNA(originalImage,nucleotides){
  var data1=DNA2Image(data,nucleotides);
  setImage('imgDNAColor',data1,"Black",14,70);
  setImage('imgDNABW',emboss(canny(data1)),"Red",14,70);
- var img=prevTr.querySelector('img').getAttribute('src');
  var imgtitle=prevTr.querySelector('img').getAttribute('title');
  imgDNAColor.title=imgtitle+"\n(DNA Image)";
  imgDNABW.title=imgtitle+"\n(DNA Paths)";
+ // Should be requested by user...
  DNAsample(nucleotides);
  DNAsampleEx(nucleotides);
  //New
  var data2=DNASample2Image(nucleotides);
  setImage('imgDNASample',data2,"White",14,70);
- imgDNASample.title=imgtitle+"\n(DNA Sample)"
+ imgDNASample.title=imgtitle+"\n(DNA Sample)";
+ clearCGR();
 }
 
 function DNA2Image(imgData,nucleotides){
@@ -648,7 +646,6 @@ async function drawAA(originalImage,codons){
  var data1=AA2Image(data,codons)
  setImage('imgAAColor',data1,"Blue",10);
  setImage('imgAABW',emboss(canny(data1)),"Red",10);
- var img=prevTr.querySelector('img').getAttribute('src');
  var imgtitle=prevTr.querySelector('img').getAttribute('title');
  imgAAColor.title=imgtitle+"\n(Amino Acids Image)";
  imgAABW.title=imgtitle+"\n(Amino Acids Paths)";
@@ -904,8 +901,8 @@ function DNASample2Image(nucleotides){
  canvas.height=h; 
  ctx.fillStyle="black";
  ctx.fillRect(0,0,canvas.width, canvas.height);
+ const PI2=2*Math.PI;
  var p=0; //nucletodes index
- //ctx.fillStyle="red";
  var color;
  for(var y=5; y<740;y+=8){
   for(var x=5; x<344;x+=8){
@@ -918,7 +915,7 @@ function DNASample2Image(nucleotides){
     }
     ctx.fillStyle=color;
     ctx.beginPath();
-    ctx.arc(x,y,3,0,2*Math.PI);
+    ctx.arc(x,y,3,0,PI2);
     ctx.fill();
     p++;
    }
@@ -934,7 +931,6 @@ function aaSample(){
  if(AASeq!=null&&AASeq.innerHTML!=""&&AASeq.innerHTML.length>0){
   var data=AASample2Image(AASeq.innerHTML);
   setImage('imgAASample',data,"White",14,70);
-  var img=prevTr.querySelector('img').getAttribute('src');
   var imgtitle=prevTr.querySelector('img').getAttribute('title');
   imgAASample.title=imgtitle+"\n(Amino Acids Sample)" 
  }
@@ -955,8 +951,8 @@ function AASample2Image(codons){
   startp=0;
  var p=startp; //aa index
  var cnt=0;
- //ctx.fillStyle="red";
  var color;
+ const PI2=2*Math.PI;
  for(var y=5; y<740;y+=8){
   for(var x=5; x<344;x+=8){
    const c=codons[p];
@@ -1008,7 +1004,7 @@ function AASample2Image(codons){
    }
    ctx.fillStyle=color;
    ctx.beginPath();
-   ctx.arc(x,y,3,0,2*Math.PI);
+   ctx.arc(x,y,3,0,PI2);
    ctx.fill();
    p++;
    cnt++;
@@ -1026,7 +1022,143 @@ function getRndStartCodonsSeq(max){
  return(Math.floor(Math.random()*max));
 }
 
-//---
+
+function myDNA_CGR(){
+ if(DNASeq!=null&&DNASeq.innerHTML!=""&&DNASeq.innerHTML.length>0){
+  const canvas=document.createElement("canvas");
+  const ctx=canvas.getContext("2d",{willReadFrequently:true});
+  const w=418;
+  const h=418;
+  const half=w/2;
+  const PI2=2*Math.PI;
+  const cYellow="yellow";
+  const cGreen="green";
+  const cRed="red";
+  const cBlue="blue";
+  canvas.width=w;
+  canvas.height=h; 
+  ctx.fillStyle="black";
+  ctx.fillRect(0,0,canvas.width, canvas.height);
+  ctx.font="14px verdana";
+  // C
+  ctx.fillStyle=cYellow;
+  ctx.beginPath();
+  ctx.arc(5,5,5,0,PI2);
+  ctx.fill();  
+  ctx.fillText("C",14,10);  
+  ctx.strokeStyle=cYellow;
+  ctx.moveTo(11,  11);
+  ctx.lineTo(half,11)
+  ctx.stroke(); 
+  ctx.moveTo(11,11);
+  ctx.lineTo(11,half)
+  ctx.stroke();
+  
+  // A
+  ctx.fillStyle=cRed;
+  ctx.beginPath();
+  ctx.arc(5,412,5,0,PI2);
+  ctx.fill();
+  ctx.fillText("A",12,417);
+  ctx.strokeStyle=cRed;
+  ctx.moveTo(11,  407);
+  ctx.lineTo(half,407)
+  ctx.stroke();
+  ctx.moveTo(11,407);
+  ctx.lineTo(11,half)
+  ctx.stroke();
+  
+  //G
+  ctx.fillStyle=cGreen;
+  ctx.beginPath();
+  ctx.arc(412,5,5,0,PI2);
+  ctx.fill();
+  ctx.fillText("G",392,10);
+  ctx.strokeStyle=cGreen;
+  ctx.moveTo(407, 11);
+  ctx.lineTo(half,11)
+  ctx.stroke();
+  ctx.moveTo(407,11);
+  ctx.lineTo(407,half)
+  ctx.stroke();
+  
+  // T
+  ctx.fillStyle=cBlue;
+  ctx.beginPath();
+  ctx.arc(412,412,5,0,PI2);
+  ctx.fill();
+  ctx.fillText("T",396,417);
+  ctx.strokeStyle=cBlue;
+  ctx.moveTo(407,407);
+  ctx.lineTo(407,half)
+  ctx.stroke();
+  ctx.moveTo(407, 407);
+  ctx.lineTo(half,407)
+  ctx.stroke();
+  
+  // Cross
+  ctx.setLineDash([5,5]);
+  ctx.strokeStyle="white";
+  ctx.beginPath();
+  ctx.moveTo(half-1,  0);
+  ctx.lineTo(half-1,417)
+  ctx.stroke();
+  ctx.moveTo(0,  half-1);
+  ctx.lineTo(417,half-1);
+  ctx.stroke();
+  ctx.closePath();
+  
+  var x1=208;
+  var y1=208;
+  var x2,y2,pX,pY;
+  const Cx=11;
+  const Cy=11;
+  const Ax=11;
+  const Ay=407;
+  const Gx=407;
+  const Gy=11;
+  const Bx=407;
+  const By=407;
+  
+  var color; 
+  var nucleotides=DNASeq.innerHTML;
+  var len=16555; //nucleotides.length;
+  for(var i=0;i<len;i++){
+   const n=nucleotides[i];
+   switch(n){
+    case 'A':color=cRed;x2=Ax;y2=Ay;break;
+    case 'C':color=cYellow;x2=Cx;y2=Cy;break;
+    case 'G':color=cGreen;x2=Gx;y2=Gy; break;
+    case 'T':color=cBlue;x2=Bx;y2=By;break;
+   }
+   pX=(x1+x2)/2;
+   pY=(y1+y2)/2;
+   ctx.fillStyle=color;
+   ctx.fillRect(pX,pY,1,1);
+   x1=pX;
+   y1=pY;
+  }
+  
+  var data=ctx.getImageData(0,0,canvas.width,canvas.height);
+  setImage('imgDNA_CGR',data,"White",10,130);
+  var imgtitle=prevTr.querySelector('img').getAttribute('title');
+  imgDNA_CGR.title=imgtitle+"\n(DNA - Chaos Game Representation)"
+  captionDNA_CGR.innerHTML="<a href='"+CGR_DOC+"'>DNA - Chaos Game Representation<br>Sample of 16555 nucleotides (10%)</a>";
+ }
+}
+
+function clearCGR(){
+ const ctx=imgDNA_CGR.getContext("2d",{willReadFrequently:true});
+ ctx.fillStyle="black";
+ ctx.fillRect(0,0,imgDNA_CGR.width, imgDNA_CGR.height);
+ captionDNA_CGR.innerHTML=""; 
+}
+
+function myPopupDNA_CGR(){
+ myPopupCanvas(imgDNA_CGR,"DNA - Chaos Game Representation");
+}
+
+/*//--
 function fileToDataUri(field){
  return new Promise((resolve) => {
   const reader=new FileReader();
@@ -1046,7 +1178,7 @@ async function manageFile(file){
 const ID=file.name.split('.')[0];
  imgGeo.id=ID;
  imgGeo.title=file.name;
- console.log("*Image: "+file.name)
+ //console.log("*Image: "+file.name)
  imgGeo.alt="";
  imgGeo.addEventListener("load",async function(){
   var hashCode=hashArtImage(imgGeo);
@@ -1054,7 +1186,7 @@ const ID=file.name.split('.')[0];
  });
  imgGeo.src=await fileToDataUri(file);  
 }
-/*
+
 function handleFiles1(files){
  files=[...files];
  files.forEach(manageFile1);
