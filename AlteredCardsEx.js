@@ -508,9 +508,13 @@ function myRelated(index){
  for(var iRel=0;iRel<RelatedCount;iRel++){
   if(RelatedList[iRel]!= ""){
     var img=new Image();
+    img.name=iRel;
     img.addEventListener('load',function(){
-     ctx.drawImage(img,0,0,w,h,x,y,w,h);
-     x+=w;
+    console.log("loaded idx: " + this.name)
+     var idx=img.name;
+     //ctx.drawImage(img,0,0,w,h,x,y,w,h);
+     ctx.drawImage(img,0,0,w,h,idx*350,y,w,h);
+     //x+=w;
    });
    img.src=RelatedList[iRel]+".jpg";
   }
