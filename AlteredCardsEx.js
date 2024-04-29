@@ -527,7 +527,7 @@ function myRelated(index){
  
  //var dataURL=canvas.toDataURL("image/png").replace("image/png","image/octet-stream");
  //window.location.href=image;
- var dataURL=canvas.toDataURL("image/jpeg"),1.0);
+ var dataURL=canvas.toDataURL("image/jpeg",1.0);
  downloadImage(dataURL,CardID+"_Related.jpeg");
 }
 
@@ -536,4 +536,5 @@ function downloadImage(data,filename='untitled.jpeg'){
  link.href=data;
  link.download=filename;
  link.click();
+ link.remove();
 }
