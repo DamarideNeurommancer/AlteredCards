@@ -508,13 +508,11 @@ function myRelated(index){
  for(var iRel=0;iRel<RelatedCount;iRel++){
   if(RelatedList[iRel]!= ""){
     var img=new Image();
-    img.name=iRel;
+    img.name=RelatedList[iRel]+".jpg";
     img.addEventListener('load',function(){
-    console.log("loaded idx: " + this.name)
-     var idx=img.name;
-     //ctx.drawImage(img,0,0,w,h,x,y,w,h);
-     ctx.drawImage(img,0,0,w,h,idx*350,y,w,h);
-     //x+=w;
+    console.log("loaded: "+this.name)
+     ctx.drawImage(img,0,0,w,h,x,y,w,h);
+     x+=w;
    });
    img.src=RelatedList[iRel]+".jpg";
   }
@@ -526,6 +524,16 @@ function myRelated(index){
  //link.href=canvas.toDataURL("image/png").replace("image/png","image/octet-stream");
  //link.href=canvas.toDataURL("image/jpeg", 1.0)
  //link.click();
- var image=canvas.toDataURL("image/png").replace("image/png","image/octet-stream");
- window.location.href=image; 
+ 
+ //var dataURL=canvas.toDataURL("image/png").replace("image/png","image/octet-stream");
+ //window.location.href=image;
+ var dataURL=canvas.toDataURL("image/jpeg"),1.0);
+ downloadImage(dataURL,CardID+"_Related.jpeg");
+}
+
+function downloadImage(data,filename='untitled.jpeg'){
+ var link=document.createElement('a');
+ link.href=data;
+ link.download=filename;
+ link.click();
 }
