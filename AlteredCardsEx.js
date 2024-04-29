@@ -529,9 +529,10 @@ function myRelated(index){
  
  //var dataURL=canvas.toDataURL("image/png").replace("image/png","image/octet-stream");
  //window.location.href=image;
- var dataURL=canvas.toDataURL("image/jpeg",1.0);
- window.location.href=dataURL;
- downloadImage(dataURL,CardID+"_Related.jpeg");
+ //var dataURL=canvas.toDataURL("image/jpeg",1.0);
+ var dataURL=canvas.toDataURL("image/png");
+ //window.location.href=dataURL;
+ downloadImage(dataURL,CardID+"_Related.png");
 }
 
 function downloadImage(data,filename='untitled.jpeg'){
