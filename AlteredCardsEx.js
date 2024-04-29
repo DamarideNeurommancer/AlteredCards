@@ -523,7 +523,7 @@ function myRelated(index){
   }
  }
  var link=document.createElement('a');
- //link.href=canvas.toDataURL("image/png").replace("image/png","image/octet-stream"));
- link.href=canvas.toDataURL("image/jpeg", 1.0)
+ link.href=canvas.toDataURL("image/png").replace("image/png","image/octet-stream"));
+ //link.href=canvas.toDataURL("image/jpeg", 1.0)
  link.click(); 
 }
