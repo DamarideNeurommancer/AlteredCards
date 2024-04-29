@@ -493,7 +493,7 @@ function myRelated(index){
  //if(RelatedCards=="")
  // return;
  const canvas=document.createElement("canvas");
- const ctx=canvas.getContext("2d",{willReadFrequently:true});
+ const ctx=canvas.getContext("2d");
  if(RelatedCards[RelatedCards.length-1]==";"){
   RelatedCards=RelatedCards.substring(0,RelatedCards.length-1);
  }
@@ -503,7 +503,7 @@ function myRelated(index){
  const h=488;
  canvas.width=RelatedCount*w;
  canvas.height=h;
- ctx.fillStyle="white";
+ ctx.fillStyle="black";
  ctx.fillRect(0,0,canvas.width, canvas.height);
  var x=0;
  var y=0;
@@ -512,7 +512,7 @@ function myRelated(index){
     var img=new Image();
     img.name=RelatedList[iRel]+".jpg";
     img.addEventListener('load',function(){
-    console.log("loaded: "+this.name)
+     console.log("loaded: "+this.name + " drawing at "+x+","+y);
      ctx.drawImage(img,x,y);
      x+=w;
    });
@@ -530,6 +530,7 @@ function myRelated(index){
  //var dataURL=canvas.toDataURL("image/png").replace("image/png","image/octet-stream");
  //window.location.href=image;
  var dataURL=canvas.toDataURL("image/jpeg",1.0);
+ window.location.href=dataURL;
  downloadImage(dataURL,CardID+"_Related.jpeg");
 }
 
