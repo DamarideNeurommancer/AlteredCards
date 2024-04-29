@@ -522,8 +522,10 @@ function myRelated(index){
    canvas.width-=350;
   }
  }
- var link=document.createElement('a');
- link.href=canvas.toDataURL("image/png").replace("image/png","image/octet-stream");
+ //var link=document.createElement('a');
+ //link.href=canvas.toDataURL("image/png").replace("image/png","image/octet-stream");
  //link.href=canvas.toDataURL("image/jpeg", 1.0)
- link.click(); 
+ //link.click();
+ var image=canvas.toDataURL("image/png").replace("image/png","image/octet-stream");
+ window.location.href=image; 
 }
