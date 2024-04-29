@@ -505,8 +505,8 @@ function myRelated(index){
  canvas.height=h;
  ctx.fillStyle="black";
  ctx.fillRect(0,0,canvas.width, canvas.height);
- var x=350;
- var y=350;
+ var x=10;
+ var y=10;
  for(var iRel=0;iRel<RelatedCount;iRel++){
   if(RelatedList[iRel]!= ""){
     var img=new Image();
