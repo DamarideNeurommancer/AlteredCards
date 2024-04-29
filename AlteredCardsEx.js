@@ -507,14 +507,13 @@ function myRelated(index){
  ctx.fillRect(0,0,canvas.width, canvas.height);
  var x=0;
  var y=0;
- //for(var iRel=0;iRel<RelatedCount;iRel++){
- for(var iRel=0;iRel<1;iRel++){
+ for(var iRel=0;iRel<RelatedCount;iRel++){
   if(RelatedList[iRel]!= ""){
     var img=new Image();
     img.name=RelatedList[iRel]+".jpg";
     img.addEventListener('load',function(){
     console.log("loaded: "+this.name)
-     ctx.drawImage(img,0,0,w,h,x,y,w,h);
+     ctx.drawImage(img,x,y);
      x+=w;
    });
    img.src=RelatedList[iRel]+".jpg";
