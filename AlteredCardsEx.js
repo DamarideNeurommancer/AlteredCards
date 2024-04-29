@@ -503,9 +503,12 @@ function myRelated(index){
  const h=488;
  canvas.width=RelatedCount*w;
  canvas.height=h;
+ ctx.fillStyle="white";
+ ctx.fillRect(0,0,canvas.width, canvas.height);
  var x=0;
  var y=0;
- for(var iRel=0;iRel<RelatedCount;iRel++){
+ //for(var iRel=0;iRel<RelatedCount;iRel++){
+ for(var iRel=0;iRel<1;iRel++){
   if(RelatedList[iRel]!= ""){
     var img=new Image();
     img.name=RelatedList[iRel]+".jpg";
