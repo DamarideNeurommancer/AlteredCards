@@ -1269,6 +1269,7 @@ async function myTune(){
 }
 
 function setScoreName(name){
+const msg="Score drawn by \u00A9 Vex Flow";
  let tempCanvas=canvasTune.getContext('2d');
  var ch=canvasTune.height;
  var cw=canvasTune.width;
@@ -1278,12 +1279,12 @@ function setScoreName(name){
   tempCanvas.fillText(name,40,18);
   tempCanvas.fillText(wmt,40,ch-14);
   tempCanvas.font="8px verdana";
-  tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,ch-14);
+  tempCanvas.fillText(msg,cw-130,ch-14);
  }
  else{
   tempCanvas.fillText(name+" "+wmt,40,18);
   tempCanvas.font="8px verdana";
-  tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-170,18);
+  tempCanvas.fillText(msg,cw-200,18);
  }
 }
 
