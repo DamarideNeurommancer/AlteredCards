@@ -1284,7 +1284,8 @@ const msg="Score drawn by \u00A9 Vex Flow";
  else{
   tempCanvas.fillText(name+" "+wmt,40,18);
   tempCanvas.font="8px verdana";
-  tempCanvas.fillText(msg,cw-200,18);
+  tempCanvas.fillText(msg,40,ch-30);
+  tempCanvas.fillText(msg,cw-300,18);
  }
 }
 
