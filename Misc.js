@@ -1328,13 +1328,6 @@ function getRadioValue(){
  }
  return(val);
 }
-
-function viewScore(){
- if(canvasTune.title!="Musical Score"&&!bMobile){
-  const dataUrl = canvasTune.toDataURL("png");
-  const win = window.open(dataUrl, '_blank');
- }
-}
 function isMobile(){
  return(window.orientation!=null&&window.orientation!="undefined");
 }
