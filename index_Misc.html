@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet"> 
 </head>
-<body style='background-color:#000000' onload="mySearch()">
+<body style='background-color:#000000' onload="myInit()">
 <style>
 body{
  font-family: 'Roboto Condensed', sans-serif;
@@ -369,7 +369,7 @@ textarea{
   <button class="tablinks" onclick="openTab(event,'List')" id="defaultTab"><img src="list-icon.png" width='12' height='12' style='background-color:white;'> List</button>
   <button class="tablinks" onclick="openTab(event,'DNA')">&#x1F9EC;DNA</button>
   <button class="tablinks" onclick="openTab(event,'AminoAcids')">&#x1F9A0;AminoAcids</button>
-  <button class="tablinks" onclick="openTab(event,'GeoPosition')"><img src='forward-arrow-icon.png' width='12' height='12'>GeoPos</button>
+  <button class="tablinks" onclick="openTab(event,'GeoPosition')"><img src='forward-arrow-icon.png' width='12' height='12'>Mix&#x1F3B5;</button>
   <!--button class="tablinks" onclick="openTab(event,'GeoPosition')">&#x1F30D;GeoPos</button-->
  </div>
 
@@ -519,7 +519,25 @@ textarea{
   <input type="file" id="fileElem" accept="image/*" onchange="handleFiles(this.files)" title="Select image from Filesystem"-->
   <h3 id="geoLink" title="Altered Card Geo Position"></h3>
   <img class="thumb-content" id="imgGeo" onclick='myPopup()'>
-  <p id="captionGeo">   
+  <p id="captionGeo">
+  
+  <p></p><button id='myBtnTune' onclick='myTune()' title='Play & Draw musical Score'>&#x1F3BC; Musical Score</button>
+  <input type='checkbox' id='myChkReverse'>
+  <label for="myChkReverse">Reverse the Tune</label>
+  <p><label title="Oscillation periodic waveform">Waves: </label>
+  <input type="radio" name="wave" id="sine" value="0"/><label for="sine">Sine</label>
+  <input type="radio" name="wave" id="square" checked="checked" value="1"/><label for="square">Square</label>
+  <input type="radio" name="wave" id="sawtooth" value="2"/><label for="sawtooth">Sawtooth</label>
+  <input type="radio" name="wave" id="triangle" value="3"/><label for="triangle">Triangle</label>
+  </p>
+  <p>
+  <textarea id="MusicalScore" name="MS" rows="6" cols="40" placeholder="Musical Score..." readonly style="white-space:pre-line;"></textarea>
+  </p>
+  <p></p>
+  <div style="overflow-x:auto;">
+  <canvas id="musicCanvas" title="Musical Score" width="600px" height="140px" style="background:#FFF;border-radius:10px;cursor:zoom-in" onclick="viewScore()"></canvas>
+  <p id="VFLicense" style="font-size:10px;font-style:italic;"></p>
+  </div>
  </div>
 
 <div id="myModal" class="modal">
@@ -534,4 +552,7 @@ textarea{
 <script src="Misc.js"></script>
 <script src="Misc_filters.js"></script>
 <script src="Misc_convolutions.js"></script>
+<script src="https://npmcdn.com/vexflow@1.2.84/releases/vexflow-debug.js"></script>
+<script src="Misc_soundplayer.js"></script>
+<script src="Misc_drawoutput.js"></script>
 </body></html>

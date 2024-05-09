@@ -1,6 +1,6 @@
 var input=document.getElementById("myInput");
-const table=document.getElementById('myTable');
-const totalCards=document.getElementById('totalCards');
+var table=document.getElementById('myTable');
+var totalCards=document.getElementById('totalCards');
 const obj=document.getElementById('center-header');
 const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
@@ -32,6 +32,14 @@ const imgDNASample=document.getElementById("imgDNASample");
 const imgAASample=document.getElementById("imgAASample");
 const imgDNA_CGR=document.getElementById("imgDNA_CGR");
 const captionDNA_CGR=document.getElementById("captionDNA_CGR");
+const myBtnAASample=document.getElementById("myBtnAASample");
+
+const MusicalScore=document.getElementById("MusicalScore");
+const divTune=document.getElementById("musicnotation");
+const canvasTune=document.getElementById("musicCanvas");
+const myBtnTune=document.getElementById("myBtnTune");
+const myChkReverse=document.getElementById('myChkReverse');
+const VFLicense=document.getElementById('VFLicense');
 
 const nucleotidesBits=[["00","A"],["01","C"],["10","G"],["11","T"]];
 const CODONS=[
@@ -53,6 +61,8 @@ const AMINOS_PER_CODON=[
   "G", "G", "G"];
 const wmt="\u00A9 DamarideNeurommancer";          
 const CGR_DOC="https://www.meity.gov.in/writereaddata/files/Bio-sewuence_AlpanaDey.pdf";
+const VFLink="The graphical rendering of this musical score is done with \u00A9 Vex Flow. <a href='https://github.com/0xfe/vexflow/blob/master/LICENSE' target='_blank'>License</a>";
+const waves=["sine","square","sawtooth","triangle"];
 defaultTab.click();
 function mySearch(){
  var filter;
@@ -115,11 +125,20 @@ function selectRow(tr,className){
   tr.className+=className;
   prevIx=ix;
   prevTr=tr;
+  MusicalScore.innerText="";
+  MusicalScore.innerHTML="";
+  VFLicense.innerHTML="";
+  //divTune.innerHTML="";
+  let tempCanvas=canvasTune.getContext('2d');
+  tempCanvas.clearRect(0,0,tempCanvas.canvas.width,tempCanvas.canvas.height);
+  mySave();
  }   
  var imgurl=tr.querySelector('img').getAttribute('src');
  obj.style.backgroundImage="url('"+ imgurl+"')";
  //document.body.style.cursor='wait';
+ table.style.cursor='wait';
  showOriginalImages();
+ table.style.cursor='default';
  //document.body.style.cursor='default';  
 }
 
@@ -299,7 +318,7 @@ function showRow(index){
 function showOriginalImages(){
  showCardImage(imgGeo,192,266,captionGeo);
  showCardImage(imgOrigDNA,192,266,captionDNA);
- showCardImage(imgOrigAA,192,266,captionAA);
+ showCardImage(imgOrigAA,192,266,captionAA); 
 }
 
 function showCardImage(elem,w,h,caption,title=""){
@@ -929,10 +948,12 @@ function myPopupDNASample(){
 
 function aaSample(){
  if(AASeq!=null&&AASeq.innerHTML!=""&&AASeq.innerHTML.length>0){
+  myBtnAASample.style.cursor='wait';
   var data=AASample2Image(AASeq.innerHTML);
   setImage('imgAASample',data,"White",14,70);
   var imgtitle=prevTr.querySelector('img').getAttribute('title');
-  imgAASample.title=imgtitle+"\n(Amino Acids Sample)" 
+  imgAASample.title=imgtitle+"\n(Amino Acids Sample)"
+  myBtnAASample.style.cursor='default'; 
  }
 }
 
@@ -1168,24 +1189,6 @@ function fileToDataUri(field){
   reader.readAsDataURL(field);
  });
 }
-   
-function handleFiles(files){ //Geo
- files=[...files];
- files.forEach(manageFile);
-}
-
-async function manageFile(file){ 
-const ID=file.name.split('.')[0];
- imgGeo.id=ID;
- imgGeo.title=file.name;
- //console.log("*Image: "+file.name)
- imgGeo.alt="";
- imgGeo.addEventListener("load",async function(){
-  var hashCode=hashArtImage(imgGeo);
-  geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Altered Card Geo Position</a>";
- });
- imgGeo.src=await fileToDataUri(file);  
-}
 
 function handleFiles1(files){
  files=[...files];
@@ -1220,4 +1223,105 @@ async function manageFile2(file){
  });
  imgOrigAA.src=await fileToDataUri(file); 
 }
+
+function handleFiles(files){ //Geo
+ files=[...files];
+ files.forEach(manageFile);
+}
+
+async function manageFile(file){ 
+const ID=file.name.split('.')[0];
+ imgGeo.id=ID;
+ imgGeo.title=file.name;
+ //console.log("*Image: "+file.name)
+ imgGeo.alt="";
+ imgGeo.addEventListener("load",async function(){
+  var hashCode=hashArtImage(imgGeo);
+  geoLink.innerHTML="<a href='"+getGoogleMapsLink(hashCode)+"' style='font-size: 18px;'><img src='forward-arrow-icon.png' alt='Geo Link' style='width:16px;height:16px;'> Altered Card Geo Position</a>";
+ });
+ imgGeo.src=await fileToDataUri(file);  
+}
 //---*/
+
+async function myTune(){
+ if(prevTr===null)
+  return;
+ myBtnTune.style.cursor='wait';
+ MusicalScore.innerHTML="\u{1F3BC}";
+ var imgtitle=prevTr.querySelector('img').getAttribute('title'); 
+ var result=imgtitle.indexOf(" ");
+ var cardName=imgtitle.substring(result+1);
+ if(myChkReverse.checked){
+  var rv="";
+  for(var i=0;i<cardName.length;i++){
+    rv=cardName[i]+rv;
+  }
+  cardName=rv;
+ }
+ MusicalScore.innerHTML=await tuneUp(cardName,400,waves[getRadioValue()]);
+ canvasTune.title=imgtitle+" \u{1F3BC}";
+ setScoreName(imgtitle);
+ VFLicense.innerHTML=VFLink;
+ myBtnTune.style.cursor='default';
+}
+
+function setScoreName(name){
+ let tempCanvas=canvasTune.getContext('2d');
+ var ch=canvasTune.height;
+ var cw=canvasTune.width;
+ tempCanvas.font="12px verdana";
+ tempCanvas.fillStyle="blue";
+ tempCanvas.fillText(name,40,18);
+ tempCanvas.fillText(wmt,40,ch-14);
+ tempCanvas.font="8px verdana";
+ tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,ch-14);
+}
+
+function myInit(){
+ initVars();
+ if(bxmlParsed==false){myParseCards();}
+ var filter=localStorage.getItem("MiscFilter");
+ if(filter!=""&&filter!=null&&filter!="undefined"){
+  input.value=filter;
+ }
+ var savedPrevIx=localStorage.getItem("MiscIndex");
+ mySearch();
+ if(savedPrevIx!=""&&savedPrevIx!=null&&savedPrevIx!="undefined"){
+  prevIx=savedPrevIx;
+  var totRows=table.rows.length;
+  if(totRows>0){
+   showRow(prevIx);
+   table.rows[prevIx].scrollIntoView(true,{behavior:"smooth"});
+   window.scrollBy(0,-240);
+  }
+ }
+}
+function initVars(){
+ table=document.getElementById('myTable');
+ totalCards=document.getElementById('totalCards');
+}
+function mySave(){
+ try{
+  localStorage.setItem("MiscFilter",input.value);
+  localStorage.setItem("MiscIndex",prevIx);
+ }
+ catch(err){console.log(err);} 
+}
+function getRadioValue(){
+ var lev=document.getElementsByName('wave');
+ var val=0;
+ for(i=0;i<lev.length;i++) {
+  if (lev[i].checked){
+   val=lev[i].value;
+   break;
+  }
+ }
+ return(val);
+}
+
+function viewScore(){
+ if(canvasTune.title!="Musical Score"){
+  const dataUrl = canvasTune.toDataURL("png");
+  const win = window.open(dataUrl, '_blank');
+ }
+}
