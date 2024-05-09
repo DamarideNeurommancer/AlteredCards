@@ -1248,6 +1248,7 @@ async function myTune(){
  if(prevTr===null)
   return;
  myBtnTune.style.cursor='wait';
+ myBtnTune.disabled=true;
  MusicalScore.innerHTML="\u{1F3BC}";
  var imgtitle=prevTr.querySelector('img').getAttribute('title'); 
  var result=imgtitle.indexOf(" ");
@@ -1263,6 +1264,7 @@ async function myTune(){
  canvasTune.title=imgtitle+" \u{1F3BC}";
  setScoreName(imgtitle);
  VFLicense.innerHTML=VFLink;
+ myBtnTune.disabled=false;
  myBtnTune.style.cursor='default';
 }
 
@@ -1279,13 +1281,9 @@ function setScoreName(name){
   tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,ch-14);
  }
  else{
-  //tempCanvas.fillText(name+" "+wmt,40,18);
-  //tempCanvas.font="8px verdana";
-  //tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,18);
-  tempCanvas.fillText(name,40,18);
-  tempCanvas.fillText(wmt,40,ch-20);
+  tempCanvas.fillText(name+" "+wmt,40,18);
   tempCanvas.font="8px verdana";
-  tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,ch-20);
+  tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,18);
  }
 }
 
