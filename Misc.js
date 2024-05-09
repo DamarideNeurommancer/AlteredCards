@@ -61,8 +61,9 @@ const AMINOS_PER_CODON=[
   "G", "G", "G"];
 const wmt="\u00A9 DamarideNeurommancer";          
 const CGR_DOC="https://www.meity.gov.in/writereaddata/files/Bio-sewuence_AlpanaDey.pdf";
-const VFLink="The graphical rendering of this musical score is done with \u00A9 Vex Flow. <a href='https://github.com/0xfe/vexflow/blob/master/LICENSE' target='_blank'>License</a>";
+const VFLink="The graphical rendering of this musical score was drawn by \u00A9 Vex Flow. <a href='https://github.com/0xfe/vexflow/blob/master/LICENSE' target='_blank'>License</a>";
 const waves=["sine","square","sawtooth","triangle"];
+var bMobile=isMobile();
 defaultTab.click();
 function mySearch(){
  var filter;
@@ -1271,10 +1272,21 @@ function setScoreName(name){
  var cw=canvasTune.width;
  tempCanvas.font="12px verdana";
  tempCanvas.fillStyle="blue";
- tempCanvas.fillText(name,40,18);
- tempCanvas.fillText(wmt,40,ch-14);
- tempCanvas.font="8px verdana";
- tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,ch-14);
+ if(!bMobile){
+  tempCanvas.fillText(name,40,18);
+  tempCanvas.fillText(wmt,40,ch-14);
+  tempCanvas.font="8px verdana";
+  tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,ch-14);
+ }
+ else{
+  //tempCanvas.fillText(name+" "+wmt,40,18);
+  //tempCanvas.font="8px verdana";
+  //tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,18);
+  tempCanvas.fillText(name,40,18);
+  tempCanvas.fillText(wmt,40,ch-16);
+  tempCanvas.font="8px verdana";
+  tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,ch-16);
+ }
 }
 
 function myInit(){
@@ -1320,8 +1332,11 @@ function getRadioValue(){
 }
 
 function viewScore(){
- if(canvasTune.title!="Musical Score"){
+ if(canvasTune.title!="Musical Score"&&!bMobile){
   const dataUrl = canvasTune.toDataURL("png");
   const win = window.open(dataUrl, '_blank');
  }
+}
+function isMobile(){
+ return(window.orientation!=null&&window.orientation!="undefined");
 }
