@@ -1282,11 +1282,12 @@ const msg="Score drawn by \u00A9 Vex Flow";
   tempCanvas.fillText(msg,cw-130,ch-14);
  }
  else{
-  tempCanvas.fillText(name+" "+wmt,40,18);
+  //tempCanvas.fillText(name+" "+wmt,40,18);
+  tempCanvas.fillText(name,40,18);
+  tempCanvas.fillText(wmt,40,126);
   tempCanvas.font="8px verdana";
   tempCanvas.fillStyle="blue";
-  tempCanvas.fillText(msg,40,110);
-  //tempCanvas.fillText(msg,cw-300,18);
+  tempCanvas.fillText(msg,600,126);
  }
 }
 
