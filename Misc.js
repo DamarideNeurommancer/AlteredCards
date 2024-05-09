@@ -40,6 +40,7 @@ const canvasTune=document.getElementById("musicCanvas");
 const myBtnTune=document.getElementById("myBtnTune");
 const myChkReverse=document.getElementById('myChkReverse');
 const VFLicense=document.getElementById('VFLicense');
+const divScore=document.getElementById('Score');
 
 const nucleotidesBits=[["00","A"],["01","C"],["10","G"],["11","T"]];
 const CODONS=[
@@ -1264,6 +1265,7 @@ async function myTune(){
  canvasTune.title=imgtitle+" \u{1F3BC}";
  setScoreName(imgtitle);
  VFLicense.innerHTML=VFLink;
+ divScore.scrollTo(0,0);
  myBtnTune.disabled=false;
  myBtnTune.style.cursor='default';
 }
@@ -1286,7 +1288,7 @@ const msg="Score drawn by \u00A9 Vex Flow";
   tempCanvas.fillText(wmt,40,126);
   tempCanvas.font="8px verdana";
   tempCanvas.fillStyle="blue";
-  tempCanvas.fillText(msg,700,126);
+  tempCanvas.fillText(msg,640,126);
  }
 }
 
