@@ -1265,9 +1265,9 @@ async function myTune(){
  canvasTune.title=imgtitle+" \u{1F3BC}";
  setScoreName(imgtitle);
  VFLicense.innerHTML=VFLink;
- divScore.scrollTo(0,0);
  myBtnTune.disabled=false;
  myBtnTune.style.cursor='default';
+ divScore.scrollTo(0,0);
 }
 
 function setScoreName(name){
