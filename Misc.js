@@ -1283,9 +1283,9 @@ function setScoreName(name){
   //tempCanvas.font="8px verdana";
   //tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,18);
   tempCanvas.fillText(name,40,18);
-  tempCanvas.fillText(wmt,40,ch-16);
+  tempCanvas.fillText(wmt,40,ch-20);
   tempCanvas.font="8px verdana";
-  tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,ch-16);
+  tempCanvas.fillText("Score drawn by \u00A9 Vex Flow",cw-130,ch-20);
  }
 }
 
