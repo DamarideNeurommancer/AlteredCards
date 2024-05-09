@@ -1281,13 +1281,12 @@ const msg="Score drawn by \u00A9 Vex Flow";
   tempCanvas.font="8px verdana";
   tempCanvas.fillText(msg,cw-130,ch-14);
  }
- else{
-  //tempCanvas.fillText(name+" "+wmt,40,18);
+ else{//Quirks of mobile?cw/ch...
   tempCanvas.fillText(name,40,18);
   tempCanvas.fillText(wmt,40,126);
   tempCanvas.font="8px verdana";
   tempCanvas.fillStyle="blue";
-  tempCanvas.fillText(msg,600,126);
+  tempCanvas.fillText(msg,700,126);
  }
 }
 
