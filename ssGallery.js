@@ -39,7 +39,7 @@ const settings={
  Direction: 1,
  xDuration: 30,
  yDuration: 0.45,
- Size: 350,
+ Size: maxSize,
  BackColor: '#000000',
  DefaultBackColor: function(){setDefaultBackColor();}, 
  Restart: function(){restart();},
@@ -61,8 +61,9 @@ const movement={
  right: false
 };
 const easeEffects=["none","bounce.out","elastic.out(1,0.3)","back.out(1.7)","rough({template: none.out,strength:1,points:20,taper:none,randomize:true,clamp:false})","slow(0.7,0.7,false)"];
-const bMobile=isMobile();
-const musicaChk={
+var bMobile=false;
+isMobile();
+const soundChk={
  val: false
 };
 var timeLines=[];
@@ -434,7 +435,9 @@ function roundedImage(ctx,x,y,width,height,radius){
   minSize=48;
   maxSize=192;
  }
+ settings.Size=maxSize;
  var size=gui.add(settings,'Size',minSize,maxSize).step(1).name('Size &#x1F4D0;');
+ //settings.Size=maxSize;
  
  // BACKCOLOR 
  gui.addColor(settings, 'BackColor',[0,0,0]).listen();
@@ -445,7 +448,7 @@ function roundedImage(ctx,x,y,width,height,radius){
  gui.add(settings, 'Pause').name('Pause \u23F8');
  gui.add(settings, 'Play').name('Play  \u23E9');
  // SOUND
- gui.add(musicaChk,'val').name('Sound &#x1F3B5;').onChange(function(){getSound()}).listen();
+ gui.add(soundChk,'val').name('Sound &#x1F3B5;').onChange(function(){getSound()}).listen();
  //FULLSCREEN
  gui.add(settings, 'FullScreen').name('FullScreen &#x1F7EA');
  // RESTART
@@ -466,7 +469,7 @@ function setAutoRestart(){
 }
 
 function getSound(){
- settings.Sound=musicaChk.val;
+ settings.Sound=soundChk.val;
 }
            
 totCards.onChange(function () {
@@ -517,7 +520,12 @@ function restart(){
 }
 
 function isMobile(){
- return(window.orientation!=null&&window.orientation!="undefined");
+ bMobile=(window.orientation!=null&&window.orientation!="undefined");
+ if(bMobile){
+  minSize=48;
+  maxSize=192;
+ }
+ console.log("Mobile?",bMobile)
 }
 
 /*
@@ -543,6 +551,7 @@ function mySave(){
 }
 
 function myInit(){
+ bMobile=!isMobile();
  myGetSettings();
 }
 
@@ -610,10 +619,6 @@ function myExit(){
  return;
 }
 
-function addZero(i) {
-  if (i < 10) {i = "0" + i}
-  return i;
-}
 function tick(){
  var wait= parseInt(settings.AutoRestart*1000);
  timerID=setInterval(function(){
@@ -621,7 +626,7 @@ function tick(){
    //console.log('%c wait for '+wait,'color:blue;border:1px solid dodgerblue');
    //console.log('%c Tick...','color:red;border:1px solid dodgerblue');
    init();
-   console.log("clearInterval ", timerID);
+   //console.log("clearInterval ", timerID);
    clearInterval(timerID);
    tick();
   }
