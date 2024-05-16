@@ -1,0 +1,25 @@
+html, body {
+ height: 100%;
+}
+body {
+ margin: 0;
+}
+#canvas {
+ width: 100%;
+ height: 100%;
+}
+
+.dg .property-name:hover{
+ background-color: DarkKhaki;
+ color: Black;
+ //font-size: 16px;
+}
+
+/*
+.dg .title:hover{
+ //background-color: Lightblue;
+ background-color: DarkKhaki;
+ color: Black;
+ //font-size: 16px;
+}*/
+
