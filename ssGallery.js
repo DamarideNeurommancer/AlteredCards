@@ -11,13 +11,14 @@
 // - Background color and Reset to default black color
 // - Ease effects (with gsap)
 // - Pause/Play (me+gsap)
-// - Sound On/Off
+// - Sound On/Off (desktop only)
 // - FullScreen
 // - Restart  (start over with default settings)
+// - Auto Restart after secs
 // - Refresh (as browser's F5)
 // - Home link
 // - Save settings
-// - Exit from App
+// - Exit from App (desktop only)
 //******************************************************************************
 const home="https://damarideneurommancer.github.io/AlteredCards/";
 const config={
@@ -43,7 +44,7 @@ const settings={
  BackColor: '#000000',
  DefaultBackColor: function(){setDefaultBackColor();}, 
  Restart: function(){restart();},
- AutoRestart: 10,
+ AutoRestart: 20,
  FullScreen: function(){toggleFullScreen();},
  Cards: 81,
  Effect: 0,
@@ -80,11 +81,9 @@ const resetCard = ({ stage, card }) => {
  if( settings.Sound){
   tuneUp(card.name.toString());
  }
- //console.log("resetCard: ",card.name, " Card WxH: ",card.width," x ",card.height);
  // Keep the card's size set!
  if(card.width!=settings.Size){
   card.setRect(card.rect);
- //console.log("*** resetCard: Adjusted card size for ",card.name, " Card WxH: ",card.width," x ",card.height);
  } 
 
  // direction: left/right/both 
@@ -93,26 +92,7 @@ const resetCard = ({ stage, card }) => {
  else if(movement.left)
   direction=-1;
  else
-  direction=1;  
-   
- //if(settings.Direction)
- // using an ease function to skew random to lower values to help hide that cards have no legs
- //const offsetY = 100 - 250 * gsap.parseEase('power2.in')(Math.random())
- 
- //ls
- //const offsetY = 100 - 450 * gsap.parseEase('power2.in')(Math.random())
- //const offsetY = -10 - 250 * gsap.parseEase('power1')(Math.random()); //Ok normale.
- //const offsetY = -10 - 250 * gsap.parseEase('power2.in')(Math.random()); // Ok va bene
- //const offsetY = -10 - 250 * gsap.parseEase('elastic(1.2, 0.5)')(Math.random());  //OK mi piace
- //const offsetY = -10 - 250 * gsap.parseEase('elastic(1.2, 0.5)')(Math.random());  //OK mi piace
- //const offsetY = randomRange(-canvas.height, 0);  //Ok da perferzionare
- //const offsetY = randomRange(-stage.height, 0);
- //const offsetY = randomRange(0,-stage.height); //ok da peferzionare
- 
- //const offsetY = -250*gsap.parseEase('elastic(1.2,0.5)')(Math.random()); //ok da peferzionare
- 
- //var offsetY = -250*gsap.parseEase('elastic(1.2,0.5)')(Math.random());
- 
+  direction=1; 
  
  //var offsetY = -250+randomRange(0,-stage.height); //OK
  var offsetY = randomRange(-card.height,stage.height-card.height);
@@ -127,18 +107,14 @@ const resetCard = ({ stage, card }) => {
  if (direction === 1) {
   startX = -card.width
   endX = stage.width+card.width
-  //card.scaleX = 1
  } else {
    startX = stage.width + card.width
    endX = -card.width
-   //card.scaleX = -1
-   //card.scaleX = 1 // per evitare il titolo al contrario nessun flip orizz.
  }
   
  card.x = startX
  card.y = startY
- card.anchorY = startY
- //console.log("resetCard: ",card.name," startY:",startY," startX:",startX," endX",endX) 
+ card.anchorY = startY 
  return{
   startX,
   startY,
@@ -152,21 +128,17 @@ const normalWalk = ({ card, props }) => {
   startY,
   endX
  } = props
-
- // Durata per x ed y
+ 
  xDuration = settings.xDuration;
  yDuration = settings.yDuration;
   
  const tl = gsap.timeline()
- // per la pause/play
+ // Pause/Play
  timeLines.push(tl);
  
- //console.log("Card:",card.name,"tl: ", {tl});
  var strEffect=easeEffects[parseInt(settings.Effect)];  
   
- // tl.timeScale(randomRange(0.1, 0.5)) // OK mi piace va abbastanza lento
- // gestione del tempo
- tl.timeScale(randomRange(0.1, 1.5)) // OK va bene
+ tl.timeScale(randomRange(0.1, 1.5))
  tl.to(card, {
   duration: xDuration,
   x: endX,
@@ -203,56 +175,27 @@ class Card {
     this.scaleX = 1
     this.walk = null
     this.name=name
-    //console.log("Card constructor: Image:", {image}," Name:",name," Rect:",{rect})
   }
   
- setRect (rect) {
-  this.rect = rect
-  this.width = settings.Size;
-  this.height = Math.round(this.width*sizeRatio);
+ setRect(rect){
+  this.rect=rect
+  this.width=settings.Size;
+  this.height=Math.round(this.width*sizeRatio);
     
-  this.drawArgs = [
+  this.drawArgs=[
    this.image,
    ...rect,
    0, 0, this.width, this.height
-  ]
-  //console.log("drawArgs: ", {"drawArgs": this.drawArgs})   
+  ]   
  }
   
- render (ctx) {
+ render(ctx){
   ctx.save()
-  // Questi due statements messi qua rendono tutto nero lo sfondo e si vede solo una card!
-  /**if(Math.random() > 0.5){
-   ctx.fillStyle="black";
-   ctx.fillRect(0,0,canvas.width, canvas.height);
-  }**/
-
-  // Rounded corners
-  roundedImage(ctx,this.x,this.y,this.width,this.height,!bMobile?20:10);
+  roundedImage(ctx,this.x,this.y,this.width,this.height,(bMobile?10:20));
   ctx.clip();
-  //----------------
-  
   ctx.translate(this.x, this.y)
   ctx.scale(this.scaleX, 1)
-  
-  /* // Prove
-  var rot=Math.random() > 0.5 ? 1 : -1;
-  if(rot==1){
-   //ctx.translate(0, this.height);
-   //ctx.scale(1, -1);
-   
-   ctx.translate(this.width/2,this.height/2);
-   ctx.rotate(Degree2Rad(30));
-   ctx.drawImage(this.image, -this.width/2, -this.height/2);
-  }
-  else
-  */
-  
-  ctx.drawImage(...this.drawArgs)
-  /*
-  if(rot==1)
-   context.setTransform(1,0,0,1,0,0);
-  */ 
+  ctx.drawImage(...this.drawArgs) 
   ctx.restore()
  }
 }
@@ -269,11 +212,7 @@ const stage = {
  width: 0,
  height: 0,
 }
-/*
-const allCards = []
-const availableCards = []
-const gallery = []
-*/
+
 var allCards = []
 var availableCards = []
 var gallery = []
@@ -301,7 +240,7 @@ function createCards () {
  } = img
  //const total = rows * cols
  const total=settings.Cards;
- //const total=30;
+ //const total=1;
  const rectWidth = width / rows
  const rectHeight = height / cols
   
@@ -316,8 +255,7 @@ function createCards () {
      ],
      name: i
    }))
- }
- //console.log("allCards: ",{allCards});  
+ }  
 }
 
 function resize () {
@@ -325,18 +263,13 @@ function resize () {
  stage.height = canvas.clientHeight
  canvas.width = stage.width * devicePixelRatio
  canvas.height = stage.height * devicePixelRatio
-
- //console.log("*** resize:: stage WxH: ",stage.width," x " , stage.height, {stage});
- //console.log("*** resize:: canvas WxH: ",canvas.width," x " , canvas.height, {canvas});
  gallery.forEach((card) => {
   card.walk.kill()
  })
   
  gallery.length = 0
  availableCards.length = 0
- availableCards.push(...allCards)
- //console.log("availableCards: ",{availableCards});
-  
+ availableCards.push(...allCards)  
  initGallery()
 }
 
@@ -358,13 +291,11 @@ function addCardToGallery () {
  }).eventCallback('onComplete', () => {
    removeCardFromGallery(card)
    addCardToGallery()
-   //timeLines.splice(81);
  })
   
  card.walk = walk 
  gallery.push(card)
- gallery.sort((a, b) => a.anchorY - b.anchorY)
- //console.log("initGallery: ",{gallery}); 
+ gallery.sort((a, b) => a.anchorY - b.anchorY) 
  return card
 }
 
@@ -376,11 +307,10 @@ function removeCardFromGallery (card) {
 function render () {
  // Questo è il posto giusto per il colore dello sfondo
  // Sfondo random!!!
- //ctx.fillStyle="#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0");
- 
+ //ctx.fillStyle="#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0"); 
  ctx.fillStyle=settings.BackColor;
- ctx.fillRect(0,0,canvas.width, canvas.height);
- //------------
+ ctx.fillRect(0,0,canvas.width,canvas.height);
+ //-
   
  ctx.save()
  ctx.scale(devicePixelRatio, devicePixelRatio)   
@@ -391,9 +321,9 @@ function render () {
  ctx.restore()
 }
 
-//ls
 function roundedImage(ctx,x,y,width,height,radius){
  ctx.beginPath();
+ ctx.fillStyle="white";
  ctx.moveTo(x + radius, y);
  ctx.lineTo(x + width - radius, y);
  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
@@ -448,31 +378,32 @@ function roundedImage(ctx,x,y,width,height,radius){
  gui.add(settings, 'Pause').name('Pause \u23F8');
  gui.add(settings, 'Play').name('Play  \u23E9');
  // SOUND
- gui.add(soundChk,'val').name('Sound &#x1F3B5;').onChange(function(){getSound()}).listen();
+ if(!bMobile)
+  gui.add(soundChk,'val').name('Sound &#x1F3B5;').onChange(function(){getSound()}).listen();
  //FULLSCREEN
  gui.add(settings, 'FullScreen').name('FullScreen &#x1F7EA');
  // RESTART
  gui.add(settings, 'Restart').name('Restart \u26A1');
-gui.add(settings, 'AutoRestart', 10, 60).step(1).name('AutoRestart (s)').onChange(function(){setAutoRestart()}).listen();
+gui.add(settings, 'AutoRestart', 0, 300).step(1).name('AutoRestart &#x1F552;').onChange(function(){setAutoRestart()}).listen();
 //gui.add(settings, 'AutoRestart', 10, 60).step(1).name('AutoRestart (s)');
  // REFRESH
  gui.add(settings,'Refresh').name('Refresh &#x1F4BB;');
    
  gui.add(settings,'Home').name('DamarideNeurommancer');
- gui.add(settings,'Save').name('Save Settings &#x1F4CC;'); 
- gui.add(settings,'Exit').name('Exit &#x274C;');
+ gui.add(settings,'Save').name('Save Settings &#x1F4CC;');
+ if(!bMobile) 
+  gui.add(settings,'Exit').name('Exit &#x274C;');
  gui.closed=true;
  tick();
 //}
 function setAutoRestart(){
- //settings.AutoRestart*=1000;
 }
 
 function getSound(){
  settings.Sound=soundChk.val;
 }
            
-totCards.onChange(function () {
+totCards.onChange(function(){
  init()
 })
 
@@ -525,33 +456,21 @@ function isMobile(){
   minSize=48;
   maxSize=192;
  }
- console.log("Mobile?",bMobile)
 }
-
-/*
-window.addEventListener('beforeunload', function (e) {
-    e.preventDefault();
-    e.returnValue = '';
-    var json=gui.getSaveObject();
-    JSON.stringify(json);
-});
-*/
 
 function mySave(){
  try{
   var s=settings;
-  //var json=gui.getSaveObject();
-  //localStorage.setItem("ScreenSaver",JSON.stringify(json));
   //Direction|xDuration|yDuration|Size|BackColor|Cards|Effect
   var saveSet=s.Direction+"|"+s.xDuration+"|"+s.yDuration.toFixed(2)+"|"+
-   s.Size+"|"+s.BackColor+"|"+s.Cards+"|"+s.Effect; //+"|"+document.fullscreenElement?1:0;
+   s.Size+"|"+s.BackColor+"|"+s.Cards+"|"+s.Effect;
    localStorage.setItem("DNScreenSaver",saveSet); 
  }
  catch(err){console.log(err);} 
 }
 
 function myInit(){
- bMobile=!isMobile();
+ isMobile();
  myGetSettings();
 }
 
@@ -612,15 +531,19 @@ for(var i=0;i<timeLines.length;i++){
 
 // Funziona solo se non segui alcun link (quello a sito principale) e torni.
 function myExit(){
- if(confirm("Exit from ScreenSaver and Close Window?")) {
-  window.stop();
-  window.close();
- }
+ if(!bMobile){
+  if(confirm("Exit from ScreenSaver and Close Window?")) {
+   window.stop();
+   window.close();
+  }
+ } 
  return;
 }
 
 function tick(){
  var wait= parseInt(settings.AutoRestart*1000);
+ if(wait==0)
+  wait=600000; //10minutes
  timerID=setInterval(function(){
   if(!bPaused){
    //console.log('%c wait for '+wait,'color:blue;border:1px solid dodgerblue');
@@ -630,6 +553,6 @@ function tick(){
    clearInterval(timerID);
    tick();
   }
- },wait); //(settings.AutoRestart*1000)); //10000);
+ },wait);
  //console.log("New timerID= ", timerID);
 }
