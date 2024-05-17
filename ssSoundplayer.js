@@ -111,28 +111,14 @@ async function tuneUp(text,wait=500,wave="square"){
  const len=text.length;
  for(var i=0;i<len;i++){
   var c=text.charCodeAt(i);
-  /*
-  if(c<65||c>90){
-   switch(c){
-    case 32:
-    case 44:c=81;break;//Q
-    default:
-     c+=17;
-     //c=65;
-     break;
-   }
-  }
-  var freqIdx=c-65;
-  */
   var freqIdx=Math.round(randomRange(0,25));
-  //Score
   const frequency=(arFreqEx[freqIdx][0]);
-  var when=0.95;
+  var when = randomRange(0.25, 2.5)
   if(c==51)
    when=1.40;
+  
   (new SoundPlayer(audio,compressor)).play(frequency,0.5,wave).stop(when);
+  //wait=randomRange(500, 1000);
   await sleep(wait);
  }
 }
-
-//const randomRange = (min, max) => min + Math.random() * (max - min)

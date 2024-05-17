@@ -79,7 +79,7 @@ const getRandomFromArray = (array) => (  array[randomIndex(array) | 0])
 // TWEEN FACTORIES
 const resetCard = ({ stage, card }) => {
  if( settings.Sound){
-  tuneUp(card.name.toString());
+  Math.random()>0.75?tuneUp(card.name.toString()):0;
  }
  // Keep the card's size set!
  if(card.width!=settings.Size){
