@@ -68,6 +68,7 @@ const soundChk={
  val: false
 };
 var timeLines=[];
+var bSoundOn=false;
 // UTILS
 const randomRange = (min, max) => min + Math.random() * (max - min)
 const randomIndex = (array) => randomRange(0, array.length) | 0
@@ -78,8 +79,19 @@ const getRandomFromArray = (array) => (  array[randomIndex(array) | 0])
 
 // TWEEN FACTORIES
 const resetCard = ({ stage, card }) => {
- if( settings.Sound){
-  Math.random()>0.75?tuneUp(card.name.toString()):0;
+ if(settings.Sound){
+  //Math.random()>0.75?tuneUp(card.name.toString()):0;
+  if(!bSoundOn){
+   TuneGenerator();
+   bSoundOn=true;
+  }
+ }
+ else{
+  if(bSoundOn){
+   clearInterval(timerID1);
+   clearInterval(timerID2);
+   bSoundOn=false;
+  }
  }
  // Keep the card's size set!
  if(card.width!=settings.Size){
@@ -378,7 +390,7 @@ function roundedImage(ctx,x,y,width,height,radius){
  gui.add(settings, 'Pause').name('Pause \u23F8');
  gui.add(settings, 'Play').name('Play  \u23E9');
  // SOUND
- if(!bMobile)
+ //if(!bMobile)
   gui.add(soundChk,'val').name('Sound &#x1F3B5;').onChange(function(){getSound()}).listen();
  //FULLSCREEN
  gui.add(settings, 'FullScreen').name('FullScreen &#x1F7EA');
