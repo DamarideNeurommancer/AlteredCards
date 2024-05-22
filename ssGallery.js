@@ -26,7 +26,7 @@
 const home="https://damarideneurommancer.github.io/AlteredCards/";
 const dada="\u00A9 DamarideNeurommancer";
 const config={
- src: 'AllCardsNew.jpeg', //'AllCards.jpeg',
+ src: 'AllCards.jpeg',
  rows: 12,
  cols: 9
 }
@@ -350,7 +350,7 @@ function removeCardFromGallery (card) {
 }
 
 function render () {
- // Questo è il posto giusto per il colore dello sfondo
+ // Questo Ã¨ il posto giusto per il colore dello sfondo
  // Sfondo random!!!
  //ctx.fillStyle="#" + ((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0"); 
  ctx.fillStyle=settings.BackColor;
@@ -694,13 +694,13 @@ function freqToNote(f){
 		var fraction = reduce(numerator,denominator);
 		if (microtonalDeviation > 0) {
 			if (fraction[0]==1 && fraction[1] == 4) {
-				microtonalDeviation = '+¼';
+				microtonalDeviation = '+Â¼';
 			} else {
 				microtonalDeviation = '+'+fraction[0]+'/'+fraction[1];
 			}
 		} else {
 			if (fraction[0]==1 && Math.abs(fraction[1]) == 4) {
-				microtonalDeviation = '-¼';
+				microtonalDeviation = '-Â¼';
 			} else {
 				microtonalDeviation = '-'+fraction[0]+'/'+Math.abs(fraction[1]);
 			}
