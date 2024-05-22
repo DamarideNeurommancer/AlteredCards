@@ -1,7 +1,9 @@
 //******************************************************************************
-// Original code "Crowd Simulator" by Szenia Zadvornykh: https://codepen.io/zadvorsky/pen/xxwbBQV
+// Original code "Crowd Simulator" by Szenia Zadvornykh: 'https://codepen.io/zadvorsky/pen/xxwbBQV'
 // Revised by DamarideNeurommancer:
 // Added Images of Altered Cards by DamarideNeurommancer
+// Fixed a bug when computing X,Y to get sub-image from the big picture
+// Fixed a glitch when image goes out of the view in the scene  
 // Added: GUI. You can parametrize:
 // - Duration: X/Y
 // - Movements: Left/Right/Both
@@ -11,7 +13,8 @@
 // - Background color and Reset to default black color
 // - Ease effects (with gsap)
 // - Pause/Play (me+gsap)
-// - Sound On/Off (desktop only)
+// - Sound On/Off
+// - Sound Graph (smoothie.js by 'http://smoothiecharts.org/' modified with label draw on the apex point ) 
 // - FullScreen
 // - Restart  (start over with default settings)
 // - Auto Restart after secs
@@ -21,9 +24,10 @@
 // - Exit from App (desktop only)
 //******************************************************************************
 const home="https://damarideneurommancer.github.io/AlteredCards/";
+const dada="\u00A9 DamarideNeurommancer";
 const config={
- src: 'AllCards.jpeg',
- rows: 9,
+ src: 'AllCardsNew.jpeg', //'AllCards.jpeg',
+ rows: 12,
  cols: 9
 }
 const maxCards=config.rows*config.cols;
@@ -46,15 +50,16 @@ const settings={
  Restart: function(){restart();},
  AutoRestart: 20,
  FullScreen: function(){toggleFullScreen();},
- Cards: 81,
+ Cards: maxCards, //108, //81,
  Effect: 0,
  Pause: function(){pause();},
  Play: function(){play();},
  Home: function(){window.location=home;},
  Save: function(){mySave();},
  Refresh: function(){window.location=document.URL;},
- Exit: function(){myExit();}
- ,Sound: false 
+ Exit: function(){myExit();},
+ Sound: false,
+ SoundGraph: false 
 }
 const movement={
  both: true,
@@ -69,6 +74,10 @@ const soundChk={
 };
 var timeLines=[];
 var bSoundOn=false;
+var bSoundGraphOn=false;
+const soundGraphChk={
+ val: false
+};
 // UTILS
 const randomRange = (min, max) => min + Math.random() * (max - min)
 const randomIndex = (array) => randomRange(0, array.length) | 0
@@ -84,15 +93,35 @@ const resetCard = ({ stage, card }) => {
   if(!bSoundOn){
    TuneGenerator();
    bSoundOn=true;
+   if(settings.SoundGraph){
+    showGraph();
+    bSoundGraphOn=true;
+   }
+  }
+  else{
+   if(bSoundGraphOn==true&&!settings.SoundGraph){
+    hideGraph();
+    bSoundGraphOn=false;
+   }
+   if(bSoundGraphOn==false&&settings.SoundGraph){
+    showGraph();
+    bSoundGraphOn=true;
+   }
   }
  }
  else{
-  if(bSoundOn){
-   clearInterval(timerID1);
-   clearInterval(timerID2);
-   bSoundOn=false;
-  }
+   if(bSoundOn){
+    clearInterval(timerID1);
+    clearInterval(timerID2);
+    bSoundOn=false;
+   }
+   if(settings.SoundGraph&&bSoundGraphOn){
+    hideGraph();
+    bSoundGraphOn=false;
+   }
  }
+
+
  // Keep the card's size set!
  if(card.width!=settings.Size){
   card.setRect(card.rect);
@@ -126,7 +155,8 @@ const resetCard = ({ stage, card }) => {
   
  card.x = startX
  card.y = startY
- card.anchorY = startY 
+ card.anchorY = startY
+ //console.log("Card:",card.name," start(",startX,",",startY,") endX:",endX); 
  return{
   startX,
   startY,
@@ -253,15 +283,18 @@ function createCards () {
  //const total = rows * cols
  const total=settings.Cards;
  //const total=1;
- const rectWidth = width / rows
- const rectHeight = height / cols
+ const rectWidth = width / cols
+ const rectHeight = height / rows
   
  for (let i = 0; i < total; i++) {
+  //console.log("Card#: ",i, "X: ",(i % cols) * rectWidth, " Y: ",(i / cols | 0) * rectHeight)
   allCards.push(new Card({
    image: img,
     rect: [
-      (i % rows) * rectWidth,
-      (i / rows | 0) * rectHeight,
+      //(i % rows) * rectWidth, // bug in the original code
+      (i % cols) * rectWidth,
+      //(i / rows | 0) * rectHeight, // bug in the original code
+      (i / cols | 0) * rectHeight,
       rectWidth,
       rectHeight,
      ],
@@ -352,7 +385,7 @@ function roundedImage(ctx,x,y,width,height,radius){
  // GUI SETTINGS ******
  // Open/Close Controls
  dat.GUI.TEXT_OPEN = "Please, open me &#x1F53D;";
- dat.GUI.TEXT_CLOSED = "Close Controls &#x1F53C;";
+ dat.GUI.TEXT_CLOSED = "Close Controls &#x1F53C; "+dada;
   
  var gui = new dat.GUI({load: settings}); //{ autoPlace: false }
  
@@ -392,11 +425,12 @@ function roundedImage(ctx,x,y,width,height,radius){
  // SOUND
  //if(!bMobile)
   gui.add(soundChk,'val').name('Sound &#x1F3B5;').onChange(function(){getSound()}).listen();
+  gui.add(soundGraphChk,'val').name('SoundGraph&#x1F4C8;').onChange(function(){getSoundGraph()}).listen();
  //FULLSCREEN
  gui.add(settings, 'FullScreen').name('FullScreen &#x1F7EA');
  // RESTART
  gui.add(settings, 'Restart').name('Restart \u26A1');
-gui.add(settings, 'AutoRestart', 0, 300).step(1).name('AutoRestart &#x1F552;').onChange(function(){setAutoRestart()}).listen();
+ gui.add(settings, 'AutoRestart', 0, 300).step(1).name('AutoRestart &#x1F552;').onChange(function(){setAutoRestart()}).listen();
 //gui.add(settings, 'AutoRestart', 10, 60).step(1).name('AutoRestart (s)');
  // REFRESH
  gui.add(settings,'Refresh').name('Refresh &#x1F4BB;');
@@ -413,6 +447,9 @@ function setAutoRestart(){
 
 function getSound(){
  settings.Sound=soundChk.val;
+}
+function getSoundGraph(){
+ settings.SoundGraph=soundGraphChk.val;
 }
            
 totCards.onChange(function(){
@@ -567,4 +604,135 @@ function tick(){
   }
  },wait);
  //console.log("New timerID= ", timerID);
+}
+
+var timerGraph;
+var chart2=null;
+var series2 = new TimeSeries();
+
+function startTimer(){  
+ // Add a data point every 500ms
+ timerGraph= setInterval(function(){ 
+  var now = Date.now();
+  if(gl_Freq&&gl_Freq.length>0){
+   const frequency=gl_Freq.shift();
+   const note=freqToNote(frequency);  
+   series2.append(now,frequency,false,note);
+  }
+}, 500);
+}
+
+
+function createTimeline(){  
+ // tooltipLine:{strokeStyle:'#bbbbbb'}, 
+ // interpolation:'bezier' // default
+ chart2 = new SmoothieChart({ 
+  labels:{showIntermediateLabels:true},
+  tooltip:true,
+  //timestampFormatter:SmoothieChart.timeFormatter,                                        
+  grid: { strokeStyle:'rgb(125, 0, 0)', fillStyle:'rgb60, 0, 0)',lineWidth: 1, millisPerLine: 250, verticalSections: 6, },
+  title: { text: dada},
+  responsive: true });
+ chart2.addTimeSeries(series2, {strokeStyle: 'rgba(0, 255, 0, 1)', fillStyle: 'rgba(0, 255, 0, 0.2)', lineWidth: 4});
+ chart2.streamTo(document.getElementById("chart-responsive"), 500);
+ startTimer();
+}
+
+function startGraph(){
+ chart2.start();
+ startTimer();
+}
+function stopGraph(){
+ clearInterval(timerGraph);
+ chart2.stop();
+}
+
+var notes=new Array ('C','C#','D','Eb','E','F','F#','G','G#','A','Bb','B');
+var semitone = 1.0594630944;
+//var logsemitone = Math.log(semitone);
+var cent = Math.pow(semitone,0.01);
+var logcent = Math.log(cent);
+var octzero = 16.35159783; // the frequency of C0
+
+function reduce(numerator,denominator){
+ var gcd = function gcd(a,b){
+  return b ? gcd(b, a%b) : a;
+ };
+ gcd = gcd(numerator,denominator);
+ return [numerator/gcd, denominator/gcd];
+}
+
+function freqToNote(f){
+	var octave, n, octstart, notenum;
+	octave = Math.floor(Math.log(f/octzero)/Math.log(2.));
+	//debug ('Octave: '+octave);
+	octstart = octzero*Math.pow(2.,octave);
+	centstooctstart = Math.log(f/octstart)/logcent;
+	//debug ('centstooctstart: '+centstooctstart);
+
+	sttooctstart = Math.round(centstooctstart/100.);
+	
+	if (sttooctstart == 12) {
+		octave ++;
+		sttooctstart = 0;
+		octstart = octzero*Math.pow(2.,octave);
+		centstooctstart = Math.log(f/octstart)/logcent;
+	}
+	notenum = sttooctstart;
+	freqn = octstart*Math.pow(semitone,notenum);
+	//debug ('freqn: '+freqn);
+
+	//centsDetuned = Math.round(Math.log(f/freqn)/logcent);
+	// ** GET THE MICROTONAL DEVIATION INDICATOR ** //
+	/*microtonalDeviation = '';
+	var quantizedCents = 50;
+	var quantizedCentsThresh = quantizedCents/2;
+	if (centsDetuned > quantizedCentsThresh || centsDetuned < -quantizedCentsThresh) {
+		microtonalDeviation = Math.round(centsDetuned/quantizedCents);
+		var numerator = microtonalDeviation;
+		var denominator = 4;
+		var fraction = reduce(numerator,denominator);
+		if (microtonalDeviation > 0) {
+			if (fraction[0]==1 && fraction[1] == 4) {
+				microtonalDeviation = '+¼';
+			} else {
+				microtonalDeviation = '+'+fraction[0]+'/'+fraction[1];
+			}
+		} else {
+			if (fraction[0]==1 && Math.abs(fraction[1]) == 4) {
+				microtonalDeviation = '-¼';
+			} else {
+				microtonalDeviation = '-'+fraction[0]+'/'+Math.abs(fraction[1]);
+			}
+		}
+	}*/
+	//return f+"\t"+notes[notenum]+"\t"+octave+"\t"+centsDetuned+"\t"+microtonalDeviation+"\n";
+	return notes[notenum]+octave;
+}               
+const modal=document.getElementById('myModal');
+function hideGraph(){ 
+ modal.style.display="none";
+ stopGraph();
+}
+function showGraph(){
+ modal.style.display="block";
+ createTimeline();
+}
+
+var span=document.getElementsByClassName("close")[0];
+span.onclick=function(){
+ hideGraph();
+ soundGraphChk.val=false;
+ settings.SoundGraph=false;
+}
+
+function toggleGraph(){
+ if (chart2.frame){
+  // We're already running
+  chart2.stop();
+ }
+ else{
+  //chart2.options.scrollBackwards=!chart2.options.scrollBackwards
+  chart2.start();
+ }
 }

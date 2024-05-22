@@ -6,8 +6,6 @@
  <meta name='subtitle' content='DamarideNeurommancer AlterSleeves Cards'>
  <meta name='viewport' content='width=device-width, initial-scale=1.0'>
  <meta http-equiv="content-type" content="text/html; charset=windows-1250">
- <!--meta http-equiv='content-type' content='text/html; charset=Unicode'-->
- <!--meta charset='UTF-16'-->
  <meta property='og:title' content='DamarideNeurommancer Archives - Alter Sleeves' />
  <meta name='description' content='DamarideNeurommancer AlterSleeves Cards'>
  <meta name='robots' content='index,follow'>
@@ -23,9 +21,15 @@
  </head>
  <body onload="myInit()">
   <canvas id="canvas" onClick="myExit()"></canvas>
+  <div id="myModal" class="modal">
+   <span class="close" title="Close Graph">&times;</span>
+   <canvas id="chart-responsive" style="width:100%;height:100px" onclick="toggleGraph()"></canvas>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.3/dat.gui.min.js"></script>
+  <script src="smoothie.js"></script>
   <script src="ssGallery.js"></script>
   <script src="ssOtherSound.js"></script>
+  
  </body>
 </html>

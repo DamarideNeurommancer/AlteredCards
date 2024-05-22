@@ -1,4 +1,6 @@
 // Original code by https://pierfrancesco-soffritti.medium.com/sound-generation-with-javascript-57b2fda65608
+// DamarideNeurommancer added connection to smoothie for charting the sounds
+var gl_Freq=[];
 var timerID1;
 var timerID2;
 function TuneGenerator(){    
@@ -19,11 +21,40 @@ function NotesGenerator(){
 
  // Choose the importance of each note. Notes with a 0 probability won't be played
  const nextNote = distribution( {131:2, 139:0, 147:1, 156:0, 165:2, 175:1, 185:0, 196:2, 208:0, 220:1, 233:0, 247:1,
-                                 262:2, 277:0, 294:1, 311:0, 330:2, 349:1, 370:0, 392:2, 415:0, 440:1, 466:0, 496:1} )
+                                 262:2, 277:0, 294:1, 311:0, 330:2, 349:1, 370:0, 392:2, 415:0, 440:1, 466:0, 496:1// } )
+/*,261.626:2,
+277.180:2,
+293.665:2,
+311.127:2,
+329.628:2,
+349.228:2,
+369.994:2,
+391.995:2,
+415.305:2,
+//440.000:2,
+466.164:2,
+493.883:2,
+523.251:1,
+554.365:1,
+587.330:1,
+622.254:1,
+659.255:1,
+698.457:1,
+739.989:1,
+783.991:1,
+830.609:1,
+880.000:1,
+932.328:1,
+987.767:1,
+1046.500:1,
+1108.730:1*/
+})                
 
  // The factor determines the octave
  // Choose the importance of each factor
- const nextFac = distribution( {'-1':2,'0':2, '1':2, '2':1, '3':0 } );
+ const nextFac = distribution( {'-1':2,'0':2, '1':2, '2':1, '3':0
+ //,'4':2,'5':1,'6':0 
+});
 
  this.playNote = function(maxFactor) {
   const oscillator = context.createOscillator();
@@ -37,6 +68,7 @@ function NotesGenerator(){
 
    oscillator.frequency.value = parseInt(nextNote()) * Math.pow(2, fac );
    //console.log(oscillator.frequency.value);
+   gl_Freq.push(oscillator.frequency.value);
 
    const gainNode = context.createGain();
    gainNode.gain.value = .2;
