@@ -67,8 +67,11 @@ function NotesGenerator(){
    fac = parseInt(nextFac());
 
    oscillator.frequency.value = parseInt(nextNote()) * Math.pow(2, fac );
-   //console.log(oscillator.frequency.value);
-   gl_Freq.push(oscillator.frequency.value);
+   
+   if(bSoundGraphOn){
+    //console.log(oscillator.frequency.value);
+    gl_Freq.push(oscillator.frequency.value);
+   }
 
    const gainNode = context.createGain();
    gainNode.gain.value = .2;
