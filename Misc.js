@@ -1336,3 +1336,26 @@ function getRadioValue(){
 function isMobile(){
  return(window.orientation!=null&&window.orientation!="undefined");
 }
+
+const dFlavor= document.getElementById("flavor");
+msgOfToday = async (e) => {
+ if(window.navigator.onLine){
+  flavorBtn.style.cursor='wait';
+  console.log('window.navigator.onLine is ' + window.navigator.onLine)
+  const response = await fetch(`https://api.scryfall.com/cards/random`);
+  const card = await response.json();
+  dFlavor.innerHTML="";
+  try{
+   if(card.flavor_text!=""){
+    dFlavor.innerHTML=card.name+"<br>"+card.flavor_text.replace("\n","<br>");
+    dFlavor.scrollIntoView(true,{behavior:"smooth"}); 
+   }
+  }
+  catch(error){
+   //console.log(error);
+   //console.log("This card '",card.name,"' doesn't have a flavor! Trying again!");
+   msgOfToday(e);
+  }
+  flavorBtn.style.cursor='default';
+ }
+}

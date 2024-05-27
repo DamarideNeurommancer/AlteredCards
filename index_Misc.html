@@ -285,6 +285,16 @@ textarea{
 .cT{
  background-color: blue;
 }
+#flavor{
+ width: 80%;
+ max-width: 300px;
+ padding: 10px 10px 10px;
+ border: 1px solid dodgerblue;
+ border-radius: 4px;
+ box-shadow: 0 10px 10px black;
+ background: linear-gradient(45deg, #FBFCFD, #4D4D70);
+ color: DarkBlue;
+}
 </style> 
 <div class="header" id="myHeader">
  <div id="mySidebar" class="sidebar">
@@ -537,6 +547,13 @@ textarea{
   <div id="Score" style="overflow-x:auto;">
   <canvas id="musicCanvas" title="Musical Score" width="600px" height="140px" style="background:#FFF;border-radius:10px;cursor:zoom-in" onclick="myPopup()"></canvas>
   <p id="VFLicense" style="font-size:10px;font-style:italic;"></p>
+  </div>
+  
+  <p></p>
+  <div>
+    <button id="flavorBtn" onclick="msgOfToday();" title="Get a random MOT (Message of Today)">Today's Message &#x2652;</button>
+    <p></p>
+    <div id="flavor"></div>
   </div>
  </div>
 
