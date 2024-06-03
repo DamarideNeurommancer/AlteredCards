@@ -40,7 +40,9 @@ const cmbOrientation=document.getElementById("cmbOrientation");
 const cmbFont=document.getElementById("cmbFont");
 const colorPicker=document.getElementById("colorPicker");
 const backColor=document.getElementById("backColor");
-const autoBackColor=document.getElementById('autoBackColor');
+const chkAutoBackColor=document.getElementById('chkAutoBackColor');
+const chkIgnoreBlanks=document.getElementById('chkIgnoreBlanks');
+const chkReverseLines=document.getElementById('chkReverseLines');
 const canvas = document.querySelector('#canvasPhy');
 const ctx = canvas.getContext('2d');
 const PHY_START_LINE='|';
@@ -53,7 +55,6 @@ const ctxFontName3="px PhyrexianMagic";
 var cnt1=0;
 var cnt2=0;
 var cnt3=0;
-var bIgnoreBlanks=true;
 
 function phyTranslate(){ 
  var textString;
@@ -114,7 +115,7 @@ function phyTranslate(){
  if(fonttype==3&&cnt3==0){cnt3++;lines[0]=" ";textString=" ";ctx.fillStyle="white";ctx.clearRect(0,0,canvas.width,canvas.height);}
  
  // Auto Background Color?
- if(autoBackColor.checked){
+ if(chkAutoBackColor.checked){
   // Compute complementary color for background
   let white = parseInt("FFFFFF",16);
   let curColor = parseInt(colorPicker.value.substring(1),16);
@@ -313,7 +314,7 @@ function setActualCanvasFont3(lines,fontsize,delta){
 }
 
 function prepareText(textString,fonttype){
- if(bIgnoreBlanks)
+ if(chkIgnoreBlanks.checked)
   textString=textString.replaceAll(' ',''); 
  // CR+LF or CR are treated like LF
  textString=textString.replaceAll("\r\n","\n").replaceAll("\r","\n");
@@ -406,15 +407,26 @@ function getDelta(value){
 }
 
 function getLines(text){
+ var bReverse=chkReverseLines.checked;
  // Avoid empty strings with 'filter' 
  var lines = text.split(/\r|\r\n|\n/).filter(function(i){return i});
  var count = lines.length;
  for(var l=0;l<count;l++){
   lines[l]=lines[l].trim();
+  if(bReverse){
+   lines[l]=reverseLine(lines[l]);
+  }
  }
  return[lines,count];
 }
 
+function reverseLine(line){
+ var rv="";
+ for(var i=0;i<line.length;i++){
+  rv=line[i]+rv;
+ }
+ return rv;
+}
 function getLongestLineChars(text){
  var numChars=0;
  var lines = text.split(/\r|\r\n|\n/);
@@ -443,7 +455,11 @@ cmbOrientation.addEventListener("change",phyTranslate,false);
 // Event on font combo
 cmbFont.addEventListener("change",phyTranslate,false);
 // Event on check Auto Background Color
-autoBackColor.addEventListener("change",phyTranslate,false);
+chkAutoBackColor.addEventListener("change",phyTranslate,false);
+// Event on check Ignore Blanks
+chkIgnoreBlanks.addEventListener("change",phyTranslate,false);
+// Event on check Reverse Lines
+chkReverseLines.addEventListener("change",phyTranslate,false);
 
 function myRotate(degrees){
  // Create an second in-memory canvas:

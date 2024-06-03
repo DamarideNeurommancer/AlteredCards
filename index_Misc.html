@@ -576,7 +576,16 @@ textarea{
    <br>
    <textarea id="inputArea" name="inputArea" rows="5" cols="40" placeholder="Enter your text..."></textarea>
    <button id='btnTranslate' onclick='phyTranslate()' title='Translate text to Phyrexian' style='font-size:9.4px;-webkit-writing-mode:vertical-rl;writing-mode:vertical-rl;text-orientation:upright;'>Translate</button>
-   <br>
+
+   <div style="padding-top:3px;">
+    <input type='checkbox' id='chkIgnoreBlanks' title='Ignore Blanks' checked>
+    <label for="chkIgnoreBlanks" style='font-size:12px;'><i> Ignore Blanks &emsp;</i></label>
+    <input type='checkbox' id='chkReverseLines' title='Reverse each line of Text' >
+    <label for="chkReverseLines" style='font-size:12px;'><i> Reverse Lines&emsp;</i></label>
+    <button id='btnClear' onclick='inputArea.value=""' title='Clear text' style='font-size:12px'>&#x274C; Clear</button>
+   </div>
+   
+   <div style="padding-top:3px;">
    <label id="lblFontsize" for="cmbFontsize" title='Font Size'><i>&#x1F4D0;</i></label>
    <select id="cmbFontsize" style='font-size:14px;background-color:white' onchange="phyTranslate()" title='Font Size'>
     <option value="10">10</option>
@@ -604,18 +613,19 @@ textarea{
     <option value="2">Phyrexian2</option>
     <option value="3">Phyrexian3</option>
    </select>
-   <br>
-   <div style="padding-top:6px;">
+   </div>
+   
+   <div style="padding-top:4px;">
     <label id="lblcolorpicker" for="colorPicker" title='Text Color'><i>&#x1F3A8;</i></label>
     <input type="color" id="colorPicker" value="#000000" title='Text Color'>
     <label id="lblbackcolor" for="backColor" title='Background Color'><i>&#x1F5BC;</i></label>
     <input type="color" id="backColor" value="#ffffff" title='Background Color'>
-    <label for="autoBackColor" title='Automatically compute complementary Background Color'><i>&#x1F697;</i></label>
-    <input type='checkbox' id='autoBackColor' title='Automatically compute complementary Background Color'>
+    <label for="chkAutoBackColor" title='Automatically compute complementary Background Color'><i>&#x1F697;</i></label>
+    <input type='checkbox' id='chkAutoBackColor' title='Automatically compute complementary Background Color'>
     <button id='btnSave' onclick='phySave()' title='Save Phyrexian Translation'>&#x1F4BE; Save</button>
    </div>
   </div>
-  <div>
+  <div style="padding-top:6px;">
   <canvas id="canvasPhy"></canvas>
   </div>
  </div>
