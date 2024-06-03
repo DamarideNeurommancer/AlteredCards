@@ -1311,10 +1311,10 @@ function myInit(){
   }
  }
  if(bMobile){
-  inputArea.rows=6;
-  inputArea.cols=36;
+  myTabs.style.width="110%";
   tabPhirexian.innerHTML="&#x1F549;";
-  //myTabs.style.width="110%";
+  inputArea.rows=6;
+  inputArea.cols=36;  
  }
 }
 function initVars(){
