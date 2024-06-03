@@ -3,8 +3,8 @@
 <title>DamarideNeurommancer | AlterSleeves Cards
 </title><link rel="icon" type="image/x-icon" href="favicon.ico"><meta name='subtitle' content='DamarideNeurommancer AlterSleeves Cards'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<meta http-equiv='content-type' content='text/html; charset=Unicode'>
-<meta charset='UTF-16'>
+<meta http-equiv="content-type" content="text/html; charset=windows-1250">
+<!--meta charset='UTF-16'-->
 <meta property='og:title' content='DamarideNeurommancer Archives - Alter Sleeves'>
 <meta name='description' content='DamarideNeurommancer AlterSleeves Cards'>
 <meta name='robots' content='index,follow'>
@@ -24,6 +24,18 @@
 </head>
 <body style='background-color:#000000' onload="myInit()">
 <style>
+@font-face{
+ font-family: 'PhiFont';
+ src: local("Phyrexian TrueType Vertical"), url(Phi_vertical_gbrsh_8.ttf);
+}
+@font-face{
+ font-family: 'Phyrexian';
+ src: local("Phyrexian-Regular TrueType"), url(Phyrexian-Regular.ttf);
+}
+@font-face{
+ font-family: 'PhyrexianMagic';
+ src: local("Phyrexian TrueType"), url(Phyrexian.ttf);
+}  
 body{
  font-family: 'Roboto Condensed', sans-serif;
  font-size: 8px;
@@ -380,7 +392,7 @@ textarea{
   <button class="tablinks" onclick="openTab(event,'DNA')">&#x1F9EC;DNA</button>
   <button class="tablinks" onclick="openTab(event,'AminoAcids')">&#x1F9A0;AminoAcids</button>
   <button class="tablinks" onclick="openTab(event,'GeoPosition')"><img src='forward-arrow-icon.png' width='12' height='12'>Mix&#x1F3B5;</button>
-  <!--button class="tablinks" onclick="openTab(event,'GeoPosition')">&#x1F30D;GeoPos</button-->
+  <button class="tablinks" id="tabPhirexian" onclick="openTab(event,'Phyrexian')">&#x1F549;Phyrexian</button>
  </div>
 
  <!-- Tab content -->
@@ -557,6 +569,56 @@ textarea{
   </div>
  </div>
 
+ <div id="Phyrexian" class="tabcontent">
+  <div>
+   <label style='font-size:10px'><i>*Phyrexian fonts are copyright to their respective owners.</i></label>
+   <br>
+   <textarea id="inputArea" name="inputArea" rows="5" cols="40" placeholder="Enter your text..."></textarea>
+   <button id='btnTranslate' onclick='phyTranslate()' title='Translate text to Phyrexian' style='font-size:9.4px;-webkit-writing-mode:vertical-rl;writing-mode:vertical-rl;text-orientation:upright;'>Translate</button>
+   <br>
+   <label id="lblFontsize" for="cmbFontsize" title='Font Size'><i>&#x1F4D0;</i></label>
+   <select id="cmbFontsize" style='font-size:14px;background-color:white' onchange="phyTranslate()" title='Font Size'>
+    <option value="10">10</option>
+    <option value="12">12</option>
+    <option value="14">14</option>
+    <option value="16">16</option>
+    <option value="18">18</option>
+    <option value="20">20</option>
+    <option value="22">22</option>
+    <option value="24">24</option>
+    <option value="26">26</option>
+    <option value="28">28</option>
+    <option value="32" selected>32</option>
+    <option value="48">48</option>
+    <option value="72">72</option>
+   </select>
+   <label id="lblOrientation" for="cmbOrientation" title='Orientation'><i>&#x1F9ED;</i></label>
+   <select id="cmbOrientation" style='font-size:14px;background-color:white' title='Orientation'>
+    <option value="1" selected>Vertical</option>
+    <option value="2">Horizontal</option>
+   </select>
+   <label id="lblFont" for="cmbFont" title='Font'><i>&#x1F524;</i></label>
+   <select id="cmbFont" style='font-size:14px;background-color:white' title='Phyrexian Fonts are Copyright to their respective owners'>
+    <option value="1" selected>Phyrexian1</option>
+    <option value="2">Phyrexian2</option>
+    <option value="3">Phyrexian3</option>
+   </select>
+   <br>
+   <div style="padding-top:6px;">
+    <label id="lblcolorpicker" for="colorPicker" title='Text Color'><i>&#x1F3A8;</i></label>
+    <input type="color" id="colorPicker" value="#000000" title='Text Color'>
+    <label id="lblbackcolor" for="backColor" title='Background Color'><i>&#x1F5BC;</i></label>
+    <input type="color" id="backColor" value="#ffffff" title='Background Color'>
+    <label for="autoBackColor" title='Automatically compute complementary Background Color'><i>&#x1F697;</i></label>
+    <input type='checkbox' id='autoBackColor' title='Automatically compute complementary Background Color'>
+    <button id='btnSave' onclick='phySave()' title='Save Phyrexian Translation'>&#x1F4BE; Save</button>
+   </div>
+  </div>
+  <div>
+  <canvas id="canvasPhy"></canvas>
+  </div>
+ </div>
+ 
 <div id="myModal" class="modal">
   <span class="close">&times;</span>
   <img class="modal-content" id="img01">
@@ -572,4 +634,5 @@ textarea{
 <script src="https://npmcdn.com/vexflow@1.2.84/releases/vexflow-debug.js"></script>
 <script src="Misc_soundplayer.js"></script>
 <script src="Misc_drawoutput.js"></script>
+<script src="Misc_phyrexian.js"></script>
 </body></html>

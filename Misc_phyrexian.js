@@ -1,4 +1,12 @@
+// Text 2 Prhyrexian Translator Ver.1.0
 // Copyright © DamarideNeurommancer
+
+/****
+*  Phyrexian fonts here used are copyright to their respective owners.
+*  Font1: downloaded from: https://drive.google.com/file/d/1uUMey6AqsnG5l7xWlj9JOiiSOK4LfJ9b/view
+*  Font2: downloaded from Wizard of the Coast
+*  Font3: downloaded from: https://github.com/davide2894/nissa/tree/master/app/fonts/Fonts%20-%20Magic%20Templates/Magic%20-%20Phyrexian 
+****/
  
 // --- Font1
 // Phi_vertical_gbrsh_8 Regular
@@ -17,11 +25,12 @@
 // Phyrexian font template is copyright ©2013 Anuttymous
 // https://github.com/davide2894/nissa/tree/master
 // https://github.com/davide2894/nissa/tree/master/app/fonts/Fonts%20-%20Magic%20Templates/Magic%20-%20Phyrexian
+
 /*
 * Font Size   (10,12,14,16,18,20,22,34,26,28,32,48,72)
 * Orientation (Vertical|Horizontal)
 * Font Color
-* Background Color (auto generated on request)
+* Background Color (auto generated on user request as foreground complementary color)
 * Font Type (1|2|3)
 */
 
@@ -41,17 +50,16 @@ const PHY3_START_LINE='\\';//'\\';
 const ctxFontName1="px PhiFont";
 const ctxFontName2="px Phyrexian";
 const ctxFontName3="px PhyrexianMagic";
-//var bMobile=false;
-//isMobile();
 var cnt1=0;
 var cnt2=0;
 var cnt3=0;
+var bIgnoreBlanks=true;
 
 function phyTranslate(){ 
  var textString;
  var x=0;
  var y=0;
- // Get input text, if blank then clears canvas and return
+ // Get input text, if blank then clear canvas and return
  textString=inputArea.value.trim();
  if(textString.length<=0){
   ctx.fillStyle=backColor.value;
@@ -60,57 +68,47 @@ function phyTranslate(){
  }
  var originalText=textString;
   
-
- //.log("Text:<",textString,">");
-  // Get selected fontsize and Orientation
+ // Get selected FontSize, Orientation and FontSet
  var fontsize=cmbFontsize.value;
  const orientation=cmbOrientation.value;
  const fonttype=cmbFont.value;
 
- // Clean input Text from unmanaged characters
+ // Clean/Replace/Transform input Text from unmanaged characters
  textString=prepareText(textString,fonttype); 
  // Set font size
  ctx.font = fontsize+(fonttype==1?ctxFontName1:(fonttype==2?ctxFontName2:ctxFontName3));
- /*console.log("Text:<",textString,"> Font ready? ",ctx.font," status:",document.fonts.check(ctx.font,textString));
- if(document.fonts.check(ctx.font,textString)==false){
-  console.log(ctx.font, " NOT ready!");
- }*/
  // Get font metrix
  const metrics=ctx.measureText("X");
- //console.log("Metrix: width",metrics.width);
  
- //var lines=getLines(textString);
  var linesAndCount=getLines(textString);
  var lines=linesAndCount[0];
  var count=linesAndCount[1];
  
- //console.log("New Metrix: width",metrics.width*lines);
  var delta,topPadding;
  // Set canvas size
  if(fonttype==1){
   // Compute a delta value to subtract from the Character Height so that the printing seems contiguous
   delta=fontsize-getDelta(fontsize);
-  //canvas.width=metrics.width*lines;
-  canvas.width=metrics.width*count;
-  //canvas.height=textString.length*fontsize;
-  canvas.height=getLongestLineChars(textString)*delta;
-  //console.log("canvas: W=",canvas.width," H:",canvas.height);
-
-  // Top padding
+  // Top (Left) padding
   topPadding=delta/2;
+  canvas.width=metrics.width*count;
+  canvas.height=getLongestLineChars(textString)*delta;
  }
  else{
   delta=metrics.width-getDelta(fontsize);
   topPadding=delta/2;
-  //canvas.width=getLongestLineChars(textString)*metrics.width;
-  canvas.width=getLongestLineChars(textString)*delta;
-  //canvas.height=(fontsize*lines);  
-  canvas.height=(fontsize*count);
+  if(fonttype==2){
+   canvas.width=getLongestLineChars(textString)*delta;  
+   canvas.height=(fontsize*count);
+  }
+  else{
+   setActualCanvasFont3(lines,fontsize,delta)
+  }
  }
  
- // For the very first time it does't work!
- // Don't know why! May be the font hasn't been loaded yet?!?
- // So I have to 'clean' the input string and do a fake printing 
+ // For the very first time it does't work when the font(x) hasn't been loaded yet
+ // I tried a lot of stuff from internet and they don't work!
+ // So I have to 'clean' the input string, do a fake printing and ask the user to click again! 
  if(fonttype==1&&cnt1==0){cnt1++;lines[0]=" ";textString=" ";ctx.fillStyle="white";ctx.clearRect(0,0,canvas.width,canvas.height);}
  if(fonttype==2&&cnt2==0){cnt2++;lines[0]=" ";textString=" ";ctx.fillStyle="white";ctx.clearRect(0,0,canvas.width,canvas.height);}
  if(fonttype==3&&cnt3==0){cnt3++;lines[0]=" ";textString=" ";ctx.fillStyle="white";ctx.clearRect(0,0,canvas.width,canvas.height);}
@@ -135,10 +133,6 @@ function phyTranslate(){
  
  // Set context fontname and fontsize, once for all! 
  ctx.font = fontsize+(fonttype==1?ctxFontName1:(fonttype==2?ctxFontName2:ctxFontName3))
- 
- // Split input text in lines
- //var lines = textString.split(/\r|\r\n|\n/);
- //var count = lines.length;
 
  switch(fonttype){
   case "1": // Phyrexian Font1
@@ -162,10 +156,9 @@ function phyTranslate(){
    }
    break;
   case "2": // Phyrexian Font2  
-   y=delta;
+   y=delta+4;
    switch(orientation){
     case "1": // Vertical
-     //y=delta;
      for(var l=count-1;l>=0&&lines[l]!=""&&lines[l]!='\n';l--){    
       drawMaster2(lines[l],delta,topPadding,y);
       y+=parseFloat(fontsize);
@@ -174,7 +167,6 @@ function phyTranslate(){
      myRotate(90);
      break;
     case "2": // Horizontal
-     //y=delta;
      for(var l=0;l<count&&lines[l]!=""&&lines[l]!='\n';l++){   
       drawMaster2(lines[l],delta,topPadding,y);
       y+=parseFloat(fontsize); // You need parseFloat!!!
@@ -183,10 +175,9 @@ function phyTranslate(){
    }
    break;
   case "3": // Phyrexian Font3
-   y=delta;
+   y=delta+2;
    switch(orientation){
     case "1": // Vertical
-     //y=delta;
      for(var l=count-1;l>=0&&lines[l]!=""&&lines[l]!='\n';l--){    
       drawMaster3(lines[l],delta,topPadding,y);
       y+=parseFloat(fontsize);
@@ -195,7 +186,6 @@ function phyTranslate(){
      myRotate(90);
      break;
     case "2": // Horizontal
-     //y=delta;
      for(var l=0;l<count&&lines[l]!=""&&lines[l]!='\n';l++){   
       drawMaster3(lines[l],delta,topPadding,y);
       y+=parseFloat(fontsize); // You need parseFloat!!!
@@ -204,9 +194,13 @@ function phyTranslate(){
    }
    break;  
  }
- // Courtesy 
- if(lines==" "){
-  alert('"'+cmbFont.options.item(cmbFont.selectedIndex).innerText+ '"\nThis font set is about to be loaded.\nPlease press the "Translate" button again!');
+ // Please press again! 
+ if(lines[0]==" "){
+  ctx.fillStyle=backColor.value;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  alert('"'+cmbFont.options.item(cmbFont.selectedIndex).innerText+'"\nThis font set is about to be loaded...\nTry pressing the "Translate" button again!');
+  phyTranslate();
+  //document.getElementById('btnTranslate').click();
  }
  canvas.title=originalText;
 }
@@ -227,17 +221,13 @@ function drawMaster(curLine,delta,topPadding,x){
  for(var i=0;i<curLine.length;i++){
   const c=curLine[i];
   y=(row*delta)+topPadding;
-  //console.log("draw: ",c,"x:",x," y:",y," size:",fontsize);
   draw(c,x,y);
   row++;    
  }
 }
 
-//function draw(c,x,y,fsize,fonttype){
 function draw(c,x,y){
- // Set once for all at the beginning!
- //ctx.fillStyle=colorPicker.value;
- //ctx.font = fsize+(fonttype==1?ctxFontName1:(fonttype==2?ctxFontName2:ctxFontName3))
+ // ctx.fillStyle and ctx.font set once for all at the beginning!
  ctx.fillText(c,x,y);
 }
 
@@ -253,14 +243,13 @@ function drawMaster2(curLine,delta,topPadding,y){
   if(curLine[curLine.length-1]!=PHY_END_LINE)
    curLine=curLine+PHY_END_LINE;
  }
-  
+ // Font2: Comma character ',' has a different metrics.width. Not managed for now! 
  for(var i=0;i<curLine.length;i++){
   const c=curLine[i];
   if(i==0)
    x=(col*delta)+topPadding;
   else
    x=(col*delta-3);
-  //console.log("drawMaster2: ",c,"x:",x," y:",y," size:",fontsize);
   draw(c,x,y);
   col++;    
  }
@@ -282,18 +271,56 @@ function drawMaster3(curLine,delta,topPadding,y){
   const c=curLine[i];
   const metrics=ctx.measureText(c);
   if(i==0)
-   x=metrics.width;//+topPadding;
+   x=metrics.width;
   else
    x+=lastwidth;
-  //console.log("drawMaster2: ",c,"x:",x," y:",y," size:",fontsize); x=(col*delta-3);
   draw(c,x,y);
   lastwidth=metrics.width;    
  }
 }
 
+function setActualCanvasFont3(lines,fontsize,delta){
+ if(lines==""||lines[0]=="")
+  return;
+ var maxWidth=0;
+ var y=delta+2;
+ var curLine;
+ for(var l=0;l<lines.length;l++){
+  curLine=lines[l];
+  if(curLine!=" "){
+   if(curLine[0]!=PHY3_START_LINE)
+    curLine=PHY3_START_LINE+curLine;
+   if(curLine[curLine.length-1]!=PHY_END_LINE)
+    curLine=curLine+PHY_END_LINE;
+  }    
+  var lastwidth=0; 
+  for(var i=0;i<curLine.length;i++){
+   const c=curLine[i];
+   const metrics=ctx.measureText(c);
+   if(i==0)
+    x=metrics.width;
+   else
+    x+=lastwidth;
+   lastwidth=metrics.width;    
+  }
+  if(maxWidth<(x+lastwidth))
+   maxWidth=x+lastwidth;
+  if(l<lines.length-1)
+   y+=parseFloat(fontsize);
+ }
+ canvas.width=maxWidth;
+ canvas.height=y;
+}
+
 function prepareText(textString,fonttype){
+ if(bIgnoreBlanks)
+  textString=textString.replaceAll(' ',''); 
  // CR+LF or CR are treated like LF
  textString=textString.replaceAll("\r\n","\n").replaceAll("\r","\n");
+ // Remove multiple blanks
+ textString = textString.replace(/  +/g, ' ');
+ // Treat accented letters
+ textString=textString.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
  var clearedText=textString;
  switch(fonttype){
   case "1":
@@ -379,10 +406,12 @@ function getDelta(value){
 }
 
 function getLines(text){
- // With 'filter' evoid empty strings
+ // Avoid empty strings with 'filter' 
  var lines = text.split(/\r|\r\n|\n/).filter(function(i){return i});
  var count = lines.length;
- //return(count);
+ for(var l=0;l<count;l++){
+  lines[l]=lines[l].trim();
+ }
  return[lines,count];
 }
 
@@ -397,12 +426,6 @@ function getLongestLineChars(text){
  }
  return(numChars);
 }
-
-/*
-function isMobile(){
- bMobile=(window.orientation!=null&&window.orientation!="undefined");
-}
-*/
 
 // Return on input field.
 inputArea.addEventListener('keyup', function(event){
@@ -496,32 +519,11 @@ function getRotatedPoint(x,y,cx,cy,theta){
  return point;
 }
 
-//document.fonts.ready.then(function(result){btnTranslate.disabled=false; console.log("ready: ",result)})
-
-/*
-let myFont1 = new FontFace("PhiFont", "url(Phi_vertical_gbrsh_8.ttf)");
-myFont1.load().then(
-    font => {
-        // your font is now loaded. 
-        // Now you just need to make it available to the DOM:
-        document.fonts.add(font);
-        // and then you can refer to it by name:
-        ctx.font = cmbFontsize.value+'px PhiFont';
-        console.log(ctx.font," Font1 loaded!")
-    },
-    error => {
-        // your font could not be loaded. 
-        console.log(error);
-    }
-)
-*/
-
 function phySave(filename){
  if(!isCanvasBlank(canvas)){
   var link=document.createElement('a');
   link.href=canvas.toDataURL();
-  link.download=(filename!=undefined&&filename!=""?filename:"PhyrexianCanvas.png"); //"my-midi-file.mid";
-  //link.target='_blank'
+  link.download=(filename!=undefined&&filename!=""?filename:"PhyrexianCanvas.png");
   link.click();
   link.remove();
  }

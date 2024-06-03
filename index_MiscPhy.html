@@ -222,9 +222,7 @@ table .selected{
 .tab{
  position:fixed;
  top:194px;
- width: 110%; //new
  overflow: hidden;
- //overflow-y:hidden;
  border: 1px solid #ccc;
  background-color: #f1f1f1;
 }
@@ -394,7 +392,7 @@ textarea{
   <button class="tablinks" onclick="openTab(event,'DNA')">&#x1F9EC;DNA</button>
   <button class="tablinks" onclick="openTab(event,'AminoAcids')">&#x1F9A0;AminoAcids</button>
   <button class="tablinks" onclick="openTab(event,'GeoPosition')"><img src='forward-arrow-icon.png' width='12' height='12'>Mix&#x1F3B5;</button>
-  <button class="tablinks" onclick="openTab(event,'Phyrexian')">&#x1F549;</button>
+  <button class="tablinks" id="tabPhirexian" onclick="openTab(event,'Phyrexian')">&#x1F549;Phyrexian</button>
  </div>
 
  <!-- Tab content -->
@@ -575,7 +573,7 @@ textarea{
   <div>
  <label style='font-size:10px'><i>*Phyrexian fonts are copyright to their respective owners.</i></label>
  <br>
- <textarea id="inputArea" name="inputArea" rows="6" cols="36" placeholder="Enter your text..."></textarea>
+ <textarea id="inputArea" name="inputArea" rows="5" cols="40" placeholder="Enter your text..."></textarea>
  <button id='btnTranslate' onclick='phyTranslate()' title='Translate text to Phyrexian' style='font-size:9.4px;-webkit-writing-mode:vertical-rl;writing-mode:vertical-rl;text-orientation:upright;'>Translate</button>
  <br>
  <label id="lblFontsize" for="cmbFontsize" title='Font Size'><i>&#x1F4D0;</i></label>
@@ -600,7 +598,7 @@ textarea{
   <option value="2">Horizontal</option>
  </select>
  <label id="lblFont" for="cmbFont" title='Font'><i>&#x1F524;</i></label>
- <select id="cmbFont" style='font-size:14px;background-color:white' title='Phyrexian Fonts are Copyright © to their respective owners'>
+ <select id="cmbFont" style='font-size:14px;background-color:white' title='Phyrexian Fonts are Copyright to their respective owners'>
   <option value="1" selected>Phyrexian1</option>
   <option value="2">Phyrexian2</option>
   <option value="3">Phyrexian3</option>
