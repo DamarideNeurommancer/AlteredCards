@@ -145,14 +145,26 @@ function selectRow(tr,className){
 }
 
 function myHelp(){
- var sHelp ="Search by Card-Name or Card-ID that is a numeric value.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nClick on Card-Id/Card-Name columns in cards list to get 'DNA Image' and 'AminoAcids Image' and 'Geo Position' of selected card. Then move to the correspondent tab to view the results.\nIn the tabs, clicking on the images you open a 'Zoom In' popup.";
+ var sHelp =`Search by Card-Name or Card-ID that is a numeric value.
+ All cards are displayed when a blank search field is given.
+ You can hit 'RETURN' at the end of input text avoiding 'Search' button.
+ Click on Card-Id/Card-Name columns in cards list to get into the correspondent tab:
+ <ul>
+ <li>&#x1F9EC; DNA Image and much more</li>
+ <li>&#x1F9A0; AminoAcids Image and much more</li>
+ <li><img src='forward-arrow-icon.png' width='12' height='12'> Geo Position link</li>
+ <li>&#x1F3BC; Musical Score</li>
+ <li>&#x2652; Today's Message</li>
+ <li>&#x1F549; Text to Phyrexian Translation</li>
+ </ul>  
+ In the tabs, clicking on the images you open a 'Zoom In' popup.`;
  try{
   var imgurl=prevTr.querySelector('img').getAttribute('src');
   var url=prevTr.querySelector('a').getAttribute('href');
   var imgtitle=prevTr.querySelector('img').getAttribute('title');  
   Swal.fire({    
    title: "<span><a style='color:Blue' href='"+url+"'>"+imgtitle+"</a></span>",
-   html: "<span style='color:Black'><b>"+sHelp.replaceAll('\n','<br>')+"</b></span>",
+   html: "<span style='color:Black;'><b>"+sHelp.replaceAll('\n','<br>')+"</b></span>",
    imageUrl: imgurl,
    imageWidth: 80,
    imageHeight: 104,

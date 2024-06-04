@@ -199,7 +199,8 @@ function phyTranslate(){
  if(lines[0]==" "){
   ctx.fillStyle=backColor.value;
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  alert('"'+cmbFont.options.item(cmbFont.selectedIndex).innerText+'"\nThis font set is about to be loaded...\nTry pressing the "Translate" button again!');
+  myAlert();
+  //alert('"'+cmbFont.options.item(cmbFont.selectedIndex).innerText+'"\nThis font set is about to be loaded...\nTry pressing the "Translate" button again!');
   phyTranslate();
   //document.getElementById('btnTranslate').click();
  }
@@ -552,4 +553,25 @@ function isCanvasBlank(canvas) {
     context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
   );
   return !pixelBuffer.some(color => color !== 0);
+}
+
+function myAlert(){
+ var sHelp ='"'+cmbFont.options.item(cmbFont.selectedIndex).innerText+'"\nThis font set is about to be loaded...\nTry pressing the "Translate" button again!';
+ try{
+  var imgurl=prevTr.querySelector('img').getAttribute('src');
+  var url=prevTr.querySelector('a').getAttribute('href');
+  var imgtitle=prevTr.querySelector('img').getAttribute('title');  
+  Swal.fire({    
+   title: "<span><a style='color:Blue' href='"+url+"'>"+imgtitle+"</a></span>",
+   html: "<p style='color:Maroon;font-size:14px'><b>"+sHelp.replaceAll('\n','<br>')+"</b></p>",
+   imageUrl: imgurl,
+   imageWidth: 80,
+   imageHeight: 104,
+   confirmButtonColor: "Black",
+   padding: 1,
+  })
+ }
+ catch{
+  alert(sHelp);
+ }
 }
