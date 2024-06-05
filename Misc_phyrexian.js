@@ -442,9 +442,9 @@ function getLongestLineChars(text){
 
 // Return on input field.
 inputArea.addEventListener('keyup', function(event){
- if(event.keyCode==13){
+ //if(event.keyCode==13){
   document.getElementById('btnTranslate').click();
- }
+ //}
 });
 
 // Event on color combo
