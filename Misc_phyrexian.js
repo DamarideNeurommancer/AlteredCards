@@ -9,10 +9,8 @@
 ****/
  
 // --- Font1
-// Phi_vertical_gbrsh_8 Regular
-// https://drive.google.com/file/d/1uUMey6AqsnG5l7xWlj9JOiiSOK4LfJ9b/view
-// https://pbs.twimg.com/media/DqV52pDWoAA7ytD.png:large
-// https://www.reddit.com/r/magicTCG/comments/9qxss1/phyrexian_language_can_be_written_compleat/
+// Phi_horizontal_gbrsh_2
+// https://drive.google.com/drive/folders/1F4CX-f6mK_Cbe70POmZ21YgusLNz570N
 
 // --- Font2
 // Phrexia-Regular TTF font
@@ -43,15 +41,12 @@ const backColor=document.getElementById("backColor");
 const chkAutoBackColor=document.getElementById('chkAutoBackColor');
 const chkIgnoreBlanks=document.getElementById('chkIgnoreBlanks');
 const chkReverseLines=document.getElementById('chkReverseLines');
+const btnTranslate=document.getElementById('btnTranslate');
 const canvas = document.querySelector('#canvasPhy');
 const ctx = canvas.getContext('2d');
-const PHY_START_LINE='|';
 const PHY_END_LINE='.';
-const PHY2_START_LINE='^';
-const PHY3_START_LINE='\\';//'\\';
-const ctxFontName1="px PhiFont";
-const ctxFontName2="px Phyrexian";
-const ctxFontName3="px PhyrexianMagic";
+const ctxFontName=["px PhiFontHor","px Phyrexian","px PhyrexianMagic"];
+const PHY_START=["|","^","\\"]
 var cnt1=0;
 var cnt2=0;
 var cnt3=0;
@@ -77,7 +72,7 @@ function phyTranslate(){
  // Clean/Replace/Transform input Text from unmanaged characters
  textString=prepareText(textString,fonttype); 
  // Set font size
- ctx.font = fontsize+(fonttype==1?ctxFontName1:(fonttype==2?ctxFontName2:ctxFontName3));
+ ctx.font = fontsize+ctxFontName[fonttype-1];
  // Get font metrix
  const metrics=ctx.measureText("X");
  
@@ -87,25 +82,9 @@ function phyTranslate(){
  
  var delta,topPadding;
  // Set canvas size
- if(fonttype==1){
-  // Compute a delta value to subtract from the Character Height so that the printing seems contiguous
-  delta=fontsize-getDelta(fontsize);
-  // Top (Left) padding
-  topPadding=delta/2;
-  canvas.width=metrics.width*count;
-  canvas.height=getLongestLineChars(textString)*delta;
- }
- else{
-  delta=metrics.width-getDelta(fontsize);
-  topPadding=delta/2;
-  if(fonttype==2){
-   canvas.width=getLongestLineChars(textString)*delta;  
-   canvas.height=(fontsize*count);
-  }
-  else{
-   setActualCanvasFont3(lines,fontsize,delta)
-  }
- }
+ delta=metrics.width;
+ topPadding=delta/2;
+ setActualCanvasFont(lines,fontsize,delta,fonttype);
  
  // For the very first time it does't work when the font(x) hasn't been loaded yet
  // I tried a lot of stuff from internet and they don't work!
@@ -133,138 +112,48 @@ function phyTranslate(){
  ctx.fillStyle=colorPicker.value;
  
  // Set context fontname and fontsize, once for all! 
- ctx.font = fontsize+(fonttype==1?ctxFontName1:(fonttype==2?ctxFontName2:ctxFontName3))
+ ctx.font = fontsize+ctxFontName[fonttype-1];
 
- switch(fonttype){
-  case "1": // Phyrexian Font1
-   switch(orientation){
-    case "1": // Vertical
-     // Font Vertical. For vertical orientation starts from the first line!.
-     for(var l=0;l<count&&lines[l]!=""&&lines[l]!='\n';l++){
-      drawMaster(lines[l],delta,topPadding,x);
-      x+=metrics.width;
-     }
-     break;
-    case "2": // Horizontal
-     // Font vertical. For horizontal orientation starts from the last line!
-     for(var l=count-1;l>=0&&lines[l]!=""&&lines[l]!='\n';l--){ 
-      drawMaster(lines[l],delta,topPadding,x);
-      x+=metrics.width;
-     }
-     // Rotate
-     myRotate(270);
-     break; 
+ y=delta+2;
+ switch(orientation){
+  case "1": // Vertical
+   for(var l=count-1;l>=0&&lines[l]!=""&&lines[l]!='\n';l--){    
+    drawMaster(lines[l],delta,topPadding,y,fonttype);
+    y+=parseFloat(fontsize);
    }
+   // Rotate
+   myRotate(90);
    break;
-  case "2": // Phyrexian Font2  
-   y=delta+4;
-   switch(orientation){
-    case "1": // Vertical
-     for(var l=count-1;l>=0&&lines[l]!=""&&lines[l]!='\n';l--){    
-      drawMaster2(lines[l],delta,topPadding,y);
-      y+=parseFloat(fontsize);
-     }
-     // Rotate
-     myRotate(90);
-     break;
-    case "2": // Horizontal
-     for(var l=0;l<count&&lines[l]!=""&&lines[l]!='\n';l++){   
-      drawMaster2(lines[l],delta,topPadding,y);
-      y+=parseFloat(fontsize); // You need parseFloat!!!
-     }
-     break; 
+  case "2": // Horizontal
+   for(var l=0;l<count&&lines[l]!=""&&lines[l]!='\n';l++){   
+    drawMaster(lines[l],delta,topPadding,y,fonttype);
+    y+=parseFloat(fontsize); // You need parseFloat!!!
    }
-   break;
-  case "3": // Phyrexian Font3
-   y=delta+2;
-   switch(orientation){
-    case "1": // Vertical
-     for(var l=count-1;l>=0&&lines[l]!=""&&lines[l]!='\n';l--){    
-      drawMaster3(lines[l],delta,topPadding,y);
-      y+=parseFloat(fontsize);
-     }
-     // Rotate
-     myRotate(90);
-     break;
-    case "2": // Horizontal
-     for(var l=0;l<count&&lines[l]!=""&&lines[l]!='\n';l++){   
-      drawMaster3(lines[l],delta,topPadding,y);
-      y+=parseFloat(fontsize); // You need parseFloat!!!
-     }
-     break; 
-   }
-   break;  
+   break; 
  }
  // Please press again! 
  if(lines[0]==" "){
   ctx.fillStyle=backColor.value;
   ctx.clearRect(0,0,canvas.width,canvas.height);
   myAlert();
-  //alert('"'+cmbFont.options.item(cmbFont.selectedIndex).innerText+'"\nThis font set is about to be loaded...\nTry pressing the "Translate" button again!');
   phyTranslate();
-  //document.getElementById('btnTranslate').click();
  }
  canvas.title=originalText;
 }
 
-function drawMaster(curLine,delta,topPadding,x){
- var row=0;
- var y;
- if(curLine=="")
-  return;
- // Trick for the first time ever!
- if(curLine!=" "){
-  if(curLine[0]!=PHY_START_LINE)
-   curLine=PHY_START_LINE+curLine;
-  if(curLine[curLine.length-1]!=PHY_END_LINE)
-   curLine=curLine+PHY_END_LINE;
- }
-
- for(var i=0;i<curLine.length;i++){
-  const c=curLine[i];
-  y=(row*delta)+topPadding;
-  draw(c,x,y);
-  row++;    
- }
-}
-
-function draw(c,x,y){
+function drawChar(c,x,y){
  // ctx.fillStyle and ctx.font set once for all at the beginning!
  ctx.fillText(c,x,y);
 }
 
-function drawMaster2(curLine,delta,topPadding,y){
- var col=0;
+function drawMaster(curLine,delta,topPadding,y,fonttype){
  var x;
  if(curLine=="")
   return;
  // Trick for the first time ever!
  if(curLine!=" "){
-  if(curLine[0]!=PHY2_START_LINE)
-   curLine=PHY2_START_LINE+curLine;
-  if(curLine[curLine.length-1]!=PHY_END_LINE)
-   curLine=curLine+PHY_END_LINE;
- }
- // Font2: Comma character ',' has a different metrics.width. Not managed for now! 
- for(var i=0;i<curLine.length;i++){
-  const c=curLine[i];
-  if(i==0)
-   x=(col*delta)+topPadding;
-  else
-   x=(col*delta-3);
-  draw(c,x,y);
-  col++;    
- }
-}
-
-function drawMaster3(curLine,delta,topPadding,y){
- var x;
- if(curLine=="")
-  return;
- // Trick for the first time ever!
- if(curLine!=" "){
-  if(curLine[0]!=PHY3_START_LINE)
-   curLine=PHY3_START_LINE+curLine;
+  if(curLine[0]!=PHY_START[fonttype-1])
+   curLine=PHY_START[fonttype-1]+curLine;
   if(curLine[curLine.length-1]!=PHY_END_LINE)
    curLine=curLine+PHY_END_LINE;
  }
@@ -276,12 +165,12 @@ function drawMaster3(curLine,delta,topPadding,y){
    x=metrics.width;
   else
    x+=lastwidth;
-  draw(c,x,y);
+  drawChar(c,x,y);
   lastwidth=metrics.width;    
  }
 }
 
-function setActualCanvasFont3(lines,fontsize,delta){
+function setActualCanvasFont(lines,fontsize,delta,fonttype){
  if(lines==""||lines[0]=="")
   return;
  var maxWidth=0;
@@ -290,8 +179,8 @@ function setActualCanvasFont3(lines,fontsize,delta){
  for(var l=0;l<lines.length;l++){
   curLine=lines[l];
   if(curLine!=" "){
-   if(curLine[0]!=PHY3_START_LINE)
-    curLine=PHY3_START_LINE+curLine;
+   if(curLine[0]!=PHY_START[fonttype-1])
+    curLine=PHY_START[fonttype-1]+curLine;
    if(curLine[curLine.length-1]!=PHY_END_LINE)
     curLine=curLine+PHY_END_LINE;
   }    
@@ -310,11 +199,12 @@ function setActualCanvasFont3(lines,fontsize,delta){
   if(l<lines.length-1)
    y+=parseFloat(fontsize);
  }
- canvas.width=maxWidth;
- canvas.height=y;
+ canvas.width=maxWidth+10;
+ canvas.height=y+10;
 }
 
 function prepareText(textString,fonttype){
+ // Remome blanks if requested
  if(chkIgnoreBlanks.checked)
   textString=textString.replaceAll(' ',''); 
  // CR+LF or CR are treated like LF
@@ -328,34 +218,29 @@ function prepareText(textString,fonttype){
   case "1":
    // START OF LINE: '|'
    // END OF LINE  : '.'
-   // Uses Uppercase and lowercase
-   // ==> lowercase 'i' and 'l' don't exist. 
-   // So replace 'l' with 'L'. (My choice!)
-   // ==> uppercase 'I' and 'J' don't exist. 
-   // So replace 'J' with 'j' and 'i' with 'j' and 'I' with 'j'. (My choice!)
-   textString=textString.replaceAll("l","L").replaceAll("J","j").replaceAll("i","j").replaceAll("I","j");
-   //textString=textString.replaceAll("\r\n","\n").replaceAll("\r","\n");
+   // Uses both uppercase and lowercase
    // Uppercase A-Z | lowercase a-z | number digit 0-9 | start '|' end='.' comma=',' 
    clearedText=""; 
    for(var i=0;i<textString.length;i++){
     const c=textString[i];
-    if((c>='A'&&c<='Z')||(c>='a'&&c<='z')||(c>='0'&&c<='9')||(c==PHY_START_LINE||c==','||c==PHY_END_LINE||c=='\r'||c=='\r\n'||c=='\n'||c==' '))
+    if((c>='A'&&c<='Z')||(c>='a'&&c<='z')||(c>='0'&&c<='9')||(c==PHY_START[0]||c==','||c==PHY_END_LINE||c=='\r'||c=='\r\n'||c=='\n'||c==' ')||
+    c=='%'||c=='&'||c=='%'||c=='_'
+    )
      clearedText+=c;
    }
    break;
   case "2":
-   // START OF LINE: '?'
+   // START OF LINE: '^'
    // END OF LINE  : '.'
    // Uses lowercase only.
    // ==> lowercase 'c' and uppercase 'C' don't exist.
    // Replace 'c' with 'k' and 'C' with 'K'. (My choice!)
    textString=textString.replaceAll("c","k").replaceAll("C","K");
-   //textString=textString.replaceAll("\r\n","\n").replaceAll("\r","\n");
    textString=textString.toLowerCase();
    clearedText=""; 
    for(var i=0;i<textString.length;i++){
     const c=textString[i];
-    if((c>='a'&&c<='z')||(c>='0'&&c<='9')||(c==PHY2_START_LINE||c==','||c==PHY_END_LINE||c=='\r'||c=='\r\n'||c=='\n'||c==' '))
+    if((c>='a'&&c<='z')||(c>='0'&&c<='9')||(c==PHY_START[1]||c==','||c==PHY_END_LINE||c=='\r'||c=='\r\n'||c=='\n'||c==' '))
      clearedText+=c;
    }
    break;
@@ -363,16 +248,16 @@ function prepareText(textString,fonttype){
    // START OF LINE: '\\'
    // END OF LINE  : '.'
    // Uses lowercase only.
-   // 'b' 'g' 'h' 'r' 'u' 'w' don't exist!!! Don't know with what char to replace!!!
+   // 'b' 'g' 'h' 'r' 'u' 'w' don't exist!!!
    textString=textString.toLowerCase();
-   //textString=textString.replaceAll("g","s").replaceAll("G","S").replaceAll("b","").replaceAll("h","").replaceAll("r","").replaceAll("u","").replaceAll("w","");
-   textString=textString.replaceAll("g","s").replaceAll("b","").replaceAll("h","").replaceAll("r","").replaceAll("u","").replaceAll("w","");
+   textString=textString.replaceAll("g","").replaceAll("b","").replaceAll("h","").replaceAll("r","").replaceAll("u","").replaceAll("w","");
    clearedText=""; 
    for(var i=0;i<textString.length;i++){
     const c=textString[i];
     if((c>='a'&&c<='z')||(c>='0'&&c<='9')||
-       (c==PHY3_START_LINE||c==','||c==PHY_END_LINE||c=='\r'||c=='\r\n'||c=='\n'||c==' '||
-        c=='%'||c=='&'||c=='('||c==')'||c=='"'||c=="'"||c=='*'||c=='+'||c=='>'||c=='<'
+       (c==PHY_START[2]||c==','||c==PHY_END_LINE||c=='\r'||c=='\r\n'||c=='\n'||c==' '||
+        c=='%'||c=='&'||c=='('||c==')'||c=='"'||c=="'"||c=='*'||c=='>'||c=='<'
+        //||c=='+' //'+' plus char means continue on next line?
        )
       )
      clearedText+=c;
@@ -380,31 +265,6 @@ function prepareText(textString,fonttype){
    break;
  } 
  return clearedText;
-}
-
-function getDelta(value){
- var d=2;
- if(value<14)
-  d=2;
- else if(value<18)
-  d=3;
- else if(value<24)
-  d=4;
- else if(value<28)
-  d=5;
- else if(value<32)
-  d=6;
- else if(value<40)
-  d=7;
- else if(value<44)
-  d=8;
- else if(value<48)
-  d=9;
- else if(value<72)
-  d=10;     
- else
-  d=14;
- return d;  
 }
 
 function getLines(text){
@@ -428,22 +288,11 @@ function reverseLine(line){
  }
  return rv;
 }
-function getLongestLineChars(text){
- var numChars=0;
- var lines = text.split(/\r|\r\n|\n/);
- var count = lines.length;
- for(var l=0;l<count;l++){
-  // Add 2 chars (Starting Char '|' (or whatever) and ending char '.')
-  if(lines[l].length+2 > numChars)
-   numChars=lines[l].length+2;
- }
- return(numChars);
-}
 
-// Return on input field.
 inputArea.addEventListener('keyup', function(event){
+ // Return on input field.
  //if(event.keyCode==13){
-  document.getElementById('btnTranslate').click();
+  btnTranslate.click();
  //}
 });
 
@@ -463,7 +312,7 @@ chkIgnoreBlanks.addEventListener("change",phyTranslate,false);
 chkReverseLines.addEventListener("change",phyTranslate,false);
 
 function myRotate(degrees){
- // Create an second in-memory canvas:
+ // Create a second in-memory canvas:
  var mCanvas=document.createElement('canvas');
  mCanvas.width=canvas.width;
  mCanvas.height=canvas.height;
@@ -520,7 +369,6 @@ function Degree2Rad(degree){
  return degree*Math.PI/180
 }
 
-//https://gamedev.stackexchange.com/questions/86755/how-to-calculate-corner-positions-marks-of-a-rotated-tilted-rectangle
 function getRotatedPoint(x,y,cx,cy,theta){
  let tempX = x - cx;
  let tempY = y - cy;

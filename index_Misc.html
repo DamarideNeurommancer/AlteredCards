@@ -25,8 +25,8 @@
 <body style='background-color:#000000' onload="myInit()">
 <style>
 @font-face{
- font-family: 'PhiFont';
- src: local("Phyrexian TrueType Vertical"), url(Phi_vertical_gbrsh_8.ttf);
+ font-family: 'PhiFontHor';
+ src: local("Phyrexian TrueType Horizontal"), url(Phi_horizontal_gbrsh_2.ttf);
 }
 @font-face{
  font-family: 'Phyrexian';
@@ -574,7 +574,7 @@ textarea{
   <div>
    <label style='font-size:10px'><i>*Phyrexian fonts are copyright to their respective owners.</i></label>
    <br>
-   <textarea id="inputArea" name="inputArea" rows="5" cols="40" placeholder="Enter your text..."></textarea>
+   <textarea id="inputArea" name="inputArea" rows="5" cols="40" placeholder="Enter your text..." style="background-color:black;color:lime"></textarea>
    <button id='btnTranslate' onclick='phyTranslate()' title='Translate text to Phyrexian' style='font-size:9.4px;-webkit-writing-mode:vertical-rl;writing-mode:vertical-rl;text-orientation:upright;'>Translate</button>
 
    <div style="padding-top:3px;">
