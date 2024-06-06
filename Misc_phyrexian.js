@@ -224,7 +224,7 @@ function prepareText(textString,fonttype){
    for(var i=0;i<textString.length;i++){
     const c=textString[i];
     if((c>='A'&&c<='Z')||(c>='a'&&c<='z')||(c>='0'&&c<='9')||(c==PHY_START[0]||c==','||c==PHY_END_LINE||c=='\r'||c=='\r\n'||c=='\n'||c==' ')||
-    c=='%'||c=='&'||c=='%'||c=='_'
+    c=='%'||c=='&'||c=='$'||c=='_'
     )
      clearedText+=c;
    }
