@@ -5,7 +5,6 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico"><meta name='subtitle' content='DamarideNeurommancer AlterSleeves Cards'>
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 <meta http-equiv="content-type" content="text/html; charset=windows-1250">
-<!--meta charset='UTF-16'-->
 <meta property='og:title' content='DamarideNeurommancer Archives - Alter Sleeves'>
 <meta name='description' content='DamarideNeurommancer AlterSleeves Cards'>
 <meta name='robots' content='index,follow'>
@@ -79,7 +78,6 @@
   </tr>
   </table>
   <main>
-    
 		<div id="quote-box">
 			<div id="text"></div>
 			<div id="author"></div>
@@ -93,49 +91,40 @@
      <p style='font-size:16px;font-weight: bold;' id="caption"/>
     </div>
 	</main>
-  <script src="AlteredCardsXml.js" type="text/javascript"></script>
-  <script>
-  const apiURL = "https://api.quotable.io/quotes/random";
-  // *** TODO ***
-  // Header
-  // Share (on mobile)
-  // Random Image as background (from DamarideNeurommancer cards)
-  const newQuote = document.getElementById('new-quote');
-  const quoteDiv = document.getElementById('text');
-  const authorDiv = document.getElementById('author');
-  const img01=document.getElementById("img01");
-  const caption=document.getElementById("caption");
-  const sideBar=document.getElementById("mySidebar");
-      
-  
-  //const randomRange = (min, max) => min + Math.random() * (max - min)
-  //const randomIndex = (array) => randomRange(0, array.length) | 0
-  //const getRandomFromArray = (array) => (  array[randomIndex(array) | 0]) 
+<script src="AlteredCardsXml.js" type="text/javascript"></script>
+<script>
+const apiURL="https://api.quotable.io/quotes/random";
+const newQuote=document.getElementById('new-quote');
+const quoteDiv=document.getElementById('text');
+const authorDiv=document.getElementById('author');
+const img01=document.getElementById("img01");
+const caption=document.getElementById("caption");
+const sideBar=document.getElementById("mySidebar");
 function invokeFetchData(){
  if(bxmlParsed==false){myParseCards();}
  async function fetchData(url,maxRetries=3){
   let retryCtr=0, statusCode=null;
   while(retryCtr<maxRetries){
    try{
-    const response = await fetch( url );
+    const response=await fetch(url);
     statusCode=response.status;
-    // Status code 400 - 499 represents client error response and 500 - 599 represents server error resoponse.
+    // Status code 400 - 499 represents client error response and 500 - 599 represents server error response.
     if( 400 <= statusCode && statusCode <= 599 ){
      displayError( statusCode );
      return;
     }
-    const jsonData = await response.json();
+    const jsonData=await response.json();
     displayQuote( jsonData );
-     return;
-   } catch ( error ){
+    return;
+   } catch(error){
       console.log( error );
       retryCtr++;
    }
   }
-  if( retryCtr===maxRetries )
+  if(retryCtr===maxRetries)
    displayError(statusCode);
   }
-  fetchData( apiURL );
+  fetchData(apiURL);
 }
 function displayQuote(jsonData){
  const {content,author}=jsonData[0];
@@ -156,21 +145,18 @@ function randomASCard(){
 function displayError(statusCode){
  var msg;
  if(statusCode===429)
-  msf="Too many requests!\nPlease try again sometime later.";
+  msg="Too many requests!\nPlease try again sometime later.";
  else
   msg="Oops!! Something went wrong!\nPlease try to refresh the page."                     
  alert(msg);
 }
 function getRndInt(max){
- return (Math.floor(Math.random() * max)+1);
+ return(Math.floor(Math.random()*max)+1);
 }
 function openNav(){
- //myContent.style.marginLeft="181px";
- //myTabs.style.marginLeft="181px";
  sideBar.style.width="180px";
  main.style.marginLeft="180px";
 }
-
 function closeNav(){
  sideBar.style.width="0";
  main.style.marginLeft="0";
