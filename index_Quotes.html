@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
   </head>
-  <body onload='invokeFetchData()'>
+  <body onload='init()'>
   <div class="header" id="myHeader">
  <div id="mySidebar" class="sidebar">
  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -82,7 +82,7 @@
 			<div id="text"></div>
 			<div id="author"></div>
 			<div class="button-row">
-				<button id="new-quote" onclick='invokeFetchData()'>New Quote</button>
+				<button id="new-quote" onclick='displayQuote()'>New Quote</button>
 			</div>			
 		</div>
 		<br>
@@ -93,44 +93,48 @@
 	</main>
 <script src="AlteredCardsXml.js" type="text/javascript"></script>
 <script>
-const apiURL="https://api.quotable.io/quotes/random";
+const dadaQuotes="https://damarideneurommancer.github.io/AlteredCards/quotes_all.csv";
+const gSearch="https://www.google.co.uk/search?q=";
 const newQuote=document.getElementById('new-quote');
 const quoteDiv=document.getElementById('text');
 const authorDiv=document.getElementById('author');
 const img01=document.getElementById("img01");
 const caption=document.getElementById("caption");
 const sideBar=document.getElementById("mySidebar");
-function invokeFetchData(){
- if(bxmlParsed==false){myParseCards();}
- async function fetchData(url,maxRetries=3){
-  let retryCtr=0, statusCode=null;
-  while(retryCtr<maxRetries){
-   try{
-    const response=await fetch(url);
-    statusCode=response.status;
-    // Status code 400 - 499 represents client error response and 500 - 599 represents server error response.
-    if( 400 <= statusCode && statusCode <= 599 ){
-     displayError( statusCode );
-     return;
-    }
-    const jsonData=await response.json();
-    displayQuote( jsonData );
-    return;
-   } catch(error){
-      console.log( error );
-      retryCtr++;
+const randomRange=(min, max)=>min+Math.random()*(max-min)
+const randomIndex=(array)=>randomRange(0,array.length)|0
+const getRandomFromArray=(array)=>(array[randomIndex(array)|0])
+var allTex=[];
+var allTextLines=[];
+function displayQuote(){
+ const quote=getRandomFromArray(allTextLines);
+ if(quote===null||quote==="")
+  return;
+ var csvFields=quote.split(/;/);
+ quoteDiv.textContent=csvFields[0];
+ var author=csvFields[1];
+ var authorLnk=gSearch+encodeURIComponent(author);
+ //authorDiv.textContent=author;
+ authorDiv.innerHTML=`<a href='${authorLnk}'>${author}</a>`;
+ randomASCard();
+}
+function init(){
+ if(bxmlParsed==false){myParseCards();totXmlCards-=8;}
+ var txtFile = new XMLHttpRequest();
+ txtFile.onreadystatechange = function(){    
+  if(txtFile.readyState==XMLHttpRequest.DONE){
+   if(txtFile.status==200){
+    allText=txtFile.responseText;
+    allTextLines=allText.split(/\r\n|\n/);
+    displayQuote();
+   }
+   else{
+    displayError(txtFile.status);
    }
   }
-  if(retryCtr===maxRetries)
-   displayError(statusCode);
-  }
-  fetchData(apiURL);
-}
-function displayQuote(jsonData){
- const {content,author}=jsonData[0];
- quoteDiv.textContent=content;
- authorDiv.textContent=author;
- randomASCard();
+ };
+ txtFile.open("GET",dadaQuotes,true);
+ txtFile.send();    
 }
 function randomASCard(){
  var rndCard=getRndInt(totXmlCards);
@@ -144,7 +148,7 @@ function randomASCard(){
 }
 function displayError(statusCode){
  var msg;
- if(statusCode===429)
+ if(statusCode===400)
   msg="Too many requests!\nPlease try again sometime later.";
  else
   msg="Oops!! Something went wrong!\nPlease try to refresh the page."                     
