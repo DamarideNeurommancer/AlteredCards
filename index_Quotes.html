@@ -189,7 +189,7 @@ async function shareQuote()
  shareData={
   title: "DamarideNeurommancer Quote",
   text: quote,
-  url: authorDiv.innerHTML,
+  url: caption.innerHTML,
  }
  if(navigator.canShare&&navigator.canShare(shareData)){
   await navigator.share(shareData);
