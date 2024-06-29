@@ -123,7 +123,7 @@ function displayQuote(){
 function init(){
  if(bxmlParsed==false){myParseCards();totXmlCards-=8;}
  if(!navigator.canShare){
-  //shareBtn.style.visibility="hidden";
+  shareBtn.style.visibility="hidden";
  }
  var txtFile = new XMLHttpRequest();
  txtFile.onreadystatechange = function(){    
