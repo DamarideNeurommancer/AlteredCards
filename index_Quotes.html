@@ -45,7 +45,7 @@
  <a href="index_Guess.html"><img src="guess-icon.webp" width='12' height='12' style='background-color:red'> Guess Game</a>
  <a href="index_Tarots.html" style="font-size:18px"><img src="./tarots/Back2.webp" width='12' height='12'> Tarot Reading</a>
  <a href="index_Misc.html" style="font-size:18px"> &#x1F9EC; Miscellanea</a>
- <h2><center>&copy<i> DamarideNeurommancer</i></center></h2>
+ <h2 style='color:white'><center>&copy<i> DamarideNeurommancer</i></center></h2>
  </div>
  <div id="main">
  <button class="openbtn" onclick="openNav()">&#9776;</button>
@@ -82,7 +82,8 @@
 			<div id="text"></div>
 			<div id="author"></div>
 			<div class="button-row">
-				<button id="new-quote" onclick='displayQuote()'>New Quote</button>
+				<button id="share-quote" onclick='shareQuote()' title='Share Quote'><img src="share-icon.webp" width='12' height='12'></button>
+        <button id="new-quote" onclick='displayQuote()'>New Quote</button>
 			</div>			
 		</div>
 		<br>
@@ -101,10 +102,11 @@ const authorDiv=document.getElementById('author');
 const img01=document.getElementById("img01");
 const caption=document.getElementById("caption");
 const sideBar=document.getElementById("mySidebar");
+const shareBtn=document.getElementById('share-quote');
 const randomRange=(min, max)=>min+Math.random()*(max-min)
 const randomIndex=(array)=>randomRange(0,array.length)|0
 const getRandomFromArray=(array)=>(array[randomIndex(array)|0])
-var allTex=[];
+var allText=[];
 var allTextLines=[];
 function displayQuote(){
  const quote=getRandomFromArray(allTextLines);
@@ -113,13 +115,16 @@ function displayQuote(){
  var csvFields=quote.split(/;/);
  quoteDiv.textContent=csvFields[0];
  var author=csvFields[1];
- var authorLnk=gSearch+encodeURIComponent(author);
+ var authorLnk=gSearch+encodeURIComponent(author)+"&hl=en";
  //authorDiv.textContent=author;
  authorDiv.innerHTML=`<a href='${authorLnk}'>${author}</a>`;
  randomASCard();
 }
 function init(){
  if(bxmlParsed==false){myParseCards();totXmlCards-=8;}
+ if(!navigator.canShare||navigator.canShare(shareData)){
+  shareBtn.style.visibility="hidden";
+ }
  var txtFile = new XMLHttpRequest();
  txtFile.onreadystatechange = function(){    
   if(txtFile.readyState==XMLHttpRequest.DONE){
@@ -127,6 +132,7 @@ function init(){
     allText=txtFile.responseText;
     allTextLines=allText.split(/\r\n|\n/);
     displayQuote();
+    allText=[];
    }
    else{
     displayError(txtFile.status);
@@ -170,6 +176,25 @@ document.addEventListener('click',function handleClickOutside(event){
   closeNav();
  }
 });
+let shareData={
+ title: "",
+ text: "",
+ url: "",
+}
+async function shareQuote()
+{
+ if(quoteDiv.textContent==="")
+  return;
+ var quote=quoteDiv.textContent+"\n"+authorDiv.innerText; 
+ shareData={
+  title: "DamarideNeurommancer Quote",
+  text: quote,
+  url: authorDiv.innerHTML,
+ }
+ if(navigator.canShare&&navigator.canShare(shareData)){
+  await navigator.share(shareData);
+ }
+}
   </script>
   </body>
 </html>
