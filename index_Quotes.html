@@ -116,7 +116,6 @@ function displayQuote(){
  quoteDiv.textContent=csvFields[0];
  var author=csvFields[1];
  var authorLnk=gSearch+encodeURIComponent(author)+"&hl=en";
- //authorDiv.textContent=author;
  authorDiv.innerHTML=`<a href='${authorLnk}'>${author}</a>`;
  randomASCard();
 }
@@ -181,34 +180,17 @@ let shareData={
  text: "",
  url: "",
 }
-async function shareQuote()
-{
+async function shareQuote(){
  if(quoteDiv.textContent==="")
   return;
- var quote='"'+quoteDiv.textContent+'"\n'+authorDiv.innerText;
- var cardUrl=caption.querySelector('a').getAttribute('href');
- var browserType=getBrowserType(); 
+ var quote='"'+quoteDiv.textContent+'"\n'+authorDiv.innerText; 
  shareData={
   title: "DamarideNeurommancer Quote",
   text: quote,
-  url: (browserType==5?cardUrl:quote+" "+cardUrl),
+  url: caption.querySelector('a').getAttribute('href'),
  }
  if(navigator.canShare&&navigator.canShare(shareData)){
   await navigator.share(shareData);
- }
-}
-function getBrowserType(){
- const test=regexp => {
-  return regexp.test(navigator.userAgent);
- };
- xmlAttributeName='K';
- if(test(/chrome|chromium|crios/i)){
-  return '5';
- }else if(test(/firefox|fxios/i)){
-  xmlAttributeName='F';
-  return '4';
- }else{
-  return '5';
  }
 }
   </script>
