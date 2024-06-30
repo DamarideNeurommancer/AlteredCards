@@ -185,14 +185,30 @@ async function shareQuote()
 {
  if(quoteDiv.textContent==="")
   return;
- var quote='"'+quoteDiv.textContent+'"\n'+authorDiv.innerText; 
+ var quote='"'+quoteDiv.textContent+'"\n'+authorDiv.innerText;
+ var cardUrl=caption.querySelector('a').getAttribute('href');
+ var browserType=getBrowserType(); 
  shareData={
   title: "DamarideNeurommancer Quote",
   text: quote,
-  url: caption.querySelector('a').getAttribute('href'),
+  url: (browserType==5?cardUrl:quote+" "+cardUrl),
  }
  if(navigator.canShare&&navigator.canShare(shareData)){
   await navigator.share(shareData);
+ }
+}
+function getBrowserType(){
+ const test=regexp => {
+  return regexp.test(navigator.userAgent);
+ };
+ xmlAttributeName='K';
+ if(test(/chrome|chromium|crios/i)){
+  return '5';
+ }else if(test(/firefox|fxios/i)){
+  xmlAttributeName='F';
+  return '4';
+ }else{
+  return '5';
  }
 }
   </script>
