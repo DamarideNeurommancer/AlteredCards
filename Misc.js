@@ -323,6 +323,13 @@ function openTab(evt, tabName) {
  }
  else
   window.scrollTo(0,0);
+ 
+ if(tabName=="GeoPosition"){
+  if(allTextLines.length==0)
+   loadQuotes();
+  if(dFlavor.innerHTML.startsWith("Anytime click T"))
+   msgOfToday();
+ }
 }
 
 function showRow(index){
@@ -332,7 +339,7 @@ function showRow(index){
 function showOriginalImages(){
  showCardImage(imgGeo,192,266,captionGeo);
  showCardImage(imgOrigDNA,192,266,captionDNA);
- showCardImage(imgOrigAA,192,266,captionAA); 
+ showCardImage(imgOrigAA,192,266,captionAA);  
 }
 
 function showCardImage(elem,w,h,caption,title=""){

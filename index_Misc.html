@@ -18,6 +18,7 @@
 <meta property='og:url' content='https://www.altersleeves.com/seller/damarideneurommancer/'>
 <meta property='og:site_name' content='Alter Sleeves'>
 <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<link rel="stylesheet" href="Misc_quotes.css"></link>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet"> 
@@ -526,7 +527,7 @@ textarea{
    </div>
    
    <p><label for="AASeq" id="AASeqLbl">Amino Acids Sequence</label></p>
-   <textarea id="AASeq" name="AASeq" rows="6" cols="40" placeholder="Amino Acids Sequence..." readonly></textarea>
+   <textarea id="AASeq" name="AASeq" rows="6" cols="40" placeholder="Amino Acids Sequence..." readonly hidden></textarea>
    
    <p></p><button id='myBtnAASample' onclick='aaSample()' title='Take a random sample of Amino Acids'>&#x1F9EA; Take a Sample</button>
    <div class="container">
@@ -568,13 +569,23 @@ textarea{
     <p></p>
     <div id="flavor">Anytime click Today's Message button to get a random MOT (Message of Today)...</div>
   </div>
+  
+  <p>Dada Quote</p>
+  <div id="quote-box">
+	 <div id="text"></div>
+	 <div id="author"></div>
+	 <div class="button-row">
+	  <button id="share-quote" onclick='shareQuote()' title='Share Quote'><img src="share-icon.webp" width='12' height='12'></button>
+    <button id="new-quote" onclick='displayQuote()'>New Quote</button>
+   </div>			
+	</div>
  </div>
 
  <div id="Phyrexian" class="tabcontent">
   <div>
    <label style='font-size:10px'><i>*Phyrexian fonts are copyright to their respective owners.</i></label>
    <br>
-   <textarea id="inputArea" name="inputArea" rows="5" cols="40" placeholder="Enter your text..." style="background-color:black;color:lime"></textarea>
+   <textarea id="inputArea" name="inputArea" rows="5" cols="40" placeholder="Enter your text..." style="background-color:black;color:lime" spellcheck="false"></textarea>
    <button id='btnTranslate' onclick='phyTranslate()' title='Translate text to Phyrexian' style='font-size:9.4px;-webkit-writing-mode:vertical-rl;writing-mode:vertical-rl;text-orientation:upright;'>Translate</button>
 
    <div style="padding-top:3px;">
@@ -646,4 +657,5 @@ textarea{
 <script src="Misc_soundplayer.js"></script>
 <script src="Misc_drawoutput.js"></script>
 <script src="Misc_phyrexian.js"></script>
+<script src="Misc_quotes.js"></script>
 </body></html>
