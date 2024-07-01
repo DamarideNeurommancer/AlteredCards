@@ -130,18 +130,15 @@ function selectRow(tr,className){
   MusicalScore.innerText="";
   MusicalScore.innerHTML="";
   VFLicense.innerHTML="";
-  //divTune.innerHTML="";
   let tempCanvas=canvasTune.getContext('2d');
   tempCanvas.clearRect(0,0,tempCanvas.canvas.width,tempCanvas.canvas.height);
   mySave();
  }   
  var imgurl=tr.querySelector('img').getAttribute('src');
  obj.style.backgroundImage="url('"+ imgurl+"')";
- //document.body.style.cursor='wait';
  table.style.cursor='wait';
  showOriginalImages();
- table.style.cursor='default';
- //document.body.style.cursor='default';  
+ table.style.cursor='default';  
 }
 
 function myHelp(){
@@ -328,7 +325,7 @@ function openTab(evt, tabName) {
   if(allTextLines.length==0)
    loadQuotes();
   if(dFlavor.innerHTML.startsWith("Anytime click T"))
-   msgOfToday();
+   msgOfToday();  
  }
 }
 
@@ -543,7 +540,6 @@ async function drawDNA(originalImage,nucleotides){
  // Should be requested by user...
  DNAsample(nucleotides);
  DNAsampleEx(nucleotides);
- //New
  var data2=DNASample2Image(nucleotides);
  setImage('imgDNASample',data2,"White",14,70);
  imgDNASample.title=imgtitle+"\n(DNA Sample)";
@@ -621,7 +617,6 @@ function setImage(canvasId,data,wmC="white",wmFS=14,wx=20){
  tempCanvas.clearRect(0,0,tempCanvas.canvas.width,tempCanvas.canvas.height);
  tempCanvas.putImageData(data,0,0);
  
- //var cw=tempCanvas.canvas.width;
  var ch=tempCanvas.canvas.height;
  tempCanvas.font=wmFS+"px verdana";
  tempCanvas.fillStyle=wmC;
@@ -988,7 +983,7 @@ function AASample2Image(codons){
  ctx.fillStyle="black";
  ctx.fillRect(0,0,canvas.width, canvas.height);
  
- var startp=getRndStartCodonsSeq(codons.length)-3956; //0;
+ var startp=getRndStartCodonsSeq(codons.length)-3956;
  if( startp<0)
   startp=0;
  var p=startp; //aa index
@@ -1373,12 +1368,11 @@ msgOfToday = async (e) => {
   try{
    if(card.flavor_text!=""){
     dFlavor.innerHTML=card.name+"<br>"+card.flavor_text.replace("\n","<br>");
-    dFlavor.scrollIntoView(true,{behavior:"smooth"}); 
+    //dFlavor.scrollIntoView(true,{behavior:"smooth"});
+    flavorBtn.scrollIntoView(true,{behavior:"smooth"}); 
    }
   }
   catch(error){
-   //console.log(error);
-   //console.log("This card '",card.name,"' doesn't have a flavor! Trying again!");
    msgOfToday(e);
   }
   flavorBtn.style.cursor='default';
