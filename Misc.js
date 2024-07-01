@@ -41,6 +41,7 @@ const myBtnTune=document.getElementById("myBtnTune");
 const myChkReverse=document.getElementById('myChkReverse');
 const VFLicense=document.getElementById('VFLicense');
 const divScore=document.getElementById('Score');
+const quoteBox=document.getElementById('quote-box');
 
 const nucleotidesBits=[["00","A"],["01","C"],["10","G"],["11","T"]];
 const CODONS=[
@@ -1328,7 +1329,8 @@ function myInit(){
   myTabs.style.width="110%";
   tabPhirexian.innerHTML="&#x1F549;";
   inputArea.rows=6;
-  inputArea.cols=36;  
+  inputArea.cols=36;
+  quoteBox.style.width="300px";  
  }
 }
 function initVars(){

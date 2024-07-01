@@ -63,7 +63,7 @@ async function shareQuote(){
  shareQData={
   title: "DamarideNeurommancer Quote",
   text: quote,
-  url: caption.querySelector('a').getAttribute('href'),
+  url: prevTr.querySelector('a').getAttribute('href'),
  }
  if(navigator.canShare&&navigator.canShare(shareQData)){
   await navigator.share(shareQData);
