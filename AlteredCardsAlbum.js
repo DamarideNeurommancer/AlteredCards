@@ -46,6 +46,7 @@ function gridSearch(MaxColumns){
   nCols=myCols.value;
 
  var row,cell;
+ var lazyLimit=nCols*6;
  for (var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
@@ -59,7 +60,8 @@ function gridSearch(MaxColumns){
     row=table.rows[table.rows.length-1];
 
    cell=row.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+   //cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+CardNAME+"</font></a>";
    if(bIsCardID==true){
     var RelatedCards=book.attributes[3].nodeValue;
     if(RelatedCards!=""){
@@ -77,7 +79,7 @@ function gridSearch(MaxColumns){
        else
         row=table.rows[table.rows.length-1];
 
-       mySearchCardID(RelatedList[iRel],row);
+       mySearchCardID(RelatedList[iRel],row,nCols,CardCnt,lazyLimit);
       }
      }
     }
@@ -89,15 +91,18 @@ function gridSearch(MaxColumns){
  window.scrollTo(0,0);
 }
 
-function mySearchCardID(Look4CardID,lastRow){
- for (var i=0; i < catalog.childElementCount; i++){
+function mySearchCardID(Look4CardID,lastRow,nCols,idx,lazyLimit){
+ var cnt=0;
+ for (var i=0;i<catalog.childElementCount;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
   if(CardID===Look4CardID){
    var CardNAME=book.attributes[1].nodeValue;
    var CardURL=URLRoot+book.attributes[2].nodeValue;
    var cell=lastRow.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";    
+   cnt++;
+   //cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\""+(idx+cnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+CardNAME+"</font></a>";    
    break;
   }
  }
