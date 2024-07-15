@@ -152,7 +152,33 @@ li{padding-left:20px;}
 .simple{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
 .simple:hover{color:violet;font-weight:bolder;font-style:italic;}
 .simple::before{content:"\25B6";color:transparent;display:inline-block;margin-right:6px;}
-.center-header{font-size:16px;color:white;} 
+.center-header{font-size:16px;color:white;}
+.multiselect{
+ width: 120px;
+}
+.selectBox{
+ position: relative;
+}
+.selectBox select{
+ width: 100%;
+}
+.overSelect{
+ position: absolute;
+ left: 0;
+ right: 0;
+ top: 0;
+ bottom: 0;
+}
+#checkboxes{
+ display: none;
+ border: 1px #dadada solid;
+}
+#checkboxes label{
+ display: block;
+}
+#checkboxes label:hover{
+ background-color: #1e90ff;
+} 
 </style>
 <div class="header" id="myHeader">
 <div id="mySidebar" class="sidebar">
@@ -161,7 +187,6 @@ li{padding-left:20px;}
  <a href="https://twitter.com/DamNeurommancer"><img src="twitter-icon.png" width='12' height='12'> Twitter</a>
  <a href="https://linktr.ee/damarideneurommancer"><img src="evil-icon.png" width='12' height='12'> Shop</a>
  <a href="https://www.altersleeves.com/browse/?browse_type=by&artist_id=16"><img src="altersleeves-icon.png" width='12' height='12'> AS Cards</a>
- <a href="https://www.altersleeves.com/alterist/damarideneurommancer/"><img src="altersleeves-icon.png" width='12' height='12'> AS Overview</a>
  <a href="https://www.inkedgaming.com/collections/artists-damaride-neurommancer"><img src="shopify-icon.webp" width='12' height='12'> Playmats</a>
  <a href="https://www.makeplayingcards.com/sell/damarideneurommancer"><img src="playing-card-spade-icon.png" width='12' height='12' style='background-color:yellow'> Tarot Decks</a>
  <a href="index_AlteredList.html"><img src="list-icon.png" width='12' height='12' style='background-color:white'> List</a>
@@ -193,7 +218,7 @@ li{padding-left:20px;}
    <a href="https://www.instagram.com/damarideneurommancer/?hl=en" class="fa"><img src="instagram-icon.png" width='16' height='16' title='Instagram'></a>
    <a href="https://twitter.com/DamNeurommancer" class="fa"><img src="twitter-icon.png" width='16' height='16' title='Twitter'></a>
    <a href="https://linktr.ee/damarideneurommancer" class="fa"><img src="evil-icon.png" width='16' height='16' title='Shop'></a>
-   <a href="https://www.altersleeves.com/alterist/damarideneurommancer/" class="fa"><img src="altersleeves-icon.png" width='16' height='16' title='AS Cards'></a>
+   <a href="https://www.altersleeves.com/browse/?browse_type=by&artist_id=16" class="fa"><img src="altersleeves-icon.png" width='16' height='16' title='AS Cards'></a>
    <a href="https://www.inkedgaming.com/collections/artists-damaride-neurommancer" class="fa"><img src="shopify-icon.webp" width='16' height='16' title='Playmats'></a>
    <a href="https://www.makeplayingcards.com/sell/damarideneurommancer" class="fa"><img src="playing-card-spade-icon.png" width='16' height='16' style='background-color:yellow' title='Tarot Decks'></a>
    <a href="index_AlteredList.html" class="fa"><img src="list-icon.png" width='16' height='16' title='Cards List' style='background-color:white'></a>
@@ -211,8 +236,8 @@ li{padding-left:20px;}
  <table>
  <tr>
   <td>
-   <input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true' oninput='inputValueChange()'>
-   <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12' title='Search by Card-Name or Card-Id'></button>
+   <input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true' oninput='inputValueChange()'>   
+   <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12' title='Search by Card-Name or Card-Id (and Mana-Colors if any)'></button>
    <button id='myBtnHelp' onclick='myHelp()'>?</button>
    <font size='2' color='White'><i><small>Cols</small></i></font>
    <input type='number' id='myColumns' oninput='columnsValueChange()' size='2' maxlength='1' value='6' min='1' max='6' title='Columns per row'>
@@ -222,6 +247,41 @@ li{padding-left:20px;}
    <input type='checkbox' id='myChkAppend'>
    <font size='2' color='White'><i><small><label for="myView" id="lb1" title='Tree/Grid View'>Tree</label></small></i></font>
    <input type='checkbox' id='myView' onclick='chooseView()' title='Tree/Grid View'>
+   
+   <tr>
+    <td>
+     <div class="multiselect" id="myChecks" title="Include Mana-Colors in Search...">
+      <div class="selectBox" onclick="showCheckboxes()">
+       <select>
+        <option selected hidden>Mana Colors</option>
+       </select>
+       <div class="overSelect"></div>
+      </div>
+      <div id="checkboxes">
+       <label for="W">
+        <input type="checkbox" id="W"/><img src="MTG White.ico" width='14' height='14'> White</label>
+       <label for="U">
+        <input type="checkbox" id="U"/><img src="MTG Blue.ico" width='14' height='14'> blUe</label>
+       <label for="B">
+        <input type="checkbox" id="B"/><img src="MTG Black.ico" width='14' height='14'> Black</label>
+       <label for="R">
+        <input type="checkbox" id="R"/><img src="MTG Red.ico" width='14' height='14'> Red</label>
+       <label for="G">
+        <input type="checkbox" id="G"/><img src="MTG Green.ico" width='14' height='14'> Green</label>
+       <label for="C">
+        <input type="checkbox" id="C"/><img src="MTG Colorless.png" width='14' height='14'> Colorless</label>
+       
+       <table><tr><td>Mana-Colors in:</td></tr><tr>
+        <td><label for="or_opt"><input type="radio" name="op" id="or-opt" checked="checked" value="0"/> OR</label></td>
+        <td><label for="and_opt"><input type="radio" name="op" id="and_opt" value="1"/> AND</label></td>
+       </tr></table>
+       <button id='myBtnReset' onclick='resetColors()' title='Reset Mana-Colors to nothing' style='font-size:10px'><img src="reset-default-icon.webp" width='12' height='12'> Reset Mana-Colors</button>
+             
+      </div>
+     </div>
+    </td>
+   </tr>
+  
   </td>
  </tr>
 
@@ -230,7 +290,12 @@ li{padding-left:20px;}
 </div>
 <script>
 var input = document.getElementById('myInput');
-input.addEventListener('keyup', function(event){
+input.addEventListener('keyup',function(event){
+if(event.keyCode==13){
+document.getElementById('myBtn').click();
+}
+});
+document.addEventListener('keyup',function(event){
 if(event.keyCode==13){
 document.getElementById('myBtn').click();
 }

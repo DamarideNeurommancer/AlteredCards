@@ -1,3 +1,12 @@
+const and_opt=document.getElementById("and_opt");
+const checkboxes=document.getElementById("checkboxes");
+const myChecks=document.getElementById('myChecks');
+const myColorless=document.getElementById('C');
+const myColorWhite=document.getElementById('W');
+const myColorBlue=document.getElementById('U');
+const myColorBlack=document.getElementById('B');
+const myColorRed=document.getElementById('R');
+const myColorGreen=document.getElementById('G');
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
 const table=document.getElementById('myTable');
@@ -45,6 +54,7 @@ function gridSearch(MaxColumns){
  else
   nCols=myCols.value;
 
+ var colors=getManaColorsSelected();
  var row,cell;
  var lazyLimit=nCols*6;
  for (var i=0;i<totXmlCards;i++){
@@ -52,6 +62,36 @@ function gridSearch(MaxColumns){
   var CardID=book.attributes[0].nodeValue;
   var CardNAME=book.attributes[1].nodeValue;
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
+   var bGoOn=false;
+   var cntOccurs=0;
+   if(!bIsCardID&&colors!=""){
+     var ManaColors=book.attributes[4].nodeValue;
+     if(ManaColors=='C' && colors=='C')
+      bGoOn=true;
+    else{
+     //if(colors!='C'){
+      for(var j=0;j<colors.length;j++){
+       const c=colors[j];
+       if(ManaColors.indexOf(c)>-1){
+        if(!and_opt.checked){
+         bGoOn=true;
+         break;
+        }
+        else{
+         cntOccurs++;
+        } 
+       }
+      }
+      if(and_opt.checked&&cntOccurs==colors.length)
+       bGoOn=true; 
+     //}
+    }   
+   }
+   else
+    bGoOn=true;
+    
+   if(bGoOn==false)
+    continue;
    var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
    CardCnt++;
    if((CardCnt % nCols==1) || nCols==1)
@@ -109,13 +149,18 @@ function mySearchCardID(Look4CardID,lastRow,nCols,idx,lazyLimit){
 }
 
 function myHelp(){
- var sHelp=`Search by Card-Name or Card-ID.
+ var sHelp=`Search by Card-Name or Card-ID (and by Mana-Colors).
  Card-ID is a numeric value shown in the tooltip.
  When searching by Card-ID you get the card and all its related cards if any.
  All cards are displayed when a blank search field is given.
  You can hit 'RETURN' at the end of input text avoiding 'Search' button.
  Default and max value for 'columns per row' is 6, changing that value relaunches the search.
  Switch views between gridview and treeview with checkbox 'Tree'.
+ Mana-Colors can be included in searches by Card Names and are excluded from search by Card-ID:
+ Mana-Colors' <img src="MTG White.ico" width='14' height='14'>White, <img src="MTG Blue.ico" width='14' height='14'>Blue, <img src="MTG Black.ico" width='14' height='14'>Black, <img src="MTG Red.ico" width='14' height='14'>Red and <img src="MTG Green.ico" width='14' height='14'>Green and <img src="MTG Colorless.png" width='14' height='14'>Colorless options can be used as logical 'OR' or 'AND'.
+ When those options are in 'OR' it means you may search for one color 'or' another 'or' ... (e.g. red 'or' green)'.
+ When the option are in 'AND' then only Mana-Colors' <img src="MTG Colorless.png" width='14' height='14'>Colorless option is logically exclusive with the others.
+ So when the option are in 'AND' you may search by any combination of colors (except by Colorless) or just for Colorless.    
  In the sidebar menu there are also entries for:
  <ul style="background-color:black;"><li><a href="index_Match.html"><img src="match-icon.webp" width='12' height='12'>Match Game</a></li>
  <li><a href="index_Guess.html"><img src="guess-icon.webp" width='12' height='12' style='background-color:red'>Guess Game</a></li>
@@ -212,6 +257,10 @@ function closeNav(){
 document.addEventListener('click',function handleClickOutside(event){
  if(!main.contains(event.target)){
   closeNav();
+ }
+ if(!myChecks.contains(event.target)){ 
+  checkboxes.style.display = "none";
+  expanded=false;
  }
 });
 
@@ -375,11 +424,78 @@ function inputValueChange(){
 }
 
 function showImage(e,imgSrc){
-  if (!e) var e = window.event;
-	e.cancelBubble = true;
-	if (e.stopPropagation) e.stopPropagation();
-  myTree.style.backgroundImage="url('"+ imgSrc+"')";
+ if (!e) var e = window.event;
+ e.cancelBubble = true;
+ if (e.stopPropagation) e.stopPropagation();
+ myTree.style.backgroundImage="url('"+imgSrc+"')";
 }
 function hideImage(){
-  myTree.style.backgroundImage="";
+ myTree.style.backgroundImage="";
 }
+
+var expanded = false;
+function showCheckboxes(){
+ if(!expanded){
+  checkboxes.style.display="block";
+  expanded=true;
+ } else {
+   checkboxes.style.display="none";
+   expanded=false;
+ }
+}
+myColorless.addEventListener('click',function resetColors(event){resetManaColors();});
+
+function resetManaColors(){
+ if(myColorless.checked&&and_opt.checked){
+  myColorWhite.checked=false;
+  myColorBlue.checked=false;
+  myColorBlack.checked=false; 
+  myColorRed.checked=false;
+  myColorGreen.checked=false;
+ }
+}
+
+myColorWhite.addEventListener('click',function resetColors(event){resetColorless();});
+myColorBlue.addEventListener('click',function resetColors(event){resetColorless();});
+myColorBlack.addEventListener('click',function resetColors(event){resetColorless();});
+myColorRed.addEventListener('click',function resetColors(event){resetColorless();});
+myColorGreen.addEventListener('click',function resetColors(event){resetColorless();});
+
+
+function resetColorless(){
+ if(myColorless.checked&&and_opt.checked){
+  myColorless.checked=false;
+ }
+}
+
+function getManaColorsSelected(){
+ var colors="";
+ if(myColorless.checked&&and_opt.checked){
+   colors="C";
+ }else{
+  if(myColorWhite.checked)
+   colors+="W";
+  if(myColorBlue.checked)
+   colors+="U";
+  if(myColorBlack.checked)
+   colors+="B";
+  if(myColorRed.checked)
+   colors+="R";
+  if(myColorGreen.checked)
+   colors+="G";
+  if(myColorless.checked)
+   colors+="C";        
+ }
+ return colors;
+}
+
+function resetColors(){
+ myColorWhite.checked=false;
+ myColorBlue.checked=false;
+ myColorBlack.checked=false; 
+ myColorRed.checked=false;
+ myColorGreen.checked=false;
+ myColorless.checked=false;
+}
+
+and_opt.addEventListener('click',function resetColors(event){resetManaColors();});
