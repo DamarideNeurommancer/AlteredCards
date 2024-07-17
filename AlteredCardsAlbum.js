@@ -150,18 +150,18 @@ function mySearchCardID(Look4CardID,lastRow,nCols,idx,lazyLimit){
 
 function myHelp(){
  var sHelp=`Search by Card-Name or Card-ID (and by Mana-Colors).
- Card-ID is a numeric value shown in the tooltip.
+ &#9658; Card-ID is a numeric value shown in the tooltip.
  When searching by Card-ID you get the card and all its related cards if any.
  All cards are displayed when a blank search field is given.
  You can hit 'RETURN' at the end of input text avoiding 'Search' button.
  Default and max value for 'columns per row' is 6, changing that value relaunches the search.
- Switch views between gridview and treeview with checkbox 'Tree'.
- Mana-Colors can be included in searches by Card Names and are excluded from search by Card-ID:
- Mana-Colors' <img src="MTG White.ico" width='14' height='14'>White, <img src="MTG Blue.ico" width='14' height='14'>Blue, <img src="MTG Black.ico" width='14' height='14'>Black, <img src="MTG Red.ico" width='14' height='14'>Red and <img src="MTG Green.ico" width='14' height='14'>Green and <img src="MTG Colorless.png" width='14' height='14'>Colorless options can be used as logical 'OR' or 'AND'.
+ &#9658; Switch views between gridview and treeview with checkbox 'Tree'.
+ &#9658; Mana-Colors can be included in searches by Card Names and are excluded from search by Card-ID:
+ Mana-Colors' <img src="MTG White.ico" width='14' height='14'>White, <img src="MTG Blue.ico" width='14' height='14'>Blue, <img src="MTG Black.ico" width='14' height='14'>Black, <img src="MTG Red.ico" width='14' height='14'>Red, <img src="MTG Green.ico" width='14' height='14'>Green and <img src="MTG Colorless.png" width='14' height='14'>Colorless options can be used as logical 'OR' or 'AND'.
  When those options are in 'OR' it means you may search for one color 'or' another 'or' ... (e.g. red 'or' green)'.
- When the option are in 'AND' then only Mana-Colors' <img src="MTG Colorless.png" width='14' height='14'>Colorless option is logically exclusive with the others.
- So when the option are in 'AND' you may search by any combination of colors (except by Colorless) or just for Colorless.    
- In the sidebar menu there are also entries for:
+ When the options are in 'AND' then only Mana-Colors' <img src="MTG Colorless.png" width='14' height='14'>Colorless option is logically exclusive with the others.
+ So when the options are in 'AND' you may search by any combination of colors (except by Colorless) or just for Colorless.    
+ &#9658; In the sidebar menu there are also entries for:
  <ul style="background-color:black;"><li><a href="index_Match.html"><img src="match-icon.webp" width='12' height='12'>Match Game</a></li>
  <li><a href="index_Guess.html"><img src="guess-icon.webp" width='12' height='12' style='background-color:red'>Guess Game</a></li>
  <li><a href="index_Tarots.html"><img src="./tarots/Back2.webp" width='12' height='12'>Tarots Reading</a></li>
@@ -330,11 +330,44 @@ function treeSearch(MaxColumns){
  var CardCnt=0;
  var RelatedCnt=0;
 
+ var colors=getManaColorsSelected();
  for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
   var CardNAME=book.attributes[1].nodeValue; 
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
+   //
+   var bGoOn=false;
+   var cntOccurs=0;
+   if(!bIsCardID&&colors!=""){
+     var ManaColors=book.attributes[4].nodeValue;
+     if(ManaColors=='C' && colors=='C')
+      bGoOn=true;
+    else{
+     //if(colors!='C'){
+      for(var j=0;j<colors.length;j++){
+       const c=colors[j];
+       if(ManaColors.indexOf(c)>-1){
+        if(!and_opt.checked){
+         bGoOn=true;
+         break;
+        }
+        else{
+         cntOccurs++;
+        } 
+       }
+      }
+      if(and_opt.checked&&cntOccurs==colors.length)
+       bGoOn=true; 
+     //}
+    }   
+   }
+   else
+    bGoOn=true;
+    
+   if(bGoOn==false)
+    continue;
+   //
    var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
    var RelatedCards=book.attributes[3].nodeValue;
    CardCnt++;
