@@ -82,7 +82,7 @@ function gridSearch(MaxColumns){
         } 
        }
       }
-      if(and_opt.checked&&cntOccurs==colors.length)
+      if(and_opt.checked&&cntOccurs==colors.length&&ManaColors.length==colors.length)
        bGoOn=true; 
      //}
     }   
