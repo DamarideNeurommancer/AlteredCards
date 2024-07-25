@@ -23,7 +23,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet"> 
 </script>
 </head>
-<body style='background-color:#000000' onload="mySearch()">
+<body style='background-color:#000000' onload="myInit()">
 <style>
 body{
  font-family: 'Roboto Condensed', sans-serif;
@@ -41,7 +41,7 @@ body{
  position: flex;
  overflow-y:auto;
  margin-bottom: 200px;
- padding-top: 186px;
+ padding-top: 220px;
 }
 .footer-container{
  position: fixed;
@@ -229,6 +229,32 @@ table .selected{
 @media screen and (max-height: 450px){
  .sidebar {padding-top: 15px;}
  .sidebar a {font-size: 18px;}
+}
+.multiselect{
+ width: 120px;
+}
+.selectBox{
+ position: relative;
+}
+.selectBox select{
+ width: 100%;
+}
+.overSelect{
+ position: absolute;
+ left: 0;
+ right: 0;
+ top: 0;
+ bottom: 0;
+}
+#checkboxes{
+ display: none;
+ border: 1px #dadada solid;
+}
+#checkboxes label{
+ display: block;
+}
+#checkboxes label:hover{
+ background-color: #1e90ff;
 } 
 </style> 
 <div class="header" id="myHeader">
@@ -300,7 +326,41 @@ table .selected{
       <button id='myBtnSimilar' onclick='mySimilar()' title='Search cards similar to the selected one'><img src="searchbyimage.png" width='12' height='12'></button>
       </small></i>
      </td>
-     
+    
+    <tr>
+    <td>
+     <div class="multiselect" id="myChecks" title="Include Mana-Colors in Search...">
+      <div class="selectBox" onclick="showCheckboxes()">
+       <select>
+        <option selected hidden>Mana Colors</option>
+       </select>
+       <div class="overSelect"></div>
+      </div>
+      <div id="checkboxes">
+       <label for="W">
+        <input type="checkbox" id="W"/><img src="MTG White.ico" width='14' height='14'> White</label>
+       <label for="U">
+        <input type="checkbox" id="U"/><img src="MTG Blue.ico" width='14' height='14'> blUe</label>
+       <label for="B">
+        <input type="checkbox" id="B"/><img src="MTG Black.ico" width='14' height='14'> Black</label>
+       <label for="R">
+        <input type="checkbox" id="R"/><img src="MTG Red.ico" width='14' height='14'> Red</label>
+       <label for="G">
+        <input type="checkbox" id="G"/><img src="MTG Green.ico" width='14' height='14'> Green</label>
+       <label for="C">
+        <input type="checkbox" id="C"/><img src="MTG Colorless.png" width='14' height='14'> Colorless</label>
+       
+       <table><tr><td>Mana-Colors in:</td></tr><tr>
+        <td><label for="or_opt"><input type="radio" name="op" id="or-opt" checked="checked" value="0"/> OR</label></td>
+        <td><label for="and_opt"><input type="radio" name="op" id="and_opt" value="1"/> AND</label></td>
+       </tr></table>
+       <button id='myBtnReset' onclick='resetColors()' title='Reset Mana-Colors to nothing' style='font-size:10px'><img src="reset-default-icon.webp" width='12' height='12'> Reset Mana-Colors</button>
+             
+      </div>
+     </div>
+    </td>
+   </tr>
+    
     </tr>
     <tr>
      <td id='totalCards'></td>
@@ -316,6 +376,11 @@ table .selected{
   document.getElementById('myBtn').click();
  }
 });
+document.addEventListener('keyup',function(event){
+if(event.keyCode==13){
+document.getElementById('myBtn').click();
+}
+});
 </script>
 
 <!--h2 style="text-align:center">+</h2> 
@@ -327,7 +392,7 @@ table .selected{
 <h1 style="text-align:center">'</h1-->
 
 <div class="table-container" id="myContent">
- <div class='left' id='center-header' style='background-attachment:fixed;background-repeat:repeat-y;background-position:center;'>
+ <div class='left' id='center-header' style='background-attachment:fixed;background-repeat:no-repeat;background-position:center;background-position-y:218px;background-size:26%;'>
   <table class="listTable" id='myTable' border="0" style="background-color:#000000;">
   </table>
  </div>

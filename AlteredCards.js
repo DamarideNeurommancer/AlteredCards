@@ -1,9 +1,12 @@
 var bSpeech;
 var msgSpeech;
 var input=document.getElementById("myInput");
-const table=document.getElementById('myTable');
-const totalCards=document.getElementById('totalCards');
-const tableimg=document.getElementById('myTableImg');
+//const table=document.getElementById('myTable');
+var table=document.getElementById('myTable');
+//const totalCards=document.getElementById('totalCards');
+var totalCards=document.getElementById('totalCards');
+//const tableimg=document.getElementById('myTableImg');
+var tableimg=document.getElementById('myTableImg');
 const obj=document.getElementById('center-header');
 const footer_img=document.getElementById('myFooter');
 const speakUp=document.getElementById('myChkSpeakUp');
@@ -15,6 +18,15 @@ const scryfall=document.getElementById("scryfall");
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
 const myContent=document.getElementById('myContent');
+const and_opt=document.getElementById("and_opt");
+const checkboxes=document.getElementById("checkboxes");
+const myChecks=document.getElementById('myChecks');
+const myColorless=document.getElementById('C');
+const myColorWhite=document.getElementById('W');
+const myColorBlue=document.getElementById('U');
+const myColorBlack=document.getElementById('B');
+const myColorRed=document.getElementById('R');
+const myColorGreen=document.getElementById('G');
 
 function myParseCardsEx(){
  myParseCards();   
@@ -41,13 +53,42 @@ function mySearch(){
  prevTr=null;
  var CardCnt=0;
  var row,cell;
-
+ var colors=getManaColorsSelected();
  for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
   var CardNAME=book.attributes[1].nodeValue;
   
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
+  var bGoOn=false;
+   var cntOccurs=0;
+   if(!bIsCardID&&colors!=""){
+     var ManaColors=book.attributes[4].nodeValue;
+     if(ManaColors=='C' && colors=='C')
+      bGoOn=true;
+    else{
+      for(var j=0;j<colors.length;j++){
+       const c=colors[j];
+       if(ManaColors.indexOf(c)>-1){
+        if(!and_opt.checked){
+         bGoOn=true;
+         break;
+        }
+        else{
+         cntOccurs++;
+        } 
+       }
+      }
+      if(and_opt.checked&&cntOccurs==colors.length&&ManaColors.length==colors.length)
+       bGoOn=true;
+    }   
+   }
+   else
+    bGoOn=true;
+    
+   if(bGoOn==false)
+    continue;
+
    var bIsCard=true;
    if(book.attributes[2].nodeValue.startsWith("https"))
     bIsCard=false;
@@ -159,6 +200,7 @@ function selectRow(tr,className){
   prevIx=ix;
   prevTr=tr;
  }
+ if(prevIx!=null)showRelated(prevIx,1);
  footer_img.scrollTo(0,0); 
     
  var imgurl=tr.querySelector('img').getAttribute('src');
@@ -173,11 +215,14 @@ function selectRow(tr,className){
  }  
 }
 
-function showRelated(index){
+function showRelated(index,mode=0){
+//alert("showRelated mode: "+mode);
  var rowMaster=table.rows[index];
  var xmlindex=rowMaster.cells[3].innerText;
- selectRow(rowMaster,'selected');
- rowMaster.scrollIntoView({behavior: "auto"});
+ if(mode==0){
+  selectRow(rowMaster,'selected');
+  rowMaster.scrollIntoView({behavior: "auto"});
+ }
  var book=catalog.childNodes[xmlindex];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;  
@@ -205,8 +250,19 @@ function showRelated(index){
    }
   }
  }
- rowMaster.scrollIntoView({behavior: "auto"});
- row.scrollTo(0,0);
+ 
+ //NEW
+ if(RelatedCards!=""&&CardID>100){
+  cell=row.insertCell(-1);
+  cell.style.border="0";
+  cell.innerHTML=`<button id='myBtnRelated' onclick='myRelated(${index})' title='Take a picture of this card with its relateds'>&#x1F4F7</button>`;
+ }
+ if(mode==0){
+  rowMaster.scrollIntoView({behavior: "auto"});
+  row.scrollTo(0,0);
+ }
+ //New
+ mySave();
 }
  
 function mySearchRelatedID(Look4CardID,lastRow){
@@ -355,7 +411,7 @@ document.onkeydown=function (e){
  var currRow=prevIx;
  var totRows=table.rows.length;
  var rowMaster=null;
- var offset=-200;
+ var offset=-230;
  if(totRows > 0){
   switch (e.key){
    case 'ArrowUp':
@@ -365,7 +421,7 @@ document.onkeydown=function (e){
      rowMaster=table.rows[currRow];
      rowMaster.scrollIntoView(true,{behavior: "smooth"});
      if(currRow>=totRows-5)
-      offset=-20;
+      offset=-10;
      window.scrollBy(0,offset);
     }
     break;
@@ -376,7 +432,7 @@ document.onkeydown=function (e){
      rowMaster=table.rows[currRow];
      rowMaster.scrollIntoView(true,{behavior: "smooth"});
      if(currRow >= totRows-5)
-      offset=-20;
+      offset=-10;
      window.scrollBy(0,offset);
     }              
     break;
@@ -384,13 +440,13 @@ document.onkeydown=function (e){
     showRelated(0);
     rowMaster=table.rows[0];
     rowMaster.scrollIntoView(true,{behavior: "smooth"});
-    window.scrollBy(0,-200);             
+    //window.scrollBy(0,-206);             
     break;
    case 'End':
     showRelated(totRows-1);
     rowMaster=table.rows[totRows-1];
     rowMaster.scrollIntoView(true,{behavior: "smooth"});
-    window.scrollBy(0,-200);            
+    //window.scrollBy(0,-206);            
     break;
   }
  }
@@ -439,6 +495,10 @@ document.addEventListener('click',function handleClickOutside(event){
  if(!main.contains(event.target)){
   closeNav();
  }
+ if(!myChecks.contains(event.target)){ 
+  checkboxes.style.display = "none";
+  expanded=false;
+ }
 });
 
 let shareData={
@@ -470,3 +530,267 @@ function mySimilar()
  var cardID=imgtitle.substr(0,result);
  location.href="SearchByImage.html?id="+cardID;
 }
+
+function downloadImage(data,filename='untitled.png'){
+ /*
+ var link=document.createElement('a');
+ link.href=data;
+ link.download=filename;
+ link.click();
+ link.remove();
+ */
+ window.open(data);
+}
+
+async function myRelated(index){
+ var rowMaster=table.rows[index];
+ var xmlindex=rowMaster.cells[3].innerText;
+ var book=catalog.childNodes[xmlindex];
+ var CardID=book.attributes[0].nodeValue;
+ var RelatedCards=book.attributes[3].nodeValue;
+ if(RelatedCards=="")
+  return;
+ RelatedCards=CardID+";"+RelatedCards;
+ if(RelatedCards[RelatedCards.length-1]==";"){
+  RelatedCards=RelatedCards.substring(0,RelatedCards.length-1);
+ }
+ var RelatedList=RelatedCards.replace(",",";").split(";");
+ var RelatedCount=RelatedList.length
+ // New
+ var arrayImages=[];
+ for(var iRel=0;iRel<RelatedCount;iRel++){
+  if(RelatedList[iRel]!= ""){
+   var filename=RelatedList[iRel]+".jpg";
+   arrayImages.push(filename);
+  }
+ }
+ promiseOfAllImages(arrayImages)
+  .then(async function (allImages){
+    //console.log("All images are loaded!", allImages); // [Img, Img, Img]
+    var dataURL=await draw(arrayImages, allImages);
+    //console.log("Downloading...");
+    //downloadImage(dataURL,CardID+"_Related.png");
+    //downloadImage(dataURL,CardID+"_Related.jpg");
+    window.location.href=dataURL;
+  });
+}
+
+/*
+function draw(files,images){
+ const canvas=document.createElement("canvas");
+ const ctx=canvas.getContext("2d");
+ const w=350;
+ const h=488;
+                
+ canvas.width=files.length*w;
+ canvas.height=h;
+ ctx.fillStyle="black";
+ ctx.fillRect(0,0,canvas.width, canvas.height);
+ var x=0;
+ var y=0;
+ for (var i=0; i < files.length; i++) {
+   ctx.drawImage(images[i],x,y);
+   x+=w;
+ }
+ //return (canvas.toDataURL("image/png"));
+ return (canvas.toDataURL("image/jpeg"));
+}
+*/
+
+function draw(files,images){
+ const canvas=document.createElement("canvas");
+ const ctx=canvas.getContext("2d");
+ const w=350;
+ const h=488;
+ 
+ var nTotImages=files.length;
+ var bExact=true;
+ var nTotRow=~~(nTotImages/4);   //~~(a / b); or (a / b) >> 0;
+ var modulus=nTotImages%4;
+ if(modulus!=0){
+  nTotRow+= 1;
+  if(nTotRow>1)
+   bExact=false;
+ }
+ var width=(nTotImages<4?nTotImages*w:4*w);
+ var height=h*nTotRow;
+                
+ canvas.width=width; //files.length*w;
+ canvas.height=height; //h;
+ //ctx.globalAlpha=0; //png
+ ctx.fillStyle="black";
+ //ctx.fillStyle="transparent"; //png
+ ctx.fillRect(0,0,canvas.width, canvas.height);
+ //ctx.globalAlpha=1; //png
+ var row=0;
+ var col=0;
+ var Xoffset=0;
+ var Yoffset=0;
+ var nSpace=0;
+ for(var i=0;i<files.length;i++){
+  row=~~(i/4);
+  col=i%4;
+  if(bExact==false&&row==nTotRow-1){
+   switch(modulus){
+    case 1:
+     nSpace=w*1.5;
+     break;
+    case 2:
+     nSpace=w;
+     break;
+    case 3:
+     nSpace=w/2;
+     break;
+   }
+   Xoffset=col*w+nSpace;
+  }
+  else{
+   Xoffset=col*w;
+  }
+  Yoffset=row*h;
+  
+  ctx.save();
+  // use lineTo and BezierTo here to make the path you want, which is a rectangle the size of the image with two rounded corners.
+  //               x,y,width,height,radius
+  roundedImage(ctx,Xoffset,Yoffset,w,h,20);
+  ctx.clip(); 
+  ctx.drawImage(images[i],Xoffset,Yoffset);
+  ctx.restore(); // so clipping path won't affect anything else drawn afterwards
+ }
+ //return (canvas.toDataURL("image/png")); //png
+ return (canvas.toDataURL("image/jpeg"));
+}
+
+var promiseOfAllImages = function (arrayImages){
+  // Wait until ALL images are loaded
+  return Promise.all(
+    arrayImages.map(function (t){
+      // Load each tile, and "resolve" when done
+      return new Promise(function (resolve){
+        var img=new Image();
+        img.src=t; //"tiles/" + t + ".png";
+        img.onload = function(){
+          // Image has loaded... resolve the promise!
+          resolve(img);
+        };
+      });
+    })
+  );
+};
+
+function mySave(){
+ try{
+  var filter;
+  filter=input.value.replaceAll("*"," ").replaceAll("%"," ").trim().toUpperCase();
+  localStorage.setItem("ListFilter",filter);
+  localStorage.setItem("ListIndex",prevIx);
+ }
+ catch(err){console.log(err);} 
+}
+
+function myInit(){
+ initVars();
+ if(bxmlParsed==false){myParseCardsEx();}
+ var filter=localStorage.getItem("ListFilter");
+ if(filter!=""&&filter!=null&&filter!="undefined"){
+  input.value=filter;
+ }
+ var savedPrevIx=localStorage.getItem("ListIndex");
+ mySearch();
+ if(savedPrevIx!=""&&savedPrevIx!=null&&savedPrevIx!="undefined"){
+  prevIx=savedPrevIx;
+  var totRows=table.rows.length;
+  if(totRows > 0){
+   showRelated(prevIx);
+   table.rows[prevIx].scrollIntoView(true,{behavior:"smooth"});
+   window.scrollBy(0,-240);
+  }
+ }
+}
+
+function initVars(){
+ table=document.getElementById('myTable');
+ tableimg=document.getElementById('myTableImg');
+ totalCards=document.getElementById('totalCards');
+}
+
+function roundedImage(ctx,x,y,width,height,radius){
+ ctx.beginPath();
+ ctx.moveTo(x + radius, y);
+ ctx.lineTo(x + width - radius, y);
+ ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+ ctx.lineTo(x + width, y + height - radius);
+ ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+ ctx.lineTo(x + radius, y + height);
+ ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+ ctx.lineTo(x, y + radius);
+ ctx.quadraticCurveTo(x, y, x + radius, y);
+ ctx.closePath();
+}
+
+var expanded = false;
+function showCheckboxes(){
+ if(!expanded){
+  checkboxes.style.display="block";
+  expanded=true;
+ } else {
+   checkboxes.style.display="none";
+   expanded=false;
+ }
+}
+myColorless.addEventListener('click',function resetColors(event){resetManaColors();});
+
+function resetManaColors(){
+ if(myColorless.checked&&and_opt.checked){
+  myColorWhite.checked=false;
+  myColorBlue.checked=false;
+  myColorBlack.checked=false; 
+  myColorRed.checked=false;
+  myColorGreen.checked=false;
+ }
+}
+
+myColorWhite.addEventListener('click',function resetColors(event){resetColorless();});
+myColorBlue.addEventListener('click',function resetColors(event){resetColorless();});
+myColorBlack.addEventListener('click',function resetColors(event){resetColorless();});
+myColorRed.addEventListener('click',function resetColors(event){resetColorless();});
+myColorGreen.addEventListener('click',function resetColors(event){resetColorless();});
+
+
+function resetColorless(){
+ if(myColorless.checked&&and_opt.checked){
+  myColorless.checked=false;
+ }
+}
+
+function getManaColorsSelected(){
+ var colors="";
+ if(myColorless.checked&&and_opt.checked){
+   colors="C";
+ }else{
+  if(myColorWhite.checked)
+   colors+="W";
+  if(myColorBlue.checked)
+   colors+="U";
+  if(myColorBlack.checked)
+   colors+="B";
+  if(myColorRed.checked)
+   colors+="R";
+  if(myColorGreen.checked)
+   colors+="G";
+  if(myColorless.checked)
+   colors+="C";        
+ }
+ return colors;
+}
+
+function resetColors(){
+ myColorWhite.checked=false;
+ myColorBlue.checked=false;
+ myColorBlack.checked=false; 
+ myColorRed.checked=false;
+ myColorGreen.checked=false;
+ myColorless.checked=false;
+}
+
+and_opt.addEventListener('click',function resetColors(event){resetManaColors();});
