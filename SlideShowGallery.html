@@ -42,6 +42,7 @@ body{
  padding: 2px 4px;
  background: #555;
  color: #f1f1f1;
+ z-index: 1;
 }
 .footer-container{
  position: fixed;
@@ -96,6 +97,7 @@ a:active{
  position: fixed;
  left:44px;
  max-height:auto;
+ padding-top:24px;
 }
 img{
 max-width:auto;
@@ -255,6 +257,32 @@ table .selected{
  .sidebar {padding-top: 15px;}
  .sidebar a {font-size: 18px;}
 }
+.multiselect{
+ width: 120px;
+}
+.selectBox{
+ position: relative;
+}
+.selectBox select{
+ width: 100%;
+}
+.overSelect{
+ position: absolute;
+ left: 0;
+ right: 0;
+ top: 0;
+ bottom: 0;
+}
+#checkboxes{
+ display: none;
+ border: 1px #dadada solid;
+}
+#checkboxes label{
+ display: block;
+}
+#checkboxes label:hover{
+ background-color: #1e90ff;
+}
 </style>
 <body>
 <div class="header" id="myHeader">
@@ -313,7 +341,7 @@ table .selected{
  <tr>
   <td>
    <input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
-   <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'>Search</button>
+   <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12' title='Search by Card-Name (and Mana-Colors if any) or Card-Id'></button>
    <button id='myBtnHelp' onclick='myHelp()'>?</button>
    <button id='myBtnPopup' onclick='myPopup()' title='Zoom card image'><img src="zoom-icon.png" width='12' height='12'></button>
    <button id='myBtnShare' onclick='myShare()' title='Share Alter Sleeves card link'><img src="share-icon.webp" width='12' height='12'></button>
@@ -324,6 +352,40 @@ table .selected{
    <button id='myShowCheck' onclick='myShow()' title='Start Gallery Show'>Show&#9658;</button>
    <button id='myBtnSimilar' onclick='mySimilar()' title='Search cards similar to the selected one'><img src="searchbyimage.png" width='8' height='14'></button>
   </td>
+  
+  <tr>
+    <td>
+     <div class="multiselect" id="myChecks" title="Include Mana-Colors in Search...">
+      <div class="selectBox" onclick="showCheckboxes()">
+       <select>
+        <option selected hidden>Mana Colors</option>
+       </select>
+       <div class="overSelect"></div>
+      </div>
+      <div id="checkboxes">
+       <label for="W">
+        <input type="checkbox" id="W"/><img src="MTG White.ico" width='14' height='14'> White</label>
+       <label for="U">
+        <input type="checkbox" id="U"/><img src="MTG Blue.ico" width='14' height='14'> blUe</label>
+       <label for="B">
+        <input type="checkbox" id="B"/><img src="MTG Black.ico" width='14' height='14'> Black</label>
+       <label for="R">
+        <input type="checkbox" id="R"/><img src="MTG Red.ico" width='14' height='14'> Red</label>
+       <label for="G">
+        <input type="checkbox" id="G"/><img src="MTG Green.ico" width='14' height='14'> Green</label>
+       <label for="C">
+        <input type="checkbox" id="C"/><img src="MTG Colorless.png" width='14' height='14'> Colorless</label>
+       
+       <table><tr><td>Mana-Colors in:</td></tr><tr>
+        <td><label for="or_opt"><input type="radio" name="op" id="or-opt" checked="checked" value="0"/> OR</label></td>
+        <td><label for="and_opt"><input type="radio" name="op" id="and_opt" value="1"/> AND</label></td>
+       </tr></table>
+       <button id='myBtnReset' onclick='resetColors()' title='Reset Mana-Colors to nothing' style='font-size:10px'><img src="reset-default-icon.webp" width='12' height='12'> Reset Mana-Colors</button>
+             
+      </div>
+     </div>
+    </td>
+   </tr>
  </tr>
 
  <tr><td id='totalCards'></td></tr>
@@ -331,10 +393,15 @@ table .selected{
 </div>
 
 <script>
- var input = document.getElementById('myInput');
+ var input=document.getElementById('myInput');
  input.addEventListener('keyup', function(event){
- if (event.keyCode == 13){
+ if(event.keyCode==13){
   document.getElementById('myBtn').click();
+ }
+});
+document.addEventListener('keyup',function(event){
+ if(event.keyCode==13){
+ document.getElementById('myBtn').click();
  }
 });
 </script>

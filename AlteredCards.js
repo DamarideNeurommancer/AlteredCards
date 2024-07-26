@@ -319,7 +319,18 @@ function mySearchCardID(Look4CardID,lastRow){
 }
 
 function myHelp(){
- var sHelp ="Search by Card-Name or Card-ID that is a numeric value.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nClick on Card-Id/Card-Name columns in cards list to get the image of that card and its related cards in the bottom panel (horizontally scrollable).In the 'Zoom In' popup you have links to Alter Sleeves and to Scryfall";
+ var sHelp =`Search by Card-Name (and by Mana-Colors) or Card-ID.
+ &#9658; Card-ID is a numeric value shown in the tooltip.
+ When searching by Card-ID you get the card and all its related cards if any.
+ All cards are displayed when a blank search field is given.
+ You can hit 'RETURN' at the end of input text avoiding 'Search' button.
+ &#9658; Click on Card-Id/Card-Name columns in cards list to get the image of that card and its related cards in the bottom panel (horizontally scrollable).
+ &#9658; In the 'Zoom In' popup you have links to Alter Sleeves and to Scryfall.
+ &#9658; Mana-Colors can be included in searches by Card Names and are excluded from search by Card-ID:
+ Mana-Colors' <img src="MTG White.ico" width='14' height='14'>White, <img src="MTG Blue.ico" width='14' height='14'>Blue, <img src="MTG Black.ico" width='14' height='14'>Black, <img src="MTG Red.ico" width='14' height='14'>Red, <img src="MTG Green.ico" width='14' height='14'>Green and <img src="MTG Colorless.png" width='14' height='14'>Colorless options can be used as logical 'OR' or 'AND'.
+ When those options are in 'OR' it means you may search for one color 'or' another 'or' ... (e.g. red 'or' green)'.
+ When the options are in 'AND' then only Mana-Colors' <img src="MTG Colorless.png" width='14' height='14'>Colorless option is logically exclusive with the others.
+ So when the options are in 'AND' you may search by any exact combination of colors (except by Colorless) or just for Colorless.`;
  try{
   var imgurl=prevTr.querySelector('img').getAttribute('src');
   var url=prevTr.querySelector('a').getAttribute('href');
@@ -532,13 +543,6 @@ function mySimilar()
 }
 
 function downloadImage(data,filename='untitled.png'){
- /*
- var link=document.createElement('a');
- link.href=data;
- link.download=filename;
- link.click();
- link.remove();
- */
  window.open(data);
 }
 
@@ -566,36 +570,10 @@ async function myRelated(index){
  }
  promiseOfAllImages(arrayImages)
   .then(async function (allImages){
-    //console.log("All images are loaded!", allImages); // [Img, Img, Img]
     var dataURL=await draw(arrayImages, allImages);
-    //console.log("Downloading...");
-    //downloadImage(dataURL,CardID+"_Related.png");
-    //downloadImage(dataURL,CardID+"_Related.jpg");
     window.location.href=dataURL;
   });
 }
-
-/*
-function draw(files,images){
- const canvas=document.createElement("canvas");
- const ctx=canvas.getContext("2d");
- const w=350;
- const h=488;
-                
- canvas.width=files.length*w;
- canvas.height=h;
- ctx.fillStyle="black";
- ctx.fillRect(0,0,canvas.width, canvas.height);
- var x=0;
- var y=0;
- for (var i=0; i < files.length; i++) {
-   ctx.drawImage(images[i],x,y);
-   x+=w;
- }
- //return (canvas.toDataURL("image/png"));
- return (canvas.toDataURL("image/jpeg"));
-}
-*/
 
 function draw(files,images){
  const canvas=document.createElement("canvas");

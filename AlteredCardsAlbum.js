@@ -69,7 +69,6 @@ function gridSearch(MaxColumns){
      if(ManaColors=='C' && colors=='C')
       bGoOn=true;
     else{
-     //if(colors!='C'){
       for(var j=0;j<colors.length;j++){
        const c=colors[j];
        if(ManaColors.indexOf(c)>-1){
@@ -84,7 +83,6 @@ function gridSearch(MaxColumns){
       }
       if(and_opt.checked&&cntOccurs==colors.length&&ManaColors.length==colors.length)
        bGoOn=true; 
-     //}
     }   
    }
    else
@@ -149,7 +147,7 @@ function mySearchCardID(Look4CardID,lastRow,nCols,idx,lazyLimit){
 }
 
 function myHelp(){
- var sHelp=`Search by Card-Name or Card-ID (and by Mana-Colors).
+ var sHelp=`Search by Card-Name (and by Mana-Colors) or Card-ID.
  &#9658; Card-ID is a numeric value shown in the tooltip.
  When searching by Card-ID you get the card and all its related cards if any.
  All cards are displayed when a blank search field is given.
@@ -160,7 +158,7 @@ function myHelp(){
  Mana-Colors' <img src="MTG White.ico" width='14' height='14'>White, <img src="MTG Blue.ico" width='14' height='14'>Blue, <img src="MTG Black.ico" width='14' height='14'>Black, <img src="MTG Red.ico" width='14' height='14'>Red, <img src="MTG Green.ico" width='14' height='14'>Green and <img src="MTG Colorless.png" width='14' height='14'>Colorless options can be used as logical 'OR' or 'AND'.
  When those options are in 'OR' it means you may search for one color 'or' another 'or' ... (e.g. red 'or' green)'.
  When the options are in 'AND' then only Mana-Colors' <img src="MTG Colorless.png" width='14' height='14'>Colorless option is logically exclusive with the others.
- So when the options are in 'AND' you may search by any combination of colors (except by Colorless) or just for Colorless.    
+ So when the options are in 'AND' you may search by any exact combination of colors (except by Colorless) or just for Colorless.    
  &#9658; In the sidebar menu there are also entries for:
  <ul style="background-color:black;"><li><a href="index_Match.html"><img src="match-icon.webp" width='12' height='12'>Match Game</a></li>
  <li><a href="index_Guess.html"><img src="guess-icon.webp" width='12' height='12' style='background-color:red'>Guess Game</a></li>

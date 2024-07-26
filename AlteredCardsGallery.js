@@ -1,3 +1,12 @@
+const and_opt=document.getElementById("and_opt");
+const checkboxes=document.getElementById("checkboxes");
+const myChecks=document.getElementById('myChecks');
+const myColorless=document.getElementById('C');
+const myColorWhite=document.getElementById('W');
+const myColorBlue=document.getElementById('U');
+const myColorBlack=document.getElementById('B');
+const myColorRed=document.getElementById('R');
+const myColorGreen=document.getElementById('G');
 const tableimg=document.getElementById('myTableImg');
 const obj=document.getElementById('myPreview');
 const captionText=document.getElementById("caption");
@@ -36,11 +45,41 @@ function mySearch(){
  var CardCnt=0;
  var row=null;
  var cell;
+ var colors=getManaColorsSelected();
  for(var i=0;i<totXmlCards;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
   var CardNAME=book.attributes[1].nodeValue;
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
+   var bGoOn=false;
+   var cntOccurs=0;
+   if(!bIsCardID&&colors!=""){
+     var ManaColors=book.attributes[4].nodeValue;
+     if(ManaColors=='C' && colors=='C')
+      bGoOn=true;
+    else{
+      for(var j=0;j<colors.length;j++){
+       const c=colors[j];
+       if(ManaColors.indexOf(c)>-1){
+        if(!and_opt.checked){
+         bGoOn=true;
+         break;
+        }
+        else{
+         cntOccurs++;
+        } 
+       }
+      }
+      if(and_opt.checked&&cntOccurs==colors.length&&ManaColors.length==colors.length)
+       bGoOn=true; 
+    }   
+   }
+   else
+    bGoOn=true;
+    
+   if(bGoOn==false)
+    continue;
+
    var bIsCard=true;
    if(book.attributes[2].nodeValue.startsWith("https"))
     bIsCard=false;
@@ -136,7 +175,17 @@ function selectCell(td,className){
 }  
  
 function myHelp(){
- var sHelp="Search by Card-Name or Card-ID.\nCard-ID is a numeric value shown in the tooltip.\nWhen searching by Card-ID you get the card and all its related cards if any.\nAll cards are displayed when a blank search field is given.\nYou can hit 'RETURN' at the end of input text avoiding 'Search' button.\nHit 'Show' to start an automatic and random Gallery Show and press it again when you want to stop the flow.";
+ var sHelp=`Search by Card-Name (and by Mana-Colors) or Card-ID.
+ &#9658; Card-ID is a numeric value shown in the tooltip.
+ When searching by Card-ID you get the card and all its related cards if any.
+ All cards are displayed when a blank search field is given.
+ You can hit 'RETURN' at the end of input text avoiding 'Search' button.
+ &#9658; Hit 'Show' to start an automatic and random Gallery Show and press it again when you want to stop the flow.
+ &#9658; Mana-Colors can be included in searches by Card Names and are excluded from search by Card-ID:
+ Mana-Colors' <img src="MTG White.ico" width='14' height='14'>White, <img src="MTG Blue.ico" width='14' height='14'>Blue, <img src="MTG Black.ico" width='14' height='14'>Black, <img src="MTG Red.ico" width='14' height='14'>Red, <img src="MTG Green.ico" width='14' height='14'>Green and <img src="MTG Colorless.png" width='14' height='14'>Colorless options can be used as logical 'OR' or 'AND'.
+ When those options are in 'OR' it means you may search for one color 'or' another 'or' ... (e.g. red 'or' green)'.
+ When the options are in 'AND' then only Mana-Colors' <img src="MTG Colorless.png" width='14' height='14'>Colorless option is logically exclusive with the others.
+ So when the options are in 'AND' you may search by any exact combination of colors (except by Colorless) or just for Colorless.`;
  try{
   var imgurl=prevTd.querySelector('img').getAttribute('src');
   var url=prevTd.querySelector('a').getAttribute('href');
@@ -333,6 +382,10 @@ document.addEventListener('click',function handleClickOutside(event){
  if(!main.contains(event.target)){
   closeNav();
  }
+ if(!myChecks.contains(event.target)){ 
+  checkboxes.style.display = "none";
+  expanded=false;
+ }
 });
 
 let shareData={
@@ -364,3 +417,69 @@ function mySimilar()
  var cardID=imgtitle.substr(0,result);
  location.href = "SearchByImage.html?id="+cardID;
 }
+
+var expanded = false;
+function showCheckboxes(){
+ if(!expanded){
+  checkboxes.style.display="block";
+  expanded=true;
+ } else {
+   checkboxes.style.display="none";
+   expanded=false;
+ }
+}
+myColorless.addEventListener('click',function resetColors(event){resetManaColors();});
+
+function resetManaColors(){
+ if(myColorless.checked&&and_opt.checked){
+  myColorWhite.checked=false;
+  myColorBlue.checked=false;
+  myColorBlack.checked=false; 
+  myColorRed.checked=false;
+  myColorGreen.checked=false;
+ }
+}
+
+myColorWhite.addEventListener('click',function resetColors(event){resetColorless();});
+myColorBlue.addEventListener('click',function resetColors(event){resetColorless();});
+myColorBlack.addEventListener('click',function resetColors(event){resetColorless();});
+myColorRed.addEventListener('click',function resetColors(event){resetColorless();});
+myColorGreen.addEventListener('click',function resetColors(event){resetColorless();});
+
+function resetColorless(){
+ if(myColorless.checked&&and_opt.checked){
+  myColorless.checked=false;
+ }
+}
+
+function getManaColorsSelected(){
+ var colors="";
+ if(myColorless.checked&&and_opt.checked){
+   colors="C";
+ }else{
+  if(myColorWhite.checked)
+   colors+="W";
+  if(myColorBlue.checked)
+   colors+="U";
+  if(myColorBlack.checked)
+   colors+="B";
+  if(myColorRed.checked)
+   colors+="R";
+  if(myColorGreen.checked)
+   colors+="G";
+  if(myColorless.checked)
+   colors+="C";        
+ }
+ return colors;
+}
+
+function resetColors(){
+ myColorWhite.checked=false;
+ myColorBlue.checked=false;
+ myColorBlack.checked=false; 
+ myColorRed.checked=false;
+ myColorGreen.checked=false;
+ myColorless.checked=false;
+}
+
+and_opt.addEventListener('click',function resetColors(event){resetManaColors();});
