@@ -24,6 +24,7 @@ const next=document.getElementById("myNext");
 const btShow=document.getElementById("myShowCheck");
 var bShow=false;
 var timerID;
+const lazyLimit=20;
 
 function mySearch(){
  var input,filter,bIsCardID;
@@ -90,7 +91,7 @@ function mySearch(){
     row=tableimg.insertRow(-1);
     
    cell=row.insertCell(-1);
-   cell.innerHTML="<img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='" +CardID+"' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+"<a href='"+CardURL + "'>"+CardNAME+"</font></a>";
+   cell.innerHTML="<img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='" +CardID+"' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+"<a href='"+CardURL + "'>"+CardNAME+"</font></a>";
    cell.addEventListener('click',function(){
     selectCell(this,'selected');
    });
@@ -107,7 +108,7 @@ function mySearch(){
      for(var iRel=0;iRel<RelatedCount;iRel++){
       if(RelatedList[iRel]!=""){
        CardCnt++;
-       mySearchCardID(RelatedList[iRel],row);
+       mySearchCardID(RelatedList[iRel],row,CardCnt);
       }
      }
     }
@@ -124,7 +125,7 @@ function mySearch(){
  footer_img.scrollTo(0,0); 
 }
 
-function mySearchCardID(Look4CardID,lastRow){
+function mySearchCardID(Look4CardID,lastRow, CardCnt){
  for(var i=0;i<catalog.childElementCount;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
@@ -136,7 +137,7 @@ function mySearchCardID(Look4CardID,lastRow){
    var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
   
    cell=lastRow.insertCell(-1);
-   cell.innerHTML="<img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='" +CardID+"' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+"<a href='"+CardURL+"'>"+CardNAME+"</font></a>";
+   cell.innerHTML="<img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='" +CardID+"' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+"<a href='"+CardURL+"'>"+CardNAME+"</font></a>";
    cell.addEventListener('click',function(){
     selectCell(this,'selected');
    });    
