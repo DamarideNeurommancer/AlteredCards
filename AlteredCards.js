@@ -1,11 +1,8 @@
 var bSpeech;
 var msgSpeech;
 var input=document.getElementById("myInput");
-//const table=document.getElementById('myTable');
 var table=document.getElementById('myTable');
-//const totalCards=document.getElementById('totalCards');
 var totalCards=document.getElementById('totalCards');
-//const tableimg=document.getElementById('myTableImg');
 var tableimg=document.getElementById('myTableImg');
 const obj=document.getElementById('center-header');
 const footer_img=document.getElementById('myFooter');
@@ -27,6 +24,7 @@ const myColorBlue=document.getElementById('U');
 const myColorBlack=document.getElementById('B');
 const myColorRed=document.getElementById('R');
 const myColorGreen=document.getElementById('G');
+const lazyLimit=20;
 
 function myParseCardsEx(){
  myParseCards();   
@@ -101,7 +99,7 @@ function mySearch(){
    });
 
    cell=row.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\"></a>"
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"></a>"
    cell=row.insertCell(-1);
    cell.innerHTML="<font size='1' style='padding: 4px'>"+CardID+"</font>";
    cell.addEventListener('click',function(){
@@ -136,7 +134,7 @@ function mySearch(){
        row.addEventListener('click',function(){
         selectRow(this,'selected');
        });
-       mySearchCardID(RelatedList[iRel],row);
+       mySearchCardID(RelatedList[iRel],row,CardCnt);
       }
      }
     }
@@ -282,7 +280,7 @@ function mySearchRelatedID(Look4CardID,lastRow){
  }
 }
 
-function mySearchCardID(Look4CardID,lastRow){
+function mySearchCardID(Look4CardID,lastRow,CardCnt){
  for(var i=0;i<catalog.childElementCount;i++){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
@@ -294,7 +292,7 @@ function mySearchCardID(Look4CardID,lastRow){
    var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
 
    cell=lastRow.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\"></a>"
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"></a>"
     
    cell=lastRow.insertCell(-1);
    cell.innerHTML="<font size='1' style='padding: 4px'>"+CardID+"</font>";
