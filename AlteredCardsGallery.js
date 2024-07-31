@@ -7,11 +7,11 @@ const myColorBlue=document.getElementById('U');
 const myColorBlack=document.getElementById('B');
 const myColorRed=document.getElementById('R');
 const myColorGreen=document.getElementById('G');
-const tableimg=document.getElementById('myTableImg');
+var tableimg=document.getElementById('myTableImg');
 const obj=document.getElementById('myPreview');
 const captionText=document.getElementById("caption");
-const totCards=document.getElementById('totalCards');
-const footer_img=document.getElementById('myFooter');
+var totCards=document.getElementById('totalCards');
+var footer_img=document.getElementById('myFooter');
 const modal=document.getElementById('myModal');
 const modalImg=document.getElementById("img01");
 const caption_md=document.getElementById("caption_md");
@@ -22,13 +22,13 @@ const container=document.getElementById("myContainer");
 const prev=document.getElementById("myPrev");
 const next=document.getElementById("myNext");
 const btShow=document.getElementById("myShowCheck");
+var input=document.getElementById("myInput");
 var bShow=false;
 var timerID;
 const lazyLimit=20;
 
 function mySearch(){
- var input,filter,bIsCardID;
- input=document.getElementById("myInput");
+ var filter,bIsCardID;
  filter=input.value.replaceAll("*"," ").replaceAll("%"," ").trim().toUpperCase();
  bIsCardID=false;
  var numCardID=parseInt(filter);
@@ -172,7 +172,8 @@ function selectCell(td,className){
  obj.title=imgtitle;
  obj.style.cursor="zoom-in";
  var url=td.querySelector('a').getAttribute('href');
- captionText.innerHTML="<a href='"+url+"' style='font-size:16px;'>"+imgtitle+"</a>"; 
+ captionText.innerHTML="<a href='"+url+"' style='font-size:16px;'>"+imgtitle+"</a>";
+ mySave(); 
 }  
  
 function myHelp(){
@@ -484,3 +485,36 @@ function resetColors(){
 }
 
 and_opt.addEventListener('click',function resetColors(event){resetManaColors();});
+
+function mySave(){
+ try{
+  var filter;
+  filter=input.value.replaceAll("*"," ").replaceAll("%"," ").trim().toUpperCase();
+  localStorage.setItem("GalleryFilter",filter);
+  localStorage.setItem("GalleryIndex",prevIx);
+ }
+ catch(err){console.log(err);} 
+}
+function myInit(){
+ initVars();
+ if(bxmlParsed==false){myParseCards();}
+ var filter=localStorage.getItem("GalleryFilter");
+ if(filter!=""&&filter!=null&&filter!="undefined"){
+  input.value=filter;
+ } 
+ var savedPrevIx=localStorage.getItem("GalleryIndex");
+ mySearch();
+ if(savedPrevIx!=""&&savedPrevIx!=null&&savedPrevIx!="undefined"){
+  prevIx=savedPrevIx;
+  cell=tableimg.rows[0].cells[prevIx];
+  selectCell(cell,'selected');
+  tableimg.rows[0].cells[prevIx].scrollIntoView({behavior:"instant",inline:"start"});
+ }
+}
+
+function initVars(){
+ input=document.getElementById("myInput");
+ tableimg=document.getElementById('myTableImg');
+ totCards=document.getElementById('totalCards');
+ footer_img=document.getElementById('myFooter');
+}

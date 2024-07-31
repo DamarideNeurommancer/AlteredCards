@@ -678,8 +678,9 @@ function myInit(){
   var totRows=table.rows.length;
   if(totRows > 0){
    showRelated(prevIx);
-   table.rows[prevIx].scrollIntoView(true,{behavior:"smooth"});
-   window.scrollBy(0,-240);
+   //table.rows[prevIx].scrollIntoView(true,{behavior:"smooth"});
+   //window.scrollBy(0,-240);
+   table.rows[prevIx].scrollIntoView({behavior:"instant",block:"center"});
   }
  }
 }
