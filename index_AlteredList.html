@@ -312,7 +312,7 @@ table .selected{
    <table>
     <tr>
      <td><input type='search' id='myInput' size='20' placeholder='Card-name or card-id...' title='Search by card-name or card-id...' data-clear-btn='true'>
-      <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12'>Search</button>
+      <button id='myBtn' onclick='mySearch()'><img src="find-icon.png" width='12' height='12' title='Search by Card-Name (and Mana-Colors if any) or Card-Id'></button>
       <button id='myBtnHelp' onclick='myHelp()' title='Help'>?</button>
       <button id='myBtnPopup' onclick='myPopup()' title='Zoom card image'><img src="zoom-icon.png" width='12' height='12'></button>
       <button id='myBtnShare' onclick='myShare()' title='Share Alter Sleeves card link'><img src="share-icon.webp" width='12' height='12'></button>
@@ -370,9 +370,9 @@ table .selected{
 
 </div>
 <script>
- var input = document.getElementById('myInput');
+ var input=document.getElementById('myInput');
  input.addEventListener('keyup', function(event){
- if (event.keyCode == 13){
+ if(event.keyCode==13){
   document.getElementById('myBtn').click();
  }
 });
