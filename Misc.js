@@ -65,6 +65,7 @@ const wmt="\u00A9 DamarideNeurommancer";
 const CGR_DOC="https://www.meity.gov.in/writereaddata/files/Bio-sewuence_AlpanaDey.pdf";
 const VFLink="The graphical rendering of this musical score was drawn by \u00A9 Vex Flow. <a href='https://github.com/0xfe/vexflow/blob/master/LICENSE' target='_blank'>License</a>";
 const waves=["sine","square","sawtooth","triangle"];
+const lazyLimit=20;
 var bMobile=isMobile();
 defaultTab.click();
 function mySearch(){
@@ -98,7 +99,7 @@ function mySearch(){
    });
 
    cell=row.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\"></a>"
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"></a>"
    cell=row.insertCell(-1);
    cell.innerHTML="<font size='1' style='padding: 4px'>"+CardID+"</font>";
     
