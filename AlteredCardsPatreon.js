@@ -1,6 +1,6 @@
 var bxmlParsed=false;
 var xmlDoc;
-const xmlCards=`<Cards><C I="367358" N="Elesh Norn, Mother of Machines"/><C I="369414" N="Elesh Norn, Mother of Machines"/><C I="369412" N="Elesh Norn, Mother of Machines"/></Cards>`;
+const xmlCards=`<Cards><C I="367358" N="Elesh Norn, Mother of Machines"/><C I="369414" N="Elesh Norn, Mother of Machines"/><C I="369412" N="Elesh Norn, Mother of Machines"/><C I="1000" N="Jeweled Lotus"/><C I="1001" N="Sensei's Dinining Top"/><C I="1002" N="Solemn Simulacrum"/><C I="1003" N="Solemn Simulacrum"/><C I="1004" N="Solemn Simulacrum"/><C I="1005" N="Solemn Simulacrum"/><C I="1006" N="Solemn Simulacrum"/><C I="1007" N="Yedora, Grave Gardener"/><C I="1008" N="Yedora, Grave Gardener"/></Cards>`;
 const URLRoot="https://www.patreon.com/DamarideNeurommancer";
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
