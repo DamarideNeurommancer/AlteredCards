@@ -1,5 +1,5 @@
 const xmlText=document.getElementById('xmlText');
-//const proxy='https://corsproxy.io/?';
+const proxy='https://corsproxy.io/?';
 
 async function checkAlterSleeves(){
  if(bxmlParsed==false){myParseCards();}
