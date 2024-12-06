@@ -10,8 +10,8 @@ async function checkAlterSleeves(){
   if(CardID<100)
    continue;
   var CardName=book.attributes[1].nodeValue;
-  //var CardURL=proxy+URLRoot+book.attributes[2].nodeValue;
-  var CardURL=URLRoot+book.attributes[2].nodeValue;
+  var CardURL=proxy+URLRoot+book.attributes[2].nodeValue;
+  //var CardURL=URLRoot+book.attributes[2].nodeValue;
   resLinks+=`${i+1}: ${CardID} "${CardName}" ${CardURL} => `;
   var result=checkURL(CardURL);
   //const result = await ifUrlExist(CardURL);
