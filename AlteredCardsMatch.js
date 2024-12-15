@@ -121,7 +121,6 @@ const clickCard = (e) => {
    matches++;
    if(matches===8){
     displayCardsLink(loadedCards);
-    myResult();
    }
    firstPick=null;
    isPaused=false;
@@ -203,15 +202,14 @@ function displayCardsLink(CardsList){
    CardFile="./tarots/"+listTarots[CardsList[i]][0]+".webp";
    CardNAME=listTarots[CardsList[i]][1];
   }
-  var lanard="stuka"
   CardsHTML+=`<div class="cardlink"><div class="frontlink"><a href="${CardURL}">
   <img src="${CardFile}" alt="${CardNAME}" style="${CardSTYLE}" title="${CardID} ${CardNAME}"><font style="${CardFONT}"><br>&nbsp;${CardNAME}</font></a>
   </div></div>`;
   game.innerHTML=CardsHTML; 
  }
+ myResult();
 }
-function isMobile()
-{
+function isMobile(){
  return(window.orientation!=null&&window.orientation!="undefined");
 }
 
