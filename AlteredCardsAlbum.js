@@ -23,11 +23,15 @@ isMobile();
 
 function mySearch(MaxColumns){
  if(MaxColumns===null||MaxColumns==undefined||MaxColumns==="undefined"){
-  if(!bMobile)
-   MaxColumns=6;
+  if(myCols.value===""){
+   if(!bMobile)
+    MaxColumns=6;
+   else
+    MaxColumns=2;
+   myCols.value=MaxColumns;
+  }
   else
-   MaxColumns=2;
-  myCols.value=MaxColumns;
+   MaxColumns=myCols.value;
  } 
  if(!myView.checked)
   gridSearch(MaxColumns);
