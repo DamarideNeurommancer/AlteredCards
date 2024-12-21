@@ -1,0 +1,82 @@
+<!DOCTYPE html><html lang='en-US'>
+<head>
+<title>DamarideNeurommancer | Case Code Generator</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<meta name='subtitle' content='DamarideNeurommancer Case Code'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<meta http-equiv='content-type' content='text/html; charset=windows-1250'>
+<meta charset='UTF-8'>
+<meta property='og:title' content='DamarideNeurommancer Case Code' />
+<meta name='description' content='DamarideNeurommancer Case Random Code'>
+<meta name='robots' content='index,follow'>
+<meta name='subject' content='DamarideNeurommancer Case Code Generator'>
+<meta name='language' content='US'>
+<meta name='Classification' content='MTG Case'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge'><meta property='og:locale' content='en_US'>
+<meta property='og:type' content='website'>
+<meta property='og:description' content='Molecular Biotechnologist in the streets, Alterist in the sheets. Requests/suggestions are always welcome! For commissions, send me a PM on Instagram (@DamarideNeurommancer), Twitter (@DamNeurommancer), or ask for my email!' />
+<meta property='og:url' content='https://www.altersleeves.com/seller/damarideneurommancer/'>
+<meta property='og:site_name' content='DamarideNeurommancer'>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
+</script>
+</head>
+<body style='background-color:#000000' onload='init()'>
+<style>
+body{
+ font-family: 'Roboto Condensed', sans-serif;
+ font-size: 8px;
+}
+.header{
+ width: 100%;
+ padding: 2px 4px;
+ background: #555;
+ color: #f1f1f1;
+}
+.content{
+ padding: 16px;
+}
+textarea{
+ font-size: 18px;
+ padding: 2px 1px;
+ border: 2px solid blue;
+ border-radius: 4px;
+ background-color: white;
+ resize: none;
+ height:20px;
+}
+</style>
+<script>
+let scriptElement = document.createElement("script");
+scriptElement.type = "text/javascript";
+scriptElement.src = "CaseCode.js"; 
+document.body.appendChild(scriptElement);
+</script>
+<div class="header" id="myHeader"> 
+ <font color='White'>
+ <div id='search-header'>
+ <table>
+ <tr>
+  <td>
+   <font color='White' size='1'>Algorithms</font>
+   <select id="algorithm" onchange="genCode()">
+    <option value="1" selected>Dada</option>
+    <option value="2">Random</option>
+    <option value="3">Guid</option>
+    <option value="4">Strings</option>
+   </select>
+   <input type='search' id='myInput' size='15' placeholder='Case Name...' data-clear-btn='true'>
+   <button id='myBtn' onclick='genCode()'><img src="random-icon.png" width='14' height='14'>Create</button>
+  </td>
+ </tr>
+ <tr>
+  <td>
+   <font color='White' size='1'>Case Code</font>
+   <textarea id="outCCode" name="outCCode" rows="1" cols="7" readonly></textarea>
+  </td>
+ </tr>
+ </table>
+ </div>
+</div>
+</body></html>
