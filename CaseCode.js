@@ -1,6 +1,8 @@
 const dadaQuotes="https://damarideneurommancer.github.io/AlteredCards/quotes_all.csv";
 const dadaRoot="DAMARIDENEUROMMANCER";
 const outCCode=document.getElementById("outCCode");
+const input=document.getElementById('myInput');
+const myBtn=document.getElementById('myBtn');
 const randomRange=(min, max)=>min+Math.random()*(max-min);
 const randomIndex=(array)=>randomRange(0,array.length)|0;
 const getRandomFromArray=(array)=>(array[randomIndex(array)|0]);
@@ -11,8 +13,7 @@ var bQInit=false;
 async function genCode(){
  var rndCode=0;
  var setNo=1; 
- var input,filter;
- input=document.getElementById("myInput");
+ var filter;
  filter=input.value.replaceAll(" ","").replaceAll("*","").replaceAll("%","").trim().toUpperCase();
  if(filter=="")
   filter="?";
@@ -56,9 +57,9 @@ function getRandomCode(min,max){
 }
 function uuidv4(){
  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
-  .replace(/[xy]/g, function (c) {
-   const r = Math.random() * 16 | 0, 
-    v = c == 'x' ? r : (r & 0x3 | 0x8);
+  .replace(/[xy]/g,function(c){
+   const r=Math.random() * 16 | 0, 
+    v=c=='x'?r:(r&0x3|0x8);
    return v.toString(16);
  });
 }
@@ -162,3 +163,6 @@ function rndFromCaseName(text){
  }
  return arVal;
 }
+input.addEventListener('keyup',function(event){
+if(event.keyCode==13){myBtn.click();}
+});
