@@ -40,11 +40,80 @@ body{
 textarea{
  font-size: 18px;
  padding: 2px 1px;
- border: 2px solid blue;
+ border: 2px solid gold;
  border-radius: 4px;
  background-color: white;
- resize: none;
- height:20px;
+ //resize: none;
+ //height:20px;
+}
+.modal{
+ display: none;
+ position: fixed;
+ z-index: 1;
+ padding-top: 100px;
+ left: 0;
+ top: 0;
+ width: 100%;
+ height: 100%;
+ overflow: auto;
+ background-color: rgb(0,0,0);
+ background-color: rgba(0,0,0,0.9);
+}
+.modal-content{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ border-radius: 20px;
+}
+#caption-modal{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ text-align: center;
+ color: White;
+ padding: 10px 0;
+ height: 20px;
+}
+#scryfall{
+ margin: auto;
+ display: block;
+ width: 80%;
+ max-width: 350px;
+ text-align: center;
+}
+.modal-content, #caption, #scryfall{    
+ -webkit-animation-name: zoom;
+ -webkit-animation-duration: 0.6s;
+ animation-name: zoom;
+ animation-duration: 0.6s;
+}
+@-webkit-keyframes zoom{
+ from {-webkit-transform:scale(0)} 
+ to {-webkit-transform:scale(1)}
+}
+@keyframes zoom{
+ from {transform:scale(0)} 
+ to {transform:scale(1)}
+}
+.close{
+ position: absolute;
+ top: 15px;
+ right: 35px;
+ color: #f1f1f1;
+ font-size: 40px;
+ font-weight: bold;
+ transition: 0.3s;
+}
+.close:hover,
+.close:focus{
+ color: #bbb;
+ text-decoration: none;
+ cursor: pointer;
+}
+img:hover{
+ border: 2px solid white;
 }
 </style>
 <script>
@@ -53,6 +122,7 @@ scriptElement.type = "text/javascript";
 scriptElement.src = "CaseCode.js"; 
 document.body.appendChild(scriptElement);
 </script>
+<script src="AlteredCardsXml.js" type="text/javascript"></script>
 <div class="header" id="myHeader"> 
  <font color='White'>
  <div id='search-header'>
@@ -72,11 +142,29 @@ document.body.appendChild(scriptElement);
  </tr>
  <tr>
   <td>
-   <font color='White' size='1'>Case Code</font>
-   <textarea id="outCCode" name="outCCode" rows="1" cols="7" readonly></textarea>
+   <font color='White' size='1'>Case Code
+   <textarea id="outCCode" name="outCCode" rows="1" cols="7" readonly style="resize:none;height:20px"></textarea>
+   <input type='checkbox' id='myChkShow' onchange="showSource()">
+   <label for="myChkShow">Show Source</label>
+   <input type='checkbox' id='myChkPhrase' onchange="showPhrase()" title="Use your secret phrase instead of quotes.">
+   <label for="myChkPhrase" title="Use your secret phrase instead of quotes.">My Phrase</label></font>
   </td>
  </tr>
  </table>
+ <textarea id="inSample" name="inSample" rows="6" cols="38" readonly style="visibility:hidden;"></textarea>
+ <br>
+ <textarea id="inPhrase" name="inPhrase" rows="2" cols="38" style="visibility:hidden;border: 2px solid aquamarine;"></textarea>
+ <br>
+ <img id="img01" style='width:210px;height:292px;border-radius:14px;cursor:zoom-in' onclick='myPopup()'>
+ <p id="caption"/>
  </div>
+</div>
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img class="modal-content" id="img02" onclick='modal.style.display="none"'>
+  <div>
+  <p id="caption-modal">
+  <p id="scryfall" title="Search on Scryfall">
+  </div>
 </div>
 </body></html>
