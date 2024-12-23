@@ -50,7 +50,7 @@ textarea{
  display: none;
  position: fixed;
  z-index: 1;
- padding-top: 100px;
+ padding-top: 40px;
  left: 0;
  top: 0;
  width: 100%;
@@ -60,14 +60,14 @@ textarea{
  background-color: rgba(0,0,0,0.9);
 }
 .modal-content{
- margin: auto;
+ margin: 10px; //auto;
  display: block;
  width: 80%;
  max-width: 350px;
  border-radius: 20px;
 }
 #caption-modal{
- margin: auto;
+ margin: 10px;//auto;
  display: block;
  width: 80%;
  max-width: 350px;
@@ -77,7 +77,7 @@ textarea{
  height: 20px;
 }
 #scryfall{
- margin: auto;
+ margin: 10px;//auto;
  display: block;
  width: 80%;
  max-width: 350px;
@@ -99,8 +99,9 @@ textarea{
 }
 .close{
  position: absolute;
- top: 15px;
- right: 35px;
+ top: 5px;
+ left: 35px;
+ //right: 35px;
  color: #f1f1f1;
  font-size: 40px;
  font-weight: bold;
@@ -151,9 +152,9 @@ document.body.appendChild(scriptElement);
   </td>
  </tr>
  </table>
- <textarea id="inSample" name="inSample" rows="6" cols="38" readonly style="visibility:hidden;"></textarea>
+ <textarea id="inSample" name="inSample" rows="6" cols="32" readonly style="visibility:hidden;"></textarea>
  <br>
- <textarea id="inPhrase" name="inPhrase" rows="2" cols="38" style="visibility:hidden;border: 2px solid aquamarine;"></textarea>
+ <textarea id="inPhrase" name="inPhrase" rows="2" cols="32" style="visibility:hidden;border: 2px solid aquamarine;"></textarea>
  <br>
  <img id="img01" style='width:210px;height:292px;border-radius:14px;cursor:zoom-in' onclick='myPopup()'>
  <p id="caption"/>
