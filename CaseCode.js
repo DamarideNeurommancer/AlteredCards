@@ -16,6 +16,7 @@ const modal=document.getElementById('myModal');
 const captionModal=document.getElementById('caption-modal');
 const modalPopupImg=document.getElementById("img02");
 const scryfall=document.getElementById("scryfall");
+const outBorder="2px solid ";
 const codeMaxDigits=6;
 const nPlaymats=8;
 var allText=[];
@@ -40,18 +41,18 @@ async function genCode(){
    arVal1=rndFromCaseName(dadaRoot+filter);
    inSample.innerHTML=dadaRoot+filter+"\n"+arVal1;
    rndCode=sumArrayRandomly(arVal1);
-   outCCode.style.border="2px solid Blue";
+   outCCode.style.border=outBorder+"Blue";
    break;
   case 2:
     rndCode=getRandomCode(123456,987654);
-    outCCode.style.border="2px solid Red";
+    outCCode.style.border=outBorder+"Red";
    break;
   case 3:
    rndCode = uuidv4();
    inSample.innerHTML=rndCode;
    const myArray = rndCode.split("-");
    rndCode = parseInt(myArray[0],16).toString().substring(0,6);
-   outCCode.style.border="2px solid Violet";
+   outCCode.style.border=outBorder+"Violet";
    break;
   case 4:
    var arVal=[];
@@ -67,8 +68,7 @@ async function genCode(){
     arVal=rndFromQuote();
    }
    rndCode=sumArrayRandomly(arVal);
-   outCCode.style.border="2px solid Lime";
-   //outCCode.innerHTML=firstL+rndCode;
+   outCCode.style.border=outBorder+"Lime";
    break;  
  }
  outCCode.innerHTML=firstL+rndCode;
