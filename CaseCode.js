@@ -52,7 +52,7 @@ async function genCode(){
    inSample.innerHTML=rndCode;
    const myArray = rndCode.split("-");
    rndCode = parseInt(myArray[0],16).toString().substring(0,6);
-   outCCode.style.border=outBorder+"Violet";
+   outCCode.style.border=outBorder+"Cyan";
    break;
   case 4:
    var arVal=[];
@@ -60,16 +60,20 @@ async function genCode(){
     await init();
     bQInit=true;
    }
-   if(chkPhrase.checked&&inPhrase.value!=""){
+   if(chkPhrase.checked&&inPhrase.value!="")
     arVal=rndFromPhrase();
-   }
    else
-   {
     arVal=rndFromQuote();
-   }
    rndCode=sumArrayRandomly(arVal);
    outCCode.style.border=outBorder+"Lime";
-   break;  
+   break;
+  case 5:
+   const array = new Uint32Array(10);
+   crypto.getRandomValues(array);
+   inSample.innerHTML=array;
+   rndCode=sumArrayRandomly(array);
+   outCCode.style.border=outBorder+"Orange";
+   break;   
  }
  outCCode.innerHTML=firstL+rndCode;
  rndImage();
