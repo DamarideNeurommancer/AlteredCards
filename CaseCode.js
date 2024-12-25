@@ -73,6 +73,12 @@ async function genCode(){
    inSample.innerHTML=array;
    rndCode=sumArrayRandomly(array);
    outCCode.style.border=outBorder+"Orange";
+   break;
+  case 6:
+   var arVal2=[];
+   arVal2= getRandomDate();
+   rndCode=sumArrayRandomly(arVal2);
+   outCCode.style.border=outBorder+"Silver";
    break;   
  }
  outCCode.innerHTML=firstL+rndCode;
@@ -257,4 +263,14 @@ function myPopup(){
 var span=document.getElementsByClassName("close")[0];
 span.onclick=function(){ 
  modal.style.display="none";
+}
+function getRandomDate(){
+ var curr=Date.now();
+ inSample.innerHTML=curr;
+ const arr=[];
+ const str=String(curr);
+ for (let i=0;i<str.length;i++){
+  arr.push(Number(str[i]));
+ }
+ return arr;
 }
