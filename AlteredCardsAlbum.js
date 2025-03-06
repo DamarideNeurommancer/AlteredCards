@@ -62,11 +62,11 @@ function gridSearch(MaxColumns){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
   var CardNAME=book.attributes[1].nodeValue;
-  var CardART=book.attributes[5].nodeValue;
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
    var bGoOn=false;
 
    if(myArt.checked){
+    var CardART=book.attributes[5].nodeValue;
     if(CardART!="1")
      continue;
    }  
