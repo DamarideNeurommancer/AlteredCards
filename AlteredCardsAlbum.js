@@ -16,6 +16,7 @@ const header=document.getElementById('myHeader');
 const myChkApp=document.getElementById('myChkAppend');
 const myTree=document.getElementById('myTree');
 const myView=document.getElementById('myView');
+const myArt=document.getElementById('myArt');
 var imgW=192;
 var imgH=266;
 var bMobile=false;
@@ -61,8 +62,15 @@ function gridSearch(MaxColumns){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
   var CardNAME=book.attributes[1].nodeValue;
+  var CardART=book.attributes[5].nodeValue;
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
    var bGoOn=false;
+
+   if(myArt.checked){
+    if(CardART!="1")
+     continue;
+   }  
+   
    var cntOccurs=0;
    if(!bIsCardID&&colors!=""){
      var ManaColors=book.attributes[4].nodeValue;

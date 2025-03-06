@@ -23,6 +23,7 @@ const prev=document.getElementById("myPrev");
 const next=document.getElementById("myNext");
 const btShow=document.getElementById("myShowCheck");
 var input=document.getElementById("myInput");
+const myArt=document.getElementById('myArt');
 var bShow=false;
 var timerID;
 const lazyLimit=20;
@@ -53,6 +54,11 @@ function mySearch(){
   var CardNAME=book.attributes[1].nodeValue;
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
    var bGoOn=false;
+   if(myArt.checked){
+    var CardART=book.attributes[5].nodeValue;
+    if(CardART!="1")
+     continue;
+   } 
    var cntOccurs=0;
    if(!bIsCardID&&colors!=""){
      var ManaColors=book.attributes[4].nodeValue;

@@ -24,6 +24,7 @@ const myColorBlue=document.getElementById('U');
 const myColorBlack=document.getElementById('B');
 const myColorRed=document.getElementById('R');
 const myColorGreen=document.getElementById('G');
+const myArt=document.getElementById('myArt');
 const lazyLimit=20;
 
 function myParseCardsEx(){
@@ -56,9 +57,13 @@ function mySearch(){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
   var CardNAME=book.attributes[1].nodeValue;
-  
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
-  var bGoOn=false;
+   var bGoOn=false;
+   if(myArt.checked){
+    var CardART=book.attributes[5].nodeValue;
+    if(CardART!="1")
+     continue;
+   } 
    var cntOccurs=0;
    if(!bIsCardID&&colors!=""){
      var ManaColors=book.attributes[4].nodeValue;
@@ -477,8 +482,7 @@ function myPopup(){
  if(CardID >100)
   scryfall.innerHTML="<a href='https://scryfall.com/search?q=!\""+scryCard.replaceAll("'","%27").replaceAll("&","%26")+"\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
  else
-  scryfall.innerHTML="";
-  
+  scryfall.innerHTML=""; 
 }
 
 var span=document.getElementsByClassName("close")[0];
