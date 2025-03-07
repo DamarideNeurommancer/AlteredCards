@@ -155,7 +155,7 @@ function mySearchCardID(Look4CardID,lastRow,nCols,idx,lazyLimit){
 }
 
 function myHelp(){
- var sHelp=`Search by Card-Name (and by Mana-Colors) or Card-ID.
+ var sHelp=`Search by Card-Name (and by Mana-Colors and by Art-Replacement) or Card-ID.
  &#9658; Card-ID is a numeric value shown in the tooltip.
  When searching by Card-ID you get the card and all its related cards if any.
  All cards are displayed when a blank search field is given.
