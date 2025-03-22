@@ -122,7 +122,7 @@ function mySearch(){
    }
   }
  }
- totalCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves";
+ totalCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves"+(myArt.checked?" (Art Replacement)":"");
   
  if(CardCnt > 0){
   cell=tableimg.rows[0].cells[0];

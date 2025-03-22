@@ -133,7 +133,7 @@ function gridSearch(MaxColumns){
    }
   }
  }
- totCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves";
+ totCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves"+(myArt.checked?" (Art Replacement)":"");
  window.scrollTo(0,0);
 }
 
@@ -344,6 +344,13 @@ function treeSearch(MaxColumns){
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
    //
    var bGoOn=false;
+   
+   if(myArt.checked){
+    var CardART=book.attributes[5].nodeValue;
+    if(CardART!="1")
+     continue;
+   }
+   
    var cntOccurs=0;
    if(!bIsCardID&&colors!=""){
      var ManaColors=book.attributes[4].nodeValue;
@@ -417,7 +424,7 @@ function treeSearch(MaxColumns){
   }
  }
  buf.push("</ul></li></ul><div></div");
- totCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves"+(RelatedCnt>0?" ("+RelatedCnt+" related)":"");
+ totCards.innerHTML="<font size='1'>Found "+CardCnt+(CardCnt!=totXmlCards?" of "+totXmlCards:"")+" cards in AlterSleeves"+(RelatedCnt>0?" ("+RelatedCnt+" related)":"")+(myArt.checked?" (Art Replacement)":"");
  if(CardCnt>0){
   myTree.innerHTML=buf.join('');
   myTree.style.fontSize=!bMobile?"16px":"12px";

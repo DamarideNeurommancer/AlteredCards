@@ -305,14 +305,16 @@ table .selected{
       &nbsp;
       <button id='myBtnRnd' onclick='myRndSearch()'><img src="random-icon.png" width='12' height='12'>Random</button>
       <font size='2' color='White'><i><small>
-      <input type='checkbox' id='myChkAppend'>
       <label for="myChkAppend">Append random result</label>
-      <input type='checkbox' id='myChkSpeakUp'>
+      <input type='checkbox' id='myChkAppend'>
+      <!--label for="myChkAppend">Append random result</label-->
       <label for="myChkSpeech">Speak up</label>
+      <input type='checkbox' id='myChkSpeakUp'>
+      <!--label for="myChkSpeech">Speak up</label-->
       <button id='myBtnSimilar' onclick='mySimilar()' title='Search cards similar to the selected one'><img src="searchbyimage.png" width='12' height='12'></button>
       </small></i>
       <font size='2' color='White'><i><small><label for="myArt" id="lblArt" title='Include Art Replacement Cards in Search...'> Art Replacement</label></small></i></font>
-      <input type='checkbox' id='myArt'>
+      <input type='checkbox' id='myArt' onclick='mySearch()'>
      </td>
     
     <tr>
