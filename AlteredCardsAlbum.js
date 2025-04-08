@@ -175,7 +175,7 @@ function myHelp(){
  sHelp+="\nTotal Cards: "+totXmlCards;
  try{
   Swal.fire({
-   title: "<span><a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>",
+   title: "<span><a href='https://www.altersleeves.com/products?page=1&artist=16'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>",
    html: "<span style='color:Black'><b>"+sHelp.replaceAll('\n','<br>')+"</b></span>",
    confirmButtonColor: "Black",
    padding: 1,
