@@ -100,6 +100,7 @@ function phyTranslate(){
   let curColor = parseInt(colorPicker.value.substring(1),16);
   let res = "#"+(white-curColor).toString(16).padStart(6,'0');
   ctx.fillStyle=res;
+  backColor.value = res;
  }
  else{
   // User Selected Background Color
