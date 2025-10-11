@@ -93,9 +93,22 @@ function mySearch(){
     continue;
 
    var bIsCard=true;
-   if(book.attributes[2].nodeValue.startsWith("https"))
+   /*if(book.attributes[2].nodeValue.startsWith("https"))
     bIsCard=false;
-   var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
+   var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;*/
+   var CardUrlXml=book.attributes[2].nodeValue;
+   if(CardUrlXml.startsWith("https"))
+    bIsCard=false;
+   
+   var CardURL=CardUrlXml;
+   if(bIsCard){
+     if(!CardUrlXml.startsWith("~")){
+      CardURL=URLRoot+CardUrlXml;
+     }
+     else{
+       CardURL=URLMythic+CardUrlXml.replace("~","");
+     }
+   }
   
    CardCnt++;
    row=table.insertRow(-1);
@@ -163,10 +176,23 @@ function addToCell(x,className){
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
  var bIsCard=true;
- if(book.attributes[2].nodeValue.startsWith("https"))
+ /*if(book.attributes[2].nodeValue.startsWith("https"))
   bIsCard=false;
- var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
-  
+ var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;*/
+ var CardUrlXml=book.attributes[2].nodeValue;
+ if(CardUrlXml.startsWith("https"))
+  bIsCard=false;
+ 
+ var CardURL=CardUrlXml;
+ if(bIsCard){
+   if(!CardUrlXml.startsWith("~")){
+    CardURL=URLRoot+CardUrlXml;
+   }
+   else{
+     CardURL=URLMythic+CardUrlXml.replace("~","");
+   }
+ }
+    
  tableimg.innerHTML="";
  row=tableimg.insertRow(-1);
  cell=row.insertCell(-1);
@@ -230,9 +256,23 @@ function showRelated(index,mode=0){
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;  
  var bIsCard=true;
- if(book.attributes[2].nodeValue.startsWith("https"))
+ /*if(book.attributes[2].nodeValue.startsWith("https"))
   bIsCard=false;
- var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;
+ var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;*/
+ 
+ var CardUrlXml=book.attributes[2].nodeValue;
+ if(CardUrlXml.startsWith("https"))
+  bIsCard=false;
+ 
+ var CardURL=CardUrlXml;
+ if(bIsCard){
+   if(!CardUrlXml.startsWith("~")){
+    CardURL=URLRoot+CardUrlXml;
+   }
+   else{
+     CardURL=URLMythic+CardUrlXml.replace("~","");
+   }
+ }
   
  tableimg.innerHTML="";
  var row=tableimg.insertRow(-1);
@@ -275,9 +315,23 @@ function mySearchRelatedID(Look4CardID,lastRow){
   if(CardID===Look4CardID){
    var CardNAME=book.attributes[1].nodeValue;
    var bIsCard=true;
-   if(book.attributes[2].nodeValue.startsWith("https"))
+   /*if(book.attributes[2].nodeValue.startsWith("https"))
     bIsCard=false;
-   var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;  
+   var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;*/
+   var CardUrlXml=book.attributes[2].nodeValue;
+   if(CardUrlXml.startsWith("https"))
+    bIsCard=false;
+   
+   var CardURL=CardUrlXml;
+   if(bIsCard){
+     if(!CardUrlXml.startsWith("~")){
+      CardURL=URLRoot+CardUrlXml;
+     }
+     else{
+       CardURL=URLMythic+CardUrlXml.replace("~","");
+     }
+   }
+     
    cell=lastRow.insertCell(-1);
    cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";        
    break;

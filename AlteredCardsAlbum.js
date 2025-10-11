@@ -98,7 +98,22 @@ function gridSearch(MaxColumns){
     
    if(bGoOn==false)
     continue;
-   var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
+   //var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
+   var bIsCard=true;
+   var CardUrlXml=book.attributes[2].nodeValue;
+   if(CardUrlXml.startsWith("https"))
+    bIsCard=false;
+   
+   var CardURL=CardUrlXml;
+   if(bIsCard){
+     if(!CardUrlXml.startsWith("~")){
+      CardURL=URLRoot+CardUrlXml;
+     }
+     else{
+       CardURL=URLMythic+CardUrlXml.replace("~","");
+     }
+   }
+   
    CardCnt++;
    if((CardCnt % nCols==1) || nCols==1)
     row=table.insertRow(-1);
@@ -144,7 +159,17 @@ function mySearchCardID(Look4CardID,lastRow,nCols,idx,lazyLimit){
   var CardID=book.attributes[0].nodeValue;
   if(CardID===Look4CardID){
    var CardNAME=book.attributes[1].nodeValue;
-   var CardURL=URLRoot+book.attributes[2].nodeValue;
+   /*var CardURL=URLRoot+book.attributes[2].nodeValue;*/
+   var CardUrlXml=book.attributes[2].nodeValue;
+   
+   var CardURL=CardUrlXml;
+   if(!CardUrlXml.startsWith("~")){
+    CardURL=URLRoot+CardUrlXml;
+   }
+   else{
+     CardURL=URLMythic+CardUrlXml.replace("~","");
+   }
+   
    var cell=lastRow.insertCell(-1);
    cnt++;
    //cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
