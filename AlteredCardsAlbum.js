@@ -98,7 +98,7 @@ function gridSearch(MaxColumns){
     
    if(bGoOn==false)
     continue;
-   //var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
+   
    var bIsCard=true;
    var CardUrlXml=book.attributes[2].nodeValue;
    if(CardUrlXml.startsWith("https"))
@@ -106,12 +106,7 @@ function gridSearch(MaxColumns){
    
    var CardURL=CardUrlXml;
    if(bIsCard){
-     if(!CardUrlXml.startsWith("~")){
-      CardURL=URLRoot+CardUrlXml;
-     }
-     else{
-       CardURL=URLMythic+CardUrlXml.replace("~","");
-     }
+    CardURL=URLMythic+CardUrlXml.replace("~","");
    }
    
    CardCnt++;
@@ -159,16 +154,9 @@ function mySearchCardID(Look4CardID,lastRow,nCols,idx,lazyLimit){
   var CardID=book.attributes[0].nodeValue;
   if(CardID===Look4CardID){
    var CardNAME=book.attributes[1].nodeValue;
-   /*var CardURL=URLRoot+book.attributes[2].nodeValue;*/
    var CardUrlXml=book.attributes[2].nodeValue;
    
-   var CardURL=CardUrlXml;
-   if(!CardUrlXml.startsWith("~")){
-    CardURL=URLRoot+CardUrlXml;
-   }
-   else{
-     CardURL=URLMythic+CardUrlXml.replace("~","");
-   }
+   var CardURL=URLMythic+CardUrlXml.replace("~","");
    
    var cell=lastRow.insertCell(-1);
    cnt++;
@@ -250,7 +238,7 @@ function myRndSearch(){
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
+ var CardURL=(CardID>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
  var row,cell;
  CardCnt++;
  if((CardCnt % nCols==1) || nCols==1)
@@ -405,8 +393,8 @@ function treeSearch(MaxColumns){
     
    if(bGoOn==false)
     continue;
-   //
-   var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
+   
+   var CardURL=(CardID>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
    var RelatedCards=book.attributes[3].nodeValue;
    CardCnt++;
    

@@ -88,21 +88,13 @@ function mySearch(){
     continue;
 
    var bIsCard=true;
-   /*if(book.attributes[2].nodeValue.startsWith("https"))
-    bIsCard=false;
-   var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;*/
    var CardUrlXml=book.attributes[2].nodeValue;
    if(CardUrlXml.startsWith("https"))
     bIsCard=false;
    
    var CardURL=CardUrlXml;
    if(bIsCard){
-     if(!CardUrlXml.startsWith("~")){
-      CardURL=URLRoot+CardUrlXml;
-     }
-     else{
-       CardURL=URLMythic+CardUrlXml.replace("~","");
-     }
+    CardURL=URLMythic+CardUrlXml.replace("~","");
    }
    CardCnt++;
 
@@ -151,21 +143,13 @@ function mySearchCardID(Look4CardID,lastRow, CardCnt){
   if(CardID===Look4CardID){
    var CardNAME=book.attributes[1].nodeValue;
    var bIsCard=true;
-   /*if(book.attributes[2].nodeValue.startsWith("https"))
-    bIsCard=false;
-   var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;*/
    var CardUrlXml=book.attributes[2].nodeValue;
    if(CardUrlXml.startsWith("https"))
     bIsCard=false;
    
    var CardURL=CardUrlXml;
    if(bIsCard){
-     if(!CardUrlXml.startsWith("~")){
-      CardURL=URLRoot+CardUrlXml;
-     }
-     else{
-       CardURL=URLMythic+CardUrlXml.replace("~","");
-     }
+    CardURL=URLMythic+CardUrlXml.replace("~","");
    }
    
    cell=lastRow.insertCell(-1);
@@ -264,7 +248,7 @@ function myRndSearch(){
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- var CardURL=(CardID>100?URLRoot:"")+book.attributes[2].nodeValue;
+ var CardURL=(CardID>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
     
  var row,cell;
  if(totCols==0)

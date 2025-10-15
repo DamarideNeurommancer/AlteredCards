@@ -88,21 +88,13 @@ function mySearch(){
   
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
    var bIsCard=true;
-   /*if(book.attributes[2].nodeValue.startsWith("https"))
-    bIsCard=false;
-   var CardURL=(bIsCard?URLRoot:"")+book.attributes[2].nodeValue;*/
    var CardUrlXml=book.attributes[2].nodeValue;
    if(CardUrlXml.startsWith("https"))
     bIsCard=false;
    
    var CardURL=CardUrlXml;
    if(bIsCard){
-     if(!CardUrlXml.startsWith("~")){
-      CardURL=URLRoot+CardUrlXml;
-     }
-     else{
-       CardURL=URLMythic+CardUrlXml.replace("~","");
-     }
+    CardURL=URLMythic+CardUrlXml.replace("~","");
    }
    
    CardCnt++;
