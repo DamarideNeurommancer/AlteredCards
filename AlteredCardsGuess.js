@@ -69,7 +69,7 @@ function myCheck()
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- CardURL=URLRoot+book.attributes[2].nodeValue;
+ CardURL=(Number(CardID)>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
  var msg="";
  if(CardNAME.toUpperCase()==filter){
   msg="Right Guess, congrats you win!"
