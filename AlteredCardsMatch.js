@@ -195,7 +195,7 @@ function displayCardsLink(CardsList){
    CardFile=CardID;
    if(Number(CardID)>100){CardFile +=".jpg";}else{CardFile +=".webp";}
    CardNAME=book.attributes[1].nodeValue;
-   CardURL=(Number(CardID)>100?URLRoot:"")+book.attributes[2].nodeValue;
+   CardURL=(Number(CardID)>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
   }
   else{
    CardID=listTarots[CardsList[i]][0];

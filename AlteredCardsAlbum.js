@@ -419,7 +419,7 @@ function treeSearch(MaxColumns){
      RelatedCnt++;
      var CardIDRel=bookRel.attributes[0].nodeValue;
      var CardNAMERel=bookRel.attributes[1].nodeValue;
-     var CardURLRel=(CardIDRel>100?URLRoot:"")+bookRel.attributes[2].nodeValue;
+     var CardURLRel=(CardIDRel>100?URLMythic:"")+bookRel.attributes[2].nodeValue.replace("~","");
      var fileNameRel=CardIDRel+(CardIDRel>100?".jpg":".webp");
      var mouseRel="";
      if(!bMobile)
