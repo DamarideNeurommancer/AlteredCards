@@ -24,7 +24,7 @@ function mySearch(){
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- var CardURL=?URLMythic+book.attributes[2].nodeValue.replace("~",""); 
+ var CardURL=(Number(CardID)>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~",""); 
  originalImage.src=CardID+".jpg";
 }
 
