@@ -129,7 +129,7 @@ function randomASCard(){
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- var CardURL=URLRoot+book.attributes[2].nodeValue;
+ var CardURL=URLMythic+book.attributes[2].nodeValue.replace("~","");
  img01.src=CardID+".jpg";
  img01.title=CardID+" "+CardNAME;
  caption.innerHTML="<a href='"+CardURL+"'>"+CardID+" "+CardNAME+"</a>";

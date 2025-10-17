@@ -145,7 +145,7 @@ function alphabetPosition(text){
  const upperText=text.toUpperCase();
  const arr=upperText.split("").map(let =>let.charCodeAt());
  const newArr=arr.filter(num =>{
-  if((num>64&& num<91)||(num>47&& num<58)){
+  if((num>64&& num<91)||(num>47&&num<58)){
    return num;
   }
  })
@@ -239,7 +239,7 @@ function rndImage()
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- CardURL=URLRoot+book.attributes[2].nodeValue;
+ var CardURL=URLMythic+book.attributes[2].nodeValue.replace("~","");
  modalImg.src=CardID+".jpg";
  modalImg.alt=CardID+" "+CardNAME;
  modalImg.title=CardID+" "+CardNAME;
