@@ -74,12 +74,12 @@ function isMobile()
 {
  bMobile=(window.orientation!=null&&window.orientation!="undefined");
  if(bMobile){
-  imgW=(document.documentElement.clientWidth/2)-8;
-  if(imgW>192){
-   imgW=192;
-   imgH=266;
+  imgW=(document.documentElement.clientWidth)-8;
+  if(imgW>384){
+   imgW=384;
+   imgH=228;
   }
   else
-   imgH=Math.round(imgW*1.38);
+   imgH=Math.round(imgW*1.68);
  }
 }
