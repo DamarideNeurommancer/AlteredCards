@@ -80,6 +80,6 @@ function isMobile()
    imgH=228;
   }
   else
-   imgH=Math.round(imgW*1.68);
+   imgH=Math.round(imgW/1.68);
  }
 }
