@@ -65,7 +65,7 @@ const wmt="\u00A9 DamarideNeurommancer";
 const CGR_DOC="https://www.meity.gov.in/writereaddata/files/Bio-sewuence_AlpanaDey.pdf";
 const VFLink="The graphical rendering of this musical score was drawn by \u00A9 Vex Flow. <a href='https://github.com/0xfe/vexflow/blob/master/LICENSE' target='_blank'>License</a>";
 const waves=["sine","square","sawtooth","triangle"];
-const lazyLimit=20;
+const lazyLimit=30;
 var bMobile=isMobile();
 defaultTab.click();
 function mySearch(){
@@ -87,15 +87,7 @@ function mySearch(){
   var CardNAME=book.attributes[1].nodeValue;
   
   if(CardNAME.toUpperCase().indexOf(filter) > -1 || CardID==filter){
-   var bIsCard=true;
-   var CardUrlXml=book.attributes[2].nodeValue;
-   if(CardUrlXml.startsWith("https"))
-    bIsCard=false;
-   
-   var CardURL=CardUrlXml;
-   if(bIsCard){
-    CardURL=URLMythic+CardUrlXml.replace("~","");
-   }
+   var CardURL=URLMythic+book.attributes[2].nodeValue;
    
    CardCnt++;
    row=table.insertRow(-1);
@@ -104,7 +96,7 @@ function mySearch(){
    });
 
    cell=row.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"></a>"
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:40px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"></a>"
    cell=row.insertCell(-1);
    cell.innerHTML="<font size='1' style='padding: 4px'>"+CardID+"</font>";
     

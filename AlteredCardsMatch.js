@@ -76,8 +76,7 @@ function displayCards(CardsList){
  for(let i=0;i<CardsList.length;i++){
   if(!bTarots){
    var book=catalog.childNodes[CardsList[i]];
-   CardID=book.attributes[0].nodeValue;
-   if(Number(CardID)>100){CardID +=".jpg";}else{CardID +=".webp";}
+   CardID=book.attributes[0].nodeValue+".jpg";
    CardNAME=book.attributes[1].nodeValue;
   }
   else{
@@ -192,10 +191,9 @@ function displayCardsLink(CardsList){
   if(!bTarots){
    var book=catalog.childNodes[CardsList[i]];
    CardID=book.attributes[0].nodeValue;
-   CardFile=CardID;
-   if(Number(CardID)>100){CardFile +=".jpg";}else{CardFile +=".webp";}
+   CardFile=CardID+".jpg";
    CardNAME=book.attributes[1].nodeValue;
-   CardURL=(Number(CardID)>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
+   CardURL=URLMythic+book.attributes[2].nodeValue;
   }
   else{
    CardID=listTarots[CardsList[i]][0];

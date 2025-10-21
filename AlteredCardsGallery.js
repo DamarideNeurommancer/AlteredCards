@@ -26,7 +26,7 @@ var input=document.getElementById("myInput");
 const myArt=document.getElementById('myArt');
 var bShow=false;
 var timerID;
-const lazyLimit=20;
+const lazyLimit=30;
 
 function mySearch(){
  var filter,bIsCardID;
@@ -87,22 +87,15 @@ function mySearch(){
    if(bGoOn==false)
     continue;
 
-   var bIsCard=true;
-   var CardUrlXml=book.attributes[2].nodeValue;
-   if(CardUrlXml.startsWith("https"))
-    bIsCard=false;
+   var CardURL=URLMythic+book.attributes[2].nodeValue;
    
-   var CardURL=CardUrlXml;
-   if(bIsCard){
-    CardURL=URLMythic+CardUrlXml.replace("~","");
-   }
    CardCnt++;
 
    if(row===null)
     row=tableimg.insertRow(-1);
     
    cell=row.insertCell(-1);
-   cell.innerHTML="<img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='" +CardID+"' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+"<a href='"+CardURL + "'>"+CardNAME+"</font></a>";
+   cell.innerHTML="<img src='"+CardID+".jpg' alt='" +CardID+"' style='width:96px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+"<a href='"+CardURL + "'>"+CardNAME+"</font></a>";
    cell.addEventListener('click',function(){
     selectCell(this,'selected');
    });
@@ -142,18 +135,10 @@ function mySearchCardID(Look4CardID,lastRow, CardCnt){
   var CardID=book.attributes[0].nodeValue;
   if(CardID===Look4CardID){
    var CardNAME=book.attributes[1].nodeValue;
-   var bIsCard=true;
-   var CardUrlXml=book.attributes[2].nodeValue;
-   if(CardUrlXml.startsWith("https"))
-    bIsCard=false;
-   
-   var CardURL=CardUrlXml;
-   if(bIsCard){
-    CardURL=URLMythic+CardUrlXml.replace("~","");
-   }
+   var CardURL=URLMythic+book.attributes[2].nodeValue;
    
    cell=lastRow.insertCell(-1);
-   cell.innerHTML="<img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='" +CardID+"' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+"<a href='"+CardURL+"'>"+CardNAME+"</font></a>";
+   cell.innerHTML="<img src='"+CardID+".jpg' alt='" +CardID+"' style='width:96px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+"<a href='"+CardURL+"'>"+CardNAME+"</font></a>";
    cell.addEventListener('click',function(){
     selectCell(this,'selected');
    });    
@@ -248,7 +233,7 @@ function myRndSearch(){
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- var CardURL=(CardID>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
+ var CardURL=URLMythic+book.attributes[2].nodeValue;
     
  var row,cell;
  if(totCols==0)
@@ -257,7 +242,7 @@ function myRndSearch(){
   row=tableimg.rows[0]; 
      
  cell=row.insertCell(-1);
- cell.innerHTML="<img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(CardID>100?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+"<a href='"+CardURL+"'>"+CardNAME+"</font></a>";
+ cell.innerHTML="<img src='"+CardID+".jpg' alt='"+CardID+"' style='width:96px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+"<a href='"+CardURL+"'>"+CardNAME+"</font></a>";
  cell.addEventListener('click',function(){
   selectCell(this,'selected');
  });
@@ -371,10 +356,7 @@ function myPopup(){
  caption_md.innerHTML="<a href='"+url+"' style='font-size:16px;'>"+modalImg.alt+"</a>";
  var result=imgtitle.indexOf(" ");
  var CardID=imgtitle.substr(0,result-1).trim();
- if(CardID >100)
-  scryfall.innerHTML="<a href='https://scryfall.com/search?q=!\""+prevTd.textContent.replaceAll("'","%27").replaceAll("&","%26") + "\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
- else
-  scryfall.innerHTML="";
+ scryfall.innerHTML="<a href='https://scryfall.com/search?q=!\""+prevTd.textContent.replaceAll("'","%27").replaceAll("&","%26") + "\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
 }
 
 var span=document.getElementsByClassName("close")[0];

@@ -25,7 +25,7 @@ const myColorBlack=document.getElementById('B');
 const myColorRed=document.getElementById('R');
 const myColorGreen=document.getElementById('G');
 const myArt=document.getElementById('myArt');
-const lazyLimit=20;
+const lazyLimit=30;
 
 function myParseCardsEx(){
  myParseCards();   
@@ -92,15 +92,7 @@ function mySearch(){
    if(bGoOn==false)
     continue;
 
-   var bIsCard=true;
-   var CardUrlXml=book.attributes[2].nodeValue;
-   if(CardUrlXml.startsWith("https"))
-    bIsCard=false;
-   
-   var CardURL=CardUrlXml;
-   if(bIsCard){ 
-    CardURL=URLMythic+CardUrlXml.replace("~","");
-   }
+   var CardURL=URLMythic+book.attributes[2].nodeValue;
   
    CardCnt++;
    row=table.insertRow(-1);
@@ -108,8 +100,8 @@ function mySearch(){
    selectRow(this,'selected');
    });
 
-   cell=row.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"></a>"
+   cell=row.insertCell(-1);   
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:40px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"></a>"
    cell=row.insertCell(-1);
    cell.innerHTML="<font size='1' style='padding: 4px'>"+CardID+"</font>";
    cell.addEventListener('click',function(){
@@ -167,20 +159,12 @@ function addToCell(x,className){
  var book=catalog.childNodes[cell.innerHTML];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- var bIsCard=true;
- var CardUrlXml=book.attributes[2].nodeValue;
- if(CardUrlXml.startsWith("https"))
-  bIsCard=false;
- 
- var CardURL=CardUrlXml;
- if(bIsCard){
-  CardURL=URLMythic+CardUrlXml.replace("~","");
- }
+ var CardURL=URLMythic+book.attributes[2].nodeValue;
     
  tableimg.innerHTML="";
  row=tableimg.insertRow(-1);
  cell=row.insertCell(-1);
- cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+ cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:96px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
   
  var RelatedCards=book.attributes[3].nodeValue;
  if(RelatedCards != ""){
@@ -238,21 +222,13 @@ function showRelated(index,mode=0){
  }
  var book=catalog.childNodes[xmlindex];
  var CardID=book.attributes[0].nodeValue;
- var CardNAME=book.attributes[1].nodeValue;  
- var bIsCard=true; 
- var CardUrlXml=book.attributes[2].nodeValue;
- if(CardUrlXml.startsWith("https"))
-  bIsCard=false;
- 
- var CardURL=CardUrlXml;
- if(bIsCard){
-  CardURL=URLMythic+CardUrlXml.replace("~","");
- }
+ var CardNAME=book.attributes[1].nodeValue;
+ var CardURL=URLMythic+book.attributes[2].nodeValue;
   
  tableimg.innerHTML="";
  var row=tableimg.insertRow(-1);
  cell=row.insertCell(-1);
- cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+ cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:96px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
   
  var RelatedCards=book.attributes[3].nodeValue;
  if(RelatedCards != ""){
@@ -270,7 +246,7 @@ function showRelated(index,mode=0){
  }
  
  //NEW
- if(RelatedCards!=""&&CardID>100){
+ if(RelatedCards!=""){
   cell=row.insertCell(-1);
   cell.style.border="0";
   cell.innerHTML=`<button id='myBtnRelated' onclick='myRelated(${index})' title='Take a picture of this card with its relateds'>&#x1F4F7</button>`;
@@ -289,18 +265,9 @@ function mySearchRelatedID(Look4CardID,lastRow){
   var CardID=book.attributes[0].nodeValue;
   if(CardID===Look4CardID){
    var CardNAME=book.attributes[1].nodeValue;
-   var bIsCard=true;
-   var CardUrlXml=book.attributes[2].nodeValue;
-   if(CardUrlXml.startsWith("https"))
-    bIsCard=false;
-   
-   var CardURL=CardUrlXml;
-   if(bIsCard){
-    CardURL=URLMythic+CardUrlXml.replace("~","");
-   }
-     
-   cell=lastRow.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"96":"192")+"px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";        
+   var CardURL=URLMythic+book.attributes[2].nodeValue;  
+   cell=lastRow.insertCell(-1);        
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:96px;height:133px;border-radius:6px;align:center;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
    break;
   }
  }
@@ -312,13 +279,10 @@ function mySearchCardID(Look4CardID,lastRow,CardCnt){
   var CardID=book.attributes[0].nodeValue;
   if(CardID===Look4CardID){
    var CardNAME=book.attributes[1].nodeValue;
-   var bIsCard=true;
-   if(book.attributes[2].nodeValue.startsWith("https"))
-    bIsCard=false;
-   var CardURL=(bIsCard?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
-
+   var CardURL=URLMythic+book.attributes[2].nodeValue;
+   
    cell=lastRow.insertCell(-1);
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"></a>"
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:40px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"></a>"
     
    cell=lastRow.insertCell(-1);
    cell.innerHTML="<font size='1' style='padding: 4px'>"+CardID+"</font>";
@@ -400,10 +364,8 @@ function myRndSearch(){
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- var bIsCard=true;
- if(book.attributes[2].nodeValue.startsWith("https"))
-  bIsCard=false;
- var CardURL=(bIsCard?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
+ var CardURL=URLMythic+book.attributes[2].nodeValue;
+ 
  var row,cell;
  CardCnt++;
   
@@ -413,7 +375,7 @@ function myRndSearch(){
  });
 
  cell=row.insertCell(-1);
- cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(bIsCard?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+(bIsCard?"40":"80")+"px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\"></a>"
+ cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:40px;height:52px;border-radius:2px;align:center;' title=\""+CardID+" "+CardNAME+"\"></a>"
 
  cell=row.insertCell(-1);
  cell.innerHTML="<font size='1' style='padding: 4px'>"+CardID+"</font>";
@@ -500,10 +462,7 @@ function myPopup(){
  var result=imgtitle.indexOf(" ");
  var CardID=imgtitle.substr(0,result-1).trim();
  var scryCard=imgtitle.substring(result+1);
- if(CardID >100)
-  scryfall.innerHTML="<a href='https://scryfall.com/search?q=!\""+scryCard.replaceAll("'","%27").replaceAll("&","%26")+"\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>";
- else
-  scryfall.innerHTML=""; 
+ scryfall.innerHTML="<a href='https://scryfall.com/search?q=!\""+scryCard.replaceAll("'","%27").replaceAll("&","%26")+"\"' style='font-size: 12px;'><img src='Scryfall.ico' alt='Scryfall' style='width:12px;height:12px;vertical-align:middle;'> Scryfall</a>"; 
 }
 
 var span=document.getElementsByClassName("close")[0];

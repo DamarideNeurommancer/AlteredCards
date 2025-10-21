@@ -99,15 +99,7 @@ function gridSearch(MaxColumns){
    if(bGoOn==false)
     continue;
    
-   var bIsCard=true;
-   var CardUrlXml=book.attributes[2].nodeValue;
-   if(CardUrlXml.startsWith("https"))
-    bIsCard=false;
-   
-   var CardURL=CardUrlXml;
-   if(bIsCard){
-    CardURL=URLMythic+CardUrlXml.replace("~","");
-   }
+   var CardURL=URLMythic+book.attributes[2].nodeValue
    
    CardCnt++;
    if((CardCnt % nCols==1) || nCols==1)
@@ -116,8 +108,7 @@ function gridSearch(MaxColumns){
     row=table.rows[table.rows.length-1];
 
    cell=row.insertCell(-1);
-   //cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
-   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+CardNAME+"</font></a>";
+   cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+CardNAME+"</font></a>";
    if(bIsCardID==true){
     var RelatedCards=book.attributes[3].nodeValue;
     if(RelatedCards!=""){
@@ -153,14 +144,11 @@ function mySearchCardID(Look4CardID,lastRow,nCols,idx,lazyLimit){
   var book=catalog.childNodes[i];
   var CardID=book.attributes[0].nodeValue;
   if(CardID===Look4CardID){
-   var CardNAME=book.attributes[1].nodeValue;
-   var CardUrlXml=book.attributes[2].nodeValue;
-   
-   var CardURL=URLMythic+CardUrlXml.replace("~","");
+   var CardNAME=book.attributes[1].nodeValue;   
+   var CardURL=URLMythic+book.attributes[2].nodeValue;
    
    var cell=lastRow.insertCell(-1);
    cnt++;
-   //cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
    cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\""+(idx+cnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+CardNAME+"</font></a>";    
    break;
   }
@@ -238,7 +226,7 @@ function myRndSearch(){
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- var CardURL=(CardID>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
+ var CardURL=URLMythic+book.attributes[2].nodeValue;
  var row,cell;
  CardCnt++;
  if((CardCnt % nCols==1) || nCols==1)
@@ -247,7 +235,7 @@ function myRndSearch(){
   row=table.rows[totRows-1];
 
  cell=row.insertCell(-1);
- cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+(CardID>100?".jpg":".webp")+"' alt='"+CardID + "' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+ cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID + "' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
   
  if(bAppendResult==true)
   row.scrollIntoView({behavior: "smooth"});
@@ -394,11 +382,11 @@ function treeSearch(MaxColumns){
    if(bGoOn==false)
     continue;
    
-   var CardURL=(CardID>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
+   var CardURL=URLMythic+book.attributes[2].nodeValue;
    var RelatedCards=book.attributes[3].nodeValue;
    CardCnt++;
    
-   var fileName=CardID+(CardID>100?".jpg":".webp");
+   var fileName=CardID+".jpg";
    
    var href="<a href='"+CardURL+"'><img src='"+fileName+"' alt='"+CardID+"' style='width:40px;height:52px;border-radius:2px;' title=\""+CardID+" "+CardNAME+"\"></a>";
    var mouse="";
@@ -419,8 +407,8 @@ function treeSearch(MaxColumns){
      RelatedCnt++;
      var CardIDRel=bookRel.attributes[0].nodeValue;
      var CardNAMERel=bookRel.attributes[1].nodeValue;
-     var CardURLRel=(CardIDRel>100?URLMythic:"")+bookRel.attributes[2].nodeValue.replace("~","");
-     var fileNameRel=CardIDRel+(CardIDRel>100?".jpg":".webp");
+     var CardURLRel=URLMythic+bookRel.attributes[2].nodeValue;
+     var fileNameRel=CardIDRel+".jpg";
      var mouseRel="";
      if(!bMobile)
       mouseRel=`onmouseover="showImage(event, '${fileNameRel}')" onmouseout="hideImage()"`;

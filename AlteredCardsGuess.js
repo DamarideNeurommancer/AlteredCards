@@ -24,7 +24,7 @@ function mySearch(){
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- var CardURL=(Number(CardID)>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~",""); 
+ var CardURL=URLMythic+book.attributes[2].nodeValue; 
  originalImage.src=CardID+".jpg";
 }
 
@@ -69,7 +69,7 @@ function myCheck()
  var book=catalog.childNodes[rndCard];
  var CardID=book.attributes[0].nodeValue;
  var CardNAME=book.attributes[1].nodeValue;
- CardURL=(Number(CardID)>100?URLMythic:"")+book.attributes[2].nodeValue.replace("~","");
+ CardURL=URLMythic+book.attributes[2].nodeValue;
  var msg="";
  if(CardNAME.toUpperCase()==filter){
   msg="Right Guess, congrats you win!"
