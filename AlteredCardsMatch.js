@@ -158,7 +158,7 @@ function myResult(){
  var sHelp="End of Match Game.<br>Now you can follow the links to AlterSleeves.<br>Click on the Logo and see all Alters by DamarideNeurommancer on AlterSleeves."; 
  try{ 
   Swal.fire({
-   title: "<span><a href='https://www.altersleeves.com/products?page=1&artist=16'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>",
+   title: "<span><a href='https://www.mythicgaming.com/alterists/damarideneurommancer'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>",
    html: "<span style='color:Black'><b>"+sHelp+"</b></span>",
    confirmButtonColor: "Black",
    padding: 1,

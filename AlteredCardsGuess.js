@@ -105,7 +105,7 @@ function myHelp(){
  var title="";
  var imageUrl="";
  if(modalImg.style.visibility=="hidden")
-  title="<span><a href='https://www.altersleeves.com/browse/?browse_type=by&artist_id=16'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>"; 
+  title="<span><a href='https://www.mythicgaming.com/alterists/damarideneurommancer'><img src='dada_logo.jpg' alt='' width='80' height='104' title='Alters by DamarideNeurommancer' style='border-radius:6px;align:center;'/></a></span>"; 
  else{
   imageUrl=modalImg.src;
   title="<span><a style='color:Blue' href='"+CardURL+"'>"+modalImg.title+"</a></span>";
