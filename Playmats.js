@@ -1,7 +1,7 @@
 var bxmlParsed=false;
 var xmlDoc;
-const xmlCards=`<Cards><C I="10" N="Canticle Of Rot" U="canticle-of-rot"/><C I="6" N="Foreteller's Delight" U="foretellers-delight"/><C I="7" N="Multiplicatio" U="multiplicatio"/><C I="1" N="The lighthouse" U="the-lighthouse"/><C I="5" N="Him that slept beneath" U="him-that-slept-beneath"/><C I="2" N="Observer" U="observer"/><C I="3" N="Kosmos" U="kosmos"/><C I="9" N="Archon Of Woe" U="archon-of-woe"/><C I="4" N="Medusa" U="medusa"/><C I="8" N="GraveyardGang" U="https://www.mythicgaming.com/product/playmat-graveyardgang"/></Cards>`;
-const URLRoot="https://inkmats.com/products/"; //https://inkmats.com/collections/damaride-neurommancer?_pos=1&_psq=damaride&_ss=e&_v=1.0";
+const xmlCards=`<Cards><C I="11" N="Cheeky Mothman" U="cheeky-mothman"/><C I="10" N="Canticle Of Rot" U="canticle-of-rot"/><C I="6" N="Foreteller's Delight" U="foretellers-delight"/><C I="7" N="Multiplicatio" U="multiplicatio"/><C I="1" N="The lighthouse" U="the-lighthouse"/><C I="5" N="Him that slept beneath" U="him-that-slept-beneath"/><C I="2" N="Observer" U="observer"/><C I="3" N="Kosmos" U="kosmos"/><C I="9" N="Archon Of Woe" U="archon-of-woe"/><C I="4" N="Medusa" U="medusa"/><C I="8" N="GraveyardGang" U="https://www.mythicgaming.com/product/playmat-graveyardgang"/></Cards>`;
+const URLRoot="https://inkmats.com/products/";
 const main=document.getElementById('main');
 const sideBar=document.getElementById("mySidebar");
 var bMobile=false;
