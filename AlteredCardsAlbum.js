@@ -108,6 +108,9 @@ function gridSearch(MaxColumns){
     row=table.rows[table.rows.length-1];
 
    cell=row.insertCell(-1);
+   if(bMobile&&nCols==1)
+    cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+(imgW*2)+"px;height:"+(imgH*2)+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+CardNAME+"</font></a>";
+   else
    cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\""+(CardCnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+CardNAME+"</font></a>";
    if(bIsCardID==true){
     var RelatedCards=book.attributes[3].nodeValue;
@@ -149,6 +152,9 @@ function mySearchCardID(Look4CardID,lastRow,nCols,idx,lazyLimit){
    
    var cell=lastRow.insertCell(-1);
    cnt++;
+   if(bMobile&&nCols==1)
+    cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+(imgW*2)+"px;height:"+(imgH*2)+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\""+(idx+cnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+CardNAME+"</font></a>";
+   else 
    cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID+"' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\""+(idx+cnt>lazyLimit?" loading='lazy'":"")+"><font size='1'><br>"+CardNAME+"</font></a>";    
    break;
   }
@@ -235,6 +241,9 @@ function myRndSearch(){
   row=table.rows[totRows-1];
 
  cell=row.insertCell(-1);
+ if(bMobile&&nCols==1)
+  cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID + "' style='width:"+(imgW*2)+"px;height:"+(imgH*2)+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
+ else
  cell.innerHTML="<a href='"+CardURL+"'><img src='"+CardID+".jpg' alt='"+CardID + "' style='width:"+imgW+"px;height:"+imgH+"px;border-radius:10px;' title=\""+CardID+" "+CardNAME+"\"><font size='1'><br>"+CardNAME+"</font></a>";
   
  if(bAppendResult==true)
