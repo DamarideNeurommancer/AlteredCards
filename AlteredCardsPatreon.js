@@ -7,7 +7,8 @@ const sideBar=document.getElementById("mySidebar");
 var bMobile=false;
 var imgW=192;
 var imgH=266;
-isMobile();
+//isMobile();
+bMobile=true;
 function myParseCards(){
  var parser=new DOMParser();
  xmlDoc=parser.parseFromString(xmlCards,"text/xml");
