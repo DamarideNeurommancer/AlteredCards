@@ -71,8 +71,6 @@ textarea{
  background-color: white;
  font-size: 16px;
  color: Brown;
- //box-shadow: 0 0 0 3px rgba(59, 130, 246, 9.15);
- //background: url("MTG Black.ico")
 }
 .tarbox{
  padding: 2px 1px;
@@ -113,12 +111,12 @@ textarea{
  <div class="combobox-container">
   <label for="user-choice"><font size="1">Country:</font></label><span id="flag" style="font-size: 20px;margin-left:10px"></span>
   <br>
-  <input type="text" id="user-choice" list="countries-list" placeholder="Countries...">
+  <input type="text" id="user-choice" list="countries-list" placeholder="Countries..." style="color:black">
   <!--button id='myBtnCalcNew' onclick='calcCost()' title='Cost Calculation'>Cost?</button-->
   <datalist id="countries-list"></datalist> 
  </div>
  <br> 
- <font size="1">Weight (g): </font><br><input type='number' id='myWeight' size='10' min="1" step="1" placeholder='Weight in grams...' title='Insert Weight in grams...' data-clear-btn='true'>
+ <font size="1">Weight (g): </font><br><input type='number' id='myWeight' size='10' min="1" step="1" placeholder='Weight in grams...' title='Insert Weight in grams...' data-clear-btn='true' style="color:black">
  <button id='myBtnCalc' onclick='calcCost()' title='Cost Calculation'>Cost?</button>
  <textarea id="CostArea" name="Cost" rows="8" cols="46" placeholder="Tariffs..." readonly style="display: none;" escape=false></textarea>
  <br>
