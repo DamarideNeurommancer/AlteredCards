@@ -21,7 +21,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap" rel="stylesheet">
 </head>
-<body style='background-color:##555' onload="mySearch()" onpageshow="mySearch()">
+<body style='background-color:#000000' onload="mySearch()" onpageshow="mySearch()">
 <style>
 body{
  font-family: 'Roboto Condensed', sans-serif;
@@ -80,8 +80,6 @@ textarea{
  background-color: yellow;
  font-size: 16px;
  color: Brown;
- //box-shadow: 0 0 0 3px rgba(59, 130, 246, 9.15);
- //background: url("MTG Black.ico")
 } 
 </style>
 <div class="header" id="myHeader">
@@ -92,36 +90,34 @@ textarea{
     <td>
      <font color='White' size='1'>Servizi</font>
      <select id="mySets" onchange="mySearch()">
-      <option value="1" selected>Raccomandata Internazionale</option>
-      <option value="2">PostaPriority Internazionale</option>
+      <option value="1">Raccomandata Internazionale</option>
+      <option value="2" selected>PostaPriority Internazionale</option>
       <option value="3">PostaMail Internazionale</option>
       <option value="4">Posta4 Ordinaria</option>
       <option value="5">Posteminibox Expr&#x00E8;s</option>
       <option value="6">Raccomandata</option>
-      <option value="7">Poste Delivery International Express - Documenti</option>
-      <option value="8">Poste Delivery International Express - Merce</option>
+      <option value="7">PosteDelivery Intl Express - Documenti</option>
+      <option value="8">PosteDelivery Intl Express - Merce</option>
      </select>
     </td>
    </tr>
   </table>
  </div>
-<!--/div-->
 <div id='center-header'>
  <table class="listTable" id="myTable" border="1"></table>
  <div class="combobox-container">
-  <label for="user-choice"><font size="1">Country:</font></label><span id="flag" style="font-size: 20px;margin-left:10px"></span>
+  <label for="user-choice"><font size="1">Nazione:</font></label><span id="flag" style="font-size: 20px;margin-left:10px"></span>
   <br>
-  <input type="text" id="user-choice" list="countries-list" placeholder="Countries..." style="background-color:FFFFFF;color:black">
-  <!--button id='myBtnCalcNew' onclick='calcCost()' title='Cost Calculation'>Cost?</button-->
+  <input type="text" id="user-choice" list="countries-list" placeholder="Country..." style="background-color:FFFFFF;color:black">
   <datalist id="countries-list"></datalist> 
  </div>
  <br> 
- <font size="1">Weight (g): </font><br><input type='number' id='myWeight' size='10' min="1" step="1" placeholder='Weight in grams...' title='Insert Weight in grams...' data-clear-btn='true' style="background-color:FFFFFF;color:black">
- <button id='myBtnCalc' onclick='calcCost()' title='Cost Calculation'>Cost?</button>
- <textarea id="CostArea" name="Cost" rows="8" cols="46" placeholder="Tariffs..." readonly style="display: none;" escape=false></textarea>
+ <font size="1">Peso (g): </font><br><input type='number' id='myWeight' size='10' min="1" step="1" placeholder='Weight in g...' title='Insert Weight in grams...' data-clear-btn='true' style="background-color:FFFFFF;color:black">
+ <button id='myBtnCalc' onclick='calcCost()' title='Cost Calculation'>&#9658 Costo &euro;?</button>
+ <textarea id="CostArea" name="Cost" rows="9" cols="46" placeholder="Tariffs..." readonly style="display: none;" escape=false></textarea>
  <br>
  
- <font size="1">Taric Codes</font><br>
+ <font size="1">Codici Taric</font><br>
  <textarea class="tarbox" id="TaricArea" name="taric" rows="8" cols="46" placeholder="Taric Codes..." readonly></textarea>
  <br><a href="https://aidaonline7.adm.gov.it/nsitaricinternet/"><font size="1">&#8694; &#127470;&#127481; AIDA Tariffe Doganali</font></a>
  </div>
