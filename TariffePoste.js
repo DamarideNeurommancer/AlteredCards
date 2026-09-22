@@ -6,6 +6,7 @@ var table=document.getElementById('myTable');
 var CostArea=document.getElementById("CostArea");
 var inputWeight=document.getElementById("myWeight");
 var inputCountry=document.getElementById('user-choice');
+var dataArea=document.getElementById('dataArea');
 
 function mySearch(){ 
  var setNo="1";
@@ -14,6 +15,8 @@ function mySearch(){
  if(bxmlParsed==false){myParseTariffs();}
  CostArea.style.display="none";
  //CostArea.innerHTML="";
+ dataArea.innerHTML="";
+ dataArea.value="";
  table.innerHTML=""; 
  var row,cell;
  var book=catalog.childNodes[setNo-1];
@@ -80,8 +83,8 @@ function getCost(ServiceName,CountryNameOrCode,Weight){
     const cEngName=country.attributes[2].nodeValue.toLowerCase();
     const cCode3=country.attributes[3].nodeValue.toLowerCase();
     if(cName==CountryNameOrCode||cEngName==CountryNameOrCode||cCode==CountryNameOrCode||cCode3==CountryNameOrCode||cName.startsWith(CountryNameOrCode)||cEngName.startsWith(CountryNameOrCode)){
-      console.log("*** Zona=",zName," C=",zCode);
-      console.log("Found K=",cName," C=",cCode," Eng=",cEngName," C3=",cCode3);
+      //console.log("*** Zona=",zName," C=",zCode);
+      //console.log("Found K=",cName," C=",cCode," Eng=",cEngName," C3=",cCode3);
       bCountryFound=true;
       zoneName=zName;
       countryName=country.attributes[0].nodeValue;
@@ -103,13 +106,13 @@ function getCost(ServiceName,CountryNameOrCode,Weight){
     const tMax=Number(tarif.attributes[3].nodeValue);
     const tCost=tarif.attributes[4].nodeValue;
     if(Weight>=tMin&&Weight<=tMax){
-      console.log("T=",tName," C=",tCode," MinW=",tMin," MaxW=",tMax," Costo=",tCost);
+      //console.log("T=",tName," C=",tCode," MinW=",tMin," MaxW=",tMax," Costo=",tCost);
       tariffe=tariffe+"\n"+"\u279C "+tName+": \u20AC"+tCost;
     }
    }   
    if(setNo!=4&&setNo!=6){   
     InfoCosto="\u2709 "+ServiceName+"\n\u26F3 "+zoneName+"\n\u2691 "+getFlagEmoji(countryCode)+" "+countryName+(countryName==countryEngName?"":" ("+countryEngName+")")+"\n\u2696 "+Weight+"g.\n"+tariffe;
-    console.log(InfoCosto)
+    //console.log(InfoCosto)
     return(InfoCosto);
    }
    else
@@ -232,7 +235,7 @@ function calcCost()
  if(CostArea.innerHTML=="undefined"||CostArea.innerHTML=="?"||CostArea.innerHTML==""){
   CostArea.style.color="red";
   CostArea.innerHTML="Country not addressed for the selected service!";
-  CostArea.value=costo;
+  CostArea.value=CostArea.innerHTML;
   divFlag.innerHTML="";
  }
  CostArea.style.display="block";
@@ -248,4 +251,44 @@ function initVars(){
  table=document.getElementById('myTable');
  CostArea=document.getElementById("CostArea");
  divFlag=document.getElementById('flag');
+ dataArea=document.getElementById('dataArea');
+}
+function viewData(){
+ dataArea.innerHTML="";
+ dataArea.value="";
+ var myList=document.getElementById("mySets");
+ const setNo=(myList.selectedIndex+1).toString();
+ const book=catalog.childNodes[setNo-1];
+ var data="\u2709 "+book.attributes[0].nodeValue+"\n";
+ data+="\u2696 Max "+book.attributes[2].nodeValue+"g.\n";
+ const zones = book.getElementsByTagName('Z');
+ for(var i=0;i<zones.length;i++){
+   var zona=zones[i];
+   const zCode=zona.attributes[1].nodeValue;  //Zone Code
+   const zName=zona.attributes[0].nodeValue;  //Zone Name
+   data+="\u26F3 "+zName+" ---\n";
+   const countries=zona.getElementsByTagName('C');
+   for(var c=0;c<countries.length;c++){
+    var country=countries[c];
+    const cCode=country.attributes[1].nodeValue;
+    const cName=country.attributes[0].nodeValue;
+    const cEngName=country.attributes[2].nodeValue;
+    const cCode3=country.attributes[3].nodeValue;
+    data+=getFlagEmoji(cCode)+" "+cName+(cName==cEngName?"":" ("+cEngName+")")+" ["+cCode+" "+cCode3+"]\n"; 
+   }
+   data=data+"\u21F6 Tariffe in \u20AC ---\n"
+   const tariffs=zona.getElementsByTagName('T');
+   for(var t=0;t<tariffs.length;t++){
+    var tarif=tariffs[t];
+    const tCode=tarif.attributes[1].nodeValue;
+    const tName=tarif.attributes[0].nodeValue;
+    const tMin=Number(tarif.attributes[2].nodeValue);
+    const tMax=Number(tarif.attributes[3].nodeValue);
+    const tCost=tarif.attributes[4].nodeValue;
+    data=data+"\u279C "+tName+": \u20AC"+tCost+"\n";
+   }
+   data=data+"\n";   
+ }
+ dataArea.innerHTML=data;
+ dataArea.value=data;
 }
