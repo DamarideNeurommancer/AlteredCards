@@ -1,12 +1,12 @@
 const main=document.getElementById('main');
-const table=document.getElementById('myTable');
 const header=document.getElementById('myHeader');
-const CostArea=document.getElementById("CostArea");
-const inputCountry=document.getElementById("myCountry");
-const inputWeight=document.getElementById("myWeight");
 const TARICArea=document.getElementById("TaricArea");
-const inputCountry2=document.getElementById('user-choice');
 const divFlag=document.getElementById('flag');
+var table=document.getElementById('myTable');
+var CostArea=document.getElementById("CostArea");
+var inputWeight=document.getElementById("myWeight");
+var inputCountry=document.getElementById('user-choice');
+
 function mySearch(){ 
  var setNo="1";
  var myList=document.getElementById("mySets");
@@ -307,7 +307,7 @@ function updateCB(items){
 function calcCost()
 {
  var inpCountry;
- inpCountry=inputCountry2.value.trim();
+ inpCountry=inputCountry.value.trim();
  if(inpCountry=="")
   return;
  var inpWeight;
@@ -347,4 +347,15 @@ function calcCost()
   divFlag.innerHTML="";
  }
  CostArea.style.display="block";
+}
+function myInit(){
+ initVars();
+ if(bxmlParsed==false){myParseTariffs();}
+ mySearch();
+}
+function initVars(){
+ inputCountry=document.getElementById('user-choice');
+ inputWeight=document.getElementById("myWeight");
+ table=document.getElementById('myTable');
+ CostArea=document.getElementById("CostArea");
 }
