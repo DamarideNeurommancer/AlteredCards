@@ -7,8 +7,6 @@ var CostArea=document.getElementById("CostArea");
 var inputWeight=document.getElementById("myWeight");
 var inputCountry=document.getElementById('user-choice');
 var dataArea=document.getElementById('dataArea');
-var myShare=document.getElementById('myBtnShare');
-
 var bMobile=false;
 isMobile();
 
@@ -256,9 +254,6 @@ function initVars(){
  CostArea=document.getElementById("CostArea");
  divFlag=document.getElementById('flag');
  dataArea=document.getElementById('dataArea');
- if(bMobile){
-  myShare.style.visibility="visible";
- }
 }
 function viewData(){
  dataArea.innerHTML="";
@@ -310,11 +305,11 @@ async function myShare()
   return;
  var cdate=new Date();
  var cdatetime=(cdate.getDate()<10?"0":"")+cdate.getDate()+"-"+((cdate.getMonth()+1)<10?"0":"")+(cdate.getMonth()+1)+"-"+cdate.getFullYear()+" @ "+(cdate.getHours()<10?"0":"")+cdate.getHours()+":"+(cdate.getMinutes()<10?"0":"")+cdate.getMinutes()+":"+(cdate.getSeconds()<10?"0":"")+cdate.getSeconds(); 
- var msg=cdatetime+"\n"+CostArea.value; 
+ var _msg=cdatetime+"\n"+CostArea.value; 
  var _url="";
  shareData={
   title: "Tariffe Poste",
-  text: msg,
+  text: _msg,
   url: _url,
  }
  if(navigator.canShare&&navigator.canShare(shareData)){
