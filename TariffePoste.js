@@ -7,6 +7,10 @@ var CostArea=document.getElementById("CostArea");
 var inputWeight=document.getElementById("myWeight");
 var inputCountry=document.getElementById('user-choice');
 var dataArea=document.getElementById('dataArea');
+var myShare=document.getElementById('myBtnShare');
+
+var bMobile=false;
+isMobile();
 
 function mySearch(){ 
  var setNo="1";
@@ -252,6 +256,9 @@ function initVars(){
  CostArea=document.getElementById("CostArea");
  divFlag=document.getElementById('flag');
  dataArea=document.getElementById('dataArea');
+ if(bMobile){
+  myShare.style.visibility="visible";
+ }
 }
 function viewData(){
  dataArea.innerHTML="";
@@ -291,4 +298,34 @@ function viewData(){
  }
  dataArea.innerHTML=data;
  dataArea.value=data;
+}
+let shareData={
+ title: "",
+ text: "",
+ url: "",
+}
+async function myShare()
+{
+ if(CostArea.value=="Country not addressed for the selected service!"||CostArea.value=="")
+  return;
+ var cdate=new Date();
+ var cdatetime=(cdate.getDate()<10?"0":"")+cdate.getDate()+"-"+((cdate.getMonth()+1)<10?"0":"")+(cdate.getMonth()+1)+"-"+cdate.getFullYear()+" @ "+(cdate.getHours()<10?"0":"")+cdate.getHours()+":"+(cdate.getMinutes()<10?"0":"")+cdate.getMinutes()+":"+(cdate.getSeconds()<10?"0":"")+cdate.getSeconds(); 
+ var msg=cdatetime+"\n"+CostArea.value; 
+ var _url="";
+ shareData={
+  title: "Tariffe Poste",
+  text: msg,
+  url: _url,
+ }
+ if(navigator.canShare&&navigator.canShare(shareData)){
+  await navigator.share(shareData);
+ }
+}
+function isMobile(){
+ bMobile=(window.orientation!=null&&window.orientation!="undefined");
+ /*if(bMobile){
+  CostArea.cols=40;
+  dataArea.cols=40;
+  TARICArea.cols=40;
+ }*/
 }
